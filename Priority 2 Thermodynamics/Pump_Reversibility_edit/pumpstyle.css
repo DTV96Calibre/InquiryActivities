@@ -1,0 +1,255 @@
+/*
+ * File: pumpstyle.css
+ * Purpose: To provide the styling and page formatting for the Pump Reversibility simulation (pump-reversibility.html)
+ * Author: Emily Ehrenberger (April 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:20px;
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+}
+
+
+/**********Components of the box for calculation results************/
+
+#resultsLabel {
+	position:absolute;
+	top:-2px;
+	left:106px;
+	width:81px;
+	text-align:center;
+	background-color:#FFFFFF;
+}
+#resultsDiv {
+	position:absolute;
+	left:-10;
+	top:35px;
+	height:135px;
+	width:300px;
+	padding:10px;
+	z-index:-1;
+	border-style:solid;
+	border-width:thin;
+}
+
+#pumpEffLabel {
+	position:absolute;
+	top:20px;
+	width:202px;
+	text-align:right;
+	font-weight:bold;
+}
+#pumpEff {
+	position:absolute;
+	top:20px;
+	left:220px;
+}
+#pumpWorkLabel {
+	position:absolute;
+	top:50px;
+	width:202px;
+	text-align:right;
+	font-weight:bold;
+	color:#FF0000;
+}
+#pumpWork {
+	position:absolute;
+	top:50px;
+	left:220px;
+}
+#drainWorkLabel {
+	position:absolute;
+	top:80px;
+	width:202px;
+	text-align:right;
+	font-weight:bold;
+	color:#9900CC;
+}
+#drainWork {
+	position:absolute;
+	top:80px;
+	left:220px;
+}
+#powerRecoveryLabel {
+	position:absolute;
+	top:110px;
+	width:202px;
+	text-align:right;
+	font-weight:bold;
+}
+#powerRecovery {
+	position:absolute;
+	top:110px;
+	left:220px;
+}
+
+
+/**********Input components************/
+
+#pumpRateLabel {
+	position:absolute;
+	top:220px;
+	left:100px;
+	font-weight:bold;
+}
+#pumpRate {
+	position:absolute;
+	top:220px;
+	left:185px;
+	width:50px;
+}
+#pumpRateUnits {
+	position:absolute;
+	top:220px;
+	left:250px;
+}
+#runButton {
+	position:absolute;
+	top:250px;
+	left:100px;
+}
+#resetButton {
+	position:absolute;
+	top:310px;
+	left:100px;
+}
+#skipButton {
+  position:absolute;
+  top:280px;
+  left:100px
+}
+
+
+/**********Picture / animation components************/
+
+#structure {
+	position:absolute;
+}
+
+#measurement {
+	position:absolute;
+	left:562px;
+}
+
+#tank1Water {
+	position:absolute;
+	top:340px;
+	left:89px;
+	z-index:-1;
+}
+
+#volumeLabel {
+	position:absolute;
+	top:460px;
+	left:137px;
+	font-weight:bold;
+}
+
+#tank2Water {
+	position:absolute;
+	top:98px;
+	left:365px;
+	z-index:-1;
+}
+
+#openValve {
+	position:absolute;
+	top:393px;
+	left:321px;
+}
+
+#closedValve {
+	position:absolute;
+	top:404px;
+	left:321px;
+}
+
+#openSideValve {
+	position:absolute;
+	top:466px;
+	left:462px;
+}
+
+#closedSideValve {
+	position:absolute;
+	top:466px;
+	left:452px;
+}
+
+#startWater {
+	position:absolute;
+	left:182px;
+	top:424px;
+}
+
+#pumpWater {
+	position:absolute;
+	left:182px;
+	top:102px;
+}
+
+#suspendedWater {
+	position:absolute;
+	left:251px;
+	top:103px;
+}
+
+#drainWater {
+	position:absolute;
+	left:251px;
+	top:103px;
+}
+
+#splash {
+	position:absolute;
+	top:533px;
+	left:336px;
+}
+
+#pumpWorkArrow {
+	position:absolute;
+	left:505px;
+	top:375px;
+}
+
+#drainWorkArrow {
+	position:absolute;
+	left:505px;
+	top:375px;
+}
+
+#pourDiv {
+	width:18px;
+	height:200px;
+}
+
+
+/**********Program info displayed at bottom of page************/
+
+#programInfo {
+	position:absolute;
+	top:650px;
+	left:-20px;
+}
+
+/*#help {
+	position:absolute;
+	top:400px;
+	left:310px;
+	color:#C00;
+}*/
+
+#about {
+	position:absolute;
+	top:360px;
+	/*left:360px;*/
+	left:300px;
+	color:#C00;
+}

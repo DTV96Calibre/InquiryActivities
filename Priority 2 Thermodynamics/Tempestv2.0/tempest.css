@@ -1,0 +1,215 @@
+/*
+ * File: lightRadiationStyle.css
+ * Purpose: To provide the styling and page formatting for the Untitled simulation
+ * Author: Daniel Prudente (September 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:14px;
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+
+#position{
+	position:absolute;
+	left:300px;	
+}
+
+#dragBox{
+	position:absolute;
+	left:-250px;
+	top:-95px;
+	width:1130px;
+	height:875px;
+}
+
+
+/*******Stuff for hairdryer*********/
+#hairdryerDiv {
+	position:absolute;
+	top:0px;
+	left:0px;	
+}
+
+#powerSlide{
+	position:absolute;
+	top:380px;
+	left:230px;
+	width:11px;
+	height:110px;
+}
+
+.ui-slider {
+	background: transparent; 
+	border: none; 
+}
+
+.ui-slider-range { 
+	background: transparent; 
+	border: none; 
+}
+
+#powerSlide .ui-slider-handle {
+	background: url(hairdryerSlider.png);
+	border:none;
+	width:20px;
+	height:28px;
+}
+
+#coolOff{
+	position:absolute;
+	top:290px;
+	left:150px;
+}
+
+#coolSwitch{
+	position:absolute;
+	top:283px;
+	left:224px;
+}
+
+#coolButton{
+	position:absolute;
+	top:283px;
+	left:224px;
+	width:31px;
+	height:34px;
+	color:transparent;
+	background-color:transparent;
+	border: none;
+	z-index:1;
+}
+
+
+
+/*******Components for wattmeter*********/
+#wattDiv {
+	position:absolute;
+	top:275px;
+	left:350px;	
+}
+
+#powerLabel {
+	position:absolute;
+	top:50px;
+	left:30px;
+	font-size:25pt;
+	display:block;
+	text-align:right;
+	width:120px;
+	height:100px;
+}
+
+#numbers {
+	position: absolute;
+	top: 59px;
+	left: 673px;
+	width: 164px;
+	height: 327px;
+}
+
+/**********Components for sensor readings*************/
+#sensors {
+	position:absolute;
+	top:570px;
+	left:250px;
+	width:500px;	
+}
+
+#heatLabel {
+	position:absolute;
+	top:40px;
+	left:50px;
+	font-size:20px;
+}
+
+#windLabel {
+	position:absolute;
+	top:40px;
+	left:295px;
+	font-size:20px;
+}
+
+#heatReading {
+	position:absolute;
+	top:90px;
+	left:45px;
+	font-size:40px;
+	color:#c87107;
+	display:block;
+	text-align:right;
+	width:150px;
+	height:100px;
+}
+
+#windReading {
+	position:absolute;
+	top:90px;
+	left:240px;
+	font-size:40px;
+	color:#C00;
+	display:block;
+	text-align:right;
+	width:180px;
+	height:100px;
+}
+
+#windSpeed {
+	position:absolute;
+	top:770px;
+	z-index:1;	
+}
+
+
+/**********Components for droppable divs*************/
+.windMed {
+	position:absolute;
+	top:-95px;
+	left:580px;
+	width:300px;
+	height:690px;
+	z-index:-1;
+}
+
+.windHigh {
+	position:absolute;
+	top:105px;
+	left:0px;
+	width:300px;
+	height:484px;
+	z-index:-3;
+}
+
+.tempBox {
+	position:absolute;
+	top:20px;
+	left:540px;
+	width:341px;
+	height:430px;
+	z-index:-1;
+}
+
+#thermocouple {
+	position:absolute;
+	top:575px;
+	left:135px;
+}
+
+#anemometer {
+	position:absolute;
+	top:316px;
+	left:-160px;
+}
+
+div#preload { display: none; }
+
+#programInfo {
+	position:absolute;
+	top:800px;	
+}

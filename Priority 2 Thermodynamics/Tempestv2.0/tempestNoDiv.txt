@@ -1,0 +1,138 @@
+﻿/*
+ * File: lightRadiationScript.js
+ * Purpose: To provide the animations and interactivity for the Light Radiation Activity
+ * Author: Daniel Prudente (September 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+
+/*
+ * This file makes use of the JQuery libraries (http://jquery.com/)
+*/
+
+
+$(document).ready(init);
+
+// Constants
+var cpAir = 1.5;//1.005; // kJ/ (kg*K)
+var Dair = 1.204; // kg/m^3
+var fanRadius = 0.0225;// m --> 4.5 cm diameter
+var fanArea = Math.PI * Math.pow(fanRadius,2); // m^2
+var Tin = 20 + 273.15; // K
+var R = 8.3145; // m^3*Pa/(mol*K)
+var P = 101.325; // kPa
+var Vair = Tin * R / (P * 1000); //m^3/mol
+var mwAir = 29; // g/mol
+var Q = 0;
+var efficiency = 0.15;
+var anemometerMid = 75;
+var thermoMid = 190;
+
+// Variables
+var vWind; // velocity of wind in m/s
+var pFan; // Power of the fan in watts
+var massFlow;
+var KE; // Kinetic Energy
+var Tout; // Temperature of outgoing air
+var coolOn;
+var currentPos;
+var inOuterBox;
+var inInnerBox;
+var currentWind;
+
+
+/*
+*************************************************************************
+*						Initialization Functions						*
+*************************************************************************
+*/
+
+/*
+ * Function: init
+ * Sets up the page when it is loaded, hiding elements that aren't supposed to be visible right away, and
+ * attaching event handlers. Also initializes input values, both in the program and in the display.
+*/
+function init() {
+	$("#slider").slider({ min:0, max: 2, orientation: "vertical", step: 1,
+		change: changePower,
+    		slide: changePower 
+	});
+	pFan = 0;
+	vWind = 0;
+	massFlow = 0;
+	coolOn = 0;
+	inOuterBox = 0;
+	inInnerBox = 0;
+
+	$(".drag").draggable({
+		drag: function(event, ui) {
+		// Show the current dragged position of image
+        	currentPos = $(this).position();
+        	$("#position").html("CURRENT: \nLeft: " + currentPos.left + "\nTop: " + currentPos.top);
+		trackWind();
+	},
+		revert:function(){
+			$("#anemometer").html('<img src="anemometerOff.png">');
+			$("#anemometer").animate({top:"400px", left:"500px"}, 500, "linear");
+			$("#thermocouple").animate({top:"650px", left:"400px"}, 500, "linear");
+		}
+	});
+
+}
+
+function nthroot(x, n) {
+  try {
+    var negate = n % 2 == 1 && x < 0;
+    if(negate)
+      x = -x;
+    var possible = Math.pow(x, 1 / n);
+    n = Math.pow(possible, n);
+    if(Math.abs(x - n) < 1 && (x > 0 == n > 0))
+      return negate ? -possible : possible;
+  } catch(e){}
+}
+
+/*
+ * Event Handler Function: changePower
+ * Called when the user clicks on or drags the slider
+ *
+ * Changes the power of the fan
+*/
+function changePower() {
+	pFan = $( "#slider" ).slider( "option", "value" );
+	if (pFan == 1) 
+		$("#powerLabel").html("156 W");
+	else if (pFan == 2)
+		$("#powerLabel").html("290 W");
+	else 
+		$("#powerLabel").html("0 W");
+	
+}
+
+function changeCool() {
+	if (coolOn == 0) {
+		coolOn = 1;
+		$("#coolOff").hide();
+		$("#coolSwitch").hide();
+	} else {
+		coolOn = 0;
+		$("#coolOff").show();
+		$("#coolSwitch").show();
+	}
+}
+
+function trackWind() {
+	if (currentPos.top >= -46 && currentPos.top <= 196 && currentPos.left >= 580 && currentPos.left <= 940) {
+		if (pFan == 1) {
+			currentWind = -0.00058*(currentPos.top*currentPos.top) + 0.087*currentPos.top + 5.5343;
+		} else if (pFan == 2) {
+			currentWind = -0.000833*(currentPos.top*currentPos.top) + 0.125*currentPos.top + 7.81;
+		}
+	} else currentWind = 0;
+	if (currentWind > 12.47 && $("#anemometer").attr("src")!="anemometerHigh.gif") $("#anemometer").html('<img src="anemometerHigh.gif">');
+	else if (currentWind > 8.75 && $("#anemometer").attr("src")!="anemometerMed.gif") $("#anemometer").html('<img src="anemometerMed.gif">');
+	else if (currentWind > 0 && $("#anemometer").attr("src")!="anemometerLow.gif") $("#anemometer").html('<img src="anemometerLow.gif">');
+	else $("#anemometer").html('<img src="anemometerOff.png">');
+	$("#redReading").html(Math.round(currentWind*100)/100 + " m/s");
+}

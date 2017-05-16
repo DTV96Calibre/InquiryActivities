@@ -1,0 +1,452 @@
+/*
+ * File: radiationstyle.css
+ * Purpose: To provide the styling and page formatting for the Radiation Activity (radiation.html)
+ * Author: Daniel Prudente (June 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:25px;
+	margin-left:auto;
+	margin-right:auto;
+	width:450px;
+}
+
+
+/**********Picture / animation components************/
+#blackUpperPipe {
+	position:absolute;
+	top:0px;
+	left:-150px;
+}
+#goldUpperPipe {
+	position:absolute;
+	top:0px;
+	left:-150px;
+}
+#whiteUpperPipe {
+	position:absolute;
+	top:0px;
+	left:-150px;
+}
+#customUpperPipe {
+	position:absolute;
+	top:0px;
+	left:-150px;
+	z-index:1;
+}
+#steamLabel {
+	position:absolute;
+	top:65px;
+	left:-157px;
+}
+#steamPipeLabel {
+	position:absolute;
+	left:-140px;
+	top:-30px;	
+}
+#blackUpperPipe2 {
+	position:absolute;
+	top:-60px;
+	left:-150px;
+}
+#goldUpperPipe2 {
+	position:absolute;
+	top:-60px;
+	left:-150px;
+}
+#whiteUpperPipe2 {
+	position:absolute;
+	top:-60px;
+	left:-150px;
+}
+#pipeGuides {
+	position:absolute;
+	top:-5px;
+	left:-43px;
+}
+#steamPipe {
+	position:absolute;
+	top:-70px;
+	left:-166px;
+	z-index:-1;
+}
+#crossSectionText {
+	position:absolute;
+	top:123px;
+	left:16px;
+	z-index:2;
+	font-size:14pt;
+	font-weight:bold;
+}
+#pipeSelectText {
+	position:absolute;
+	top:375px;
+	left:-85px;
+}
+#pipeSelectText2 {
+	position:absolute;
+	top:375px;
+	left:227px;
+}
+#blackBottomPipe {
+	position:absolute;
+	top:120px;
+	left:-180px;
+}
+#whiteBottomPipe {
+	position:absolute;
+	top:120px;
+	left:-180px;
+}
+#goldBottomPipe {
+	position:absolute;
+	top:120px;
+	left:-180px;
+}
+#customBottomPipe {
+	position:absolute;
+	top:120px;
+	left:-180px;
+}
+#blackBottomPipe2 {
+	position:absolute;
+	top:120px;
+	left:122px;
+}
+#whiteBottomPipe2 {
+	position:absolute;
+	top:120px;
+	left:122px;
+}
+#goldBottomPipe2 {
+	position:absolute;
+	top:120px;
+	left:122px;
+}
+#steamGraphic {
+	position:absolute;
+	top:220px;
+	left:-60px;
+	z-index:-2;
+}
+#steamGraphic2 {
+	position:absolute;
+	top:220px;
+	left:242px;
+	z-index:-2;
+}
+#caseLabel {
+	position:absolute;
+	top:120px;
+	left:-160px;
+	z-index:1;
+}
+#case2Label {
+	position:absolute;
+	top:120px;
+	left:340px;
+	z-index:1;
+}
+#innerPiping {
+	position:absolute;
+	top:178px;
+	left:-82px;
+	z-index:-2;
+}
+#innerPiping2 {
+	position:absolute;
+	top:178px;
+	left:220px;
+	z-index:-2;
+}
+#fillingWater {
+	position:absolute;
+	top:355px;
+	left:-165px;
+	z-index:-1;
+}
+#fullSign {
+	position:absolute;
+	top:238px;
+	left:-65px;
+	font-size:36pt;
+	color:white;
+}
+#fillingWater2 {
+	position:absolute;
+	top:355px;
+	left:137px;
+	z-index:-1;
+}
+#fullSign2 {
+	position:absolute;
+	top:238px;
+	left:237px;
+	font-size:36pt;
+	color:white;
+}
+#scale {
+	position:absolute;
+	top:328px;
+	left:-126px;
+}
+#scaleLabel {
+	position:absolute;
+	top:253px;
+	left:-205px;
+	font-size:10pt;
+}
+
+
+/**********Components of the box for the fun facts************/
+
+#funFactsDiv {
+	position:absolute;
+	top:485px;
+	left:100px;
+	width:250px;
+	height:100px;
+	border-style:solid;
+	border-width:thin;
+	padding:10px;
+}
+#funFactTitle {
+	position:absolute;
+	top:-10px;
+	left:5px;
+	font-size:14pt;
+}
+#funFact {
+	position:absolute;
+	top:30px;
+	left:5px;
+	font-size:10pt;
+}
+
+/**********Components of the box for input calculations************/
+
+#properties {
+	position:absolute;
+	top:-20px;
+	left:490px;
+	width:81px;
+	text-align:center;
+	background-color:#FFFFFF;
+}
+#propertiesDiv {
+	position:absolute;
+	left:420px;
+	top:35px;
+	height:180px;
+	width:240px;
+	padding:10px;
+	z-index:-1;
+	border-style:solid;
+	border-width:thin;
+}
+#steamTempLabel {
+	position:absolute;
+	left:25px;
+	top:20px;
+}
+#steamTemp {
+	position:absolute;
+	left:112px;
+	top:20px;
+	width:46px;
+}
+#steamTempUnits {
+	position:absolute;
+	left:172px;
+	top:20px;
+}
+#steamTempLimit {
+	position:absolute;
+	left:106px;
+	top:45px;
+}
+#roomTempLabel {
+	position:absolute;
+	left:25px;
+	top:80px;
+}
+#roomTemp {
+	position:absolute;
+	left:112px;
+	top:80px;
+	width:46px;
+}
+#roomTempUnits {
+	position:absolute;
+	left:172px;
+	top:80px;
+}
+#roomTempLimit {
+	position:absolute;
+	left:114px;
+	top:105px;
+}
+#heatTransferCoeffLabel {
+	position:absolute;
+	left:5px;
+	top:140px;
+}
+#heatTransferCoeff {
+	position:absolute;
+	left:137px;
+	top:140px;
+	width:46px;
+}
+#heatTransferCoeffUnits {
+	position:absolute;
+	left:195px;
+	top:140px;
+}
+#heatTransferCoeffLimit {
+	position:absolute;
+	left:143px;
+	top:165px;
+}
+
+
+/**********Input components************/
+
+#blackButton {
+	position:absolute;
+	top:400px;
+	left:-100px;
+	width:50px;
+	height:35px;
+}
+#whiteButton {
+	position:absolute;
+	top:400px;
+	left:-40px;
+	width:50px;
+	height:35px;
+}
+#goldButton {
+	position:absolute;
+	top:400px;
+	left:20px;
+	width:50px;
+	height:35px;
+}
+#customButton {
+	position:absolute;
+	top:465px;
+	left:-80px;
+	width:134px;
+}
+#emissivity {
+	position:absolute;
+	top:490px;
+	left:-67px;
+	width:100px;
+}
+#emissivityLimit {
+	position:absolute;
+	top:513px;
+	left:-36px;
+	font-size:10pt;	
+}
+#blackButton2 {
+	position:absolute;
+	top:400px;
+	left:212px;
+	width:50px;
+	height:35px;
+}
+#whiteButton2 {
+	position:absolute;
+	top:400px;
+	left:272px;
+	width:50px;
+	height:35px;
+}
+#goldButton2 {
+	position:absolute;
+	top:400px;
+	left:332px;
+	width:50px;
+	height:35px;
+}
+#startButton {
+	position:absolute;
+	top:430px;
+	left:486px;
+	width:130px;
+	height:70px;
+}
+#skipButton {
+	position:absolute;
+	top:350px;
+	left:486px;
+	width:130px;
+	height:70px;
+}
+#resetButton {
+	position:absolute;
+	top:270px;
+	left:486px;
+	width:130px;
+	height:70px;
+}
+#buttonHolders {
+	position:relative;
+	top:980px;
+	text-align:center;
+}
+
+/**********Output components************/
+#timeFill {
+	position:absolute;
+	top:350px;
+	left:75px;
+	font-size:16pt;
+	z-index:1;
+}
+#timeFill2 {
+	position:absolute;
+	top:350px;
+	left:387px;
+	font-size:16pt;
+	z-index:1;
+}
+#pipeTypeText {
+	position:absolute;
+	top:439px;
+	left:-100px;
+	font-weight:bold;
+}
+#pipeTypeText2 {
+	position:absolute;
+	top:439px;
+	left:212px;
+	font-weight:bold;	
+}
+
+/**********Program info displayed at bottom of page************/
+
+#programInfo {
+	position:absolute;
+	top:670px;
+}
+
+#help {
+	position:absolute;
+	top:640px;
+	left:210px;
+}
+
+#about {
+	position:absolute;
+	top:360px;
+	left:300px;
+	color:#C00;
+}

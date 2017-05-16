@@ -1,0 +1,7 @@
+Things to display when the simulation runs:
+
+graph axis labels
+Ice-water temperature
+graph the dots
+update "current block temp"
+change block color to reflect current temp

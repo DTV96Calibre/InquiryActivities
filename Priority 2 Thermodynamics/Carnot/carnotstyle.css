@@ -1,0 +1,372 @@
+/*
+ * File: carnotstyle.css
+ * Purpose: To provide the styling and page formatting for the Carnot Engine simulation (Carnot-Engine.html)
+ * Author: Emily Ehrenberger (May 2011)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ *		   Based on Flash simulation by Molly Harms and Gavin MacInnes (2009)
+ * (c) Margot Vigeant 2009
+*/
+
+
+/**********Tag selectors************/
+
+body {
+	font-size:100%;
+}
+h4 {
+	margin:0px;
+	width:200px;
+}
+a {
+	font-size:0.80em;
+	color:#C00;
+}
+textarea {
+	font-size:0.75em;
+	font-family:sans-serif;
+	overflow:auto; /* Necessary to prevent IE from automatically putting scrollbars everywhere */
+}
+
+
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:20px;
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+}
+.cycleData {
+	font-size:0.80em;
+	color:Blue;
+	width:65px;
+	text-align:right;
+}
+.mask {
+	z-index:2;
+}
+.tooltip {
+	position:absolute;
+	width:180px;
+	height:100px;
+	background-color:#FFC;
+	border-style:solid;
+	border-width:thin;
+	border-color:#000;
+	padding-left:1px;
+	z-index:3; /* Ensure the tooltip appears on top of all the images (except for tooltipTrigger images) */
+}
+.instructionTooltip {
+	position:absolute;
+	width:260px;
+	height:125px;
+	background-color:#FFC;
+	border-style:solid;
+	border-width:thin;
+	border-color:#000;
+	padding-left:1px;
+	z-index:3;
+}
+.tooltipTrigger {
+	position:absolute;
+	height:100px;
+	width:100px;
+	z-index:4; /* Ensure the (transparent) image that triggers the tooltip remains on top of the tooltip (otherwise the tooltip will cover the image, which the image will interpret as a "mouseout" event and make the tooltip disappear again...and then the image will see the cursor is "on" it again and reopen the tooltip, etc.) */
+}
+
+
+
+/**********ID selectors************/
+
+#hotFactLabel {
+	position:absolute;
+	left:55px;
+}
+#hotFactArea {
+	position:absolute;
+	top:25px;
+	height:100px;
+	width:175px;
+}
+#coldFactLabel {
+	position:absolute;
+	left:485px;
+}
+#coldFactArea {
+	position:absolute;
+	left:435px;
+	top:25px;
+	height:100px;
+	width:175px;
+}
+#compSelLabel {
+	position:absolute;
+	left:235px;
+	top:15px;
+	width:200px;
+	font-size:0.80em;
+}
+#compSelect {
+	position:absolute;
+	left:200px;
+	top:35px;
+}
+#compSelectTooltip {
+	top: 60px;
+	left: 285px;
+}
+#hotTempLabel {
+	position:absolute;
+	left:5px;
+	top:145px;
+}
+#hotTempInput {
+	position:absolute;
+	left:5px;
+	top:170px;
+	width:100px;
+}
+#hotTempUnits {
+	position:absolute;
+	left:115px;
+	top:171px;
+}
+#hotTempTooltip {
+	top: 195px;
+	left:40px;
+}
+#coldTempLabel {
+	position:absolute;
+	left:465px;
+	top:145px;
+}
+#coldTempInput {
+	position:absolute;
+	left:465px;
+	top:170px;
+	width:100px;
+}
+#coldTempUnits {
+	position:absolute;
+	left:575px;
+	top:171px;
+}
+#coldTempTooltip {
+	top: 195px;
+	left: 485px;
+}
+
+
+
+#engineImg {
+	position:absolute;
+	left:140px;
+	top:140px;
+	z-index:-1;
+}
+#animal {
+	position:absolute;
+	left:310px;
+	top:180px;
+	z-index:1;
+	height:51px;
+	width:75px;
+	background:url('animals.png') 0 0; /* All of the "animal" images are stored in a single image sprite, which is repositioned
+										to show different animals */
+}
+#leftMask {
+	position:absolute;
+	left:230px;
+	top:218px;
+	height:73px;
+	width:31px;
+	background:url('mask.jpg') 0 0;  /* All of the masks area also stored as a single image sprite */
+}
+#rightMask {
+	position:absolute;
+	left:362px;
+	top:218px;
+	height:76px;
+	width:35px;
+	background:url('mask.jpg') -30px 0;
+}
+#topMask {
+	position:absolute;
+	left:261px;
+	top:181px;
+	height:38px;
+	width:135px;
+	background:url('mask.jpg') 0 -78px;
+}
+#bottomMask {
+	position:absolute;
+	left:328px;
+	top:290px;
+	height:44px;
+	width:60px;
+	background:url('mask.jpg') -68px -115px;
+}
+
+
+/***** Tooltip elements *****/
+
+#cycleLeftHover {
+	top:205px;
+	left:120px;
+}
+#cycleLeftTooltip {
+	top:200px;
+	left:15px;
+}
+#cycleTopHover {
+	top:105px;
+	left:265px;
+}
+#cycleTopTooltip {
+	top:70px;
+	left:200px;
+}
+#cycleRightHover {
+	top:205px;
+	left:400px;
+}
+#cycleRightTooltip {
+	top:200px;
+	left:440px;
+}
+#cycleBottomHover {
+	top:320px;
+	left:265px;
+}
+#cycleBottomTooltip {
+	top:340px;
+	left:260px;
+}
+#engineWindowHover {
+	top:205px;
+	left:262px;
+}
+#engineWindowTooltip {
+	top:230px;
+	left:280px;
+}
+#idealGasHover {
+	top:315px;
+	left:150px;
+}
+#idealGasTooltip {
+	top:310px;
+	left:100px;
+}
+
+
+
+#heatIn {
+	position:absolute;
+	top:265px;
+	left:120px;
+}
+#heatOut {
+	position:absolute;
+	top:265px;
+	left:435px;
+}
+#wkOutLabel {
+	position:absolute;
+	top:125px;
+	left:235px;
+	width:100px;
+	font-weight:bold;
+	font-size:0.80em;
+}
+#wkOut {
+	position:absolute;
+	top:125px;
+	left:300px;
+}
+#wkInLabel {
+	position:absolute;
+	top:400px;
+	left:235px;
+	width:100px;
+	font-weight:bold;
+	font-size:0.80em;
+}
+#wkIn {
+	position:absolute;
+	top:400px;
+	left:300px;
+}
+#pressure1 {
+	position:absolute;
+	top:180px;
+	left:210px;
+	z-index:3;
+}
+#pressure2 {
+	position:absolute;
+	top:190px;
+	left:325px;
+	z-index:3;
+}
+#pressure3 {
+	position:absolute;
+	top:350px;
+	left:325px;
+}
+#pressure4 {
+	position:absolute;
+	top:340px;
+	left:210px;
+}
+
+
+
+#netWkLabel {
+	position:absolute;
+	top:465px;
+}
+#netWk {
+	position:absolute;
+	top:465px;
+	left:75px;
+	color:Blue;
+}
+#thermEffLabel {
+	position:absolute;
+	top:490px;
+}
+#thermEff {
+	position:absolute;
+	top:490px;
+	left:140px;
+}
+#triviaLabel {
+	position:absolute;
+	top:440px;
+	left:390px;
+}
+#triviaArea {
+	position:absolute;
+	top:465px;
+	left:300px;
+	height:85px;
+	width:300px;
+}
+
+
+
+#about {
+	position:absolute;
+	top:570px;
+}
+#toggleTooltips {
+	position:absolute;
+	top:550px;
+}
+#programInfo {
+	position:relative;
+	top:650px;
+}

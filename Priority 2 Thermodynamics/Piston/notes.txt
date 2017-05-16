@@ -1,0 +1,29 @@
+On the system flow graphic:
+
+heat source (K)
+heat in (kJ/mol)
+heat out (kJ/mol)
+cold sink (K)
+work in/out (kJ/mol)
+
+
+Inputs:
+piston position
+heat source temp
+step type
+
+
+
+Other outputs:
+gas pressure
+gas temp
+display cycle step
+P/V graph
+T/S graph
+other info
+color of piston tube jacket
+
+
+
+setProperty(_level0.HotSink, _alpha, (SinkTemp)/6);
+	setProperty(_level0.ColdSink, _alpha, (600-SinkTemp)/6);

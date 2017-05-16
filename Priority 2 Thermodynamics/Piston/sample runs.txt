@@ -1,0 +1,130 @@
+Initial State: 1 bar, 293 K, 40 cm extension
+Adiabatic compression to 1.137 bar at 304 K, 36.5 cm Entropy is: 0.000
+Work is: 22.720 kJ
+Q is: 0.000 kJ
+Isothermal compression to 1.728 bar at 304 K, 24.0 cm Entropy is: -34.858
+Work is: 105.945 kJ
+Q is: -105.945 kJ
+Isobaric expansion to 1.728 bar at 507 K, 40.0 cm Entropy is: 113.792
+Work is: 168.465 kJ
+Q is: 252.697 kJ
+Isochoric cooling to 1.000 bar at 293 K, 40.0 cm Entropy is: 0.000
+Work is: 0.000 kJ
+Q is: -443.882 kJ
+
+
+
+======================PV graph crosses???==================================
+
+Initial State: 1 bar, 293 K, 40 cm extension
+Adiabatic expansion to 0.491 bar at 239 K, 66.5 cm
+ Entropy is: 0.000
+Work is: -11205.4 cm^3 * bar   =   -112.1 kJ
+Q is: 0.0 cm^3 * bar   =   0.000 kJ
+Isothermal compression to 1.145 bar at 239 K, 28.5 cm
+ Entropy is: -70.447
+Work is: 16843.2 cm^3 * bar   =   168.4 kJ
+Q is: -16843.2 cm^3 * bar   =   -168.432 kJ
+Adiabatic compression to 2.332 bar at 293 K, 17.1 cm
+ Entropy is: -70.447
+Work is: 11205.4 cm^3 * bar   =   112.1 kJ
+Q is: 0.0 cm^3 * bar   =   0.000 kJ
+Isothermal expansion to 1.000 bar at 293 K, 40.0 cm
+ Entropy is: 0.000
+Work is: -20640.9 cm^3 * bar   =   -206.4 kJ
+Q is: 20640.9 cm^3 * bar   =   206.409 kJ
+
+
+====================== BOTH graphs cross???===============================
+
+Initial State: 1 bar, 293 K, 40 cm extension
+Isobaric expansion to 1.000 bar at 649 K, 88.5 cm
+ Entropy is: 231.239
+Work is: 29552.7 cm^3 * bar   =   295.5 kJ
+Q is: 44360.2 cm^3 * bar   =   443.602 kJ
+Isochoric cooling to 0.452 bar at 293 K, 88.5 cm
+ Entropy is: 66.175
+Work is: 0.0 cm^3 * bar   =   0.0 kJ
+Q is: -73881.7 cm^3 * bar   =   -738.817 kJ
+Adiabatic compression to 1.374 bar at 403 K, 40.0 cm
+ Entropy is: 66.175
+Work is: 22782.6 cm^3 * bar   =   227.8 kJ
+Q is: 0.0 cm^3 * bar   =   0.000 kJ
+Isochoric cooling to 1.000 bar at 293 K, 40.0 cm
+ Entropy is: 0.000
+Work is: 0.0 cm^3 * bar   =   0.0 kJ
+Q is: -22813.8 cm^3 * bar   =   -228.138 kJ
+
+
+
+
+
+
+
+
+Initial State: 1 bar, 293 K, 40 cm extension
+Adiabatic expansion to 0.512 bar at 242 K, 64.5 cm
+ Entropy is: 0.000
+Work is: -10594.7 cm^3 * bar   =   -105.9 kJ
+Q is: 0.0 cm^3 * bar   =   0.000 kJ
+Isothermal compression to 2.642 bar at 242 K, 12.5 cm
+ Entropy is: -136.432
+Work is: 33020.6 cm^3 * bar   =   330.2 kJ
+Q is: -33020.6 cm^3 * bar   =   -330.206 kJ
+Adiabatic compression to 3.611 bar at 265 K, 10.0 cm
+ Entropy is: -136.432
+Work is: 4696.8 cm^3 * bar   =   47.0 kJ
+Q is: 0.0 cm^3 * bar   =   0.000 kJ
+Isobaric expansion to 3.611 bar at 293 K, 11.1 cm
+ Entropy is: -106.792
+Work is: 2359.1 cm^3 * bar   =   23.6 kJ
+Q is: 3538.7 cm^3 * bar   =   35.387 kJ
+
+
+
+=====================Step is invalid???===================================
+Initial State: 1 bar, 293 K, 40 cm extension
+Isobaric expansion to 1.000 bar at 575 K, 78.5 cm
+ Entropy is: 196.347
+Work is: 23459.4 cm^3 * bar   =   234.6 kJ
+Q is: 35220.2 cm^3 * bar   =   352.202 kJ
+
+Then tried to simply undo the step and do isobaric back to 40cm, but got:
+Step is invalid. Steps must obey the thermodynamic law that deltaS - Q/T >= 0.
+
+deltaS = -196.1981
+Q = -35189.0385 cm^3 * bar
+T = 293.1499 K
+
+deltaS - Q/T = -76.1604
+
+
+
+======================Made a triangle???============================
+
+Initial State: 1 bar, 293 K, 40 cm extension
+Isobaric expansion to 1.000 bar at 575 K, 78.5 cm
+ Entropy is: 196.347
+Work is: 23459.4 cm^3 * bar   =   234.6 kJ
+Q is: 35220.2 cm^3 * bar   =   352.202 kJ
+Isothermal compression to 1.963 bar at 575 K, 40.0 cm
+ Entropy is: 140.290
+Work is: 32249.7 cm^3 * bar   =   322.5 kJ
+Q is: -32249.7 cm^3 * bar   =   -322.497 kJ
+Isochoric cooling to 1.000 bar at 293 K, 40.0 cm
+ Entropy is: 0.000
+Work is: 0.0 cm^3 * bar   =   0.0 kJ
+Q is: -58679.5 cm^3 * bar   =   -586.795 kJ
+
+
+Also:
+
+Initial State: 1 bar, 293 K, 40 cm extension
+Isobaric expansion to 1.000 bar at 634 K, 86.5 cm
+ Entropy is: 224.587
+Work is: 28334.0 cm^3 * bar   =   283.3 kJ
+Q is: 42532.2 cm^3 * bar   =   425.322 kJ
+Isochoric cooling to 0.462 bar at 293 K, 86.5 cm
+ Entropy is: 64.274
+Work is: 0.0 cm^3 * bar   =   0.0 kJ
+Q is: -70835.1 cm^3 * bar   =   -708.351 kJ

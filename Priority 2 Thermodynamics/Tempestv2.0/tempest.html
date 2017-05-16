@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  File: lightRadiation.html
+  Purpose: 
+  Author: Daniel Prudente (May 2012)
+ 		  Under the supervision of Margot Vigeant, Bucknell University
+  (c) Margot Vigeant 2012
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Project Tempest</title>
+    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="jquery.ui.touch-punch.min.js"></script>
+    <link href="tempest.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="tempest.js"></script>
+</head>
+
+<body>
+	<h1 align="center">Project Tempest</h1>
+    <div class="container">
+        <div id="dragBox"></div>
+        <div id="wattDiv" name="wattDiv">
+        	<img id="wattMeter" id="wattMeter" alt="" src="wattMeter.png" />
+          	<label align="right" id="powerLabel" name="powerLabel" alt="">0 W</label>
+        </div>
+        
+        <div id="hairdryerDiv" name="hairdryerDiv">
+        	<div id="powerSlide"></div>
+            <div id="red"></div>
+            <img id="hairdryer" name="hairdryer" alt="" src="hairdryer.png" />
+         	<img id="coolSwitch" name="coolSwitch" alt="" src="coolButton.png" />
+            <img id="coolOff" name="coolOff" alt="" src="coolOff.png" />
+		<button id="coolButton" name="coolButton" onclick="changeCool()"></button>
+        </div>
+        
+        <div id="sensors" name="sensors">
+        	<img id="sensorBox" name="sensorBox" alt="" src="sensorBox.png" />
+            <label id="heatLabel" name="heatLabel" alt="">Thermocouple Reading</label>
+            <label id="windLabel" name="windLabel" alt="">Wind Speed</label>
+            <label id="heatReading" name="heatReading" alt="">20 °C</label>
+            <label id="windReading" name="windReading" alt="">0 m/s</label>
+        </div>
+        
+        <div id="anemometer" class='drag wind'>
+			<img src="anemometerOff.png">
+		</div>
+	
+		<div id="thermocouple" class='drag heat'>
+        	<img src="thermocouple.png" />
+		</div>
+          
+        <!-- 
+        <div id="windSpeed">SPEED</div>
+        <div id="position">CURRENT: Left: 000 Top: 000</div>
+		-->
+        
+		<div class="windMed">
+			<div class="windHigh"></div>
+		</div>
+
+		<div class="tempBox"></div>
+
+		<div id="preload">
+        	       <img src="anemometerLow.gif" width="1" height="1" alt="Image 01" />
+            	   <img src="anemometerMed.gif" width="1" height="1" alt="Image 02" />
+                   <img src="anemometerHigh.gif" width="1" height="1" alt="Image 03" />
+        </div>
+        
+        <label id="numbers" name="numbers" alt=""></label>
+        
+    	<p align="center" id="programInfo" name="programInfo">
+			(c) Margot Vigeant and Michael Prince 2013
+			<br /><br />
+			Produced through the efforts of Daniel Prudente
+			<br /><br />
+			Supported by NSF DUE-1225031
+			<br /><br />
+		  Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering							        </p>
+    </div>
+</body>
+</html>

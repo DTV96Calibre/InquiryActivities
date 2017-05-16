@@ -1,0 +1,60 @@
+MOAR QUESTIONS
+
+
+Ability to change parameters while paused - intended or glitch? (I think it's a glitch)
+"Situation ___ melted ___g of ice in ___ seconds" doesn't display--should it?
+"About" text
+	--> look over
+	--> contact whom?
+likewise, info at bottom of page
+	--> look over
+	--> contact whom?
+	--> copyright?
+randomly move ice cubes back and forth - necessary?
+Should ice blocks disappear? It seems to be calibrated so that the block temp will never
+	reach 0 anyway.
+
+
+
+
+
+
+
+
+
+
+
+NOTES
+
+
+
+tinit1 = temp1
+m1 = mass1
+cp1 = heatCapacity1
+a1 = area1
+number1 = numBlocks1
+u1 = stirFactor1
+
+tenv = icewaterTemp
+t1 = currentBlockTemp1
+intl = secondsPerStep
+
+
+intl is the number of seconds represented by each calculation/"step"
+intl = tau/200 (always 200 calcs)
+
+
+icemelttoth1 = the amount the ice's height needs to shrink
+icemelttow1 = the amount the ice's width needs to shrink
+(for the sit w/ the higher q, icemelttoth and icemelttow should be equal to the
+ice's height/width, respectively)
+
+
+t1disp and t1rem you don't use for anything
+
+
+
+
+max value of x-axis appears to be taus truncated to an integer
+after hitting water, blocks move 1 pixel per calculation/"step"
+appears to be 20 steps / second, or steps take 50ms each

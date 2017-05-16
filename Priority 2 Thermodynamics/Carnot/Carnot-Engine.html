@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  File: Carnot-Engine.html
+  Purpose: Carnot Engine simulation
+  Author: Emily Ehrenberger (May 2011)
+ 		  Under the supervision of Margot Vigeant, Bucknell University
+ 		  Based on Flash simulation by Molly Harms and Gavin MacInnes (2009)
+  (c) Margot Vigeant 2009
+-->
+
+	<head>
+		<title>Carnot Engine</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<link href="carnotstyle.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script type="text/javascript" src="carnotAnimate.js"></script>
+	</head>
+    
+    
+	<body>
+    
+    	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
+        
+        
+		<h1 align="center">Carnot Engine Activity</h1>
+        
+		<div class="container">
+        
+			<h4 id="hotFactLabel">Hot Facts</h4>
+            <textarea id="hotFactArea" rows="6" cols="27" readonly="readonly">Please enter a hot temperature.</textarea>
+            
+			<h4 id="coldFactLabel">Cold Facts</h4>
+            <textarea id="coldFactArea" rows="6" cols="27" readonly="readonly">Please enter a cold temperature.</textarea>
+            
+			<label id="compSelLabel">Please choose cycle ideality</label>
+            <select id="compSelect" name="compSelect">
+                <option id="componentsDefault" value="normal" selected="selected">Real, Normal Components</option>
+                <option value="good">Real, Good Components</option>
+                <option value="great">Real, Cutting Edge Components</option>
+                <option value="ideal">Ideal (frictionless, reversible)</option>
+            </select>
+            
+			<h4 id="hotTempLabel">Hot Temperature</h4>
+            <input id="hotTempInput" type="text" maxlength="10" />
+            <select id="hotTempUnits">
+                <option id="hotUnitDefault" value="c" selected="selected">°C</option>
+                <option value="k">K</option>
+                <option value="f">°F</option>
+                <option value="r">R</option>
+            </select>
+            
+			<h4 id="coldTempLabel">Cold Temperature</h4>
+			<input id="coldTempInput" type="text" maxlength="10" />
+            <select id="coldTempUnits">
+                <option id="coldUnitDefault" value="c" selected="selected">°C</option>
+                <option value="k">K</option>
+                <option value="f">°F</option>
+                <option value="r">R</option>
+            </select>
+            
+            <img id="engineImg" alt="" src="Carnot_engine.gif" name="engineImg" />
+			<img id="animal" alt="" src="blank_img.png" name="animal" />
+			<img id="topMask" alt="" src="blank_img.png" name="topMask" class="mask" />
+			<img id="leftMask" alt="" src="blank_img.png" name="leftMask" class="mask" />
+			<img id="rightMask" alt="" src="blank_img.png" name="rightMask" class="mask" />
+			<img id="bottomMask" alt="" src="blank_img.png" name="bottomMask" class="mask" />
+            
+            <!--
+            Code to support the tooltips. Note that the "img" tags merely contain blank images to act as placeholders,
+            to which the mouseover events can be attached.
+            -->
+            <img id="cycleLeftHover" alt="" src="blank_img.png" class="tooltipTrigger" />
+            <textarea id="cycleLeftTooltip" class="tooltip" cols="25" rows="5">This is the isothermal expansion step, where 1000 kW of heat is turned into work. The temperature does not change during this step.</textarea>
+            <img id="cycleTopHover" alt="" src="blank_img.png" class="tooltipTrigger" />
+            <textarea id="cycleTopTooltip" class="tooltip" cols="25" rows="5">This is the expansion step. Under ideal conditions, all of the expansion can be obtained as work, but with real components, some is lost through friction.</textarea>
+            <img id="cycleRightHover" alt="" src="blank_img.png" class="tooltipTrigger" />
+            <textarea id="cycleRightTooltip" class="tooltip" cols="30" rows="5">This is the isothermal compression step, where the gas is compressed and excess heat is rejected to the cold reservoir. The temperature remains constant.</textarea>
+            <img id="cycleBottomHover" alt="" src="blank_img.png" class="tooltipTrigger" />
+            <textarea id="cycleBottomTooltip" class="tooltip" cols="25" rows="5">This is the compression step. Under ideal conditions, all of the energy goes into compressing the gas, but with real components some is lost through friction.</textarea>
+			<img id="engineWindowHover" alt="" src="blank_img.png" class="tooltipTrigger" />
+			<textarea id="engineWindowTooltip" class="tooltip" cols="25" rows="5">In this window you can see how much work is being done by the weight of the object being lifted.</textarea>
+			<img id="idealGasHover" alt="" src="blank_img.png" class="tooltipTrigger" />
+			<textarea id="idealGasTooltip" class="tooltip" cols="25" rows="5">The working fluid in the cycle is an ideal gas. How "real" the cycle is comes from the use of a pump and turbine efficiency.</textarea>
+			<textarea id="hotTempTooltip" class="instructionTooltip" cols="25" rows="5">This is where the temperature for the heat source is set.  In a real steam-turbine system, this would be the temperature of the boiler / superheater.  In a Carnot system, the heat source and the working fluid are assumed to reach the same temperature, which would typically require an impractically long heat exchanger.</textarea>
+			<textArea id="coldTempTooltip" class="instructionTooltip" cols="25" rows="5">This is where the temperature for the heat sink is set.  In a real power plant, this is usually a condenser or cooling tower.  In a Carnot system, the heat-sink and the working fluid are assumed to reach the same temperature, which would typically require an impractically long heat exchanger.</textArea>
+			<textArea id="compSelectTooltip" class="instructionTooltip" cols="25" rows="5">Here you can set the level of friction / heat loss for the system.  A Carnot system is typically assumed to have zero frictional losses as well as zero heat losses to the environment in the compression and pumping steps.  In this system, you can add both friction and heat loss to observe the efficiency both in ideal and more realistic settings.</textArea>
+            
+			<h4 id="heatIn">1000 kW</h4>
+			<h4 id="heatOut">kW</h4>
+			<label id="wkOutLabel">Work out:</label>
+			<label class="cycleData" id="wkOut">kW</label>
+			<label id="wkInLabel">Work in:</label>
+			<label class="cycleData" id="wkIn">kW</label>
+			<label class="cycleData" id="pressure1"></label>
+			<label class="cycleData" id="pressure2"></label>
+			<label class="cycleData" id="pressure3"></label>
+			<label class="cycleData" id="pressure4"></label>
+            
+            
+            <h4 id="netWkLabel">Net work:</h4>
+			<h4 id="netWk">kW</h4>
+			<h4 id="thermEffLabel">Thermal Efficiency:</h4>
+			<h4 id="thermEff"></h4>
+			<h4 id="triviaLabel">Efficiency Trivia</h4>
+			<textarea id="triviaArea" rows="5" cols="50" readonly="readonly"></textarea>
+            
+            <a href="" id="about">About this program</a>
+            <a href="" id="toggleTooltips">More info (off)</a>
+            
+		</div>
+        
+        
+		<p align="center" id="programInfo">
+		(c) Margot Vigeant 2011
+		<br /><br />
+		Produced through the efforts of Molly Harms, Gavin MacInnes, and Emily Ehrenberger
+		<br /><br />
+		Supported by NSF DUE-0442234 (2009) and NSF DUE-0717536 (2011)
+        <br /><br />
+        Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
+		</p>
+        
+       
+	</body>
+</html>

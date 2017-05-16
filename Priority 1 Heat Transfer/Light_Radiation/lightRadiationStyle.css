@@ -1,0 +1,265 @@
+/*
+ * File: lightRadiationStyle.css
+ * Purpose: To provide the styling and page formatting for the Untitled simulation
+ * Author: Daniel Prudente (September 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:14px;
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+
+
+/**********Components of the box for calculation results************/
+
+#copperPipe {
+	position:absolute;
+	top:400px;
+	left:-75px;	
+}
+
+#whitePipe {
+	position:absolute;
+	top:455px;
+	left:-75px;	
+}
+
+#blackPipe {
+	position:absolute;
+	top:505px;
+	left:-75px;	
+}
+
+#programInfo{
+	position:absolute;
+	top:800px;
+	z-index:-1;	
+}
+
+#startButton {
+	position:absolute;
+	top:650px;
+	left:200px;
+	width:130px;
+	height:70px;	
+}
+
+#finishButton {
+	position:absolute;
+	top:650px;
+	left:200px;
+	width:130px;
+	height:70px;	
+}
+
+
+/**********Componenets for the graph************/
+#graphHolder{
+	position:absolute;
+	top:257px;
+	left:200px;	
+	z-index:-1;
+}
+
+#graphBase{
+	position:absolute;
+	top:307px;
+	left:403px;
+	z-index:1;	
+}
+
+#ygraph1 {
+	position:absolute;
+	z-index:1;
+	top:435px;
+	left:375px;	
+}
+
+#ygraph2 {
+	position:absolute;
+	z-index:1;
+	top:305px;
+	left:375px;	
+}
+
+#graph0 {
+	position:absolute;
+	z-index:1;
+	top:585px;
+	left:390px;	
+}
+
+#xgraph1 {
+	position:absolute;
+	z-index:1;
+	top:585px;
+	left:555px;	
+}
+
+#xgraph2 {
+	position:absolute;
+	z-index:1;
+	top:585px;
+	left:720px;	
+}
+
+.sit1Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#000000;
+}
+
+.sit2Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#ffffff;
+}
+
+.sit3Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#cfab2c;
+}
+
+#graphPointsDiv { 
+	position:absolute;
+	top:307px;
+	left:405px;
+	width:328px;
+	height:270px;
+}
+
+/**********Components for the heating activity************/
+#heatingComponents {
+	position:absolute;
+	top:0px;
+	left:-100px;	
+}
+
+#lampHead {
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+#lampLightHigh{
+	position:absolute;
+	top:98px;
+	left:-60px;
+	z-index:-1;
+}
+
+#lampLightMed{
+	position:absolute;
+	top:95px;
+	left:-55px;
+	z-index:-1;
+}
+
+#lampLightLow{
+	position:absolute;
+	top:135px;
+	left:-5px;
+	z-index:-1;
+}
+
+#slider{
+	position:absolute;
+	top:150px;
+	left:-50px;	
+}
+
+/**********Components for the cooling activity************/
+#coolingComponents {
+	position:absolute;
+	top:700px;
+	left:-82px;
+	width:400px;
+}
+
+#oven {
+	position:absolute;
+	z-index:1;
+}
+
+#ovenBack {
+	position:absolute;
+	top:55px;
+	z-index:0;	
+}
+
+#ovenTemp {
+	position:absolute;
+	top:30px;
+	left:70px;
+	z-index:2;
+	width:50px;	
+}
+
+#ovenTempLabel {
+	position:absolute;
+	top:5px;
+	left:90px;
+	z-index:2;	
+}
+
+#ovenTempRange {
+	position:absolute;
+	top:30px;
+	left:160px;	
+	z-index:2;
+}
+
+#ovenTempUnits {
+	position:absolute;
+	top:30px;
+	left:130px;	
+	z-index:2;
+}
+
+/**********Components of the box for the prompt************/
+#promptDiv {
+	position:absolute;
+	left:0px;
+	top:135px;
+	height:300px;
+	width:600px;
+	padding:10px;
+	z-index:1;
+	border-style:solid;
+	border-width:thick;
+	background-color:#FFFFFF;
+}
+
+#startPrompt {
+	position:absolute;
+	font-size:40px;
+	left:100px;
+	top:70px;
+}
+
+#heatingButton{
+	position:absolute;
+	top:180px;
+	left:30px;
+	width:250px;
+	height:120px;
+}
+
+#coolingButton{
+	position:absolute;
+	top:180px;
+	left:330px;
+	width:250px;
+	height:120px;
+}

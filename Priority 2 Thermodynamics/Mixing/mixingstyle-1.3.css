@@ -1,0 +1,294 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	font-size:100%;
+}
+a {
+	font-size:0.80em;
+	color:#C00;
+}
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	margin-left:auto;
+	margin-right:auto;
+}
+.text {
+	line-height:120%;
+}
+.tooltip {
+	position:absolute;
+	width:190px;
+	height:60px;
+	background-color:#FFC;
+	border-style:solid;
+	border-width:thin;
+	border-color:#000;
+	padding-left:1px;
+	z-index:3; /* Ensure the tooltip appears on top of all the images (except for tooltipTrigger images) */
+	font-size:0.75em;
+	font-family:sans-serif;
+	overflow:auto; /* Necessary to prevent IE from automatically putting scrollbars everywhere */
+}
+.coldDot {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:blue;
+}
+.hotDot {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:red;
+}
+
+
+#zoomInBackdrop {
+	position:absolute;
+	top:30px;
+	left:336px;
+	z-index:2;
+}
+#zoomLink {
+	position:absolute;
+	top:150px;
+	left:215px;
+	color:#FC0;
+	text-decoration:none;
+}
+#zoomDiv {
+	position:absolute;
+	top:101px;
+	left:406px;
+	z-index:3;
+}
+#zoomInfo {
+	top:-10px;
+	left:170px;
+}
+
+
+
+#textContainer {
+	width: 25%;
+	top:20px;
+	height:300px;
+	z-index:2;
+}
+#demoContainer {
+	width: 50%;
+	height:265px;
+}
+#submitButton {
+	width:100px;
+}
+#submitP {
+	text-align:center;
+}
+#tryItTitle {
+	text-align:center;
+}
+
+#table {
+	position: absolute;
+	top:100px;
+	left:40px;
+	z-index:-1;
+}
+#bigBeaker {
+	position:absolute;
+	top:20px;
+	left:215px;
+	z-index:1;
+}
+#smallBeaker {
+	position:absolute;
+	top:60px;
+	left:365px;
+	/*top:-90px;
+	left:295px;*/
+	z-index:1;
+}
+#bigLiquid {
+	position:absolute;
+	top:83px;
+	left:217px;
+	opacity:0.75;
+	filter:alpha(opacity=75);
+	height:65px;
+	width:91px;
+	background:url('bigLiquid.png') 0 0;
+	z-index:0;
+}
+#smallLiquid {
+	position:absolute;
+	top:83px;
+	left:372px;
+	/*top:-67px;
+	left:302px;*/
+	opacity:0.75;
+	filter:alpha(opacity=75);
+	height:59px;
+	width:60px;
+	background:url('smallLiquid.png') 0 0;
+	z-index:0;
+}
+#eyedropper {
+	position:absolute;
+	top:20px;
+	left:395px;
+	z-index:-1;
+}
+#dyeDrops {
+	position:absolute;
+	top:-30px;
+	left:263px;
+	z-index:-2;
+}
+
+
+
+#tryItButton {
+	position:absolute;
+	top:215px;
+	left:270px;
+	width:100px;
+}
+#smallBeakerPour {
+	position:absolute;
+	top:-99px;
+	left:248px;
+	height:240px;
+	width:150px;
+	background:url('smallBeakerPour.gif') 0 0;
+	z-index:-1;
+}
+
+
+#experimentResults {
+	position:absolute;
+	top:-130px;
+	left:70px;
+	width:520px;
+	height:150px;
+	z-index:-1;
+}
+#bigBeakerEntropyChangeLabel {
+	position:absolute;
+	top:20px;
+	height:50px;
+	width:110px;
+	text-align:center;
+}
+#bigBeakerEntropyChange {
+	position:absolute;
+	top:65px;
+	width:110px;
+}
+#smallBeakerEntropyChangeLabel {
+	position:absolute;
+	top:20px;
+	left:380px;
+	height:50px;
+	width:110px;
+	text-align:center;
+}
+#smallBeakerEntropyChange {
+	position:absolute;
+	top:65px;
+	left:380px;
+	width:110px;
+}
+#totalEntropyChangeLabel {
+	position:absolute;
+	left:180px;
+}
+#totalEntropyChange {
+	position:absolute;
+	top:25px;
+	left:190px;
+	width:110px;
+}
+#otherResultLabel {
+	position:absolute;
+	top:75px;
+	left:190px;
+}
+#otherResult {
+	position:absolute;
+	top:100px;
+	left:190px;
+	width:110px;
+}
+
+
+
+#experimentParameters {
+	position:absolute;
+	top:-20;
+	left:70px;
+	width:520px;
+	height:100px;
+}
+#bigBeakerSubstance {
+	position:absolute;
+}
+#bigBeakerTemp {
+	position:absolute;
+	top:25px;
+}
+#bigBeakerVolume {
+	position: absolute;
+	top:50px;
+}
+#smallBeakerSubstanceLabel {
+	position:absolute;
+	left:380px;
+}
+#smallBeakerSubstanceSelect {
+	position:absolute;
+	left:470px;
+}
+#smallBeakerTempLabel {
+	position:absolute;
+	top:25px;
+	left:380px;
+}
+#smallBeakerTempSelect {
+	position:absolute;
+	top:25px;
+	left:470px;
+}
+#smallBeakerTempUnits {
+	position:absolute;
+	top:25px;
+	left:525px;
+}
+#smallBeakerVolumeLabel {
+	position:absolute;
+	top:50px;
+	left:380px;
+}
+#smallBeakerVolume {
+	position:absolute;
+	top:50px;
+	left:470px;
+}
+#smallBeakerConcentration {
+	position:absolute;
+	top:73px;
+	left:380px;
+}
+
+
+#toggleAnimations {
+	position:absolute;
+	top:220px;
+	left:25px;
+}
+#about {
+	position:absolute;
+	top:240px;
+	left:25px;
+}

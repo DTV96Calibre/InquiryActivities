@@ -1,0 +1,280 @@
+/*
+ * File: lightRadiationStyle.css
+ * Purpose: To provide the styling and page formatting for the Untitled simulation
+ * Author: Daniel Prudente (September 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:14px;
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+
+
+/**********Components for the graph************/
+.sit1Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#000000;
+}
+
+.sit2Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#ffffff;
+}
+
+.sit3Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#b1802a;
+}
+
+#graphPointsDiv { 
+	position:absolute;
+	top:307px;
+	left:403px;
+	width:328px;
+	height:270px;
+}
+
+#graph {
+	position:absolute;
+	top:13px;
+	left:8px;
+	z-index:-1;	
+}
+
+#graphBase {
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+#graph20 {
+	position:absolute;
+	z-index:1;
+	top:52px;
+	left:80px;	
+}
+
+#graph10 {
+	position:absolute;
+	z-index:1;
+	top:165px;
+	left:80px;	
+}
+
+#graph0 {
+	position:absolute;
+	z-index:1;
+	top:277px;
+	left:90px;	
+}
+
+#graph45m {
+	position:absolute;
+	z-index:1;
+	top:277px;
+	left:182px;	
+}
+
+#graph90m {
+	position:absolute;
+	z-index:1;
+	top:277px;
+	left:275px;	
+}
+
+#graph135m {
+	position:absolute;
+	z-index:1;
+	top:277px;
+	left:367px;	
+}
+
+#graph180m {
+	position:absolute;
+	z-index:1;
+	top:277px;
+	left:460px;	
+}
+
+.sit1Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#0000ff;
+}
+
+.sit2Point {
+	position:absolute;
+	height:2px;
+	width:2px;
+	background-color:#ff9c00;
+}
+
+#graphPointsDiv { 
+	position:absolute;
+	top:0px;
+	left:70px;
+	width:380px;
+	height:214px;
+}
+/**********Components for the User Grid************/
+#grid1Components {
+	position:absolute;
+	top:0px;
+	left:-100px;
+}
+
+#grid1 {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+
+#cup1 {
+	position:absolute;
+	top:400px;
+	left:-150px;
+	z-index:1;
+}
+
+#waterfill1 {
+	position:absolute;
+	top:550px;
+	left:-144px;
+	z-index:-1;
+}
+
+.gridButton {
+	position:absolute;
+	width:43px;
+	height:43px;
+	color:transparent;
+	background-color:transparent;
+	border: none;
+	z-index:3;
+}
+
+.markButton {
+	position:absolute;
+	z-index:2;	
+}
+
+.row0 {
+	top:0px;
+}
+
+.row1 {
+	top:42px;
+}
+
+.row2 {
+	top:84px;
+}
+
+.row3 {
+	top:126px;
+}
+
+.row4 {
+	top:168px;
+}
+
+.row5 {
+	top:210px;
+}
+
+.col0 {
+	left:1px;
+}
+
+.col1 {
+	left:43px;
+}
+
+.col2 {
+	left:85px;
+}
+
+.col3 {
+	left:127px;
+}
+
+.col4 {
+	left:169px;
+}
+
+.col5 {
+	left:211px;
+}
+
+/**********Components for Automated Grid************/
+#grid2Components {
+	position:absolute;
+	top:0px;
+	left:430px;
+}
+
+#grid2 {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+
+#cup2 {
+	position:absolute;
+	top:400px;
+	left:370px;
+	z-index:1;
+}
+
+#waterfill2 {
+	position:absolute;
+	top:550px;
+	left:376px;
+	z-index:-1;
+}
+
+.marker {
+	position:absolute;
+	z-index:2;	
+}
+
+/**********Components for Other Stuff************/
+#programInfo {
+	position:absolute;
+	top:1000px;
+	z-index:3;
+}
+
+#startButton {
+	position:absolute;
+	left:234px;
+	top:400px;	
+}
+
+#resetButton {
+	position:absolute;
+	left:236px;
+	top:430px;	
+}
+
+#help {
+	position:absolute;
+	left:235px;
+	top:950px;
+}

@@ -1,0 +1,11 @@
+Gotta make the pause/resume button
+
+
+
+All numbered frames EXCEPT 6, 7, and 11 are totally collapsed.
+
+All button frames EXCEPT Pause and Resume are totally collapsed.
+
+
+
+Making the "more info" stuff in the lower left

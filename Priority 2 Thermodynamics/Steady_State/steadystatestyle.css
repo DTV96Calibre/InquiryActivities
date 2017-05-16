@@ -1,0 +1,496 @@
+/*
+ * File: steadystatestyle.css
+ * Purpose: To provide the styling and page formatting for the Radiation Activity (radiation.html)
+ * Author: Daniel Prudente (June 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2012
+*/
+
+/**********Class selectors************/
+
+.container {
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	top:25px;
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+
+/**********Picture / animation components************/
+#about {
+	position:absolute;
+	top:1020px;
+	left:280px;
+}
+#beaker0 {
+	position:absolute;
+	left: -40px;
+	top: 830px;
+	z-index:3;
+}
+#beaker1 {
+	position:absolute;
+	left: 60px;
+	top: 830px;
+	z-index:3;
+}
+#beaker2 {
+	position:absolute;
+	left: 160px;
+	top: 830px;
+	z-index:3;
+}
+#beaker3 {
+	position:absolute;
+	left: 260px;
+	top: 830px;
+	z-index:3;
+}
+#beaker4 {
+	position:absolute;
+	left: 360px;
+	top: 830px;
+	z-index:3;
+}
+#beakerSoln00 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln10 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln20 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln30 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln40 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln50 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln01 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln11 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln21 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln31 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln41 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln51 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln02 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln12 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln22 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln32 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln42 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln52 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln03 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln13 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln23 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln33 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln43 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln53 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln04 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln14 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln24 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln34 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln44 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#beakerSoln54 {
+	position:absolute;
+	left:175px;
+	top:641px;	
+}
+#buchnerFunnelFront {
+	position:absolute;
+	left: 145px;
+	top: 397px;
+	z-index:1;
+}
+#buchnerFunnelBack {
+	position:absolute;
+	left: 145px;
+	top: 394px;
+	z-index:-3;
+}
+#colorScale {
+	position:absolute;
+	top:960px;
+	left:0px;	
+}
+#colorScaleLabel {
+	position:absolute;
+	top:956px;
+	left:-95px;	
+}
+#coughDrop0 {
+	position:absolute;
+	top:442px;
+	left:199px;
+}
+#coughDrop1 {
+	position:absolute;
+	top:442px;
+	left:222px;
+}
+#coughDrop2 {
+	position:absolute;
+	top:442px;
+	left:176px;
+}
+#coughDrop3 {
+	position:absolute;
+	top:442px;
+	left:245px;
+}
+#coughDrop4 {
+	position:absolute;
+	top:442px;
+	left:153px;
+}
+#coughDrop5 {
+	position:absolute;
+	top:442px;
+	left:268px;
+}
+#coughDrop6 {
+	position:absolute;
+	top:433px;
+	left:210px;
+	z-index:-1;
+}
+#coughDrop7 {
+	position:absolute;
+	top:433px;
+	left:233px;
+	z-index:-1;
+}
+#coughDrop8 {
+	position:absolute;
+	top:433px;
+	left:187px;
+	z-index:-1;
+}
+#coughDrop9 {
+	position:absolute;
+	top:433px;
+	left:256px;
+	z-index:-1;
+}
+#coughDrop10 {
+	position:absolute;
+	top:433px;
+	left:164px;
+	z-index:-1;
+}
+#faucet {
+	position:absolute;
+	top:0px;
+	left:185px;
+}
+#faucetFlow0 {
+	position:absolute;
+	left: 192px;
+	top: 241px;
+	z-index:-2;
+}
+#faucetFlow1 {
+	position:absolute;
+	left: 195px;
+	top: 241px;
+	z-index:-2;
+}
+#faucetFlow2 {
+	position:absolute;
+	left: 195px;
+	top: 241px;
+	z-index:-2;
+}
+#faucetFlow3 {
+	position:absolute;
+	left: 192px;
+	top: 241px;
+	z-index:-2;
+}
+#faucetHandle {
+	position:absolute;
+	left:506px;
+	top: 459px;
+	z-index:1;
+}
+#faucetWaterBox {
+	position:absolute;
+	top:458px;
+	left: 151px;
+	z-index:-1;	
+}
+#faucetWaterBoxBlocker {
+	position:absolute;
+	top:457px;
+	left:151px;	
+}
+#funnelStand {
+	position:absolute;
+	top:191px;
+	left:-84px;
+	z-index:2;
+}
+#programInfo {
+	position:absolute;
+	top:1100px;	
+}
+#solution0 {
+	position:absolute;
+	top:740px;
+	left:178px;
+	z-index:-2;	
+}
+#solution1 {
+	position:absolute;
+	top:740px;
+	left:178px;
+	z-index:-2;	
+}
+#solution2 {
+	position:absolute;
+	top:740px;
+	left:178px;
+	z-index:-2;	
+}
+#solution3 {
+	position:absolute;
+	top:740px;
+	left:178px;
+	z-index:-2;	
+}
+#solution4 {
+	position:absolute;
+	top:740px;
+	left:178px;
+	z-index:-2;	
+}
+#solution5 {
+	position:absolute;
+	top:740px;
+	left:178px;
+	z-index:-2;	
+}
+#solutionFlow {
+	position:absolute;
+	top:505px;
+	left:220px;
+	z-index:-3;	
+}
+#whiteBox {
+	position:absolute;
+	top:740px;
+	left:171px;
+	z-index:-1;	
+}
+
+/**********Input components************/
+#addDropButton {
+	position:absolute;
+	top:500px;
+	left:20px;
+	width:140px;
+	z-index:4;	
+}
+#emptyBeakerButton {
+	position:absolute;
+	top:990px;
+	left:130px;
+	width:140px;	
+}
+#faucetFlowRate {
+	position:absolute;
+	top:630px;
+	left:550px;
+	width:80px;	
+}
+#faucetFlowRateLabel {
+	position:absolute;
+	top:630px;
+	left:480px;
+}
+#faucetFlowRateRange {
+	position:absolute;
+	top:655px;
+	left:570px;
+	width: 40px;
+}
+#faucetFlowRateUnits {
+	position:absolute;
+	top:630px;
+	left:645px;	
+}
+#getMeasurementButton {
+	position:absolute;
+	top:780px;
+	left:120px;
+	width:160px;
+	z-index:5;
+}
+/**********Saturated Beaker components************/
+#beakerSaturated {
+	position:absolute;
+	left:-150px;
+	top:677px;
+}
+#saturatedTextDiv{
+	position:absolute;
+	left:-150px;
+	top:540px;
+	width:400px;
+	height:120px;
+	border-style:solid;
+	border-width:thin;
+	z-index:5;
+	background-color:white;	
+}
+#saturatedText{
+	position:absolute;
+	left:10px;
+}
+
+/**********Byberg Stopwatch components************/
+#stopwatchDiv {
+	position:absolute;
+	left:470px;
+	top:700px;
+	height:190px;
+	width:240px;
+	border-style:solid;
+	border-width:thick;
+	background-color:#00F;
+}
+#clock {
+	position:absolute;
+	top:10px;
+	left:55px;
+	font-size:16pt;
+	width:120px;	
+}
+#startstopbutton {
+	position:absolute;
+	top:50px;
+	left:20px;	
+}
+#splitbutton {
+	position:absolute;
+	top:50px;
+	left:75px;	
+}
+#resetbutton {
+	position:absolute;
+	top:50px;
+	left:155px;	
+}
+#output {
+	position:absolute;
+	top:80px;
+	left:25px;
+	height:90px;
+	width:180px;
+}

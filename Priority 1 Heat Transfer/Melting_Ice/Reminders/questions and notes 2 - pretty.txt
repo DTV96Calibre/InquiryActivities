@@ -1,0 +1,58 @@
+MOAR QUESTIONS
+
+*Should* the mass/heat capacity/area be allowed to be 0?
+	(Note: it actually crashes when area is 0)
+Graph scaling
+Ice water temperature?
+x-axis labels change right away, but y-axis labels don't change till blocks are dropped
+So it seems to calibrate it so that the block will always reach 0C by the time the ice is completely melted (so there will never be energy left over to bring the temp above 0), correct?
+Ability to change parameters while paused - intended or glitch? (I think it's a glitch)
+"Situation ___ melted ___g of ice in ___ seconds" doesn't display--should it?
+
+
+
+Important frames:
+1 (top)
+3
+(4 for how to move the blocks)
+
+
+
+NOTES
+
+
+
+tinit1 = temp1			Things that involve temperature:
+m1 = mass1				t1 = current block temp?
+cp1 = heatCapacity1			tinit1 = user's input of initial block temp?
+a1 = area1
+number1 = numBlocks1
+u1 = stirFactor1
+
+tenv = icewaterTemp
+t1 = currentBlockTemp1
+
+
+tau1/tau2 are calculated
+taunumber is 5
+taus is taunumber times the bigger of tau1/tau2
+
+
+intl is the number of seconds represented by each calculation/"step"
+intl = tau/200 (always 200 calcs)
+
+
+icemelttoth1 = the amount the ice's height needs to shrink
+icemelttow1 = the amount the ice's width needs to shrink
+(for the sit w/ the higher q, icemelttoth and icemelttow should be equal to the
+ice's height/width, respectively)
+
+
+t1disp and t1rem you don't use for anything
+tenv = icewater temp?
+
+
+
+
+max value of x-axis appears to be taus truncated to an integer
+after hitting water, blocks move 1 pixel per calculation/"step"

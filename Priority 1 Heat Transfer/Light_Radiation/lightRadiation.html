@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  File: lightRadiation.html
+  Purpose: 
+  Author: Daniel Prudente (May 2012)
+ 		  Under the supervision of Margot Vigeant, Bucknell University
+  (c) Margot Vigeant 2012
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Heat Lamp Thermal Radiation Activity</title>
+	<link href="lightRadiationStyle.css" type="text/css" rel="stylesheet" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="lightRadiationScript.js"></script>
+</head>
+
+<body>
+	<h1 align="center">Heat Lamp Thermal Radiation Activity</h1>
+    <div class="container">
+    	
+        <div id="heatingComponents" name="heatingComponents">
+        	<img id="lampHead" name="lampHead" alt="" src="lampHead.png" />
+        	<img id="lampLightLow" name="lampLightLow" alt="" src="lampLightLow.png" />
+        	<img id="lampLightHigh" name="lampLightHigh" alt="" src="lampLightHigh.png" />
+        	<img id="lampLightMed" name="lampLightMed" alt="" src="lampLightMed.png" />
+            <div id="slider" name="slider"></div>
+        </div>
+        
+        <div id="coolingComponents" name="coolingComponents">
+        	<label id="ovenTempLabel" name="ovenTempLabel" alt="">Oven Temperature</label>
+            <label id="ovenTempRange" name="ovenTempRange" alt="">(200-300)</label>
+            <label id="ovenTempUnits" name="ovenTempUnits" alt="">°C</label>
+        	<input id="ovenTemp" name="ovenTemp" type="text" maxLength="6" />
+            <img id="oven" name="oven" alt="" src="oven2.png" />
+            <img id="ovenBack" name="ovenBack" alt="" src="oven2_back.png" />
+        </div>
+        
+        <img id="blackPipe" name="blackPipe" alt="" src="blackPipe.png" />
+    	<img id="whitePipe" name="whitePipe" alt="" src="whitePipe.png" />
+        <img id="copperPipe" name="copperPipe" alt="" src="copperPipe.png" />
+        <img id="copperPipe" name="copperPipe" alt="" src="copperPipe.png" />
+        <img id="graphHolder" name="graphHolder" alt="" src="graphHolder.png" />
+        <img id="graphBase" name="graphBase" alt="" src="graphAxis.png" />
+        <label id="ygraph1" name="ygraph1" alt="">50</label>
+        <label id="ygraph2" name="ygraph2" alt="">100</label>
+        <label id="graph0" name="graph0" alt="">0</label>
+        <label id="xgraph1" name="xgraph1" alt="">320</label>
+        <label id="xgraph2" name="xgraph1" alt="">640</label>
+        <button id="startButton" name="startButton"><img src="startButton.png" /></button>
+        <button id="finishButton" name="finishButton"><img src="finishButton.png" /></button>
+        
+		<div id="promptDiv" name="promptDiv">
+       	  	<label id="startPrompt" name="startPrompt" alt="">Please choose an activity:</label>
+			<button id="heatingButton" name="heatingButton"><img src="heatingButton.png" /></button>
+       		<button id="coolingButton" name="coolingButton"><img src="coolingButton.png" /></button>
+        </div>
+        
+    	<p align="center" id="programInfo" name="programInfo">
+			(c) Margot Vigeant and Michael Prince 2012
+			<br /><br />
+			Produced through the efforts of Daniel Prudente
+			<br /><br />
+			Emissivity values referenced from Fundamentals of Heat and Mass Transfer, Third Edition
+			<br />
+			by Frank P. Incropera and David P. De Witt
+			<br /><br />
+			Supported by NSF DUE-1225031
+			<br /><br />
+		  Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering							        </p>
+    </div>
+</body>
+</html>

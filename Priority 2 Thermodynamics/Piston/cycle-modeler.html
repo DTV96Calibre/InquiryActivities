@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  File: cycle-modeler.html
+  Purpose: Thermodynamic cycle creation simulation
+  Author: Emily Ehrenberger (August 2011)
+ 		  Under the supervision of Margot Vigeant, Bucknell University
+ 		  Based on Flash simulation by Gavin MacInnes
+  (c) Margot Vigeant 2011
+-->
+
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Thermodynamic Cycle Modeler</title>
+		<link href="cyclestyle.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="lib/webkitdragdrop.js"></script><!-- Plugin downloaded from gotProject http://www.gotproject.com/blog/post2.html-->
+		<script type="text/javascript" src="lib/raphael-min.js"></script><!-- Plugin downloaded from raphaeljs.com -->
+		<script type="text/javascript" src="lib/g.raphael-min.js"></script><!-- Plugin downloaded from g.raphaeljs.com -->
+		<script type="text/javascript" src="lib/g.line-min.js"></script><!-- Plugin downloaded from g.raphaeljs.com -->
+		<script type="text/javascript" src="cyclescript.js"></script>
+	</head>
+	
+	<body>
+    	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
+		
+		<div id="introDiv" class="container">
+		
+			<img id="staticPiston" alt="" src="staticPistonGraphic.png" />
+			<label id="pistonIntroLabel" class="introLabel">You have a frictionless piston with a monoatomic ideal gas, and either perfect insulation or instant heat transfer to an infinite heat sink.</label>
+			<img id="systemFlowImgStatic" alt="" src="systemFlowGraphicStatic.PNG"  />
+			<label id="cycleIntroLabel" class="introLabel">Try to make already existing thermodynamic cycles or make your own. See how efficient you can be.</label>
+			
+			<h1 id="introHeading">Thermodynamic Cycle Modeler</h1>
+			
+			<a href="" id="continueLink">Click here to continue!</a>
+		</div>
+		
+		
+		
+		
+		<div id="simulationDiv" class="container">
+		
+			<img id="pistonTube" alt="" src="pistonTube.png" />
+            <img id="jacket" alt="" src="jacket.png" />
+            <img id="red" alt="" src="redInsulation.png" />
+            <img id="blue" alt="" src="blueInsulation.png" />
+			<div id="pistonDiv">
+				<img id="slidingPiston" alt="" src="slidingPiston.png" />			</div>
+		
+			<img id="systemFlowImg" alt="" src="systemFlowGraphic.PNG" />
+			<img id="heatInArrow" alt="" src="heatArrow.png" />
+			<img id="heatOutArrow" alt="" src="heatArrow.png" />
+			<img id="workArrow" alt="" src="workOutArrow.png" />
+			<label id="heatInLabel" class="sysFlow"></label>
+			<label id="heatOutLabel" class="sysFlow"></label>
+			<label id="netWorkLabel" class="sysFlow"></label>
+			<label id="heatSourceLabel" class="sysFlow"></label>
+			<label id="heatSinkLabel" class="sysFlow"></label>
+			
+			<label id="stepDetailsLabel">Step Parameters</label>
+			<div id="stepDetailsDiv">
+				<label id="pistonPositionLabel">Piston Position</label>
+				<input type="text" maxlength="4" id="pistonPosition" />
+				<label id="pistonPositionUnits">cm from the bottom</label>
+				
+				<label id="heatSourceTempLabel">Heat Source Temp.</label>
+				<input type="text" maxlength="3" id="heatSourceTemp"  />
+				<label id="heatSourceTempUnits">K</label>
+				
+				<div id="stepTypeDiv">
+					<label id="stepTypeLabel">Thermodynamic Process Type</label><br />
+					&nbsp;&nbsp;<input type="radio" class="stepType" id="stepType" name="stepType" value="Adiabatic" />Adiabatic<br />
+					&nbsp;&nbsp;<input type="radio" class="stepType" id="stepType" name="stepType" value="Isothermal" />Isothermal<br />
+					&nbsp;&nbsp;<input type="radio" class="stepType" id="stepType" name="stepType" value="Isobaric" />Isobaric<br />
+					&nbsp;&nbsp;<input type="radio" class="stepType" id="stepType" name="stepType" value="Isochoric" />Isochoric<br />
+				</div>
+			</div>
+			
+			<div id="PVgraphDiv"></div>
+			<div id="TSgraphDiv"></div>
+			<label id="Plabel">P</label>
+			<label id="Vlabel">V</label>
+			
+			<label id="gasPressureLabel">Gas Pressure:</label>
+			<label id="gasPressure"></label>
+			<label id="gasPressureUnits">bar</label>
+			<label id="Tlabel">T</label>
+			<label id="Slabel">S</label>
+			
+			<label id="gasTempLabel">Gas Temperature:</label>
+			<label id="gasTemp"></label>
+			<label id="gasTempUnits">K</label>
+			
+			
+			<label id="cycleStepsLabel">Cycle Steps</label>
+			<textarea id="cycleSteps" cols="25" rows="10" readonly="readonly"></textarea>
+			<button id="saveStepButton">Save Step</button>
+			<button id="finishCycleButton">Finish Cycle</button>
+			<button id="resetButton">Reset</button>
+			<a href="" id="instructions">Instructions</a>
+			<a href="" id="toggleTooltips">Enable tooltips</a>
+			<a href="" id="about">About this program</a>
+			<textarea id="cycleInfo" cols="25" rows="10" readonly="readonly"></textarea>
+		</div>
+		
+		<p align="center" id="programInfo">
+		(c) Margot Vigeant 2011
+		<br /><br />
+		Produced through the efforts of Gavin MacInnes and Emily Ehrenberger
+		<br /><br />
+		Supported by NSF DUE-0442234 (2006) and NSF DUE-0717536 (2011)
+        <br /><br />
+        Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
+		</p>
+		
+	</body>
+</html>
