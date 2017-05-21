@@ -73,10 +73,10 @@
 			This script generates sample text for the body content.
 			You can remove this script and any reference to it.
 			 ============================= */
-			var bodyText=["The smaller your reality, the more convinced you are that you know everything.", "If the facts don't fit the theory, change the facts.", "The past has no power over the present moment.", "This, too, will pass.", "</p><p>You will not be punished for your anger, you will be punished by your anger.", "Peace comes from within. Do not seek it without.", "<h3>Heading</h3><p>The most important moment of your life is now. The most important person in your life is the one you are with now, and the most important activity in your life is the one you are involved with now."]
+			var bodyText=["GitHub caches these pages and may not serve the latest versions.", "If you expect to see these pages look different, refresh at a later time."]
 			function generateText(sentenceCount){
 				for (var i=0; i<sentenceCount; i++)
-				document.write(bodyText[Math.floor(Math.random()*7)]+" ")
+				document.write(bodyText[Math.floor(Math.random()*2)]+"</p><p>")
 			}
 		</script>
 
@@ -87,8 +87,8 @@
 		<main>
 			<div class="innertube">
 
-				<h1>Heading</h1>
-				<p><script>generateText(300)</script></p>
+				<h1>Here's a JavaScript test</h1>
+				<p><script>generateText(10)</script></p>
 
 			</div>
 		</main>
