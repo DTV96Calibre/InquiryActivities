@@ -15,35 +15,35 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>Melting Ice Simulation (MIS)</title>
 		<link href="MISstyle.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 		<script type="text/javascript" src="MISscript.js"></script>
 	</head>
-	
+
 	<body>
     	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
-        
-        
+
+
         <div id="pageDiv">
 			<h1 id="title">Melting Ice Simulation</h1>
-            
+
             <div id="sit1Div">
                 <h3 id="sit1Heading">Situation 1</h3>
                 <label id="tempLabel" class="input1Label">Initial Block Temp.:</label>
                 <input id="temp1" class="input1" type="text" maxLength="3" />
-                <label id="tempUnits" class="input1Label">°C</label>
-                
+                <label id="tempUnits" class="input1Label">ï¿½C</label>
+
                 <label id="heatCapacityLabel" class="input1Label">Block Heat Capacity:</label>
                 <input id="heatCapacity1" class="input1" type="text" maxLength="3" />
-                <label id="heatCapacityUnits" class="input1Label">J/(g °C)</label>
-                
+                <label id="heatCapacityUnits" class="input1Label">J/(g ï¿½C)</label>
+
                 <label id="massLabel" class="input1Label">Mass of each block:</label>
                 <input id="mass1" class="input1" type="text" maxlength="2" />
                 <label id="massUnits" class="input1Label">g</label>
-                
+
                 <label id="areaLabel" class="input1Label">Area of each block:</label>
                 <input id="area1" class="input1" type="text" maxlength="1" />
                 <label id="areaUnits" class="input1Label">cm<sup>2</sup></label>
-                
+
                 <label id="numBlocksLabel" class="input1Label">Number of blocks:</label>
                 <select id="numBlocks1" class="input1">
                 	<option id="numBlocks1Default" value="1">1</option>
@@ -51,22 +51,22 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                 </select>
-                
+
                 <label id="currentBlockTempLabel" class="input1Label">Current Block Temp.:</label>
                 <label id="currentBlockTemp1" class="input1Label">200</label>
-                <label id="currentBlockTempUnits" class="input1Label">°C</label>
-                
+                <label id="currentBlockTempUnits" class="input1Label">ï¿½C</label>
+
                 <label id="stirBarCheckLabel" class="input1Label">Stir Bar:</label>
                 <input id="stirBarCheck1" name="stirBarCheck1" type="checkbox" value="checked" />
-                
+
                 <button id="sit1DefaultButton" value="sit1Default">Default</button>
             </div>
-            
+
             <img id="beakersImg" alt="" src="beakers.png" />
             <img id="waterImg" alt="" src="water.png" />
             <img id="stirBar1" alt="" src="stirBar.gif" />
             <img id="stirBar2" alt="" src="stirBar.gif" />
-            
+
             <img id="sit1block1" class="sit1block" alt="" src="blank_img.png" />
             <img id="sit1block2" class="sit1block" alt="" src="blank_img.png" />
             <img id="sit1block3" class="sit1block" alt="" src="blank_img.png" />
@@ -74,7 +74,7 @@
             <img id="sit1Ice1" class="sit1Ice" alt="" src="blank_img.png" />
             <img id="sit1Ice2" class="sit1Ice" alt="" src="blank_img.png" />
             <img id="sit1Ice3" class="sit1Ice" alt="" src="blank_img.png" />
-            
+
             <img id="sit2block1" class="sit2block" alt="" src="blank_img.png" />
             <img id="sit2block2" class="sit2block" alt="" src="blank_img.png" />
             <img id="sit2block3" class="sit2block" alt="" src="blank_img.png" />
@@ -82,25 +82,25 @@
             <img id="sit2Ice1" class="sit2Ice" alt="" src="blank_img.png" />
             <img id="sit2Ice2" class="sit2Ice" alt="" src="blank_img.png" />
             <img id="sit2Ice3" class="sit2Ice" alt="" src="blank_img.png" />
-            
+
             <div id="sit2Div">
                 <h3 id="sit2Heading">Situation 2</h3>
                 <label id="tempLabel" class="input2Label">Initial Block Temp.:</label>
                 <input id="temp2" class="input2" type="text" maxLength="3" />
-                <label id="tempUnits" class="input2Label">°C</label>
-                
+                <label id="tempUnits" class="input2Label">ï¿½C</label>
+
                 <label id="heatCapacityLabel" class="input2Label">Block Heat Capacity:</label>
                 <input id="heatCapacity2" class="input2" type="text" maxLength="3" />
-                <label id="heatCapacityUnits" class="input2Label">J/(g °C)</label>
-                
+                <label id="heatCapacityUnits" class="input2Label">J/(g ï¿½C)</label>
+
                 <label id="massLabel" class="input2Label">Mass of each block:</label>
                 <input id="mass2" class="input2" type="text" maxlength="2" />
                 <label id="massUnits" class="input2Label">g</label>
-                
+
                 <label id="areaLabel" class="input2Label">Area of each block:</label>
                 <input id="area2" class="input2" type="text" maxlength="1" />
                 <label id="areaUnits" class="input2Label">cm<sup>2</sup></label>
-                
+
                 <label id="numBlocksLabel" class="input2Label">Number of blocks:</label>
                 <select id="numBlocks2" class="input2">
                 	<option id="numBlocks2Default" value="1">1</option>
@@ -108,24 +108,24 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                 </select>
-                
+
                 <label id="currentBlockTempLabel" class="input2Label">Current Block Temp.:</label>
                 <label id="currentBlockTemp2" class="input2Label">200</label>
-                <label id="currentBlockTempUnits" class="input2Label">°C</label>
-                
+                <label id="currentBlockTempUnits" class="input2Label">ï¿½C</label>
+
                 <label id="stirBarCheckLabel" class="input2Label">Stir Bar:</label>
                 <input id="stirBarCheck2" name="stirBarCheck2" type="checkbox" value="checked" />
-                
+
                 <button id="sit2DefaultButton" value="sit2Default">Default</button>
             </div>
-            
-        
+
+
         	<button id="startButton" value="start">START</button>
             <button id="resetButton" value="reset">RESET</button>
             <button id="pauseButton" value="pause">PAUSE</button>
             <button id="helpButton" value="help">HELP</button>
-<!--            <textarea id="beakerHelp" class="tooltip" cols="25" rows="5">This program assumes that all energy transferred goes into melting ice at 0°C into water at 0°C, and none goes into changing the water temperature.</textarea>-->
-            
+<!--            <textarea id="beakerHelp" class="tooltip" cols="25" rows="5">This program assumes that all energy transferred goes into melting ice at 0ï¿½C into water at 0ï¿½C, and none goes into changing the water temperature.</textarea>-->
+
             <!--<label id="graphInfoLabel">Q: What information can you get from looking at the graph?<br /><br />A:</label>-->
 			<label id="initialIceLabel">Initial condition:</label>
 			<label id="initialIce"></label>
@@ -133,7 +133,7 @@
             <a href="" id="graphInfo">What information can you get from looking at the graph?</a>
             <a href="" id="about">About MIS...</a>
 <!--[if IE]><a id="IEexp" href="">Why do my ice cubes look like an 8-bit video game?</a><![endif]-->
-            
+
             <img id="graphBase" src="graphBase.png" alt="" />
             <textarea id="graphHeightInfo" class="tooltip" cols="25" rows="5">The height of the graph represents how much ice has melted.</textarea>
             <textarea id="graphSlopeInfo" class="tooltip" cols="25" rows="5">The slope of the graph represents the rate of heat transfer. A steeper slope corresponds to faster heat transfer.</textarea>
@@ -146,7 +146,7 @@
             <label id="xLabel3" class="graphLabel"></label>
             <label id="xLabel4" class="graphLabel"></label>
 
-        
+
             <p align="center" id="programInfo">
             (c) Margot Vigeant 2011
             <br /><br />
@@ -156,6 +156,6 @@
             <br /><br />
             Questions? Contact <a href="mailto:prince@bucknell.edu">Dr. Michael Prince</a>, Bucknell University Department of Chemical Engineering            </p>
         </div>
-        
+
 	</body>
 </html>
