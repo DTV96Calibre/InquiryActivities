@@ -2,18 +2,38 @@
 	Author: Daniel Vasquez (May 2017)
 			Under the supervision of Margot Vigeant, Bucknell University
 */
+var iceCanvas;
 var numDivisions = -1;
-var maxDivisions = 2;
+var maxDivisions = 5;
 var array = [];
 var arrayPos = {x:100, y:100};
 var baseWidth = 100;
 var holdingHammer = false;
+var ctx;
+var myLineChart;
+var chartData = {
+  type: 'line',
+  data: {
+      datasets: [{
+          label: 'Broken Ice',
+          data: [{x:0,y:1}, {x:1,y:2}]
+        },
+        {
+          label: 'Unbroken Ice',
+          backgroundColor: "rgba(75,192,192,0.4)",
+          data: [{x:0,y:2}, {x:1,y:0}]
+        }
+      ]
+    }
+  };
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  initializeIceCanvas();
   initializeArray(maxDivisions)
   setDivisions(0);
   toggleHammer();
+  initializeChart();
+
   //noLoop();
 }
 
@@ -28,10 +48,28 @@ function initializeArray(maxDivisions) {
   }
 }
 
+/*
+ * Author: Daniel Vasquez (2017)
+ */
+function initializeIceCanvas() {
+  iceCanvas = createCanvas(windowWidth, windowHeight/2);
+  iceCanvas.parent("iceCanvas-holder")
+}
+
+/*
+ * Author: Daniel Vasquez (2017)
+ */
+function initializeChart() {
+  ctx = document.getElementById("myChart").getContext("2d");
+  myLineChart = new Chart(ctx, chartData);
+}
+
 function draw() {
   //whipe the canvas clean
-  clear();
+  background(255,255,255);
 
+  //myLineChart.data.datasets[0].data[0] += 1;
+  //myLineChart.update();
   moveArrayToCenter();
 
   /*---BEGIN Logic for controlling appearance of cursor---*/
@@ -57,7 +95,7 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, windowHeight/2);
 }
 
 /*------- BEGIN Maths and Sciences Functions -------------*/
@@ -83,6 +121,7 @@ function setDivisions(n) {
 
 /* Returns length of either side of the split-up ice pieces.
  * Assumes each piece's length == width
+ * Author: Daniel Vasquez (2017)
  */
 function findArrayRange() {
   var length = pow(2, maxDivisions);
@@ -92,21 +131,35 @@ function findArrayRange() {
 }
 
 /* Sets the array's position relative to it's center
- *
+ * Author: Daniel Vasquez (2017)
  */
 function setCenterArrayPos(x, y) {
   offset = findArrayRange()/2;
   arrayPos.x = x - offset;
   arrayPos.y = y - offset;
-  print(arrayPos.x, arrayPos.y);
+  //print(arrayPos.x, arrayPos.y);
 }
 
 /* Centers the array in the windows
+ * Author: Daniel Vasquez (2017)
  */
 function moveArrayToCenter() {
   var middleX = windowWidth / 2;
-  var middleY = windowHeight / 2;
+  var middleY = windowHeight / 4;
   setCenterArrayPos(middleX, middleY);
+}
+
+/*
+ * Function: findMeltingTime
+ * Finds the melting time for the cubes in each beaker to set up the animation fade time
+ * Author: Daniel Prudente (September 2012)
+**/
+function findMeltingTime() {
+	simulationSetup();
+	findMeltStep();
+	simulationSetup();
+	findMeltStep2();
+	simulationSetup();
 }
 
 /*------- END Maths and Sciences Functions -------------*/
@@ -115,6 +168,7 @@ function moveArrayToCenter() {
 
 /* Toggles holding the hammer. Replaces the cursor with a hammer graphic.
  *
+ * Author: Daniel Vasquez (2017)
  */
 function toggleHammer() {
   holdingHammer = !holdingHammer;
@@ -127,6 +181,7 @@ function toggleHammer() {
 
 /* Attempts to break the ice further.
  * If maxDivisions is reached, does nothing.
+ * Author: Daniel Vasquez (2017)
  */
 function swingHammer() {
   if (numDivisions < maxDivisions){
@@ -142,6 +197,7 @@ function swingHammer() {
 }
 
 /* Animation for the breaking of user-breakable ice block.
+ * Author: Daniel Vasquez (2017)
  */
 function breakAnimation(){
   // Spawn strike sparks
@@ -149,6 +205,7 @@ function breakAnimation(){
 }
 
 /* Animation indicating that the ice couldn't be broken.
+ * Author: Daniel Vasquez (2017)
  */
 function noBreakAnimation(){
   // Spawn dust/poof/smoke particles
