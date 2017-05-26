@@ -124,7 +124,7 @@ function setDivisions(n) {
  * Author: Daniel Vasquez (2017)
  */
 function findArrayRange() {
-  var length = pow(2, maxDivisions);
+  var length = pow(2, numDivisions);
   var pieceWidth = baseWidth/length;
   var xRange = array[length-1][length-1].x + pieceWidth;
   return xRange;
@@ -135,6 +135,7 @@ function findArrayRange() {
  */
 function setCenterArrayPos(x, y) {
   offset = findArrayRange()/2;
+  print(offset);
   arrayPos.x = x - offset;
   arrayPos.y = y - offset;
   //print(arrayPos.x, arrayPos.y);
