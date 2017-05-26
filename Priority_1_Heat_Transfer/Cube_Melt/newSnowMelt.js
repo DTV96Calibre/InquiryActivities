@@ -113,7 +113,7 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight/2);
 }
 
-/*------- BEGIN Maths and Sciences Functions -------------*/
+/* rgb(75, 193, 101) - BEGIN Maths and Sciences Functions ------------------*/
 function setDivisions(n) {
   if (n < numDivisions) {
     initializeArray(maxDivisions);
@@ -246,9 +246,9 @@ function measureSimulation() {
 	}
 }
 
-/*------- END Maths and Sciences Functions -------------*/
+/* rgb(75, 193, 101) - END Maths and Sciences Functions ------------------*/
 
-/*------- BEGIN Animation Functions --------------------*/
+/* rgb(116, 52, 233) - BEGIN Animation Functions ------------------ */
 
 /* Toggles holding the hammer. Replaces the cursor with a hammer graphic.
  *
@@ -296,12 +296,12 @@ function noBreakAnimation(){
   return
 }
 
-/*------- END Animation Functions --------------------*/
+/* rgb(116, 52, 233) - END Animation Functions ------------------ */
 
-/*------- BEGIN User Interaction Functions -----------*/
+/* rgb(252, 220, 49) - BEGIN User Interaction Functions ------------------ */
 
 function mousePressed(){
   swingHammer();
 }
 
-/*------- END User Interaction Functions -----------*/
+/* rgb(252, 220, 49) - END User Interaction Functions ------------------ */
