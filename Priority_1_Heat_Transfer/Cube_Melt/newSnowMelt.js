@@ -70,8 +70,8 @@ var unbrknExp = {
 }
 
 function setup() {
-  initializeIceCanvas(brknExp);
-  initializeIceCanvas(unbrknExp);
+  initializeIceCanvas(brknExp, "brokenIceCanvas-holder");
+  initializeIceCanvas(unbrknExp, "unBrokenIceCanvas-holder");
   initializeArray(maxDivisions, brknExp);
   initializeArray(maxDivisions, unbrknExp);
   setDivisions(0, brknExp);
@@ -96,9 +96,9 @@ function initializeArray(maxDivisions, exp) {
 /*
  * Author: Daniel Vasquez (2017)
  */
-function initializeIceCanvas(exp) {
+function initializeIceCanvas(exp, targetElement) {
   exp.canvas = createCanvas(windowWidth, windowHeight/2);
-  exp.canvas.parent("iceCanvas-holder")
+  exp.canvas.parent(targetElement)
 }
 
 /*
