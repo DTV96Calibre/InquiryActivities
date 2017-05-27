@@ -42,33 +42,63 @@ var chartData = { //Configuration data for chart
   }
 };
 
+/* -- Science Variables -- */
+var Tice = 273.15 // Temperature of ice at freezing point in Kelvin
+var iceDensity = 917; // Density of ice in kg/m^3
+var brknExp = {
+  array: [],
+  arrayPos: {x:0, y:0},
+  canvas: null,
+  iceDensity: iceDensity,
+  Twater: 280,
+  edgeLength: baseWidth, // The length of an individual piece's edge
+  surfaceArea: self.edgeLength * self.edgeLength * 6,
+  volume: self.edgeLength * self.edgeLength * self.edgeLength,
+  Mice: self.iceDensity*self.volume,
+  numDivisions: 0
+}
+var unbrknExp = {
+  array: [],
+  arrayPos: {x:0, y:0},
+  canvas: null,
+  iceDensity: iceDensity,
+  Twater: 280,
+  edgeLength: baseWidth,
+  surfaceArea: self.edgeLength * self.edgeLength * 6,
+  volume: self.edgeLength * self.edgeLength * self.edgeLength,
+  Mice: self.iceDensity*self.volume
+}
+
 function setup() {
-  initializeIceCanvas();
-  initializeArray(maxDivisions)
-  setDivisions(0);
+  initializeIceCanvas(brknExp);
+  initializeIceCanvas(unbrknExp);
+  initializeArray(maxDivisions, brknExp);
+  initializeArray(maxDivisions, unbrknExp);
+  setDivisions(0, brknExp);
+  setDivisions(0, unbrknExp);
   toggleHammer();
   initializeChart();
 
   //noLoop();
 }
 
-function initializeArray(maxDivisions) {
+function initializeArray(maxDivisions, exp) {
   var length = pow(2, maxDivisions);
   for (var i = 0; i < length; i++){
     var list = [];
     for (var j = 0; j < length; j++){
       list.push({x:0, y:0, width:0, height:0});
     }
-    array.push(list);
+    exp.array.push(list);
   }
 }
 
 /*
  * Author: Daniel Vasquez (2017)
  */
-function initializeIceCanvas() {
-  iceCanvas = createCanvas(windowWidth, windowHeight/2);
-  iceCanvas.parent("iceCanvas-holder")
+function initializeIceCanvas(exp) {
+  exp.canvas = createCanvas(windowWidth, windowHeight/2);
+  exp.canvas.parent("iceCanvas-holder")
 }
 
 /*
@@ -85,7 +115,8 @@ function draw() {
 
   //myLineChart.data.datasets[0].data[0] += 1;
   //myLineChart.update();
-  moveArrayToCenter();
+  moveArrayToCenter(brknExp);
+  moveArrayToCenter(unbrknExp);
 
   /*---BEGIN Logic for controlling appearance of cursor---*/
   if (holdingHammer) {
@@ -98,38 +129,49 @@ function draw() {
     cursor(ARROW, 0, 0);  //sets cursor to default arrow constant
   }
   /*---END Logic for controlling appearance of cursor---*/
+  drawExperiment(brknExp);
+  drawExperiment(unbrknExp);
+}
 
-  var length = pow(2, numDivisions);
+function drawExperiment(exp) {
+  var length = pow(2, exp.numDivisions);
   for (var i = 0; i < length; i++){
     for (var j = 0; j < length; j++){
-      piece = array[i][j];
-      rect(piece.x + arrayPos.x, piece.y + arrayPos.y, piece.width, piece.height);
+      piece = exp.array[i][j];
+      rect(piece.x + exp.arrayPos.x, piece.y + exp.arrayPos.y, piece.width, piece.height);
       //print("Made a rect at:", piece.x, piece.y);
     }
   }
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight/2);
+  resizeCanvas(windowWidth, windowHeight/2); // TODO Remove dependence on window
 }
 
 /* rgb(75, 193, 101) - BEGIN Maths and Sciences Functions ------------------*/
-function setDivisions(n) {
-  if (n < numDivisions) {
-    initializeArray(maxDivisions);
+
+/* Divides the experiment's ice into pieces of equal size. Results reflect
+ * Uses global values for calculations
+ * n divisions from an initial whole ice block.
+ * n = number of divisions to be executed
+ * exp = the experiment this function will be executed on
+ * Author: Daniel Vasquez (2017)
+ */
+function setDivisions(n, exp) {
+  if (n < exp.numDivisions) {
+    initializeArray(maxDivisions, exp); // Reset ice to whole block
   }
-  numDivisions = n;
-  var length = pow(2, numDivisions); // the number of pieces along one axis
-  //print("Length =", length);
-  var pieceWidth = baseWidth/length;
+  exp.numDivisions = n;
+  var length = pow(2, exp.numDivisions); // the number of pieces along one axis
+  var pieceWidth = baseWidth/length; // baseWidth is a global
   var paddingToPieceRatio = .5;
-  for (var i = 0; i < length; i++){
+  for (var i = 0; i < length; i++){ // iterate over pieces that exist
     for (var j = 0; j < length; j++){
-      array[i][j].x = (i)*((1+paddingToPieceRatio)*baseWidth/length);
-      //print(array[i][j].x);
-      array[i][j].y = (j)*((1+paddingToPieceRatio)*baseWidth/length);
-      array[i][j].width = pieceWidth;
-      array[i][j].height = pieceWidth;
+      // paddingToPieceRatio is a global
+      exp.array[i][j].x = (i)*((1+paddingToPieceRatio)*baseWidth/length);
+      exp.array[i][j].y = (j)*((1+paddingToPieceRatio)*baseWidth/length);
+      exp.array[i][j].width = pieceWidth;
+      exp.array[i][j].height = pieceWidth;
     }
   }
 }
@@ -138,30 +180,31 @@ function setDivisions(n) {
  * Assumes each piece's length == width
  * Author: Daniel Vasquez (2017)
  */
-function findArrayRange() {
-  var length = pow(2, numDivisions);
+function findArrayRange(exp) {
+  var length = pow(2, exp.numDivisions);
   var pieceWidth = baseWidth/length;
-  var xRange = array[length-1][length-1].x + pieceWidth;
+  //print(exp.array[length-1][-0.5]);
+  var xRange = exp.array[length-1][length-1].x + pieceWidth;
   return xRange;
 }
 
 /* Sets the array's position relative to it's center
  * Author: Daniel Vasquez (2017)
  */
-function setCenterArrayPos(x, y) {
-  offset = findArrayRange()/2;
-  arrayPos.x = x - offset;
-  arrayPos.y = y - offset;
+function setCenterArrayPos(exp, x, y) {
+  offset = findArrayRange(exp)/2;
+  exp.arrayPos.x = x - offset;
+  exp.arrayPos.y = y - offset;
   //print(arrayPos.x, arrayPos.y);
 }
 
 /* Centers the array in the windows
  * Author: Daniel Vasquez (2017)
  */
-function moveArrayToCenter() {
+function moveArrayToCenter(exp) {
   var middleX = windowWidth / 2;
   var middleY = windowHeight / 4;
-  setCenterArrayPos(middleX, middleY);
+  setCenterArrayPos(exp, middleX, middleY);
 }
 
 /*
@@ -267,12 +310,12 @@ function toggleHammer() {
  * If maxDivisions is reached, does nothing.
  * Author: Daniel Vasquez (2017)
  */
-function swingHammer() {
-  if (numDivisions < maxDivisions){
+function swingHammer(exp) {
+  if (exp.numDivisions < maxDivisions){
     print("Breaking ice");
-    numDivisions += 1;
+    exp.numDivisions += 1;
     breakAnimation();
-    setDivisions(numDivisions);
+    setDivisions(exp.numDivisions, exp);
   }
   else {
     print("The ice couldn't be broken further");
@@ -301,7 +344,7 @@ function noBreakAnimation(){
 /* rgb(252, 220, 49) - BEGIN User Interaction Functions ------------------ */
 
 function mousePressed(){
-  swingHammer();
+  swingHammer(brknExp);
 }
 
 /* rgb(252, 220, 49) - END User Interaction Functions ------------------ */
