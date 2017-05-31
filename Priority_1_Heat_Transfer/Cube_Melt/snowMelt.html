@@ -1,30 +1,38 @@
 ﻿<!-- File: snowMelt.html
 	 Authors: Daniel Vasquez and Brooke Bullek (May 2017)
- 	 Under the supervision of Margot Vigeant, Bucknell University
+ 	          Under the supervision of Margot Vigeant, Bucknell University
+ 	 (c) Margot Vigeant 2017
  -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <html>
+
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.10/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
-    <script src="../hammer.min.js"></script>
+  	<!-- Local files -->
+  	<script src="../hammer.min.js"></script>
     <script src="../chartjs-plugin-zoom.min.js"></script>
     <script src="newSnowMelt.js"></script>
+ 	<link href="snowMelt.css" type="text/css" rel="stylesheet" />
+ 	<!-- Other dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.10/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
   </head>
+
   <body>
-    <div id="brokenIceCanvas-holder">
-      <!-- The broken ice visualization will go here -->
-    </div>
-    <div id="unbrokenIceCanvas-holder">
-      <!-- The unbroken ice visualization will go here -->
-    </div>
+  	<div id="unbrokenIceCanvas-holder">
+	  <!-- The unbroken ice visualization will go here -->
+	</div>
+	<div id="brokenIceCanvas-holder">
+	  <!-- The broken ice visualization will go here -->
+	</div>
+
     <div id="chartCanvas-holder">
       <canvas id="myChart" width="400" height="400"></canvas>
     </div>
   </body>
+
 </html>
 
 <!--

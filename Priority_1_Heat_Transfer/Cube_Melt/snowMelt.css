@@ -1,24 +1,43 @@
 /*
- * File: lightRadiationStyle.css
- * Purpose: To provide the styling and page formatting for the Untitled simulation
+ * File: snowMelt.css
+ * Purpose: To provide the styling and page formatting for the Cube Melt simulation
  * Author: Daniel Prudente (September 2012)
+ * 		   Modified by Brooke Bullek and Daniel Vasquez (2017)
  *		   Under the supervision of Margot Vigeant, Bucknell University
- * (c) Margot Vigeant 2012
+ * (c) Margot Vigeant 2017
 */
 
-/**********Class selectors************/
+/*************** Experiment canvases ****************/
 
+.brokenIceCanvas-holder {
+	width:400px;
+}
+
+.unbrokenIceCanvas-holder {
+	width:400px;
+}
+
+
+
+
+
+
+
+/* Old code */
+/********** Class selectors ************/
+/*
 .container {
-	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
+	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container
 	top:14px;
 	margin-left:auto;
 	margin-right:auto;
 	width:600px;
 }
+*/
 
 
 /**********Components for the graph************/
-.sit1Point {
+/*.sit1Point {
 	position:absolute;
 	height:2px;
 	width:2px;
@@ -130,8 +149,9 @@
 	width:380px;
 	height:214px;
 }
+*/
 /**********Components for the User Grid************/
-#grid1Components {
+/*#grid1Components {
 	position:absolute;
 	top:0px;
 	left:-100px;
@@ -220,9 +240,10 @@
 .col5 {
 	left:211px;
 }
+*/
 
 /**********Components for Automated Grid************/
-#grid2Components {
+/*#grid2Components {
 	position:absolute;
 	top:0px;
 	left:430px;
@@ -252,10 +273,10 @@
 .marker {
 	position:absolute;
 	z-index:2;	
-}
+}*/
 
 /**********Components for Other Stuff************/
-#programInfo {
+/*#programInfo {
 	position:absolute;
 	top:1000px;
 	z-index:3;
@@ -277,4 +298,4 @@
 	position:absolute;
 	left:235px;
 	top:950px;
-}
+}*/

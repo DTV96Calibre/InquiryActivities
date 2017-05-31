@@ -1,6 +1,7 @@
 /* File: snowMelt.html
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
- * Under the supervision of Margot Vigeant, Bucknell University
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2017
  */
 
 /******************* Constants **********************/
@@ -8,11 +9,11 @@
 var ICE_FREEZE_TEMP_K = 273.15; // Temperature of ice at freezing point in Kelvin
 var ICE_DENSITY = 917; // Density of ice in kg/m^3
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
-var BASE_WIDTH = 100; // Number of pixels along one edge of an unbroken ice block
 
 /**************** Global variables ******************/
 
 var iceCanvas;
+var baseWidth = 100; // Number of pixels along one edge of an unbroken ice block
 var numDivisions = -1;
 var array = [];
 var arrayPos = {x:100, y:100};
@@ -63,10 +64,11 @@ function CubeMeltExp() {
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
   this.waterTemp = 280; // Temperature of water in Kelvin // TODO: why 280?
-  this.edgeLength = BASE_WIDTH; // The length of an ice piece's edge
+  this.edgeLength = baseWidth; // The length of an ice piece's edge
   this.surfaceArea = this.edgeLength * this.edgeLength * 6;
   this.volume = Math.pow(this.edgeLength, 3);
   this.iceMass = ICE_DENSITY * this.volume;
+  this.xOffset = 0;
 
   /* Unbroken exp always has 0 divisions. This will vary for the broken exp. */
   this.numDivisions = 0;
@@ -83,6 +85,20 @@ function CubeMeltExp() {
         //print("Made a rect at:", piece.x, piece.y); // Debug
       }
     }
+  }
+
+  /*
+   * Resizes the block pieces.
+   */
+  this.resize = function() {
+    // Avoid resizing if it would make part of the cube go offscreen
+    if (baseWidth > windowHeight / 2) {
+      var padding = 20; // pixels
+      baseWidth = windowHeight / 2 - padding;
+    }
+
+    this.edgeLength = baseWidth;
+    this.setDivisions(this.numDivisions); // Need to recalculate size of each piece
   }
 
   /*
@@ -105,7 +121,8 @@ function CubeMeltExp() {
    * @param targetElement: The ID of the HTML div element that will hold this canvas.
    */
   this.initializeIceCanvas = function(targetElement) {
-    this.canvas = createCanvas(windowWidth, windowHeight / 2);
+    // Create canvas and set its parent to the appropriate div tag
+    this.canvas = parent.createCanvas(windowWidth, windowHeight / 2);
     this.canvas.parent(targetElement);
   }
 
@@ -120,11 +137,11 @@ function CubeMeltExp() {
 
     this.numDivisions = n;
     var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
-    var pieceWidth = BASE_WIDTH / length;
+    var pieceWidth = baseWidth / length;
     var paddingToPieceRatio = 0.5;
     for (var i = 0; i < length; i++) { // Iterate over pieces that exist
       for (var j = 0; j < length; j++) {
-        var offset = ((1 + paddingToPieceRatio) * BASE_WIDTH / length);
+        var offset = ((1 + paddingToPieceRatio) * baseWidth / length);
         this.array[i][j].x = i * offset;
         this.array[i][j].y = j * offset;
         this.array[i][j].width = pieceWidth;
@@ -139,7 +156,7 @@ function CubeMeltExp() {
    */
   this.findArrayRange = function() {
     var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
-    var pieceWidth = BASE_WIDTH / length;
+    var pieceWidth = baseWidth / length;
     //print(exp.array[length-1][-0.5]); // Debug
     var xRange = this.array[length - 1][length - 1].x + pieceWidth;
     return xRange;
@@ -159,18 +176,15 @@ function CubeMeltExp() {
 
   /* 
    * Centers the array in the window.
+   * @param offset: Added to the final position to display canvases side-by-side. 
    */
   this.moveArrayToCenter = function() {
-    var middleX = windowWidth / 2;
     var middleY = windowHeight / 4;
-    this.setCenterArrayPos(middleX, middleY);
+    this.setCenterArrayPos(this.xOffset, middleY);
   }
 }
 
 /***************** Experiment setup *****************/
-
-brokenExp = new CubeMeltExp();
-unbrokenExp = new CubeMeltExp();
 
 function initializeChart() {
   ctx = document.getElementById("myChart").getContext("2d");
@@ -178,6 +192,15 @@ function initializeChart() {
 }
 
 function setup() {
+  baseWidth = windowWidth / 6;
+
+  // Create both ice visualizations and initialize each of them
+  brokenExp = new CubeMeltExp();
+  unbrokenExp = new CubeMeltExp();
+
+  unbrokenExp.xOffset = windowWidth * 0.25;
+  brokenExp.xOffset = windowWidth * 0.75;
+
   brokenExp.initializeIceCanvas("brokenIceCanvas-holder");
   unbrokenExp.initializeIceCanvas("unbrokenIceCanvas-holder");
 
@@ -220,6 +243,13 @@ function draw() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight / 2); // TODO Remove dependence on window
+
+  // Update variables that scale with screen size
+  unbrokenExp.xOffset = windowWidth * 0.25;
+  brokenExp.xOffset = windowWidth * 0.75;
+  baseWidth = windowWidth / 6;
+  unbrokenExp.resize();
+  brokenExp.resize();
 }
 
 /************ Math and science functions ************/
