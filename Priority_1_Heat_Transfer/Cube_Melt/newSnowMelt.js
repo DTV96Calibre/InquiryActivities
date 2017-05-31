@@ -73,6 +73,7 @@ function CubeMeltExp() {
   this.volume = Math.pow(this.edgeLength, 3);
   this.iceMass = ICE_DENSITY * this.volume;
   this.xOffset = 0;
+  this.yOffset = 0;
 
   /* Unbroken exp always has 0 divisions. This will vary for the broken exp. */
   this.numDivisions = 0;
@@ -183,8 +184,8 @@ function CubeMeltExp() {
    * @param offset: Added to the final position to display canvases side-by-side. 
    */
   this.moveArrayToCenter = function() {
-    var middleY = windowHeight / 4;
-    this.setCenterArrayPos(this.xOffset, middleY);
+    this.yOffset = windowHeight / 4;
+    this.setCenterArrayPos(this.xOffset, this.yOffset);
   }
 }
 
@@ -354,7 +355,7 @@ function toggleHammer() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.numDivisions < MAX_DIVISIONS) {
+  if (brokenExp.numDivisions < MAX_DIVISIONS && cursorOverBrokenExp()) {
     print("Breaking ice");
     brokenExp.numDivisions += 1;
     breakAnimation();
@@ -385,6 +386,18 @@ function noBreakAnimation() {
 
 /*********** User interaction functions *************/
 
-function mousePressed(){
+function mousePressed() {
   swingHammer();
+}
+
+/**
+ * Detect whether the cursor is hovering over the breakable ice blocks.
+ */
+function cursorOverBrokenExp() {
+  var xLeft = brokenExp.xOffset - brokenExp.findArrayRange() / 2;
+  var xRight = brokenExp.xOffset + brokenExp.findArrayRange() / 2;
+  var yTop = brokenExp.yOffset - brokenExp.findArrayRange() / 2;
+  var yBottom = brokenExp.yOffset + brokenExp.findArrayRange() / 2;
+  return (mouseX >= xLeft && mouseX <= xRight) &&
+         (mouseY >= yTop && mouseY <= yBottom);
 }
