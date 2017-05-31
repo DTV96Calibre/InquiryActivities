@@ -7,19 +7,16 @@
  * (c) Margot Vigeant 2017
 */
 
-/*************** Experiment canvases ****************/
+/*************** Chart canvas ****************/
 
-.brokenIceCanvas-holder {
-	width:400px;
+.chart {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	float: right;
+	width: 50%;
+	height: 75%;
 }
-
-.unbrokenIceCanvas-holder {
-	width:400px;
-}
-
-
-
-
 
 
 

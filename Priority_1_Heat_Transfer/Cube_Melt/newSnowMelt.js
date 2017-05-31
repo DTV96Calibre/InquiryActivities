@@ -9,6 +9,7 @@
 var ICE_FREEZE_TEMP_K = 273.15; // Temperature of ice at freezing point in Kelvin
 var ICE_DENSITY = 917; // Density of ice in kg/m^3
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
+var BASE_WIDTH_SCALING = 9; // Amount to divide windowWidth by to get size of ice block
 
 /**************** Global variables ******************/
 
@@ -46,13 +47,16 @@ var chartData = {
       //rangeMin:{x: null, y: null},
       //rangeMax:{x: null, y: null}
     },
+
     zoom: {
       enabled: true,
       drag: false,
       mode: 'y'
       //rangeMin:{x: null, y: null},
       //rangeMax:{x: null, y: null}
-    }
+    },
+
+    responsive: true
   }
 };
 
@@ -122,7 +126,7 @@ function CubeMeltExp() {
    */
   this.initializeIceCanvas = function(targetElement) {
     // Create canvas and set its parent to the appropriate div tag
-    this.canvas = parent.createCanvas(windowWidth, windowHeight / 2);
+    this.canvas = parent.createCanvas(windowWidth / 2, windowHeight);
     this.canvas.parent(targetElement);
   }
 
@@ -192,14 +196,14 @@ function initializeChart() {
 }
 
 function setup() {
-  baseWidth = windowWidth / 6;
+  baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice visualizations and initialize each of them
   brokenExp = new CubeMeltExp();
   unbrokenExp = new CubeMeltExp();
 
-  unbrokenExp.xOffset = windowWidth * 0.25;
-  brokenExp.xOffset = windowWidth * 0.75;
+  unbrokenExp.xOffset = windowWidth * 0.15;
+  brokenExp.xOffset = windowWidth * 0.35;
 
   brokenExp.initializeIceCanvas("brokenIceCanvas-holder");
   unbrokenExp.initializeIceCanvas("unbrokenIceCanvas-holder");
@@ -212,6 +216,8 @@ function setup() {
  
   toggleHammer();
   initializeChart();
+
+  windowResized();
 
   //noLoop();
 }
@@ -245,9 +251,9 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight / 2); // TODO Remove dependence on window
 
   // Update variables that scale with screen size
-  unbrokenExp.xOffset = windowWidth * 0.25;
-  brokenExp.xOffset = windowWidth * 0.75;
-  baseWidth = windowWidth / 6;
+  unbrokenExp.xOffset = windowWidth * 0.15;
+  brokenExp.xOffset = windowWidth * 0.35;
+  baseWidth = windowWidth / BASE_WIDTH_SCALING;
   unbrokenExp.resize();
   brokenExp.resize();
 }
