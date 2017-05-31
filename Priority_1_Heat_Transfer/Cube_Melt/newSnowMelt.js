@@ -179,7 +179,7 @@ function initializeChart() {
 
 function setup() {
   brokenExp.initializeIceCanvas("brokenIceCanvas-holder");
-  unbrokenExp.initializeIceCanvas("unBrokenIceCanvas-holder");
+  unbrokenExp.initializeIceCanvas("unbrokenIceCanvas-holder");
 
   brokenExp.initializeArray();
   unbrokenExp.initializeArray();
