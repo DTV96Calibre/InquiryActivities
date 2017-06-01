@@ -27,6 +27,10 @@ var arrayPos = {x:100, y:100};
 var holdingHammer = false;
 var ctx;
 var myLineChart;
+var unbrokenExp;
+var brokenExp;
+var unbrokenExpBeaker;
+var brokenExpBeaker;
 
 /********** Configuration data for chart ************/
 
@@ -76,25 +80,18 @@ function initializeChart() {
 function setup() {
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
-  // Create both ice visualizations and initialize each of them
+  // Create both ice visualizations and initialize them
   brokenExp = new CubeMeltExp();
   unbrokenExp = new CubeMeltExp();
+  cubeMeltSetup();
 
-  unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;
-  brokenExp.xOffset = windowWidth * RIGHT_BLOCK_OFFSET_SCALING;
-
-  brokenExp.initializeIceCanvas(BROKEN_ICE_DIV_ID);
-  unbrokenExp.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
-
-  brokenExp.initializeArray();
-  unbrokenExp.initializeArray();
-
-  brokenExp.setDivisions(0);
-  unbrokenExp.setDivisions(0);
+  // Create both beakers and initialize them
+  unbrokenExpBeaker = new Beaker();
+  brokenExpBeaker = new Beaker();
+  beakerSetup();
  
   toggleHammer();
   initializeChart();
-
   windowResized();
 
   //noLoop();
@@ -106,8 +103,6 @@ function draw() {
 
   //myLineChart.data.datasets[0].data[0] += 1;
   //myLineChart.update();
-  brokenExp.moveArrayToCenter();
-  unbrokenExp.moveArrayToCenter();
 
   /* Begin logic for controlling appearance of cursor */
   if (holdingHammer) {
@@ -121,12 +116,21 @@ function draw() {
   }
   /* End logic for controlling appearance of cursor */
 
+  // Draw the ice blocks
   brokenExp.display();
   unbrokenExp.display();
+
+  // Draw the beakers
+  unbrokenExpBeaker.display();
+  brokenExpBeaker.display();
+
+  // Paint the off-screen buffers onto the main canvas
+  image(unbrokenExpBeaker.buffer, 0, windowHeight / 2);
+  image(brokenExpBeaker.buffer, windowWidth / 4, windowHeight / 2);
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth / 2.1, windowHeight / 2.3); // TODO Remove dependence on window
+  resizeCanvas(windowWidth / 2, windowHeight); // TODO Remove dependence on window
 
   // Update variables that scale with screen size
   unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;

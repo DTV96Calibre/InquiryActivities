@@ -32,6 +32,8 @@ function CubeMeltExp() {
    * Draws this experiment's array of cube(s).
    */
   this.display = function() {
+    this.moveArrayToCenter();
+    
     var length = Math.pow(2, this.numDivisions);
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
@@ -78,7 +80,7 @@ function CubeMeltExp() {
    */
   this.initializeIceCanvas = function(targetElement) {
     // Create canvas and set its parent to the appropriate div tag
-    this.canvas = parent.createCanvas(windowWidth / 2, windowHeight / 2);
+    this.canvas = parent.createCanvas(windowWidth / 2, windowHeight);
     this.canvas.parent(targetElement);
   }
 
@@ -137,4 +139,24 @@ function CubeMeltExp() {
   this.moveArrayToCenter = function() {
     this.setCenterArrayPos(this.xOffset, this.yOffset);
   }
+}
+
+/***************** Other functions ******************/
+
+/*
+ * Performs the necessary steps to initialize a new pair of CubeMeltExps
+ * (broken and unbroken).
+ */
+function cubeMeltSetup() {
+  unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;
+  brokenExp.xOffset = windowWidth * RIGHT_BLOCK_OFFSET_SCALING;
+
+  brokenExp.initializeIceCanvas(BROKEN_ICE_DIV_ID);
+  unbrokenExp.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
+
+  brokenExp.initializeArray();
+  unbrokenExp.initializeArray();
+
+  brokenExp.setDivisions(0);
+  unbrokenExp.setDivisions(0);
 }
