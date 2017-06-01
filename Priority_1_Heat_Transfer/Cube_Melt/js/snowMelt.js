@@ -1,9 +1,9 @@
 /* File: snowMelt.js
+ * Dependencies: CubeMeltExp.js
+ * 
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
  * (c) Margot Vigeant 2017
- *
- * Dependencies: CubeMeltExp.js
  */
 
 /******************* Constants **********************/
@@ -102,7 +102,7 @@ function setup() {
 
 function draw() {
   // Clear the canvas
-  background(200, 200, 155);
+  background(255, 255, 255);
 
   //myLineChart.data.datasets[0].data[0] += 1;
   //myLineChart.update();

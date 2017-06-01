@@ -7,16 +7,28 @@
  * (c) Margot Vigeant 2017
 */
 
-/*************** Chart canvas ****************/
+/**************** Canvas positioning ****************/
 
-.chart {
+.chartCanvas-holder {
 	position: absolute;
 	right: 0px;
 	top: 0px;
 	float: right;
 	width: 50%;
 	height: 75%;
+	/*border: 5px solid black;*/ /* For debugging */
 }
+
+.unbrokenIceCanvas-holder {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	float: left;
+	width: 45%;
+	height: 51%;
+	/*border: 5px solid pink;*/ /* For debugging */
+}
+
 
 
 
