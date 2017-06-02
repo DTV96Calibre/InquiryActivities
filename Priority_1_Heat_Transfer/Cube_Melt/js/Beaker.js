@@ -20,35 +20,52 @@ function Beaker() {
   this.yLength;
 
   // Colors
-  this.bottomColor = '#D4E7ED';
-  this.topColor = '#A9CCE3';
+  this.bottomColor = '#ebedef';
+  this.topColor = '#d6dbdf';
+  this.markingColor = '#edbb99';
 
   // Dimensions
   this.beakerWidth;
   this.beakerHeight;
+  this.beakerThickness;
   this.beakerRoundedCornerDegree;
   this.beakerBeginPosX;
   this.beakerBeginPosY;
+  this.btwMarkingsDistance;
 
   /*
-   * Draws this beaker.
+   * Draws this beaker. All components are drawn w.r.t. xLength to maintain ratio.
    */
   this.display = function() {
   	// Clear the buffer
   	this.buffer.background(255, 255, 255);
 
-    /* Draw the components of the beaker (all are drawn w.r.t. xLength to maintain ratio) */
+    /* Draw the bottom of the beaker */
     this.buffer.noStroke();
-
   	this.buffer.fill(this.bottomColor);
+
     // Ref: Top-left xPos/yPos, width, height, degrees of 4 rounded corners
     this.buffer.rect(this.beakerBeginPosX, this.beakerBeginPosY, this.beakerWidth, 
       this.beakerHeight, 0, 0, this.beakerRoundedCornerDegree, this.beakerRoundedCornerDegree);
 
+    /* Draw the top of the beaker ("3D effect" ... kinda) */
+    this.buffer.stroke(this.bottomColor);
+    this.buffer.strokeWeight(this.beakerThickness);
     this.buffer.fill(this.topColor);
+
     // Ref: Center xPos/yPos, width, height
   	this.buffer.ellipse(this.beakerBeginPosX + this.beakerWidth / 2, this.beakerBeginPosY,
   		this.beakerWidth, this.beakerHeight / 3);
+
+    /* Draw red measurement lines on side of beaker */
+    this.buffer.noFill();
+    this.buffer.stroke(this.markingColor);
+    this.buffer.strokeWeight(3);
+    // TODO: Fix these
+    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6, 70, 40, PI / 2, PI);
+    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6 + this.btwMarkingsDistance, 70, 40, PI / 2, PI);
+    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6 + 2 * this.btwMarkingsDistance, 70, 40, PI / 2, PI);
+    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6 + 3 * this.btwMarkingsDistance, 70, 40, PI / 2, PI);
   }
 
   /*
@@ -80,9 +97,11 @@ function Beaker() {
   this.setDimensions = function() {
     this.beakerWidth = this.xLength * 0.6;
     this.beakerHeight = this.xLength * 0.6;
+    this.beakerThickness = this.beakerWidth / 30;
     this.beakerRoundedCornerDegree = this.beakerWidth / 3;
     this.beakerBeginPosX = this.xLength / 2 - this.beakerWidth / 2;
     this.beakerBeginPosY = this.xLength / 4;
+    this.btwMarkingsDistance = this.beakerHeight / 6;
   }
 }
 
