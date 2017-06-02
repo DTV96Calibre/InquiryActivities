@@ -136,8 +136,12 @@ function windowResized() {
   unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;
   brokenExp.xOffset = windowWidth * RIGHT_BLOCK_OFFSET_SCALING;
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
+
   unbrokenExp.resize();
   brokenExp.resize();
+
+  unbrokenExpBeaker.resize();
+  brokenExpBeaker.resize();
 }
 
 /************ Math and science functions ************/
