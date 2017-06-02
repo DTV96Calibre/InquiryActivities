@@ -32,6 +32,13 @@ function Beaker() {
   this.beakerBeginPosX;
   this.beakerBeginPosY;
   this.btwMarkingsDistance;
+  this.beakerMarkingsPosX;
+  this.beakerMarkingsPosY;
+  this.beakerMarkingsWidth;
+  this.beakerMarkingsHeight;
+
+  // Misc.
+  this.numMarkings = 4;
 
   /*
    * Draws this beaker. All components are drawn w.r.t. xLength to maintain ratio.
@@ -57,15 +64,15 @@ function Beaker() {
   	this.buffer.ellipse(this.beakerBeginPosX + this.beakerWidth / 2, this.beakerBeginPosY,
   		this.beakerWidth, this.beakerHeight / 3);
 
-    /* Draw red measurement lines on side of beaker */
+    /* Draw red measurement markings on side of beaker */
     this.buffer.noFill();
     this.buffer.stroke(this.markingColor);
     this.buffer.strokeWeight(3);
-    // TODO: Fix these
-    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6, 70, 40, PI / 2, PI);
-    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6 + this.btwMarkingsDistance, 70, 40, PI / 2, PI);
-    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6 + 2 * this.btwMarkingsDistance, 70, 40, PI / 2, PI);
-    this.buffer.arc(this.beakerBeginPosX + this.beakerWidth / 8 + 3, this.beakerBeginPosY + this.beakerHeight / 6 + 3 * this.btwMarkingsDistance, 70, 40, PI / 2, PI);
+
+    for (var i = 0; i < this.numMarkings; i += 1) {
+      this.buffer.arc(this.beakerMarkingsPosX, this.beakerMarkingsPosY + this.btwMarkingsDistance * i, 
+        this.beakerMarkingsWidth, this.beakerMarkingsHeight, PI / 2, PI);
+    }
   }
 
   /*
@@ -95,13 +102,20 @@ function Beaker() {
    * instantiated as well as whenever the window is resized).
    */
   this.setDimensions = function() {
+    // General
     this.beakerWidth = this.xLength * 0.6;
     this.beakerHeight = this.xLength * 0.6;
     this.beakerThickness = this.beakerWidth / 30;
     this.beakerRoundedCornerDegree = this.beakerWidth / 3;
     this.beakerBeginPosX = this.xLength / 2 - this.beakerWidth / 2;
     this.beakerBeginPosY = this.xLength / 4;
-    this.btwMarkingsDistance = this.beakerHeight / 6;
+
+    // Red markings on the side of the beaker
+    this.btwMarkingsDistance = this.beakerHeight / (this.numMarkings + 2);
+    this.beakerMarkingsPosX = this.xLength / 2 - this.beakerWidth / 2.53;
+    this.beakerMarkingsPosY = this.beakerBeginPosY + this.beakerHeight / 6;
+    this.beakerMarkingsWidth = this.beakerWidth / 5;
+    this.beakerMarkingsHeight = this.beakerHeight / 10;
   }
 }
 
