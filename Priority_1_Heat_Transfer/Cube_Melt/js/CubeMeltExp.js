@@ -16,10 +16,17 @@ function CubeMeltExp() {
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
   this.waterTemp = 280; // Temperature of water in Kelvin // TODO: why 280?
-  this.edgeLength = baseWidth; // The length of an ice piece's edge
   this.surfaceArea = this.edgeLength * this.edgeLength * 6;
   this.volume = Math.pow(this.edgeLength, 3);
   this.iceMass = ICE_DENSITY * this.volume;
+
+  /* Graphical properties */
+  this.edgeLength = baseWidth;
+  this.edgeRoundness = 15; // in degrees
+
+  /* Colors */
+  this.iceColor = '#e9f7ef';
+  this.iceBorderColor = '#d0ece7';
 
   /* The offset in pixels to draw the center of the ice block. */
   this.xOffset = 0;
@@ -33,13 +40,18 @@ function CubeMeltExp() {
    */
   this.display = function() {
     this.moveArrayToCenter();
+
+    stroke(this.iceBorderColor);
+    strokeWeight(2);
+    fill(this.iceColor);
     
     var length = Math.pow(2, this.numDivisions);
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
         var piece = this.array[i][j];
-        rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height);
-        //print("Made a rect at:", piece.x, piece.y); // Debug
+        // Draw an ice cube
+        rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height, 
+          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
       }
     }
   }
@@ -106,6 +118,9 @@ function CubeMeltExp() {
         this.array[i][j].height = pieceWidth;
       }
     }
+
+    // Edges become less rounded as pieces become smaller
+    this.edgeRoundness = 15 / (this.numDivisions + 1);
   }
 
   /* 
