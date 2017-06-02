@@ -160,18 +160,6 @@ function windowResized() {
 /************ Math and science functions ************/
 
 /*
- * Finds the melting time for the cubes in each beaker to set up the animation
- * fade time.
- */
-function findMeltingTime() {
-  simulationSetup();
-  findMeltStep();
-  simulationSetup();
-  findMeltStep2();
-  simulationSetup();
-}
-
-/*
  * Calculates heat transfer due to water making contact with ice surface.
  * @param aOne: The area of one ice cube.
  * @param n: number of ice cubes. Units in mm^2.
@@ -213,69 +201,7 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K))/(mWater * mMelted);
 }
-/* Deprecated.
- * The actual simulation. Calculates temperature and plots it.
- */
-function measureSimulation() {
-  if (currentStep < numDataPts) {
-    Qmelt = (waterT-(Cice+CtoKelvin))*h*surfArea*timeStep;
-    //alert("Qmelt: " + Qmelt);
-    iceMelt = Qmelt/hfusion;
-    //alert("iceMelt: " + iceMelt);
-    iceMassOld = iceMass;
-    iceMass = iceMassOld - iceMelt;
-    //alert("iceMass: " + iceMass);
-    if (iceMass > 0.1) {
-      tempT = waterT - Qmelt/((iceMelt+waterMass)*joulesPerCal);
-      //alert("tempT: " + tempT);
-      waterT = (waterMass*tempT + iceMelt*(Cice+CtoKelvin))/(iceMelt+waterMass);
-      //alert("waterT: " + waterT);
-      waterMass = waterMass + iceMelt;
-      //alert("waterMass: " + waterMass);
-      surfArea = iceMass/iceMassOld*surfArea;
-    }
 
-    Qmelt2 = (waterT2-(Cice+CtoKelvin))*h*surfArea2*timeStep;
-    iceMelt2 = Qmelt2/hfusion;
-    iceMassOld2 = iceMass2;
-    iceMass2 = iceMass2 - iceMelt2;
-    if (iceMass2 > 0.1) {
-      tempT2 = waterT2 - Qmelt2/((iceMelt2+waterMass2)*joulesPerCal);
-      waterT2 = (waterMass2*tempT2 + iceMelt2*(Cice+CtoKelvin))/(iceMelt2+waterMass2);
-      waterMass2 = waterMass2 + iceMelt2;
-      surfArea2 = iceMass2/iceMassOld2*surfArea2;
-    }
-
-    // Plots every other data point
-    if (currentStep % 2 == 0) {
-      x1 = 38 + currentStep + "px";
-      x2 = 39 + currentStep + "px";
-
-      y1 = (graphHeight - (waterT-CtoKelvin)*(graphHeight/maxTemp) + 68); + "px";
-      y2 = (graphHeight - (waterT2-CtoKelvin)*(graphHeight/maxTemp) + 68); + "px";
-
-      if ((y2-y1) < 1.5) {
-        y2 = y2 + "px";
-        y1 = y2;
-      } else {
-        y1 = y1 + "px";
-        y2 = y2 + "px";
-      }
-
-      var dot1 = "#sit1Point" + (currentStep/2);
-      var dot2 = "#sit2Point" + (currentStep/2);
-      $(dot1).css({top:y1, left:x1});
-      $(dot2).css({top:y2, left:x2});
-      $(dot1).show();
-      $(dot2).show();
-    }
-
-    currentStep++;
-    setTimeout(measureSimulation, 40);
-  } else {
-    $("#resetButton").removeAttr("disabled");
-  }
-}
 
 /************** Animation functions *****************/
 
