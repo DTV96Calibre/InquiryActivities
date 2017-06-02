@@ -177,8 +177,8 @@ function CubeMeltExp() {
  * (broken and unbroken).
  */
 function cubeMeltSetup() {
-  unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;
-  brokenExp.xOffset = windowWidth * RIGHT_BLOCK_OFFSET_SCALING;
+  unbrokenExp.xOffset = windowWidth / 8;
+  brokenExp.xOffset = windowWidth / 2 - windowWidth / 8;
 
   brokenExp.initializeIceCanvas(BROKEN_ICE_DIV_ID);
   unbrokenExp.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
