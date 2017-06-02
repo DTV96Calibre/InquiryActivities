@@ -23,6 +23,7 @@ function CubeMeltExp() {
   /* Graphical properties */
   this.edgeLength = baseWidth;
   this.edgeRoundness = 15; // in degrees
+  this.shadingPadding;
 
   /* Colors */
   this.iceColor = '#e9f7ef';
@@ -41,17 +42,29 @@ function CubeMeltExp() {
   this.display = function() {
     this.moveArrayToCenter();
 
-    stroke(this.iceBorderColor);
     strokeWeight(2);
-    fill(this.iceColor);
     
     var length = Math.pow(2, this.numDivisions);
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
         var piece = this.array[i][j];
+
         // Draw an ice cube
+        fill(this.iceColor);
+        stroke(this.iceBorderColor);
         rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height, 
           this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
+
+        // Draw shading
+        noStroke();
+        fill('white');
+        var padding = piece.width / 10;
+        triangle(this.arrayPos.x + piece.x + padding * 4, this.arrayPos.y + piece.y + piece.height - padding, 
+          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + padding * 4, 
+          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + piece.height - padding);
+        fill(this.iceColor);
+        ellipse(this.arrayPos.x + piece.x + piece.width / 2, this.arrayPos.y + piece.y + piece.height / 2, 
+          piece.width - padding * 1.85, piece.height - padding * 1.85);
       }
     }
   }
@@ -68,6 +81,7 @@ function CubeMeltExp() {
 
     this.yOffset = windowHeight / 4;
     this.edgeLength = baseWidth;
+    this.shadingPadding = this.edgeLength / 10;
     this.setDivisions(this.numDivisions); // Need to recalculate size of each piece
   }
 
