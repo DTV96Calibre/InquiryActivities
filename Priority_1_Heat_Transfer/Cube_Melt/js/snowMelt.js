@@ -1,6 +1,6 @@
 /* File: snowMelt.js
  * Dependencies: CubeMeltExp.js
- * 
+ *
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
  * (c) Margot Vigeant 2017
@@ -16,6 +16,11 @@ var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var LEFT_BLOCK_OFFSET_SCALING = 0.15; // Multiplied by the window width
 var RIGHT_BLOCK_OFFSET_SCALING = 0.35;
+
+var HEAT_CAPACITY_WATER = 4.184; /* Joules of heat for the temperature of one
+  gram of water to increase 1 degrees Celcius.*/
+var DELTA_H_FUS_WATER = 33.55; // (Latent) heat of fusion of water in joules per gram.
+var H = 6.626070040e-34; // Planck's constant
 
 /**************** Global variables ******************/
 
@@ -89,7 +94,7 @@ function setup() {
   unbrokenExpBeaker = new Beaker();
   brokenExpBeaker = new Beaker();
   beakerSetup();
- 
+
   toggleHammer();
   initializeChart();
   windowResized();
@@ -147,7 +152,7 @@ function windowResized() {
 /************ Math and science functions ************/
 
 /*
- * Finds the melting time for the cubes in each beaker to set up the animation 
+ * Finds the melting time for the cubes in each beaker to set up the animation
  * fade time.
  */
 function findMeltingTime() {
@@ -159,6 +164,48 @@ function findMeltingTime() {
 }
 
 /*
+ * Calculates heat transfer due to water making contact with ice surface.
+ * @param aOne: The area of one ice cube.
+ * @param n: number of ice cubes. Units in mm^2.
+ * @param tempWater: The current temperature of the water.
+ * @param dt: change in time. Units in seconds.
+ * @return: The heat exchanged.
+ */
+function findQ(aOne, n, tempWater, dt) {
+  return dt*H*(aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);
+}
+
+/*
+ * Calculates the mass of ice melted and converted to liquid water.
+ * @param q: The heat exchanged resulting in the ice melting.
+ * @return:
+ */
+function findM_melted(q, tempWater, mWaterOld) {
+  return q / DELTA_H_FUS_WATER;
+}
+
+/*
+ * Calculates the new temperature of the water after the ice melts a bit.
+ * @param q: The heat exchanged resulting in the ice melting.
+ * @param tempWater: The current temperature of the water.
+ * @param mWaterOld: The current mass of the water.
+ * @return: The new temperature of the water. (Kelvin)
+ */
+function findT_waterNewMelting(q, tempWater, mWaterOld) {
+  return q / (HEAT_CAPACITY_WATER * mWaterOld) + tempWater;
+}
+
+/*
+ * Calculates the new temperature of the water after mixing in the melted ice.
+ * @param mWater: The current mass of the water.
+ * @param tempWater: The current temperature of the water (after previous calculation steps)
+ * @param mMelted: The mass of melted ice.
+ * @return: Temperature of water after mixing. (Kelvin)
+ */
+function findT_waterNewMixing(mWater, tempWater, mMelted) {
+  return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K))/(mWater * mMelted);
+}
+/* Deprecated.
  * The actual simulation. Calculates temperature and plots it.
  */
 function measureSimulation() {
@@ -224,7 +271,7 @@ function measureSimulation() {
 
 /************** Animation functions *****************/
 
-/* 
+/*
  * Toggles holding the hammer. Replaces the cursor with a hammer graphic.
  */
 function toggleHammer() {
@@ -236,7 +283,7 @@ function toggleHammer() {
   }
 }
 
-/* 
+/*
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
@@ -253,7 +300,7 @@ function swingHammer() {
   }
 }
 
-/* 
+/*
  * Animation for the breaking of user-breakable ice block.
  */
 function breakAnimation() {
@@ -261,7 +308,7 @@ function breakAnimation() {
   return
 }
 
-/* 
+/*
  * Animation indicating that the ice couldn't be broken.
  */
 function noBreakAnimation() {
