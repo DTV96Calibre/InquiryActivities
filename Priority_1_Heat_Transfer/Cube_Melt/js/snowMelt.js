@@ -14,8 +14,6 @@ var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
 var BASE_WIDTH_SCALING = 9; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
-var LEFT_BLOCK_OFFSET_SCALING = 0.15; // Multiplied by the window width
-var RIGHT_BLOCK_OFFSET_SCALING = 0.35;
 
 var HEAT_CAPACITY_WATER = 4.184; /* Joules of heat for the temperature of one
   gram of water to increase 1 degrees Celcius.*/
@@ -26,12 +24,11 @@ var H = 6.626070040e-34; // Planck's constant
 
 var iceCanvas;
 var baseWidth = 100; // Number of pixels along one edge of an unbroken ice block
-var numDivisions = -1;
-var array = [];
-var arrayPos = {x:100, y:100};
 var holdingHammer = false;
 var ctx;
-var myLineChart;
+var hasChanged; // Cuts down on calculations inside the draw() function
+
+// Pieces of the experiment
 var unbrokenExp;
 var brokenExp;
 var unbrokenExpBeaker;
@@ -99,16 +96,12 @@ function setup() {
   initializeChart();
   windowResized();
 
+  hasChanged = true;
+
   //noLoop();
 }
 
 function draw() {
-  // Clear the canvas
-  background(255, 255, 255);
-
-  //myLineChart.data.datasets[0].data[0] += 1;
-  //myLineChart.update();
-
   /* Begin logic for controlling appearance of cursor */
   if (holdingHammer) {
     if (mouseIsPressed) {
@@ -121,6 +114,17 @@ function draw() {
   }
   /* End logic for controlling appearance of cursor */
 
+  // Don't re-render/recalculate drawings if they haven't been updated
+  if (!hasChanged) {
+    return;
+  }
+
+  // Clear the canvas
+  background(255, 255, 255);
+
+  //myLineChart.data.datasets[0].data[0] += 1;
+  //myLineChart.update();
+
   // Draw the ice blocks
   brokenExp.display();
   unbrokenExp.display();
@@ -132,14 +136,18 @@ function draw() {
   // Paint the off-screen buffers onto the main canvas
   image(unbrokenExpBeaker.buffer, 0, windowHeight / 2);
   image(brokenExpBeaker.buffer, windowWidth / 4, windowHeight / 2);
+
+  hasChanged = false;
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth / 2, windowHeight); // TODO Remove dependence on window
+  resizeCanvas(windowWidth / 2, windowHeight);
+
+  hasChanged = true;
 
   // Update variables that scale with screen size
-  unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;
-  brokenExp.xOffset = windowWidth * RIGHT_BLOCK_OFFSET_SCALING;
+  unbrokenExp.xOffset = windowWidth / 8;
+  brokenExp.xOffset = windowWidth / 2 - windowWidth / 8;
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   unbrokenExp.resize();
@@ -292,6 +300,7 @@ function swingHammer() {
     brokenExp.numDivisions += 1;
     breakAnimation();
     brokenExp.setDivisions(brokenExp.numDivisions);
+    hasChanged = true;
   }
 
   else {
@@ -326,10 +335,12 @@ function mousePressed() {
  * Detect whether the cursor is hovering over the breakable ice block.
  */
 function cursorOverBrokenExp() {
-  var xLeft = brokenExp.xOffset - brokenExp.findArrayRange() / 2;
-  var xRight = brokenExp.xOffset + brokenExp.findArrayRange() / 2;
-  var yTop = brokenExp.yOffset - brokenExp.findArrayRange() / 2;
-  var yBottom = brokenExp.yOffset + brokenExp.findArrayRange() / 2;
+  var halfBlockSize = brokenExp.findArrayRange() / 2;
+  var xLeft = brokenExp.xOffset - halfBlockSize;
+  var xRight = brokenExp.xOffset + halfBlockSize;
+  var yTop = brokenExp.yOffset - halfBlockSize - 20;
+  var yBottom = brokenExp.yOffset + halfBlockSize;
+
   return (mouseX >= xLeft && mouseX <= xRight) &&
          (mouseY >= yTop && mouseY <= yBottom);
 }

@@ -16,10 +16,18 @@ function CubeMeltExp() {
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
   this.waterTemp = 280; // Temperature of water in Kelvin // TODO: why 280?
-  this.edgeLength = baseWidth; // The length of an ice piece's edge
   this.surfaceArea = this.edgeLength * this.edgeLength * 6;
   this.volume = Math.pow(this.edgeLength, 3);
   this.iceMass = ICE_DENSITY * this.volume;
+
+  /* Graphical properties */
+  this.edgeLength = baseWidth;
+  this.edgeRoundness = 15; // in degrees
+  this.shadingPadding;
+
+  /* Colors */
+  this.iceColor = '#e9f7ef';
+  this.iceBorderColor = '#d0ece7';
 
   /* The offset in pixels to draw the center of the ice block. */
   this.xOffset = 0;
@@ -33,13 +41,30 @@ function CubeMeltExp() {
    */
   this.display = function() {
     this.moveArrayToCenter();
+
+    strokeWeight(2);
     
     var length = Math.pow(2, this.numDivisions);
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
         var piece = this.array[i][j];
-        rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height);
-        //print("Made a rect at:", piece.x, piece.y); // Debug
+
+        // Draw an ice cube
+        fill(this.iceColor);
+        stroke(this.iceBorderColor);
+        rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height, 
+          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
+
+        // Draw shading
+        noStroke();
+        fill('white');
+        var padding = piece.width / 10;
+        triangle(this.arrayPos.x + piece.x + padding * 4, this.arrayPos.y + piece.y + piece.height - padding, 
+          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + padding * 4, 
+          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + piece.height - padding);
+        fill(this.iceColor);
+        ellipse(this.arrayPos.x + piece.x + piece.width / 2, this.arrayPos.y + piece.y + piece.height / 2, 
+          piece.width - padding * 1.85, piece.height - padding * 1.85);
       }
     }
   }
@@ -56,6 +81,7 @@ function CubeMeltExp() {
 
     this.yOffset = windowHeight / 4;
     this.edgeLength = baseWidth;
+    this.shadingPadding = this.edgeLength / 10;
     this.setDivisions(this.numDivisions); // Need to recalculate size of each piece
   }
 
@@ -106,6 +132,9 @@ function CubeMeltExp() {
         this.array[i][j].height = pieceWidth;
       }
     }
+
+    // Edges become less rounded as pieces become smaller
+    this.edgeRoundness = 15 / (this.numDivisions + 1);
   }
 
   /* 
@@ -148,8 +177,8 @@ function CubeMeltExp() {
  * (broken and unbroken).
  */
 function cubeMeltSetup() {
-  unbrokenExp.xOffset = windowWidth * LEFT_BLOCK_OFFSET_SCALING;
-  brokenExp.xOffset = windowWidth * RIGHT_BLOCK_OFFSET_SCALING;
+  unbrokenExp.xOffset = windowWidth / 8;
+  brokenExp.xOffset = windowWidth / 2 - windowWidth / 8;
 
   brokenExp.initializeIceCanvas(BROKEN_ICE_DIV_ID);
   unbrokenExp.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
