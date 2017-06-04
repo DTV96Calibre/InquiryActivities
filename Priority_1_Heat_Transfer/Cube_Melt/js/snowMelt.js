@@ -26,8 +26,8 @@ var hasChanged; // Cuts down on calculations inside the draw() function
 // Pieces of the experiment
 var unbrokenExp;
 var brokenExp;
-var unbrokenExpBeaker;
-var brokenExpBeaker;
+var unbrokenExpCup;
+var brokenExpCup;
 
 /********** Configuration data for chart ************/
 
@@ -75,6 +75,9 @@ function initializeChart() {
 }
 
 function setup() {
+  // Lock pixel density to avoid cropping when user zooms in on browser
+  pixelDensity(1);
+  
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice visualizations and initialize them
@@ -82,10 +85,10 @@ function setup() {
   unbrokenExp = new CubeMeltExp();
   cubeMeltSetup();
 
-  // Create both beakers and initialize them
-  unbrokenExpBeaker = new Beaker();
-  brokenExpBeaker = new Beaker();
-  beakerSetup();
+  // Create both cups and initialize them
+  unbrokenExpCup = new Cup();
+  brokenExpCup = new Cup();
+  cupSetup();
  
   toggleHammer();
   initializeChart();
@@ -124,13 +127,13 @@ function draw() {
   brokenExp.display();
   unbrokenExp.display();
 
-  // Draw the beakers
-  unbrokenExpBeaker.display();
-  brokenExpBeaker.display();
+  // Draw the cups
+  unbrokenExpCup.display();
+  brokenExpCup.display();
 
   // Paint the off-screen buffers onto the main canvas
-  image(unbrokenExpBeaker.buffer, 0, windowHeight / 2);
-  image(brokenExpBeaker.buffer, windowWidth / 4, windowHeight / 2);
+  image(unbrokenExpCup.buffer, 0, windowHeight / 2);
+  image(brokenExpCup.buffer, windowWidth / 4, windowHeight / 2);
 
   hasChanged = false;
 }
@@ -148,14 +151,14 @@ function windowResized() {
   unbrokenExp.resize();
   brokenExp.resize();
 
-  unbrokenExpBeaker.resize();
-  brokenExpBeaker.resize();
+  unbrokenExpCup.resize();
+  brokenExpCup.resize();
 }
 
 /************ Math and science functions ************/
 
 /*
- * Finds the melting time for the cubes in each beaker to set up the animation 
+ * Finds the melting time for the cubes in each cup to set up the animation 
  * fade time.
  */
 function findMeltingTime() {
