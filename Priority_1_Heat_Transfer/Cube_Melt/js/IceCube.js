@@ -30,6 +30,7 @@ function IceCube() {
 
   /* Unbroken ice block always has 0 divisions. This will vary for the broken block. */
   this.numDivisions = 0;
+  this.totalNumDivisions;
 
   /* Graphical properties */
   this.edgeLength;
@@ -181,6 +182,27 @@ function IceCube() {
   this.moveArrayToCenter = function() {
     this.setCenterArrayPos(this.xOffset, this.yOffset);
   }
+
+  /*
+   * Returns true if this ice cube hasn't hit its max number of divisions.
+   */
+  this.canBeBrokenFurther = function() {
+    return this.numDivisions < this.totalNumDivisions;
+  }
+
+  /*
+   * Returns true if the cursor is hovering over this ice cube.
+   */
+  this.cursorIsOver = function() {
+    var halfBlockSize = this.findArrayRange() / 2;
+    var xLeft = this.xOffset - halfBlockSize;
+    var xRight = this.xOffset + halfBlockSize;
+    var yTop = this.yOffset - halfBlockSize;
+    var yBottom = this.yOffset + halfBlockSize;
+
+    return (mouseX >= xLeft && mouseX <= xRight) &&
+           (mouseY >= yTop && mouseY <= yBottom);
+  }
 }
 
 /***************** Other functions ******************/
@@ -193,6 +215,9 @@ function iceCubeSetup() {
   unbrokenIce.xOffset = windowWidth / 8;
   brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
 
+  unbrokenIce.totalNumDivisions = 0;
+  brokenIce.totalNumDivisions = MAX_DIVISIONS;
+
   brokenIce.initializeIceCanvas(BROKEN_ICE_DIV_ID);
   unbrokenIce.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
 
@@ -201,4 +226,11 @@ function iceCubeSetup() {
 
   brokenIce.setDivisions(0);
   unbrokenIce.setDivisions(0);
+}
+
+/**
+ * Detects whether the cursor is hovering over either ice block.
+ */
+function cursorOverIceCubes() {
+  return unbrokenIce.cursorIsOver() || brokenIce.cursorIsOver();
 }

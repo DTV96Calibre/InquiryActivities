@@ -24,9 +24,9 @@ var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 
 var iceCanvas;
 var baseWidth = 100; // Number of pixels along one edge of an unbroken ice block
-var holdingHammer = false;
 var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
+var mouseIsPressed;
 
 // Pieces of the experiment
 var unbrokenIce;
@@ -82,6 +82,8 @@ function initializeChart() {
 function setup() {
   // Lock pixel density to avoid cropping when user zooms in on browser
   pixelDensity(1);
+
+  mouseIsPressed = false;
   
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
@@ -95,7 +97,6 @@ function setup() {
   brokenIceCup = new Cup();
   cupSetup();
 
-  toggleHammer();
   initializeChart();
   windowResized();
 
@@ -105,17 +106,7 @@ function setup() {
 }
 
 function draw() {
-  /* Begin logic for controlling appearance of cursor */
-  if (holdingHammer) {
-    if (mouseIsPressed) {
-      cursor('hammer_click.cur', 0, 0); // Sets cursor to hammer_click.cur
-    } else {
-      cursor('hammer_hover.cur', 0, 0);
-    }
-  } else {
-    cursor(ARROW, 0, 0); // Sets cursor to default arrow
-  }
-  /* End logic for controlling appearance of cursor */
+  updateCursor();
 
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
@@ -143,6 +134,9 @@ function draw() {
   hasChanged = false;
 }
 
+/*
+ * Built-in p5 function; called whenever the browser is resized.
+ */
 function windowResized() {
   resizeCanvas(windowWidth / 2, windowHeight);
 
@@ -158,6 +152,69 @@ function windowResized() {
 
   unbrokenIceCup.resize();
   brokenIceCup.resize();
+}
+
+/*********** User interaction functions *************/
+
+/*
+ * Controls the appearance of the cursor, which looks like a hammer when hovering
+ * over the ice cubes and looks like a red X when the ice can't be broken further.
+ */
+function updateCursor() {
+  if (!mouseIsPressed) {
+    if (cursorOverIceCubes()) {
+      cursor('hammer_hover.cur');
+    } else {
+      cursor(ARROW);
+    }
+  }
+  // Mouse is pressed
+  else {
+    if (cursorOverIceCubes()) {
+      // If clicking on a breakable ice cube, show the hammer cursor
+      if (brokenIce.cursorIsOver() && brokenIce.canBeBrokenFurther()) {
+        cursor('hammer_click.cur');
+      }
+      // Else, show a red X because the user can't break this ice
+      else {
+        cursor('red_x.cur', -10, -10);
+      }
+    }
+    else {
+      cursor(ARROW);
+    }
+  }
+}
+
+/*
+ * Built-in p5 function; called whenever the user clicks the mouse.
+ */
+function mousePressed() {
+  mouseIsPressed = true;
+  swingHammer();
+}
+
+/*
+ * Built-in p5 function; called whenever the user releases the mouse.
+ */
+function mouseReleased() {
+  mouseIsPressed = false;
+}
+
+/*
+ * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
+ */
+function swingHammer() {
+  if (brokenIce.cursorIsOver() && brokenIce.canBeBrokenFurther()) {
+    print("Breaking ice");
+    brokenIce.numDivisions += 1;
+    brokenIce.setDivisions(brokenIce.numDivisions);
+    hasChanged = true;
+  }
+
+  else {
+    print("The ice couldn't be broken further");
+  }
 }
 
 /************ Math and science functions ************/
@@ -205,73 +262,4 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
  */
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
-}
-
-
-/************** Animation functions *****************/
-
-/*
- * Toggles holding the hammer. Replaces the cursor with a hammer graphic.
- */
-function toggleHammer() {
-  holdingHammer = !holdingHammer;
-  if (holdingHammer) {
-    cursor('hammer_hover.cur', 0, 0);
-  } else {
-    cursor(ARROW, 0, 0);
-  }
-}
-
-/*
- * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
- */
-function swingHammer() {
-  if (brokenIce.numDivisions < MAX_DIVISIONS && cursorOverBrokenExp()) {
-    print("Breaking ice");
-    brokenIce.numDivisions += 1;
-    breakAnimation();
-    brokenIce.setDivisions(brokenIce.numDivisions);
-    hasChanged = true;
-  }
-
-  else {
-    print("The ice couldn't be broken further");
-    noBreakAnimation();
-  }
-}
-
-/*
- * Animation for the breaking of user-breakable ice block.
- */
-function breakAnimation() {
-  // Spawn strike sparks
-  return
-}
-
-/*
- * Animation indicating that the ice couldn't be broken.
- */
-function noBreakAnimation() {
-  // Spawn dust/poof/smoke particles
-  return
-}
-
-/*********** User interaction functions *************/
-
-function mousePressed() {
-  swingHammer();
-}
-
-/**
- * Detect whether the cursor is hovering over the breakable ice block.
- */
-function cursorOverBrokenExp() {
-  var halfBlockSize = brokenIce.findArrayRange() / 2;
-  var xLeft = brokenIce.xOffset - halfBlockSize;
-  var xRight = brokenIce.xOffset + halfBlockSize;
-  var yTop = brokenIce.yOffset - halfBlockSize - 20;
-  var yBottom = brokenIce.yOffset + halfBlockSize;
-
-  return (mouseX >= xLeft && mouseX <= xRight) &&
-         (mouseY >= yTop && mouseY <= yBottom);
 }

@@ -12,18 +12,20 @@
  * dissolving over a short period of time.
  */
 function Cup() {
-  /* Class attributes */
+
+  // Class attributes
+  
   this.buffer = null;
 
   // The size of the buffer (in pixels)
   this.xLength;
   this.yLength;
 
-  // Colors
+  /* Colors */
   this.cupColor = '#ebedef';
   this.borderColor = '#c4c1c0';
 
-  // Dimensions
+  /* Dimensions */
   this.cupWidth;
   this.cupHeight;
   this.cupThickness;
