@@ -22,7 +22,7 @@ function CubeMeltExp() {
 
   /* Graphical properties */
   this.edgeLength = baseWidth;
-  this.edgeRoundness = 15; // in degrees
+  this.edgeRoundness = 10; // in degrees
   this.shadingPadding;
 
   /* Colors */
@@ -134,7 +134,7 @@ function CubeMeltExp() {
     }
 
     // Edges become less rounded as pieces become smaller
-    this.edgeRoundness = 15 / (this.numDivisions + 1);
+    this.edgeRoundness = 10 / (this.numDivisions + 1);
   }
 
   /* 
