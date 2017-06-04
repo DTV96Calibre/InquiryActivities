@@ -128,8 +128,8 @@ function draw() {
   brokenIceCup.display();
 
   // Paint the off-screen buffers onto the main canvas
-  image(unbrokenIceCup.buffer, 0, windowHeight / 2);
-  image(brokenIceCup.buffer, windowWidth / 4, windowHeight / 2);
+  // image(unbrokenIceCup.buffer, 0, windowHeight / 2);
+  // image(brokenIceCup.buffer, windowWidth / 4, windowHeight / 2);
 
   hasChanged = false;
 }
@@ -143,9 +143,10 @@ function windowResized() {
   hasChanged = true;
 
   // Update variables that scale with screen size
+  baseWidth = windowWidth / BASE_WIDTH_SCALING;
   unbrokenIce.xOffset = windowWidth / 8;
   brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
-  baseWidth = windowWidth / BASE_WIDTH_SCALING;
+  brokenIceCup.xOffset = windowWidth / 4;
 
   unbrokenIce.resize();
   brokenIce.resize();
