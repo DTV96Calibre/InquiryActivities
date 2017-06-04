@@ -20,22 +20,36 @@ function CubeMeltExp() {
   this.volume = Math.pow(this.edgeLength, 3);
   this.iceMass = ICE_DENSITY * this.volume;
 
-  /* Graphical properties */
-  this.BASE_EDGE_ROUNDNESS = 13; // In degrees
-  this.edgeLength = baseWidth;
-  this.edgeRoundness = this.BASE_EDGE_ROUNDNESS;
-  this.shadingPadding;
-
   /* Colors */
   this.iceColor = '#e9f7ef';
   this.iceBorderColor = '#d0ece7';
 
   /* The offset in pixels to draw the center of the ice block. */
-  this.xOffset = 0;
-  this.yOffset = 0;
+  this.xOffset;
+  this.yOffset;
 
   /* Unbroken exp always has 0 divisions. This will vary for the broken exp. */
   this.numDivisions = 0;
+
+  /* Graphical properties */
+  this.edgeLength;
+  this.baseEdgeRoundness; // In degrees
+  this.edgeRoundness;
+  this.shadingPadding;
+  this.edgeThickness;
+
+  /*
+   * Sets the dimensions of the ice cube's drawing (both when the cube is first 
+   * instantiated as well as whenever the window is resized).
+   */
+  this.setDimensions = function() {
+    this.yOffset = windowHeight / 4;
+    this.edgeLength = baseWidth;
+    this.baseEdgeRoundness = this.edgeLength / 20; // In degrees
+    this.edgeRoundness = this.baseEdgeRoundness;
+    this.shadingPadding = this.edgeLength / 10;
+    this.edgeThickness = this.edgeLength / 100;
+  }
 
   /* 
    * Draws this experiment's array of cube(s).
@@ -43,7 +57,7 @@ function CubeMeltExp() {
   this.display = function() {
     this.moveArrayToCenter();
 
-    strokeWeight(3);
+    strokeWeight(this.edgeThickness);
     
     var length = Math.pow(2, this.numDivisions);
     for (var i = 0; i < length; i++) {
@@ -80,9 +94,7 @@ function CubeMeltExp() {
       baseWidth = windowHeight / 2 - padding;
     }
 
-    this.yOffset = windowHeight / 4;
-    this.edgeLength = baseWidth;
-    this.shadingPadding = this.edgeLength / 10;
+    this.setDimensions(); // Reset the graphical attributes of this CubeMeltExp
     this.setDivisions(this.numDivisions); // Need to recalculate size of each piece
   }
 
@@ -135,7 +147,7 @@ function CubeMeltExp() {
     }
 
     // Edges become less rounded as pieces become smaller
-    this.edgeRoundness = this.BASE_EDGE_ROUNDNESS / (this.numDivisions + 1);
+    this.edgeRoundness = this.baseEdgeRoundness / (this.numDivisions + 1);
   }
 
   /* 
