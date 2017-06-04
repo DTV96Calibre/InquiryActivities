@@ -7,10 +7,10 @@
  */
 
 /*
- * This class encapsulates the behavior of either ice block (broken or unbroken)
+ * This class encapsulates the behavior of either ice cube (broken or unbroken)
  * drawn on the top-left quadrant of the screen.
  */
-function CubeMeltExp() {
+function IceCube() {
   // Class attributes
   this.array = []; // Array of rectangles (ice pieces)
   this.arrayPos = {x:0, y:0};
@@ -28,7 +28,7 @@ function CubeMeltExp() {
   this.xOffset;
   this.yOffset;
 
-  /* Unbroken exp always has 0 divisions. This will vary for the broken exp. */
+  /* Unbroken ice block always has 0 divisions. This will vary for the broken block. */
   this.numDivisions = 0;
 
   /* Graphical properties */
@@ -52,7 +52,7 @@ function CubeMeltExp() {
   }
 
   /* 
-   * Draws this experiment's array of cube(s).
+   * Draws this experiment's array of ice cube(s).
    */
   this.display = function() {
     this.moveArrayToCenter();
@@ -94,12 +94,12 @@ function CubeMeltExp() {
       baseWidth = windowHeight / 2 - padding;
     }
 
-    this.setDimensions(); // Reset the graphical attributes of this CubeMeltExp
+    this.setDimensions(); // Reset the graphical attributes of this ice cube
     this.setDivisions(this.numDivisions); // Need to recalculate size of each piece
   }
 
   /*
-   * Initializes the array of ice blocks in this experiment.
+   * Initializes the array of ice blocks of this cube.
    */
   this.initializeArray = function() {
     var length = Math.pow(2, MAX_DIVISIONS);
@@ -124,7 +124,7 @@ function CubeMeltExp() {
   }
 
   /* 
-   * Divides this experiment's ice into pieces of equal size.
+   * Divides this cube's ice into pieces of equal size.
    * @param n: The number of divisions to be executed.
    */
   this.setDivisions = function(n) {
@@ -186,19 +186,19 @@ function CubeMeltExp() {
 /***************** Other functions ******************/
 
 /*
- * Performs the necessary steps to initialize a new pair of CubeMeltExps
+ * Performs the necessary steps to initialize a new pair of IceCubes
  * (broken and unbroken).
  */
-function cubeMeltSetup() {
-  unbrokenExp.xOffset = windowWidth / 8;
-  brokenExp.xOffset = windowWidth / 2 - windowWidth / 8;
+function iceCubeSetup() {
+  unbrokenIce.xOffset = windowWidth / 8;
+  brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
 
-  brokenExp.initializeIceCanvas(BROKEN_ICE_DIV_ID);
-  unbrokenExp.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
+  brokenIce.initializeIceCanvas(BROKEN_ICE_DIV_ID);
+  unbrokenIce.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
 
-  brokenExp.initializeArray();
-  unbrokenExp.initializeArray();
+  brokenIce.initializeArray();
+  unbrokenIce.initializeArray();
 
-  brokenExp.setDivisions(0);
-  unbrokenExp.setDivisions(0);
+  brokenIce.setDivisions(0);
+  unbrokenIce.setDivisions(0);
 }

@@ -111,9 +111,9 @@ function cupSetup() {
 	var xLength = windowWidth / 4;
 	var yLength = windowHeight / 2;
 
-  unbrokenExpCup.setDimensions();
-  brokenExpCup.setDimensions();
+  unbrokenIceCup.setDimensions();
+  brokenIceCup.setDimensions();
 
-	unbrokenExpCup.initializeBuffer(xLength, yLength);
-	brokenExpCup.initializeBuffer(xLength, yLength);
+	unbrokenIceCup.initializeBuffer(xLength, yLength);
+	brokenIceCup.initializeBuffer(xLength, yLength);
 }

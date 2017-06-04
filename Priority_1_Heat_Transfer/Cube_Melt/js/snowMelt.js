@@ -1,5 +1,5 @@
 /* File: snowMelt.js
- * Dependencies: CubeMeltExp.js
+ * Dependencies: IceCube.js
  *
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
@@ -29,10 +29,10 @@ var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 
 // Pieces of the experiment
-var unbrokenExp;
-var brokenExp;
-var unbrokenExpCup;
-var brokenExpCup;
+var unbrokenIce;
+var brokenIce;
+var unbrokenIceCup;
+var brokenIceCup;
 
 /********** Configuration data for chart ************/
 
@@ -86,20 +86,20 @@ function setup() {
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice visualizations and initialize them
-  brokenExp = new CubeMeltExp();
-  unbrokenExp = new CubeMeltExp();
-  cubeMeltSetup();
+  brokenIce = new IceCube();
+  unbrokenIce = new IceCube();
+  iceCubeSetup();
 
   // Create both cups and initialize them
-  unbrokenExpCup = new Cup();
-  brokenExpCup = new Cup();
+  unbrokenIceCup = new Cup();
+  brokenIceCup = new Cup();
   cupSetup();
 
   toggleHammer();
   initializeChart();
   windowResized();
 
-  hasChanged = true;
+  hasChanged = true; // Force the draw function to execute
 
   //noLoop();
 }
@@ -129,16 +129,16 @@ function draw() {
   //myLineChart.update();
 
   // Draw the ice blocks
-  brokenExp.display();
-  unbrokenExp.display();
+  brokenIce.display();
+  unbrokenIce.display();
 
   // Draw the cups
-  unbrokenExpCup.display();
-  brokenExpCup.display();
+  unbrokenIceCup.display();
+  brokenIceCup.display();
 
   // Paint the off-screen buffers onto the main canvas
-  image(unbrokenExpCup.buffer, 0, windowHeight / 2);
-  image(brokenExpCup.buffer, windowWidth / 4, windowHeight / 2);
+  image(unbrokenIceCup.buffer, 0, windowHeight / 2);
+  image(brokenIceCup.buffer, windowWidth / 4, windowHeight / 2);
 
   hasChanged = false;
 }
@@ -149,15 +149,15 @@ function windowResized() {
   hasChanged = true;
 
   // Update variables that scale with screen size
-  unbrokenExp.xOffset = windowWidth / 8;
-  brokenExp.xOffset = windowWidth / 2 - windowWidth / 8;
+  unbrokenIce.xOffset = windowWidth / 8;
+  brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
-  unbrokenExp.resize();
-  brokenExp.resize();
+  unbrokenIce.resize();
+  brokenIce.resize();
 
-  unbrokenExpCup.resize();
-  brokenExpCup.resize();
+  unbrokenIceCup.resize();
+  brokenIceCup.resize();
 }
 
 /************ Math and science functions ************/
@@ -226,11 +226,11 @@ function toggleHammer() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.numDivisions < MAX_DIVISIONS && cursorOverBrokenExp()) {
+  if (brokenIce.numDivisions < MAX_DIVISIONS && cursorOverBrokenExp()) {
     print("Breaking ice");
-    brokenExp.numDivisions += 1;
+    brokenIce.numDivisions += 1;
     breakAnimation();
-    brokenExp.setDivisions(brokenExp.numDivisions);
+    brokenIce.setDivisions(brokenIce.numDivisions);
     hasChanged = true;
   }
 
@@ -266,11 +266,11 @@ function mousePressed() {
  * Detect whether the cursor is hovering over the breakable ice block.
  */
 function cursorOverBrokenExp() {
-  var halfBlockSize = brokenExp.findArrayRange() / 2;
-  var xLeft = brokenExp.xOffset - halfBlockSize;
-  var xRight = brokenExp.xOffset + halfBlockSize;
-  var yTop = brokenExp.yOffset - halfBlockSize - 20;
-  var yBottom = brokenExp.yOffset + halfBlockSize;
+  var halfBlockSize = brokenIce.findArrayRange() / 2;
+  var xLeft = brokenIce.xOffset - halfBlockSize;
+  var xRight = brokenIce.xOffset + halfBlockSize;
+  var yTop = brokenIce.yOffset - halfBlockSize - 20;
+  var yBottom = brokenIce.yOffset + halfBlockSize;
 
   return (mouseX >= xLeft && mouseX <= xRight) &&
          (mouseY >= yTop && mouseY <= yBottom);
