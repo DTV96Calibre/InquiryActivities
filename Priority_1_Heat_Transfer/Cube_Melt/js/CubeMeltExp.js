@@ -21,8 +21,9 @@ function CubeMeltExp() {
   this.iceMass = ICE_DENSITY * this.volume;
 
   /* Graphical properties */
+  this.BASE_EDGE_ROUNDNESS = 13; // In degrees
   this.edgeLength = baseWidth;
-  this.edgeRoundness = 10; // in degrees
+  this.edgeRoundness = this.BASE_EDGE_ROUNDNESS;
   this.shadingPadding;
 
   /* Colors */
@@ -42,7 +43,7 @@ function CubeMeltExp() {
   this.display = function() {
     this.moveArrayToCenter();
 
-    strokeWeight(2);
+    strokeWeight(3);
     
     var length = Math.pow(2, this.numDivisions);
     for (var i = 0; i < length; i++) {
@@ -134,7 +135,7 @@ function CubeMeltExp() {
     }
 
     // Edges become less rounded as pieces become smaller
-    this.edgeRoundness = 10 / (this.numDivisions + 1);
+    this.edgeRoundness = this.BASE_EDGE_ROUNDNESS / (this.numDivisions + 1);
   }
 
   /* 
