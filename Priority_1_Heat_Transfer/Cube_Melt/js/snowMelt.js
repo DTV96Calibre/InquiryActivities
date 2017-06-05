@@ -31,8 +31,10 @@ var mouseIsPressed;
 // Pieces of the experiment
 var unbrokenIce;
 var brokenIce;
-var unbrokenIceCup;
-var brokenIceCup;
+var unbrokenCup;
+var brokenCup;
+var unbrokenExp;
+var brokenExp;
 
 /********** Configuration data for chart ************/
 
@@ -87,22 +89,25 @@ function setup() {
   
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
-  // Create both ice visualizations and initialize them
+  // Create both ice cubes and initialize them
   brokenIce = new IceCube();
   unbrokenIce = new IceCube();
-  iceCubeSetup();
 
   // Create both cups and initialize them
-  unbrokenIceCup = new Cup();
-  brokenIceCup = new Cup();
-  cupSetup();
+  unbrokenCup = new Cup();
+  brokenCup = new Cup();
+
+  // Hook up the ice and cups to their respective experiments
+  unbrokenExp = new Experiment('unbroken', unbrokenIce, unbrokenCup);
+  brokenExp = new Experiment('broken', brokenIce, brokenCup);
+  unbrokenExp.init();
+  brokenExp.init();
+  iceCubeSetup();
 
   initializeChart();
   windowResized();
 
   hasChanged = true; // Force the draw function to execute
-
-  //noLoop();
 }
 
 function draw() {
@@ -113,23 +118,18 @@ function draw() {
     return;
   }
 
+  hasChanged = false;
+
   // Clear the canvas
   background(255, 255, 255);
 
   //myLineChart.data.datasets[0].data[0] += 1;
   //myLineChart.update();
 
-  // Draw the ice blocks
-  brokenIce.display();
-  unbrokenIce.display();
+  unbrokenExp.display();
+  brokenExp.display();
 
-  // Draw the cups
-  unbrokenIceCup.display();
-  brokenIceCup.display();
-
-  //brokenIce.dropIntoCup(10);
-
-  hasChanged = false;
+  //brokenExp.dropIceIntoCup(10);
 }
 
 /*
@@ -138,19 +138,12 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth / 2, windowHeight);
 
-  hasChanged = true;
-
   // Update variables that scale with screen size
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
-  unbrokenIce.xOffset = windowWidth / 8;
-  brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
-  brokenIceCup.xOffset = windowWidth / 4;
+  unbrokenExp.resize();
+  brokenExp.resize();
 
-  unbrokenIce.resize();
-  brokenIce.resize();
-
-  unbrokenIceCup.resize();
-  brokenIceCup.resize();
+  hasChanged = true;
 }
 
 /*********** User interaction functions *************/
@@ -171,7 +164,7 @@ function updateCursor() {
   else {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
-      if (brokenIce.cursorIsOver() && brokenIce.canBeBrokenFurther()) {
+      if (brokenExp.cursorIsOverIce() && brokenIce.canBeBrokenFurther()) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -204,10 +197,9 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenIce.cursorIsOver() && brokenIce.canBeBrokenFurther()) {
+  if (brokenExp.cursorIsOverIce() && brokenIce.canBeBrokenFurther()) {
     print("Breaking ice");
-    brokenIce.numDivisions += 1;
-    brokenIce.setDivisions(brokenIce.numDivisions);
+    brokenIce.setDivisions(brokenIce.numDivisions + 1);
     hasChanged = true;
   }
 

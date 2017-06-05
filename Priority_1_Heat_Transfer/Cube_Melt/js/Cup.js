@@ -135,20 +135,3 @@ function Cup() {
     this.liquidHeight = this.cupHeight * this.liquidLevel;
   }
 }
-
-/***************** Other functions ******************/
-
-/*
- * Performs the necessary steps to initialize a new pair of cups.
- */
-function cupSetup() {
-	var xLength = windowWidth / 4;
-	var yLength = windowHeight / 2;
-  var yOffset = windowHeight / 2;
-
-  unbrokenIceCup.setDimensions();
-  brokenIceCup.setDimensions();
-
-	unbrokenIceCup.initializeBuffer(xLength, yLength, 0, yOffset);
-	brokenIceCup.initializeBuffer(xLength, yLength, windowWidth / 4, yOffset);
-}
