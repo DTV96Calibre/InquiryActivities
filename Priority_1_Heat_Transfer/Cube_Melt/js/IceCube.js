@@ -38,6 +38,7 @@ function IceCube() {
   this.edgeRoundness;
   this.shadingPadding;
   this.edgeThickness;
+  this.distanceFallen;
 
   /*
    * Sets the dimensions of the ice cube's drawing (both when the cube is first 
@@ -57,29 +58,32 @@ function IceCube() {
    */
   this.display = function() {
     this.moveArrayToCenter();
-
     strokeWeight(this.edgeThickness);
-    
     var length = Math.pow(2, this.numDivisions);
+
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
+
         var piece = this.array[i][j];
+
+        var xPos = piece.x + this.arrayPos.x;
+        var yPos = piece.y + this.arrayPos.y;
 
         // Draw an ice cube
         fill(this.iceColor);
         stroke(this.iceBorderColor);
-        rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height, 
+        rect(xPos, yPos + this.distanceFallen, piece.width, piece.height, 
           this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
 
         // Draw shading
         noStroke();
         fill('white');
         var padding = piece.width / 10;
-        triangle(this.arrayPos.x + piece.x + padding * 4, this.arrayPos.y + piece.y + piece.height - padding, 
-          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + padding * 4, 
-          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + piece.height - padding);
+        triangle(xPos + padding * 4, yPos + piece.height - padding + this.distanceFallen, 
+          xPos + piece.width - padding, yPos + padding * 4 + this.distanceFallen, 
+          xPos + piece.width - padding, yPos + piece.height - padding + this.distanceFallen);
         fill(this.iceColor);
-        ellipse(this.arrayPos.x + piece.x + piece.width / 2, this.arrayPos.y + piece.y + piece.height / 2, 
+        ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + this.distanceFallen, 
           piece.width - padding * 1.85, piece.height - padding * 1.85);
       }
     }
@@ -103,6 +107,8 @@ function IceCube() {
    * Initializes the array of ice blocks of this cube.
    */
   this.initializeArray = function() {
+    this.distanceFallen = 0;
+
     var length = Math.pow(2, MAX_DIVISIONS);
     for (var i = 0; i < length; i++) {
       var list = [];
@@ -202,6 +208,16 @@ function IceCube() {
 
     return (mouseX >= xLeft && mouseX <= xRight) &&
            (mouseY >= yTop && mouseY <= yBottom);
+  }
+
+  /*
+   * Begins to drop this array of ice cube(s) into a cup of liquid beneath by
+   * gradually lowering the y-position of each cube.
+   */
+  this.dropIntoCup = function(stopHeight) {
+    this.distanceFallen += 2;
+    hasChanged = true;
+    print("dropped");
   }
 }
 

@@ -26,6 +26,8 @@ function Cup() {
   /* Colors */
   this.cupColor = '#ebedef';
   this.borderColor = '#c4c1c0';
+  this.liquidColor = '#ffbc88';
+  this.liquidBorderColor = '#f1ad78';
 
   /* Dimensions */
   this.cupWidth;
@@ -36,6 +38,15 @@ function Cup() {
   this.cupBeginPosY;
   this.cupHandleWidth;
   this.cupHandleHeight;
+  this.liquidPadding;
+  this.liquidPosX;
+  this.liquidPosY;
+  this.liquidWidth;
+  this.liquidHeight;
+
+  /* Other */
+  this.hasLiquid = true;
+  this.liquidLevel = 0.75; // The percent of the cup that's filled with liquid
 
   /*
    * Draws this cup. All components are drawn w.r.t. xLength to maintain ratio.
@@ -53,9 +64,9 @@ function Cup() {
       this.cupRoundedCornerDegree);
 
     /* Draw the top of the cup */
-    // Ref: Center xPos/yPos, width, height
-  	ellipse(this.xOffset + this.cupBeginPosX + this.cupWidth / 2, 
-      this.yOffset + this.cupBeginPosY, this.cupWidth, this.cupHeight / 27);
+    arc(this.xOffset + this.cupBeginPosX + this.cupWidth / 2, 
+      this.yOffset + this.cupBeginPosY - this.cupThickness + 3, this.cupWidth, 
+      this.cupHeight / 27, PI, 0, OPEN);
 
     /* Draw the cup's handle */
     // Ref: Ellipse x/y coords, width, height, start/stop angles, mode
@@ -66,6 +77,17 @@ function Cup() {
     arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2, this.yOffset + 
       this.cupBeginPosY + this.cupHeight / 2.2, this.cupHandleWidth / 2, 
       this.cupHandleHeight / 2, PI / 2, -(PI / 2), CHORD);
+
+    /* Draw the liquid in the cup, if applicable */
+    if (this.hasLiquid) {
+      fill(this.liquidColor);
+      stroke(this.liquidBorderColor);
+      rect(this.liquidPosX, this.liquidPosY, this.liquidWidth, this.liquidHeight, 
+        0, 0, this.cupRoundedCornerDegree, this.cupRoundedCornerDegree);
+      fill(this.cupColor);
+      arc(this.liquidPosX + this.liquidWidth / 2, this.liquidPosY - this.cupThickness,
+       this.liquidWidth, this.liquidHeight / 27, 0, PI, OPEN);
+    }
   }
 
   /*
@@ -105,6 +127,12 @@ function Cup() {
     this.cupBeginPosY = this.yLength / 2 - this.cupHeight / 2;
     this.cupHandleWidth = this.cupWidth / 2.1;
     this.cupHandleHeight = this.cupHeight / 2.7;
+    this.liquidPadding = this.cupThickness * 5;
+    this.liquidPosX = this.cupBeginPosX + this.xOffset + this.liquidPadding;
+    this.liquidPosY = this.cupBeginPosY + this.yOffset + this.cupHeight * 
+      (1 - this.liquidLevel) - this.liquidPadding;
+    this.liquidWidth = this.cupWidth - this.liquidPadding * 2;
+    this.liquidHeight = this.cupHeight * this.liquidLevel;
   }
 }
 

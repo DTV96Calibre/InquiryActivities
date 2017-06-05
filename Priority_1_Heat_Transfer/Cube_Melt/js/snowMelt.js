@@ -127,9 +127,7 @@ function draw() {
   unbrokenIceCup.display();
   brokenIceCup.display();
 
-  // Paint the off-screen buffers onto the main canvas
-  // image(unbrokenIceCup.buffer, 0, windowHeight / 2);
-  // image(brokenIceCup.buffer, windowWidth / 4, windowHeight / 2);
+  //brokenIce.dropIntoCup(10);
 
   hasChanged = false;
 }
