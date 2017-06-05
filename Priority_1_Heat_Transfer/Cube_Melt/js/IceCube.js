@@ -12,7 +12,7 @@
  */
 function IceCube() {
   // Class attributes
-  this.array = []; // Array of rectangles (ice pieces)
+  this.array = []; // Array of squares (ice pieces)
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
 
@@ -41,6 +41,7 @@ function IceCube() {
   this.edgeThickness;
 
   /* Other */
+  this.FALLING_DISTANCE_PER_FRAME = 0.008; // How quickly the ice drops into the cup
   this.isDropping = false;
   this.distanceToFall; // in pixels
   this.pctDistanceFallen = 0;
@@ -205,10 +206,11 @@ function IceCube() {
 /***************** Other functions ******************/
 
 /*
- * Performs the necessary steps to initialize a new pair of IceCubes
- * (broken and unbroken).
+ * Initializes the canvases of both ice cubes. Necessary for updating
+ * the cursor properly as the user hovers over the ice cubes' respective
+ * regions.
  */
-function iceCubeSetup() {
+function iceCubeCanvasSetup() {
   brokenExp.ice.initializeIceCanvas(BROKEN_ICE_DIV_ID);
   unbrokenExp.ice.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
 }

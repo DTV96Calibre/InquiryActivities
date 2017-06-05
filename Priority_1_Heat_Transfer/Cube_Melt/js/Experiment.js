@@ -93,7 +93,7 @@ function Experiment(type, ice) {
    * Begins to drop the array of ice cube(s) into a cup of liquid beneath.
    */
   this.dropIceIntoCup = function(stopHeight) {
-    this.ice.pctDistanceFallen += 0.01;
+    this.ice.pctDistanceFallen += this.ice.FALLING_DISTANCE_PER_FRAME;
     hasChanged = true;
   }
 

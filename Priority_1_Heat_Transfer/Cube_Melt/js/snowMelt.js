@@ -31,8 +31,6 @@ var mouseIsPressed;
 // Pieces of the experiment
 var unbrokenIce;
 var brokenIce;
-var unbrokenCup;
-var brokenCup;
 var unbrokenExp;
 var brokenExp;
 
@@ -93,12 +91,12 @@ function setup() {
   brokenIce = new IceCube();
   unbrokenIce = new IceCube();
 
-  // Hook up the ice and cups to their respective experiments
+  // Hook up the ice cubes to their respective experiments
   unbrokenExp = new Experiment('unbroken', unbrokenIce);
   brokenExp = new Experiment('broken', brokenIce);
   unbrokenExp.init();
   brokenExp.init();
-  iceCubeSetup();
+  iceCubeCanvasSetup();
 
   initializeChart();
   windowResized();
