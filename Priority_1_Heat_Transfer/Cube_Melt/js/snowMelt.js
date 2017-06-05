@@ -93,13 +93,9 @@ function setup() {
   brokenIce = new IceCube();
   unbrokenIce = new IceCube();
 
-  // Create both cups and initialize them
-  unbrokenCup = new Cup();
-  brokenCup = new Cup();
-
   // Hook up the ice and cups to their respective experiments
-  unbrokenExp = new Experiment('unbroken', unbrokenIce, unbrokenCup);
-  brokenExp = new Experiment('broken', brokenIce, brokenCup);
+  unbrokenExp = new Experiment('unbroken', unbrokenIce);
+  brokenExp = new Experiment('broken', brokenIce);
   unbrokenExp.init();
   brokenExp.init();
   iceCubeSetup();
@@ -164,7 +160,7 @@ function updateCursor() {
   else {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
-      if (brokenExp.cursorIsOverIce() && brokenIce.canBeBrokenFurther()) {
+      if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -197,9 +193,9 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.cursorIsOverIce() && brokenIce.canBeBrokenFurther()) {
+  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
     print("Breaking ice");
-    brokenIce.setDivisions(brokenIce.numDivisions + 1);
+    brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
   }
 

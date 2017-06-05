@@ -12,18 +12,18 @@
  * @param type: A string (either 'broken' or 'unbroken', referring to whether 
  * the ice block is breakable via hammer)
  */
-function Experiment(type, ice, cup) {
+function Experiment(type, ice) {
   /* Class attributes */
   this.type = type;
   this.ice = ice;
-  this.cup = cup;
+  this.cup;
 
   /*
    * Initializes this experiment.
    */
   this.init = function() {
     // this.ice = new IceCube();
-    // this.cup = new Cup();
+    this.cup = new Cup();
 
     // Set the properties of the IceCube
 
