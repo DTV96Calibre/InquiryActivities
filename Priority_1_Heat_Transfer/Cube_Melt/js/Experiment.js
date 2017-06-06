@@ -18,6 +18,10 @@ function Experiment(type, ice) {
   this.ice = ice;
   this.cup;
 
+  // The percent of the cup's depth that the ice will fall into before floating
+  this.PERCENT_ICE_SUBMERGED = 0.75;
+  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.01; // How quickly the ice drops into the cup
+
   /*
    * Initializes this experiment.
    */
@@ -96,7 +100,7 @@ function Experiment(type, ice) {
     this.cup.resize();
 
     // Recalculate how many pixels the ice needs to fall to drop into the cup
-    var cupCenterPos = this.cup.yOffset + this.cup.cupHeight / 2;
+    var cupCenterPos = this.cup.yOffset + this.cup.cupHeight * this.PERCENT_ICE_SUBMERGED;
     var iceCenterPos = this.ice.yOffset;
     this.ice.distanceToFall = cupCenterPos - iceCenterPos;
   }
@@ -106,7 +110,7 @@ function Experiment(type, ice) {
    */
   this.dropIceIntoCup = function(stopHeight) {
     if (this.ice.pctDistanceFallen < 1) {
-      this.ice.pctDistanceFallen += this.ice.FALLING_DISTANCE_PER_FRAME;
+      this.ice.pctDistanceFallen += this.ICE_FALLING_DISTANCE_PER_FRAME;
       this.ice.isFalling = true;
       hasChanged = true;
     } else {

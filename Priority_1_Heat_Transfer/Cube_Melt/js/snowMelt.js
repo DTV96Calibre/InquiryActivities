@@ -16,7 +16,7 @@ var DELTA_H_FUS_WATER = 33.55; // (Latent) heat of fusion of water in joules per
 var H = 6.626070040e-34; // Planck's constant
 
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
-var BASE_WIDTH_SCALING = 11; // Amount to divide windowWidth by to get size of ice block
+var BASE_WIDTH_SCALING = 12; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 
