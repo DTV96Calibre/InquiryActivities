@@ -42,7 +42,7 @@ function IceCube() {
 
   /* Other */
   this.isFalling = false;
-  this.distanceToFall; // in pixels
+  this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
 
   /*
@@ -117,7 +117,6 @@ function IceCube() {
 
     this.setDimensions(); // Reset the graphical attributes of this ice cube
     this.setDivisions(this.numDivisions); // Need to recalculate size of each piece
-    this.distanceToFall = 500;
   }
 
   /*

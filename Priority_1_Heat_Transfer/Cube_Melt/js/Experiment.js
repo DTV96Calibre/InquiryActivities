@@ -71,6 +71,7 @@ function Experiment(type, ice) {
   this.display = function() {
     this.cup.display();
     this.ice.display();
+
     // Redraw liquid on top to give graphical 'submerged' effect to ice cubes
     this.cup.displayLiquid(true);
 
@@ -103,15 +104,13 @@ function Experiment(type, ice) {
     var cupCenterPos = this.cup.yOffset + this.cup.cupHeight * this.PERCENT_ICE_SUBMERGED;
     var iceCenterPos = this.ice.yOffset;
     this.ice.distanceToFall = cupCenterPos - iceCenterPos;
+    print("distance to fall is " + this.ice.distanceToFall);
   }
   
   /*
    * Begins to drop the array of ice cube(s) into a cup of liquid beneath.
    */
   this.dropIceIntoCup = function(stopHeight) {
-    // Avoid laggy falling speeds in browser as more pieces are rendered
-    // var dropSpeed = this.ICE_FALLING_DISTANCE_PER_FRAME * (brokenExp.ice.numDivisions + 1);
-
     if (this.ice.pctDistanceFallen < 1) {
       this.ice.pctDistanceFallen += this.ICE_FALLING_DISTANCE_PER_FRAME;
       this.ice.isFalling = true;
