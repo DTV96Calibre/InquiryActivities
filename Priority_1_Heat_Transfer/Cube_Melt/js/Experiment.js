@@ -109,6 +109,9 @@ function Experiment(type, ice) {
    * Begins to drop the array of ice cube(s) into a cup of liquid beneath.
    */
   this.dropIceIntoCup = function(stopHeight) {
+    // Avoid laggy falling speeds in browser as more pieces are rendered
+    // var dropSpeed = this.ICE_FALLING_DISTANCE_PER_FRAME * (brokenExp.ice.numDivisions + 1);
+
     if (this.ice.pctDistanceFallen < 1) {
       this.ice.pctDistanceFallen += this.ICE_FALLING_DISTANCE_PER_FRAME;
       this.ice.isFalling = true;

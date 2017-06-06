@@ -74,24 +74,33 @@ function IceCube() {
         var xPos = piece.x + this.arrayPos.x;
         var yPos = piece.y + this.arrayPos.y;
 
-        // Draw an ice cube
+        // Set up colors
         fill(this.iceColor);
         stroke(this.iceBorderColor);
 
         var dist = this.pctDistanceFallen * this.distanceToFall;
-        rect(xPos, yPos + dist, piece.width, piece.height, 
-          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
 
-        // Draw shading
-        noStroke();
-        fill('white');
-        var padding = piece.width / 10;
-        triangle(xPos + padding * 4, yPos + piece.height - padding + dist, 
-          xPos + piece.width - padding, yPos + padding * 4 + dist, 
-          xPos + piece.width - padding, yPos + piece.height - padding + dist);
-        fill(this.iceColor);
-        ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist, 
-          piece.width - padding * 1.85, piece.height - padding * 1.85);
+        // Draw rounded edges if this ice block hasn't been fractured too much
+        if (this.numDivisions < 3) {
+          rect(xPos, yPos + dist, piece.width, piece.height, 
+          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
+        } else {
+          rect(xPos, yPos + dist, piece.width, piece.height);
+        }
+
+        // Don't draw details if ice pieces are small enough (helps avoid lag)
+        if (this.numDivisions != MAX_DIVISIONS) {
+          // Draw shading
+          noStroke();
+          fill('white');
+          var padding = piece.width / 10;
+          triangle(xPos + padding * 4, yPos + piece.height - padding + dist, 
+            xPos + piece.width - padding, yPos + padding * 4 + dist, 
+            xPos + piece.width - padding, yPos + piece.height - padding + dist);
+          fill(this.iceColor);
+          ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist, 
+            piece.width - padding * 1.85, piece.height - padding * 1.85);
+        }
       }
     }
   }
