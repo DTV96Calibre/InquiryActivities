@@ -17,9 +17,9 @@ function IceCube() {
   this.canvas = null;
 
   this.waterTemp = 280; // Temperature of water in Kelvin // TODO: why 280?
-  this.surfaceArea = this.edgeLength * this.edgeLength * 6;
-  this.volume = Math.pow(this.edgeLength, 3);
-  this.iceMass = ICE_DENSITY * this.volume;
+  this.surfaceArea;
+  this.volume;
+  this.iceMass;
 
   /* Colors */
   this.iceColor = '#e9f7ef';
@@ -49,7 +49,7 @@ function IceCube() {
   this.numFramesStalled = 0;
 
   /*
-   * Sets the dimensions of the ice cube's drawing (both when the cube is first 
+   * Sets the dimensions of the ice cube (both when the cube is first 
    * instantiated as well as whenever the window is resized).
    */
   this.setDimensions = function() {
@@ -59,6 +59,11 @@ function IceCube() {
     this.edgeRoundness = this.baseEdgeRoundness;
     this.shadingPadding = this.edgeLength / 10;
     this.edgeThickness = this.edgeLength / 100;
+
+    // Mathy stuff
+    this.surfaceArea = this.edgeLength * this.edgeLength * 6;
+    this.volume = Math.pow(this.edgeLength, 3);
+    this.iceMass = ICE_DENSITY * this.volume;
   }
 
   /* 
