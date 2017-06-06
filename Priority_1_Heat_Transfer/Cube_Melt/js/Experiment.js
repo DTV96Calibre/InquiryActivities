@@ -101,10 +101,7 @@ function Experiment(type, ice) {
     this.cup.resize();
 
     // Recalculate how many pixels the ice needs to fall to drop into the cup
-    var cupCenterPos = this.cup.yOffset + this.cup.cupHeight * this.PERCENT_ICE_SUBMERGED;
-    var iceCenterPos = this.ice.yOffset;
-    this.ice.distanceToFall = cupCenterPos - iceCenterPos;
-    print("distance to fall is " + this.ice.distanceToFall);
+    this.ice.distanceToFall = windowHeight / 2;
   }
   
   /*
@@ -115,8 +112,6 @@ function Experiment(type, ice) {
       this.ice.pctDistanceFallen += this.ICE_FALLING_DISTANCE_PER_FRAME;
       this.ice.isFalling = true;
       hasChanged = true;
-    } else {
-      this.ice.isFalling = false;
     }
   }
 

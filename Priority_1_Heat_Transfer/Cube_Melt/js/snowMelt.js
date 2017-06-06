@@ -159,7 +159,7 @@ function updateCursor() {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
       if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
-        && !brokenExp.ice.isDropping) {
+        && !brokenExp.ice.isFalling) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -193,7 +193,7 @@ function mouseReleased() {
  */
 function swingHammer() {
   if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
-    && !brokenExp.ice.isDropping) {
+    && !brokenExp.ice.isFalling) {
     print("Breaking ice");
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;

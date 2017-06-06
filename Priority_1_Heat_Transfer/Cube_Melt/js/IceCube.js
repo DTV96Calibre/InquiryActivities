@@ -178,7 +178,6 @@ function IceCube() {
   this.findArrayRange = function() {
     var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
     var pieceWidth = baseWidth / length;
-    //print(exp.array[length-1][-0.5]); // Debug
     var xRange = this.array[length - 1][length - 1].x + pieceWidth;
     return xRange;
   }
