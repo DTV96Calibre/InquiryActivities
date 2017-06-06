@@ -46,6 +46,7 @@ function IceCube() {
   this.hasHitSurface = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
+  this.numFramesStalled = 0;
 
   /*
    * Sets the dimensions of the ice cube's drawing (both when the cube is first 
@@ -216,8 +217,16 @@ function IceCube() {
    * @param pct: The percentage of the total drop to advance the ice's drop.
    */
   this.drop = function(pct) {
-    var acceleration = this.pctDistanceFallen * pct * 2; // proof of concept
-    this.pctDistanceFallen += (pct + acceleration);
+    // Ice drops more slowly once it encounters resistance from the liquid
+    var hasHitLiquid = this.pctDistanceFallen > 0.70;
+
+    if (hasHitLiquid) {
+      this.pctDistanceFallen += pct;
+    }
+    else {
+      var acceleration = this.pctDistanceFallen * pct; // proof of concept
+      this.pctDistanceFallen += (pct + acceleration);
+    }
   }
 }
 

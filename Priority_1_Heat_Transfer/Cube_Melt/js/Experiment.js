@@ -24,6 +24,9 @@ function Experiment(type, ice) {
   // How quickly the ice drops as a percentage of the total distance to drop. 0.01 = 1% per frame.
   this.ICE_FALLING_DISTANCE_PER_FRAME = 0.025;
 
+  // The number of frames to pause before the ice begins floating to the surface.
+  this.NUM_FRAMES_BEFORE_FLOATING = 10;
+
   /*
    * Initializes this experiment.
    */
@@ -77,9 +80,9 @@ function Experiment(type, ice) {
     // Redraw liquid on top to give graphical 'submerged' effect to ice cubes
     this.cup.displayLiquid(true);
 
-    // Update the positioning of the ice cube if it's falling
+    // Update the positioning of the ice cube if it has fallen
     if (this.ice.hasDropped) {
-      this.dropIceIntoCup();
+      this.animateIce();
     }
   }
 
@@ -118,33 +121,63 @@ function Experiment(type, ice) {
   }
 
   /*
-   * Continues to drop the ice vertically downward into the liquid.
+   * Takes the ice's progression, once dropped, through three 'stages': falling,
+   * stalling, and floating.
    */
-  this.dropIceIntoCup = function() {
+  this.animateIce = function() {
     if (this.ice.isFalling) {
       // Stage 1 (falling)
-      this.ice.drop(this.ICE_FALLING_DISTANCE_PER_FRAME);
-      this.displaceLiquidInCup();
+      this.dropIceIntoCup();
+    }
 
-      if (this.ice.pctDistanceFallen >= 1) {
-        this.ice.isFalling = false;
-        this.ice.isFloating = true;
-      }
-
-      hasChanged = true;
+    else if (this.ice.isStalling) {
+      // Stage 2 (stalling)
+      this.stallIceInLiquid();
     }
 
     else if (this.ice.isFloating) {
-      // Stage 2 (floating)
+      // Stage 3 (floating)
       this.floatIceToSurface();
     }
+  }
+
+  /*
+   * Drops the ice vertically downward into the liquid. The ice's drop speed will
+   * slow a bit once it encounters resistance from hitting the surface of the
+   * liquid.
+   */
+  this.dropIceIntoCup = function() {
+    this.ice.drop(this.ICE_FALLING_DISTANCE_PER_FRAME);
+    this.displaceLiquidInCup();
+
+    if (this.ice.pctDistanceFallen >= 1) {
+      this.ice.isFalling = false;
+      this.ice.isStalling = true;
+    }
+
+    hasChanged = true;
+  }
+
+  /*
+   * Causes the ice to temporarily 'stall' before starting to float back up.
+   */
+  this.stallIceInLiquid = function() {
+    this.ice.numFramesStalled += 1;
+
+    if (this.ice.numFramesStalled > this.NUM_FRAMES_BEFORE_FLOATING) {
+      this.ice.isStalling = false;
+      this.ice.isFloating = true;
+      this.ice.numFramesStalled = 0;
+    }
+
+    hasChanged = true;
   }
 
   /*
    * Causes the ice to bob back to the surface of the liquid.
    */
   this.floatIceToSurface = function() {
-    this.ice.pctDistanceFallen -= this.ICE_FALLING_DISTANCE_PER_FRAME;
+    this.ice.pctDistanceFallen -= this.ICE_FALLING_DISTANCE_PER_FRAME / 4;
 
     if (this.ice.pctDistanceFallen < 0.85) {
       this.ice.isFloating = false;

@@ -16,7 +16,7 @@ function Cup() {
   // Class attributes
   
   // The amount that this cup's liquid will rise once ice falls in
-  this.LIQUID_DISPLACEMENT_FACTOR = 0.25;
+  this.LIQUID_DISPLACEMENT_FACTOR = 0.10;
 
   // The size of the buffer (in pixels)
   this.xLength;
@@ -91,7 +91,7 @@ function Cup() {
 
   /*
    * Draws only the liquid in this cup.
-   * @param transparent: True if the liquid is drawn with a level of transparency.
+   * @param transparent: True if the liquid should be drawn with a level of transparency.
    */
   this.displayLiquid = function(transparent) {
     if (transparent) {
