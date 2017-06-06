@@ -1,5 +1,5 @@
 /* File: snowMelt.js
- * Dependencies: IceCube.js
+ * Dependencies: IceCube.js, Cup.js, Experiment.js
  *
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
@@ -16,14 +16,14 @@ var DELTA_H_FUS_WATER = 33.55; // (Latent) heat of fusion of water in joules per
 var H = 6.626070040e-34; // Planck's constant
 
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
-var BASE_WIDTH_SCALING = 9; // Amount to divide windowWidth by to get size of ice block
+var BASE_WIDTH_SCALING = 11; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 
 /**************** Global variables ******************/
 
 var iceCanvas;
-var baseWidth = 100; // Number of pixels along one edge of an unbroken ice block
+var baseWidth; // Number of pixels along one edge of an unbroken ice block
 var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 var mouseIsPressed;
@@ -158,7 +158,8 @@ function updateCursor() {
   else {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
-      if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
+      if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
+        && !brokenExp.ice.isDropping) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -191,7 +192,8 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
+  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
+    && !brokenExp.ice.isDropping) {
     print("Breaking ice");
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
@@ -248,3 +250,5 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
 }
+
+// document.getElementById("startBtn").onclick = brokenExp.dropIceIntoCup();

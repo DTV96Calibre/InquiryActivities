@@ -42,7 +42,7 @@ function IceCube() {
 
   /* Other */
   this.FALLING_DISTANCE_PER_FRAME = 0.008; // How quickly the ice drops into the cup
-  this.isDropping = false;
+  this.isFalling = false;
   this.distanceToFall; // in pixels
   this.pctDistanceFallen = 0;
 

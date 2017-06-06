@@ -24,10 +24,11 @@ function Cup() {
   this.yOffset;
 
   /* Colors */
-  this.cupColor = '#ebedef';
-  this.borderColor = '#c4c1c0';
-  this.liquidColor = '#ffbc88';
-  this.liquidBorderColor = '#f1ad78';
+  this.cupColor =    'rgb(235, 237, 239)';
+  this.borderColor = 'rgb(196, 193, 192)';
+  this.liquidColor = 'rgb(255, 188, 136)';
+  this.liquidColorTransp = 'rgba(255, 188, 136, 0.3)';
+  this.liquidBorderColor = 'rgb(241, 173, 120)';
 
   /* Dimensions */
   this.cupWidth;
@@ -80,14 +81,27 @@ function Cup() {
 
     /* Draw the liquid in the cup, if applicable */
     if (this.hasLiquid) {
+      this.displayLiquid(false);
+    }
+  }
+
+  /*
+   * Draws only the liquid in this cup.
+   * @param transparent: True if the liquid is drawn with a level of transparency.
+   */
+  this.displayLiquid = function(transparent) {
+    if (transparent) {
+      fill(this.liquidColorTransp);
+    } else {
       fill(this.liquidColor);
       stroke(this.liquidBorderColor);
-      rect(this.liquidPosX, this.liquidPosY, this.liquidWidth, this.liquidHeight, 
-        0, 0, this.cupRoundedCornerDegree, this.cupRoundedCornerDegree);
-      fill(this.cupColor);
-      arc(this.liquidPosX + this.liquidWidth / 2, this.liquidPosY - this.cupThickness,
-       this.liquidWidth, this.liquidHeight / 27, 0, PI, OPEN);
     }
+    
+    rect(this.liquidPosX, this.liquidPosY, this.liquidWidth, this.liquidHeight, 
+      0, 0, this.cupRoundedCornerDegree, this.cupRoundedCornerDegree);
+    fill(this.cupColor);
+    arc(this.liquidPosX + this.liquidWidth / 2, this.liquidPosY - this.cupThickness,
+     this.liquidWidth, this.liquidHeight / 27, 0, PI, OPEN);
   }
 
   /*

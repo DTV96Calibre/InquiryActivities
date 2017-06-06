@@ -65,8 +65,15 @@ function Experiment(type, ice) {
    * Draws the components of this experiment onscreen.
    */
   this.display = function() {
-    this.ice.display();
     this.cup.display();
+    this.ice.display();
+    // Redraw liquid on top to give graphical 'submerged' effect to ice cubes
+    this.cup.displayLiquid(true);
+
+    // Update the positioning of the ice cube if it's falling
+    if (this.ice.isFalling) {
+      this.dropIceIntoCup();
+    }
   }
 
   /*
@@ -87,14 +94,24 @@ function Experiment(type, ice) {
 
     this.ice.resize();
     this.cup.resize();
+
+    // Recalculate how many pixels the ice needs to fall to drop into the cup
+    var cupCenterPos = this.cup.yOffset + this.cup.cupHeight / 2;
+    var iceCenterPos = this.ice.yOffset;
+    this.ice.distanceToFall = cupCenterPos - iceCenterPos;
   }
   
   /*
    * Begins to drop the array of ice cube(s) into a cup of liquid beneath.
    */
   this.dropIceIntoCup = function(stopHeight) {
-    this.ice.pctDistanceFallen += this.ice.FALLING_DISTANCE_PER_FRAME;
-    hasChanged = true;
+    if (this.ice.pctDistanceFallen < 1) {
+      this.ice.pctDistanceFallen += this.ice.FALLING_DISTANCE_PER_FRAME;
+      this.ice.isFalling = true;
+      hasChanged = true;
+    } else {
+      this.ice.isFalling = false;
+    }
   }
 
   /*
