@@ -203,10 +203,11 @@ function IceCube() {
   }
 
   /*
-   * Returns true if this ice cube hasn't hit its max number of divisions.
+   * Returns true if this ice cube hasn't hit its max number of divisions AND
+   * it hasn't yet been dropped into the cup.
    */
   this.canBeBrokenFurther = function() {
-    return this.numDivisions < this.totalNumDivisions;
+    return this.numDivisions < this.totalNumDivisions && !this.hasDropped;
   }
 }
 

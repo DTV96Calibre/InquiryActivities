@@ -145,7 +145,12 @@ function windowResized() {
  * over the ice cubes and looks like a red X when the ice can't be broken further.
  */
 function updateCursor() {
-  if (!mouseIsPressed) {
+  // Ice has already fallen and can't be broken now
+  if (unbrokenExp.ice.hasDropped) {
+    cursor(ARROW);
+  }
+  // Ice hasn't fallen yet; mouse button isn't pressed
+  else if (!mouseIsPressed) {
     if (cursorOverIceCubes()) {
       cursor('hammer_hover.cur');
     } else {
@@ -156,8 +161,7 @@ function updateCursor() {
   else {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
-      if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
-        && !brokenExp.ice.hasDropped) {
+      if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -190,8 +194,7 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
-    && !brokenExp.ice.hasDropped) {
+  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
     print("Breaking ice");
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
