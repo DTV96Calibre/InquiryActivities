@@ -96,6 +96,7 @@ function Cup() {
   this.displayLiquid = function(transparent) {
     if (transparent) {
       fill(this.liquidColorTransp);
+      noStroke();
     } else {
       fill(this.liquidColor);
       stroke(this.liquidBorderColor);

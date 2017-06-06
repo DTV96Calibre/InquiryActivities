@@ -43,7 +43,7 @@ function IceCube() {
   /* Other */
   this.hasDropped = false;
   this.isFalling = false;
-  this.hasHitSurface = false;
+  this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
   this.numFramesStalled = 0;

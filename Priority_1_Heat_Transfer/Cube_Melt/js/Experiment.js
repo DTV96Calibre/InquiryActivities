@@ -107,6 +107,12 @@ function Experiment(type, ice) {
 
     // Recalculate how many pixels the ice needs to fall to drop into the cup
     this.ice.distanceToFall = windowHeight / 2;
+    // Also reorient the ice w.r.t. the top of the cup if it's already finished moving
+    if (this.ice.isDoneAnimating) {
+      var floatDistance = this.cup.cupHeight / 5
+      var targetPct = (this.ice.distanceToFall - floatDistance) / this.ice.distanceToFall;
+      this.ice.pctDistanceFallen = targetPct;
+    }
   }
   
   /*
@@ -179,8 +185,16 @@ function Experiment(type, ice) {
   this.floatIceToSurface = function() {
     this.ice.pctDistanceFallen -= this.ICE_FALLING_DISTANCE_PER_FRAME / 4;
 
-    if (this.ice.pctDistanceFallen < 0.85) {
+    /* Find the percentage of the distance (between the ice's original starting
+     * position and the center of the cup) that the ice should reach before stopping
+     * its floating.
+     */
+    var floatDistance = this.cup.cupHeight / 5;
+    var targetPct = (this.ice.distanceToFall - floatDistance) / this.ice.distanceToFall;
+
+    if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
+      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;
