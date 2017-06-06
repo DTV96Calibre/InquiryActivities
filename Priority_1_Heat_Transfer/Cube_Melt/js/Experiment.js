@@ -22,7 +22,7 @@ function Experiment(type, ice) {
   this.PERCENT_ICE_SUBMERGED = 0.75;
 
   // How quickly the ice drops as a percentage of the total distance to drop. 0.01 = 1% per frame.
-  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.01;
+  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.025;
 
   /*
    * Initializes this experiment.
@@ -123,16 +123,18 @@ function Experiment(type, ice) {
   this.dropIceIntoCup = function() {
     if (this.ice.isFalling) {
       // Stage 1 (falling)
-      this.ice.pctDistanceFallen += this.ICE_FALLING_DISTANCE_PER_FRAME;
+      this.ice.drop(this.ICE_FALLING_DISTANCE_PER_FRAME);
       this.displaceLiquidInCup();
-      hasChanged = true;
 
       if (this.ice.pctDistanceFallen >= 1) {
         this.ice.isFalling = false;
+        this.ice.isFloating = true;
       }
+
+      hasChanged = true;
     }
 
-    else {
+    else if (this.ice.isFloating) {
       // Stage 2 (floating)
       this.floatIceToSurface();
     }
@@ -142,7 +144,13 @@ function Experiment(type, ice) {
    * Causes the ice to bob back to the surface of the liquid.
    */
   this.floatIceToSurface = function() {
+    this.ice.pctDistanceFallen -= this.ICE_FALLING_DISTANCE_PER_FRAME;
 
+    if (this.ice.pctDistanceFallen < 0.85) {
+      this.ice.isFloating = false;
+    }
+
+    hasChanged = true;
   }
 
   /*

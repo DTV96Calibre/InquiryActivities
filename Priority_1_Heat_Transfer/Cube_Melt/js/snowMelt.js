@@ -112,8 +112,6 @@ function draw() {
     return;
   }
 
-  hasChanged = false;
-
   // Clear the canvas
   background(255, 255, 255);
 

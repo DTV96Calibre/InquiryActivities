@@ -43,6 +43,7 @@ function IceCube() {
   /* Other */
   this.hasDropped = false;
   this.isFalling = false;
+  this.hasHitSurface = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
 
@@ -208,6 +209,15 @@ function IceCube() {
    */
   this.canBeBrokenFurther = function() {
     return this.numDivisions < this.totalNumDivisions && !this.hasDropped;
+  }
+
+  /*
+   * 'Drops' the ice by the given incremental percentage.
+   * @param pct: The percentage of the total drop to advance the ice's drop.
+   */
+  this.drop = function(pct) {
+    var acceleration = this.pctDistanceFallen * pct * 2; // proof of concept
+    this.pctDistanceFallen += (pct + acceleration);
   }
 }
 
