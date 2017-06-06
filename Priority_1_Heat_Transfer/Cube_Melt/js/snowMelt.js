@@ -122,8 +122,6 @@ function draw() {
 
   unbrokenExp.display();
   brokenExp.display();
-
-  //brokenExp.dropIceIntoCup(10);
 }
 
 /*
@@ -159,7 +157,7 @@ function updateCursor() {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
       if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
-        && !brokenExp.ice.isFalling) {
+        && !brokenExp.ice.hasDropped) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -193,7 +191,7 @@ function mouseReleased() {
  */
 function swingHammer() {
   if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()
-    && !brokenExp.ice.isFalling) {
+    && !brokenExp.ice.hasDropped) {
     print("Breaking ice");
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
@@ -250,5 +248,3 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
 }
-
-// document.getElementById("startBtn").onclick = brokenExp.dropIceIntoCup();

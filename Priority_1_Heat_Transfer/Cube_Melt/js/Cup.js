@@ -14,6 +14,9 @@
 function Cup() {
 
   // Class attributes
+  
+  // The amount that this cup's liquid will rise once ice falls in
+  this.LIQUID_DISPLACEMENT_FACTOR = 0.25;
 
   // The size of the buffer (in pixels)
   this.xLength;
@@ -48,6 +51,7 @@ function Cup() {
   /* Other */
   this.hasLiquid = true;
   this.liquidLevel = 0.75; // The percent of the cup that's filled with liquid
+  this.pctDisplaced = 0;
 
   /*
    * Draws this cup. All components are drawn w.r.t. xLength to maintain ratio.
@@ -96,12 +100,17 @@ function Cup() {
       fill(this.liquidColor);
       stroke(this.liquidBorderColor);
     }
-    
-    rect(this.liquidPosX, this.liquidPosY, this.liquidWidth, this.liquidHeight, 
+
+    // Amount to increase the liquid level (if it has been displaced by dropping ice)
+    var amountDisplaced = this.LIQUID_DISPLACEMENT_FACTOR * this.liquidHeight * this.pctDisplaced;
+
+    rect(this.liquidPosX, this.liquidPosY - amountDisplaced, 
+      this.liquidWidth, this.liquidHeight + amountDisplaced, 
       0, 0, this.cupRoundedCornerDegree, this.cupRoundedCornerDegree);
     fill(this.cupColor);
-    arc(this.liquidPosX + this.liquidWidth / 2, this.liquidPosY - this.cupThickness,
-     this.liquidWidth, this.liquidHeight / 27, 0, PI, OPEN);
+    arc(this.liquidPosX + this.liquidWidth / 2, 
+      this.liquidPosY - this.cupThickness - amountDisplaced,
+      this.liquidWidth, this.liquidHeight / 27, 0, PI, OPEN);
   }
 
   /*

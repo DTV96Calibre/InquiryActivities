@@ -41,6 +41,7 @@ function IceCube() {
   this.edgeThickness;
 
   /* Other */
+  this.hasDropped = false;
   this.isFalling = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;

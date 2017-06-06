@@ -18,9 +18,11 @@ function Experiment(type, ice) {
   this.ice = ice;
   this.cup;
 
-  // The percent of the cup's depth that the ice will fall into before floating
+  // The percent of the cup's depth that the ice will fall into before floating.
   this.PERCENT_ICE_SUBMERGED = 0.75;
-  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.01; // How quickly the ice drops into the cup
+
+  // How quickly the ice drops as a percentage of the total distance to drop. 0.01 = 1% per frame.
+  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.01;
 
   /*
    * Initializes this experiment.
@@ -76,7 +78,7 @@ function Experiment(type, ice) {
     this.cup.displayLiquid(true);
 
     // Update the positioning of the ice cube if it's falling
-    if (this.ice.isFalling) {
+    if (this.ice.hasDropped) {
       this.dropIceIntoCup();
     }
   }
@@ -106,12 +108,54 @@ function Experiment(type, ice) {
   
   /*
    * Begins to drop the array of ice cube(s) into a cup of liquid beneath.
+   * Triggers the sequence that 1) makes the ice fall and 2) makes the ice
+   * bob back to the surface after it finishes falling.
    */
-  this.dropIceIntoCup = function(stopHeight) {
-    if (this.ice.pctDistanceFallen < 1) {
+  this.beginDroppingIce = function() {
+    this.ice.hasDropped = true;
+    this.ice.isFalling = true;
+    hasChanged = true;
+  }
+
+  /*
+   * Continues to drop the ice vertically downward into the liquid.
+   */
+  this.dropIceIntoCup = function() {
+    if (this.ice.isFalling) {
+      // Stage 1 (falling)
       this.ice.pctDistanceFallen += this.ICE_FALLING_DISTANCE_PER_FRAME;
-      this.ice.isFalling = true;
+      this.displaceLiquidInCup();
       hasChanged = true;
+
+      if (this.ice.pctDistanceFallen >= 1) {
+        this.ice.isFalling = false;
+      }
+    }
+
+    else {
+      // Stage 2 (floating)
+      this.floatIceToSurface();
+    }
+  }
+
+  /*
+   * Causes the ice to bob back to the surface of the liquid.
+   */
+  this.floatIceToSurface = function() {
+
+  }
+
+  /*
+   * Gradually increases the liquid level in the cup due to displacement.
+   */
+  this.displaceLiquidInCup = function() {
+    /* The percentage the ice must have already fallen in order for the liquid
+       to begin rising.
+     */
+    var startPct = 0.65;
+
+    if (this.ice.pctDistanceFallen > startPct) {
+      this.cup.pctDisplaced += this.ICE_FALLING_DISTANCE_PER_FRAME * (1 / startPct);
     }
   }
 
