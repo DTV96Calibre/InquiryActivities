@@ -115,11 +115,50 @@ function draw() {
   // Clear the canvas
   background(255, 255, 255);
 
+  drawTitle();
+
   //myLineChart.data.datasets[0].data[0] += 1;
   //myLineChart.update();
 
   unbrokenExp.display();
   brokenExp.display();
+}
+
+/*
+ * Writes the title of the page towards the top of the canvas.
+ */
+function drawTitle() {
+  /* When the window is longer than it is wide (e.g. mobile), draw the text
+   * on top of each other instead of side-by-side for readability
+   */
+  var windowRatio = windowWidth / windowHeight;
+
+  if (windowRatio < 1) {
+    // Mobile layout
+    var fontSize = windowWidth / 2 / 24;
+    textSize(fontSize);
+
+    var fontPosX = windowWidth / 8;
+    var fontPosY = windowHeight / 24;
+
+    fill(32, 32, 32); // grey
+    text("Rate vs. Amount: ", fontPosX * 1.15, fontPosY);
+    fill(0, 102, 153); // blue
+    text("Melting Ice Simulation", fontPosX, fontPosY * 1.45);
+  }
+  else {
+    // Standard/desktop
+    var fontSize = windowWidth / 2 / 32;
+    textSize(fontSize);
+
+    var fontPosX = windowWidth / 10;
+    var fontPosY = windowHeight / 24;
+
+    fill(32, 32, 32); // grey
+    text("Rate vs. Amount: ", fontPosX, fontPosY);
+    fill(0, 102, 153); // blue
+    text("Melting Ice Simulation", fontPosX * 2.25, fontPosY);
+  }
 }
 
 /*
