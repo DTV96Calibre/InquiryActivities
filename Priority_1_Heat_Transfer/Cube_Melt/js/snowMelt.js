@@ -114,6 +114,7 @@ function setup() {
 
 function draw() {
   updateCursor();
+  updateSimulation();
 
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
@@ -164,8 +165,6 @@ function drawTitle() {
 
     var fontPosX = windowWidth / 10;
     var fontPosY = windowHeight / 24;
-
-  stepSimulation(brokenIce);
 
     fill(32, 32, 32); // grey
     text("Rate vs. Amount: ", fontPosX, fontPosY);
@@ -252,30 +251,44 @@ function swingHammer() {
 
 /************ Math and science functions ************/
 
+/*
+ * Advances the simulation by updating the mathematical calculations. All functions of
+ * this nature should be put here in order to run once per draw() loop.
+ */
+function updateSimulation() {
+  unbrokenExp.updateCalculations();
+  brokenExp.updateCalculations();
+
+  stepSimulation(brokenExp);
+}
+
 /* Calculates the changes in the simulation over dt, the change in time over
  * a loop of the draw function which is called 60 times a second.
- * @param exp: An IceCube object that tracks information about an experiment
+ * @param exp: An Experiment object
  */
 function stepSimulation(exp) {
-  print("exp.name:", exp.name);
-  print("exp.iceMass:", exp.iceMass);
+  // Consider the IceCube from the given Experiment obj.
+  var ice = exp.ice;
+
+  print("exp.name:", ice.name);
+  print("exp.iceMass:", ice.iceMass);
   var dt = 1/FPS; // inverse of the expected framerate.
   print("period is:", dt);
-  var n = pow(pow(2, exp.numDivisions), 3); // The number of pieces in the whole ice
+  var n = ice.numPieces; // The number of pieces in the whole ice
   print("n is:", n);
-  var aOne = findAreaOfOneIcecubeFromMass(exp.iceMass, n);
+  var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
   print("aOne is:", aOne);
-  print("tempWater is:", exp.waterTemp);
-  var q = findQ(aOne, n, exp.waterTemp, dt);
+  print("tempWater is:", ice.waterTemp);
+  var q = findQ(aOne, n, ice.waterTemp, dt);
   print("q is:", q);
   var mMelted = findM_melted(q); // The mass of the liquid created from melting ice.
-  exp.waterTemp = findT_waterNewMelting(exp.waterMass, exp.waterTemp, mMelted);
-  print("Melted, waterTemp is:", exp.waterTemp);
-  exp.waterTemp = findT_waterNewMixing(exp.waterMass, exp.waterTemp, mMelted);
-  exp.waterMass += mMelted; // Add new liquid to water
-  exp.iceMass -= mMelted;   // Remove melted mass from ice
-  exp.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
-  graphTemperature(exp.waterTemp, exp.name); // TODO: This function should be called in draw
+  ice.waterTemp = findT_waterNewMelting(ice.waterMass, ice.waterTemp, mMelted);
+  print("Melted, waterTemp is:", ice.waterTemp);
+  ice.waterTemp = findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted);
+  ice.waterMass += mMelted; // Add new liquid to water
+  ice.iceMass -= mMelted;   // Remove melted mass from ice
+  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
+  graphTemperature(ice.waterTemp, ice.name); // TODO: This function should be called in draw
 }
 
 /* TODO: This function is not in use, remove later
@@ -356,7 +369,7 @@ function findEdgeLength(surfaceArea) {
   return sqrt(surfaceArea/6);
 }
 
-/************ Chart Functionality functions ************/
+/*************** Chart Functionality ****************/
 
 /* Graphs a temperature datapoint. Assumes constant period (1/FPS) between adjacent points.
  * Assumes points aren't being skipped!

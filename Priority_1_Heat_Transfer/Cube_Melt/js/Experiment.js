@@ -253,6 +253,13 @@ function Experiment(type, ice) {
     return (mouseX >= xLeft && mouseX <= xRight) &&
            (mouseY >= yTop && mouseY <= yBottom);
   }
+
+  /*
+   * Updates the mathematical properties of the components of this Experiment.
+   */
+  this.updateCalculations = function() {
+    this.ice.calculateProperties();
+  }
 }
 
 /***************** Other functions ******************/

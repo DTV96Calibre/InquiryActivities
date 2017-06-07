@@ -12,14 +12,23 @@
  */
 function IceCube() { // TODO: Refactor. This class also represents the water in the cup. The ice cube can also be divided into multiple ice cubes.
   // Class attributes
-  this.name = ""; //Used to identify experiment to graphing Functionality
+  this.name = ""; // Used to identify experiment to graphing functionality
   this.array = []; // Array of squares (ice pieces)
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
-  this.waterTemp = 295; // Temperature of water in Kelvin // TODO: why 280?
-  this.surfaceArea = baseWidth * baseWidth * 6; // TODO: This is only calculated once but needs to be updated if used midway through calculations.
-  this.volume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
+
+  // TODO: Make these attributes of the Cup instead
+  this.waterTemp = 295; // Temperature of water in Kelvin
   this.waterMass = MASS_CUP_OF_WATER;
+
+  /* Length (in cm) of one edge of the original unbroken ice cube. NOT dependent on window
+   * size. */
+  this.BASE_EDGE_LENGTH_CM = 20;
+
+  this.edgeLength; // The length of a single cube (becomes smaller as ice is broken)
+  this.numPieces; 
+  this.surfaceArea;
+  this.volume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
   this.iceMass = ICE_DENSITY * this.volume;
 
   /* Colors */
@@ -36,7 +45,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.totalNumDivisions;
 
   /* Graphical properties */
-  this.edgeLength; // The length of a single cube
   this.baseEdgeRoundness; // In degrees
   this.edgeRoundness;
   this.shadingPadding;
@@ -52,22 +60,21 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.numFramesStalled = 0;
   this.timeToDissolveSeconds = 0;
 
+  /* ==================================================================
+                              Graphical methods
+     ==================================================================
+  */
+
   /*
    * Sets the dimensions of the ice cube's drawing (both when the cube is first
    * instantiated as well as whenever the window is resized).
    */
   this.setDimensions = function() {
     this.yOffset = windowHeight / 4;
-    this.edgeLength = baseWidth; // TODO: This should not be reset to default everytime the window is resized!
-    this.baseEdgeRoundness = this.edgeLength / 20; // In degrees
+    this.baseEdgeRoundness = baseWidth / 20; // In degrees
     this.edgeRoundness = this.baseEdgeRoundness;
-    this.shadingPadding = this.edgeLength / 10;
-    this.edgeThickness = this.edgeLength / 100;
-
-    // Mathy stuff
-    this.surfaceArea = this.edgeLength * this.edgeLength * 6;
-    this.volume = Math.pow(this.edgeLength, 3);
-    this.iceMass = ICE_DENSITY * this.volume;
+    this.shadingPadding = baseWidth / 10;
+    this.edgeThickness = baseWidth / 100;
   }
 
   /*
@@ -133,6 +140,40 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
+   * Initializes this experiment's canvas.
+   * @param targetElement: The ID of the HTML div element that will hold this canvas.
+   */
+  this.initializeIceCanvas = function(targetElement) {
+    // Create canvas and set its parent to the appropriate div tag
+    this.canvas = parent.createCanvas(windowWidth / 2, windowHeight);
+    this.canvas.parent(targetElement);
+  }
+
+  /*
+   * Sets the array's position relative to its center.
+   * @param x: The horizontal placement of the array on the screen
+   * @param y: The vertical placement of the array on the screen
+   */
+  this.setCenterArrayPos = function(x, y) {
+    var offset = this.findArrayRange() / 2;
+    this.arrayPos.x = x - offset;
+    this.arrayPos.y = y - offset;
+  }
+
+  /*
+   * Centers the array in the window.
+   * @param offset: Added to the final position to display canvases side-by-side.
+   */
+  this.moveArrayToCenter = function() {
+    this.setCenterArrayPos(this.xOffset, this.yOffset);
+  }
+
+  /* ==================================================================
+                         Methods for functionality
+     ==================================================================
+  */
+
+  /*
    * Initializes the array of ice blocks of this cube.
    */
   this.initializeArray = function() {
@@ -145,16 +186,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
 
       this.array.push(list);
     }
-  }
-
-  /*
-   * Initializes this experiment's canvas.
-   * @param targetElement: The ID of the HTML div element that will hold this canvas.
-   */
-  this.initializeIceCanvas = function(targetElement) {
-    // Create canvas and set its parent to the appropriate div tag
-    this.canvas = parent.createCanvas(windowWidth / 2, windowHeight);
-    this.canvas.parent(targetElement);
   }
 
   /*
@@ -193,25 +224,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     var pieceWidth = baseWidth / length;
     var xRange = this.array[length - 1][length - 1].x + pieceWidth;
     return xRange;
-  }
-
-  /*
-   * Sets the array's position relative to its center.
-   * @param x: The horizontal placement of the array on the screen
-   * @param y: The vertical placement of the array on the screen
-   */
-  this.setCenterArrayPos = function(x, y) {
-    var offset = this.findArrayRange() / 2;
-    this.arrayPos.x = x - offset;
-    this.arrayPos.y = y - offset;
-  }
-
-  /*
-   * Centers the array in the window.
-   * @param offset: Added to the final position to display canvases side-by-side.
-   */
-  this.moveArrayToCenter = function() {
-    this.setCenterArrayPos(this.xOffset, this.yOffset);
   }
 
   /*
@@ -278,33 +290,71 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.dissolve = function(opacityPct) {
     this.opacity -= opacityPct;
   }
+
+  /* ==================================================================
+               Methods for mathematical calculations 
+     ==================================================================
+  */
+ 
+  /*
+  * The equivalent of setDimensions(), but for mathematical properties (e.g.
+  * surface area) instead of graphical properties. Must be recomputed every 
+  * time the IceCube undergoes a change; e.g. being broken or dissolving.
+  */
+  this.calculateProperties = function() {
+    this.edgeLength = this.calculateEdgeLength();
+    this.numPieces = this.calculateNumPieces();
+    this.surfaceArea = this.calculateSurfaceArea();
+    this.volume = this.calculateVolume();
+    this.iceMass = this.calculateMass();
+  }
+
+  /*
+   * Calculates and returns the edge length for one shard of this ice cube.
+   * Although the ice cube visually shrinks/grows as the window is resized,
+   * this has no effect on the stored edgeLength of the cubes.
+   */
+  this.calculateEdgeLength = function() {
+    var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
+    return this.BASE_EDGE_LENGTH_CM / length;
+  }
+
+  /*
+   * Calculates the number of individual ice pieces of this block. An unbroken
+   * IceCube will have only 1 piece. An ice block broken the maximum number of
+   * times (5) will have 1,024 pieces.
+   */
+  this.calculateNumPieces = function() {
+    var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
+    return length * length * length;
+  }
+
+  /*
+   * Calculates and returns the surface area for the entirety of this ice block.
+   * Note more divisions = more surface area.
+   */
+  this.calculateSurfaceArea = function() {
+    return this.edgeLength * this.edgeLength * 6 * this.numPieces;
+  }
+
+  /*
+   * Calculates and returns the volume of this ice block. All pieces are included,
+   * so both ice blocks will have the same volume regardless of the number of 
+   * divisions.
+   */
+  this.calculateVolume = function() {
+    return Math.pow(this.edgeLength, 3) * this.numPieces;
+  }
+
+  /*
+   * Calculates the total mass of all pieces of this ice block.
+   */
+  this.calculateMass = function() {
+    return ICE_DENSITY * this.volume;
+  }
 }
 
 /***************** Other functions ******************/
-
-/*
- * Performs the necessary steps to initialize a new pair of IceCubes
- * (broken and unbroken).
- */
-function iceCubeSetup() {
-  unbrokenIce.name = "unbroken";
-  brokenIce.name = "broken";
-  unbrokenIce.xOffset = windowWidth / 8;
-  brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
-
-  unbrokenIce.totalNumDivisions = 0;
-  brokenIce.totalNumDivisions = MAX_DIVISIONS;
-
-  brokenIce.initializeIceCanvas(BROKEN_ICE_DIV_ID);
-  unbrokenIce.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
-
-  brokenIce.initializeArray();
-  unbrokenIce.initializeArray();
-
-  brokenIce.setDivisions(0);
-  unbrokenIce.setDivisions(0);
-}
-
 
 /* Initializes the canvases of both ice cubes. Necessary for updating
  * the cursor properly as the user hovers over the ice cubes' respective
