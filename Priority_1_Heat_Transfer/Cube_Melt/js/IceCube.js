@@ -13,7 +13,7 @@
 function IceCube() { // TODO: Refactor. This class also represents the water in the cup. The ice cube can also be divided into multiple ice cubes.
   // Class attributes
   this.name = ""; //Used to identify experiment to graphing Functionality
-  this.array = []; // Array of rectangles (ice pieces)
+  this.array = []; // Array of squares (ice pieces)
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
   this.waterTemp = 295; // Temperature of water in Kelvin // TODO: why 280?
@@ -41,6 +41,14 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.shadingPadding;
   this.edgeThickness;
 
+  /* Other */
+  this.hasDropped = false;
+  this.isFalling = false;
+  this.isDoneAnimating = false;
+  this.distanceToFall = 0; // in pixels
+  this.pctDistanceFallen = 0;
+  this.numFramesStalled = 0;
+
   /*
    * Sets the dimensions of the ice cube's drawing (both when the cube is first
    * instantiated as well as whenever the window is resized).
@@ -52,6 +60,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     this.edgeRoundness = this.baseEdgeRoundness;
     this.shadingPadding = this.edgeLength / 10;
     this.edgeThickness = this.edgeLength / 100;
+
+    // Mathy stuff
+    this.surfaceArea = this.edgeLength * this.edgeLength * 6;
+    this.volume = Math.pow(this.edgeLength, 3);
+    this.iceMass = ICE_DENSITY * this.volume;
   }
 
   /*
@@ -59,30 +72,44 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    */
   this.display = function() {
     this.moveArrayToCenter();
-
     strokeWeight(this.edgeThickness);
-
     var length = Math.pow(2, this.numDivisions);
+
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
+
         var piece = this.array[i][j];
 
-        // Draw an ice cube
+        var xPos = piece.x + this.arrayPos.x;
+        var yPos = piece.y + this.arrayPos.y;
+
+        // Set up colors
         fill(this.iceColor);
         stroke(this.iceBorderColor);
-        rect(piece.x + this.arrayPos.x, piece.y + this.arrayPos.y, piece.width, piece.height,
-          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
 
-        // Draw shading
-        noStroke();
-        fill('white');
-        var padding = piece.width / 10;
-        triangle(this.arrayPos.x + piece.x + padding * 4, this.arrayPos.y + piece.y + piece.height - padding,
-          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + padding * 4,
-          this.arrayPos.x + piece.x + piece.width - padding, this.arrayPos.y + piece.y + piece.height - padding);
-        fill(this.iceColor);
-        ellipse(this.arrayPos.x + piece.x + piece.width / 2, this.arrayPos.y + piece.y + piece.height / 2,
-          piece.width - padding * 1.85, piece.height - padding * 1.85);
+        var dist = this.pctDistanceFallen * this.distanceToFall;
+
+        // Draw rounded edges if this ice block hasn't been fractured too much
+        if (this.numDivisions < 3) {
+          rect(xPos, yPos + dist, piece.width, piece.height,
+          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
+        } else {
+          rect(xPos, yPos + dist, piece.width, piece.height);
+        }
+
+        // Don't draw details if ice pieces are small enough (helps avoid lag)
+        if (this.numDivisions != MAX_DIVISIONS) {
+          // Draw shading
+          noStroke();
+          fill('white');
+          var padding = piece.width / 10;
+          triangle(xPos + padding * 4, yPos + piece.height - padding + dist,
+            xPos + piece.width - padding, yPos + padding * 4 + dist,
+            xPos + piece.width - padding, yPos + piece.height - padding + dist);
+          fill(this.iceColor);
+          ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist,
+            piece.width - padding * 1.85, piece.height - padding * 1.85);
+        }
       }
     }
   }
@@ -160,7 +187,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.findArrayRange = function() {
     var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
     var pieceWidth = baseWidth / length;
-    //print(exp.array[length-1][-0.5]); // Debug
     var xRange = this.array[length - 1][length - 1].x + pieceWidth;
     return xRange;
   }
@@ -174,7 +200,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     var offset = this.findArrayRange() / 2;
     this.arrayPos.x = x - offset;
     this.arrayPos.y = y - offset;
-    //print(arrayPos.x, arrayPos.y); // Debug
   }
 
   /*
@@ -186,24 +211,28 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Returns true if this ice cube hasn't hit its max number of divisions.
+   * Returns true if this ice cube hasn't hit its max number of divisions AND
+   * it hasn't yet been dropped into the cup.
    */
   this.canBeBrokenFurther = function() {
-    return this.numDivisions < this.totalNumDivisions;
+    return this.numDivisions < this.totalNumDivisions && !this.hasDropped;
   }
 
   /*
-   * Returns true if the cursor is hovering over this ice cube.
+   * 'Drops' the ice by the given incremental percentage.
+   * @param pct: The percentage of the total drop to advance the ice's drop.
    */
-  this.cursorIsOver = function() {
-    var halfBlockSize = this.findArrayRange() / 2;
-    var xLeft = this.xOffset - halfBlockSize;
-    var xRight = this.xOffset + halfBlockSize;
-    var yTop = this.yOffset - halfBlockSize;
-    var yBottom = this.yOffset + halfBlockSize;
+  this.drop = function(pct) {
+    // Ice drops more slowly once it encounters resistance from the liquid
+    var hasHitLiquid = this.pctDistanceFallen > 0.70;
 
-    return (mouseX >= xLeft && mouseX <= xRight) &&
-           (mouseY >= yTop && mouseY <= yBottom);
+    if (hasHitLiquid) {
+      this.pctDistanceFallen += pct;
+    }
+    else {
+      var acceleration = this.pctDistanceFallen * pct; // proof of concept
+      this.pctDistanceFallen += (pct + acceleration);
+    }
   }
 }
 
@@ -232,9 +261,12 @@ function iceCubeSetup() {
   unbrokenIce.setDivisions(0);
 }
 
-/**
- * Detects whether the cursor is hovering over either ice block.
+
+/* Initializes the canvases of both ice cubes. Necessary for updating
+ * the cursor properly as the user hovers over the ice cubes' respective
+ * regions.
  */
-function cursorOverIceCubes() {
-  return unbrokenIce.cursorIsOver() || brokenIce.cursorIsOver();
+function iceCubeCanvasSetup() {
+  brokenExp.ice.initializeIceCanvas(BROKEN_ICE_DIV_ID);
+  unbrokenExp.ice.initializeIceCanvas(UNBROKEN_ICE_DIV_ID);
 }

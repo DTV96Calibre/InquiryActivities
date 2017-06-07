@@ -1,5 +1,5 @@
 /* File: snowMelt.js
- * Dependencies: IceCube.js
+ * Dependencies: IceCube.js, Cup.js, Experiment.js
  *
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
@@ -21,7 +21,7 @@ var DELTA_H_FUS_WATER = 333.86; // (Latent) heat of fusion of water in joules pe
 var H = 100; // Free water convection (Wm^-2K^-1) // Heat transfer constant
 
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
-var BASE_WIDTH_SCALING = 9; // Amount to divide windowWidth by to get size of ice block
+var BASE_WIDTH_SCALING = 12; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 
@@ -30,7 +30,7 @@ var FPS = 60; // Frames per second. The rate at which the draw function is calle
 /**************** Global variables ******************/
 
 var iceCanvas;
-var baseWidth = 100; // Number of pixels along one edge of an unbroken ice block
+var baseWidth; // Number of pixels along one edge of an unbroken ice block
 var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 var mouseIsPressed;
@@ -38,8 +38,8 @@ var mouseIsPressed;
 // Pieces of the experiment
 var unbrokenIce;
 var brokenIce;
-var unbrokenIceCup;
-var brokenIceCup;
+var unbrokenExp;
+var brokenExp;
 
 /********** Configuration data for chart ************/
 
@@ -94,22 +94,21 @@ function setup() {
 
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
-  // Create both ice visualizations and initialize them
+  // Create both ice cubes and initialize them
   brokenIce = new IceCube();
   unbrokenIce = new IceCube();
-  iceCubeSetup();
 
-  // Create both cups and initialize them
-  unbrokenIceCup = new Cup();
-  brokenIceCup = new Cup();
-  cupSetup();
+  // Hook up the ice cubes to their respective experiments
+  unbrokenExp = new Experiment('unbroken', unbrokenIce);
+  brokenExp = new Experiment('broken', brokenIce);
+  unbrokenExp.init();
+  brokenExp.init();
+  iceCubeCanvasSetup();
 
   initializeChart();
   windowResized();
 
   hasChanged = true; // Force the draw function to execute
-
-  //noLoop();
 }
 
 function draw() {
@@ -123,23 +122,55 @@ function draw() {
   // Clear the canvas
   background(255, 255, 255);
 
+  drawTitle();
+
   //myLineChart.data.datasets[0].data[0] += 1;
   //myLineChart.update();
 
-  // Draw the ice blocks
-  brokenIce.display();
-  unbrokenIce.display();
+  unbrokenExp.display();
+  brokenExp.display();
+}
 
-  // Draw the cups
-  unbrokenIceCup.display();
-  brokenIceCup.display();
+/*
+ * Writes the title of the page towards the top of the canvas.
+ */
+function drawTitle() {
+  // Set exact font to avoid inconsistencies between browsers
+  textFont("Helvetica");
 
-  // Paint the off-screen buffers onto the main canvas
-  // image(unbrokenIceCup.buffer, 0, windowHeight / 2);
-  // image(brokenIceCup.buffer, windowWidth / 4, windowHeight / 2);
+  /* When the window is longer than it is wide (e.g. mobile), draw the text
+   * on top of each other instead of side-by-side for readability
+   */
+  var windowRatio = windowWidth / windowHeight;
 
-  hasChanged = false;
+  if (windowRatio < 1) {
+    // Mobile layout
+    var fontSize = windowWidth / 2 / 24;
+    textSize(fontSize);
+
+    var fontPosX = windowWidth / 8;
+    var fontPosY = windowHeight / 24;
+
+    fill(32, 32, 32); // grey
+    text("Rate vs. Amount: ", fontPosX * 1.4, fontPosY);
+    fill(0, 102, 153); // blue
+    text("Melting Ice Simulation", fontPosX * 1.2, fontPosY * 1.45);
+  }
+  else {
+    // Standard/desktop
+    var fontSize = windowWidth / 2 / 32;
+    textSize(fontSize);
+
+    var fontPosX = windowWidth / 10;
+    var fontPosY = windowHeight / 24;
+
   stepSimulation(brokenIce);
+
+    fill(32, 32, 32); // grey
+    text("Rate vs. Amount: ", fontPosX, fontPosY);
+    fill(0, 102, 153); // blue
+    text("Melting Ice Simulation", fontPosX * 2.25, fontPosY);
+  }
 }
 
 /*
@@ -148,19 +179,12 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth / 2, windowHeight);
 
-  hasChanged = true;
-
   // Update variables that scale with screen size
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
-  unbrokenIce.xOffset = windowWidth / 8;
-  brokenIce.xOffset = windowWidth / 2 - windowWidth / 8;
-  brokenIceCup.xOffset = windowWidth / 4;
+  unbrokenExp.resize();
+  brokenExp.resize();
 
-  unbrokenIce.resize();
-  brokenIce.resize();
-
-  unbrokenIceCup.resize();
-  brokenIceCup.resize();
+  hasChanged = true;
 }
 
 /*********** User interaction functions *************/
@@ -170,7 +194,12 @@ function windowResized() {
  * over the ice cubes and looks like a red X when the ice can't be broken further.
  */
 function updateCursor() {
-  if (!mouseIsPressed) {
+  // Ice has already fallen and can't be broken now
+  if (unbrokenExp.ice.hasDropped) {
+    cursor(ARROW);
+  }
+  // Ice hasn't fallen yet; mouse button isn't pressed
+  else if (!mouseIsPressed) {
     if (cursorOverIceCubes()) {
       cursor('hammer_hover.cur');
     } else {
@@ -181,7 +210,7 @@ function updateCursor() {
   else {
     if (cursorOverIceCubes()) {
       // If clicking on a breakable ice cube, show the hammer cursor
-      if (brokenIce.cursorIsOver() && brokenIce.canBeBrokenFurther()) {
+      if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
         cursor('hammer_click.cur');
       }
       // Else, show a red X because the user can't break this ice
@@ -214,15 +243,9 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenIce.cursorIsOver() && brokenIce.canBeBrokenFurther()) {
-    print("Breaking ice");
-    brokenIce.numDivisions += 1;
-    brokenIce.setDivisions(brokenIce.numDivisions);
+  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
+    brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
-  }
-
-  else {
-    print("The ice couldn't be broken further");
   }
 }
 
@@ -355,4 +378,41 @@ function graphTemperature(temperature, name) {
   chartData.data.datasets[dataSetIndex].data.push({x:prevTime + period, y:temperature});
   myLineChart.update();
   return;
+}
+
+/**** Code to interface with HTML elements (e.g. bootstrap btns) ****/
+
+// jQuery code to register button clicks and link them to appropriate JS functions
+$(document).ready(function(){
+  $("#startBtn").click(function () {
+    startSimulation();
+    // $("#startBtn").toggleClass("disabled");
+    $('#startBtn').attr('disabled','disabled');
+  });
+
+  $("#resetBtn").click(function () {
+    resetSimulation();
+    $("#startBtn").removeAttr('disabled');
+  });
+});
+
+/*
+ * Called when the user presses the green 'Start' button. Begins the simulation
+ * by dropping the ice cubes and beginning to run through the calculations.
+ */
+function startSimulation() {
+  // Don't allow the simulation to be started a second time
+  if (!brokenExp.ice.hasDropped) {
+    brokenExp.beginDroppingIce();
+    unbrokenExp.beginDroppingIce();
+  }
+}
+
+/*
+ * Called when the user presses the red 'Restart' button. Resets the states of both
+ * ice cubes as well as the chart.
+ */
+function resetSimulation() {
+  // Calling the p5 setup function will reset all onscreen elements
+  setup();
 }

@@ -14,6 +14,9 @@
 function Cup() {
 
   // Class attributes
+  
+  // The amount that this cup's liquid will rise once ice falls in
+  this.LIQUID_DISPLACEMENT_FACTOR = 0.10;
 
   // The size of the buffer (in pixels)
   this.xLength;
@@ -24,8 +27,11 @@ function Cup() {
   this.yOffset;
 
   /* Colors */
-  this.cupColor = '#ebedef';
-  this.borderColor = '#c4c1c0';
+  this.cupColor =    'rgb(235, 237, 239)';
+  this.borderColor = 'rgb(196, 193, 192)';
+  this.liquidColor = 'rgb(255, 188, 136)';
+  this.liquidColorTransp = 'rgba(255, 188, 136, 0.3)';
+  this.liquidBorderColor = 'rgb(241, 173, 120)';
 
   /* Dimensions */
   this.cupWidth;
@@ -36,6 +42,16 @@ function Cup() {
   this.cupBeginPosY;
   this.cupHandleWidth;
   this.cupHandleHeight;
+  this.liquidPadding;
+  this.liquidPosX;
+  this.liquidPosY;
+  this.liquidWidth;
+  this.liquidHeight;
+
+  /* Other */
+  this.hasLiquid = true;
+  this.liquidLevel = 0.75; // The percent of the cup that's filled with liquid
+  this.pctDisplaced = 0;
 
   /*
    * Draws this cup. All components are drawn w.r.t. xLength to maintain ratio.
@@ -53,9 +69,9 @@ function Cup() {
       this.cupRoundedCornerDegree);
 
     /* Draw the top of the cup */
-    // Ref: Center xPos/yPos, width, height
-  	ellipse(this.xOffset + this.cupBeginPosX + this.cupWidth / 2, 
-      this.yOffset + this.cupBeginPosY, this.cupWidth, this.cupHeight / 27);
+    arc(this.xOffset + this.cupBeginPosX + this.cupWidth / 2, 
+      this.yOffset + this.cupBeginPosY - this.cupThickness + 3, this.cupWidth, 
+      this.cupHeight / 27, PI, 0, OPEN);
 
     /* Draw the cup's handle */
     // Ref: Ellipse x/y coords, width, height, start/stop angles, mode
@@ -66,6 +82,36 @@ function Cup() {
     arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2, this.yOffset + 
       this.cupBeginPosY + this.cupHeight / 2.2, this.cupHandleWidth / 2, 
       this.cupHandleHeight / 2, PI / 2, -(PI / 2), CHORD);
+
+    /* Draw the liquid in the cup, if applicable */
+    if (this.hasLiquid) {
+      this.displayLiquid(false);
+    }
+  }
+
+  /*
+   * Draws only the liquid in this cup.
+   * @param transparent: True if the liquid should be drawn with a level of transparency.
+   */
+  this.displayLiquid = function(transparent) {
+    if (transparent) {
+      fill(this.liquidColorTransp);
+      noStroke();
+    } else {
+      fill(this.liquidColor);
+      stroke(this.liquidBorderColor);
+    }
+
+    // Amount to increase the liquid level (if it has been displaced by dropping ice)
+    var amountDisplaced = this.LIQUID_DISPLACEMENT_FACTOR * this.liquidHeight * this.pctDisplaced;
+
+    rect(this.liquidPosX, this.liquidPosY - amountDisplaced, 
+      this.liquidWidth, this.liquidHeight + amountDisplaced, 
+      0, 0, this.cupRoundedCornerDegree, this.cupRoundedCornerDegree);
+    fill(this.cupColor);
+    arc(this.liquidPosX + this.liquidWidth / 2, 
+      this.liquidPosY - this.cupThickness - amountDisplaced,
+      this.liquidWidth, this.liquidHeight / 27, 0, PI, OPEN);
   }
 
   /*
@@ -105,22 +151,11 @@ function Cup() {
     this.cupBeginPosY = this.yLength / 2 - this.cupHeight / 2;
     this.cupHandleWidth = this.cupWidth / 2.1;
     this.cupHandleHeight = this.cupHeight / 2.7;
+    this.liquidPadding = this.cupThickness * 5;
+    this.liquidPosX = this.cupBeginPosX + this.xOffset + this.liquidPadding;
+    this.liquidPosY = this.cupBeginPosY + this.yOffset + this.cupHeight * 
+      (1 - this.liquidLevel) - this.liquidPadding;
+    this.liquidWidth = this.cupWidth - this.liquidPadding * 2;
+    this.liquidHeight = this.cupHeight * this.liquidLevel;
   }
-}
-
-/***************** Other functions ******************/
-
-/*
- * Performs the necessary steps to initialize a new pair of cups.
- */
-function cupSetup() {
-	var xLength = windowWidth / 4;
-	var yLength = windowHeight / 2;
-  var yOffset = windowHeight / 2;
-
-  unbrokenIceCup.setDimensions();
-  brokenIceCup.setDimensions();
-
-	unbrokenIceCup.initializeBuffer(xLength, yLength, 0, yOffset);
-	brokenIceCup.initializeBuffer(xLength, yLength, windowWidth / 4, yOffset);
 }
