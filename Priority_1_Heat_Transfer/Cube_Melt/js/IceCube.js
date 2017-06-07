@@ -54,6 +54,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.hasDropped = false;
   this.isFalling = false;
   this.isMelting = false;
+  this.isDoneFalling = false;
   this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
@@ -157,7 +158,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.setCenterArrayPos = function(x, y) {
     var offset = this.findArrayRange() / 2;
     this.arrayPos.x = x - offset;
-    this.arrayPos.y = y - offset;
+    this.arrayPos.y = y - offset + this.findOffsetFromPadding();
   }
 
   /*
@@ -224,6 +225,28 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     var pieceWidth = baseWidth / length;
     var xRange = this.array[length - 1][length - 1].x + pieceWidth;
     return xRange;
+  }
+
+  /*
+   * Returns the offset to apply when centering this IceCube once it's fallen 
+   * into the cup. Necessary to prevent the top rows of broken ice shards from
+   * appearing to float above the surface of the liquid.
+   */
+  this.findOffsetFromPadding = function() {
+    /* Find the actual width ('array range') of this IceCube minus the starting 
+     * (base) width. This coincides with the number of divisions (hits from a 
+     * hammer).
+     */
+    var padding = this.findArrayRange() - baseWidth;
+
+    /* Scale with distance fallen. If already done falling into the cup, assume
+     * distance fallen = 100%.
+     */
+    if (this.isDoneFalling) {
+      return padding;
+    } else {
+      return this.pctDistanceFallen * padding;
+    }
   }
 
   /*

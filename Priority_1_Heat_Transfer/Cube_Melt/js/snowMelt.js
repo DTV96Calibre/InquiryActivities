@@ -257,7 +257,7 @@ function updateSimulation() {
   unbrokenExp.updateCalculations();
   brokenExp.updateCalculations();
 
-  stepSimulation(brokenExp);
+  // stepSimulation(brokenExp);
 }
 
 /* Calculates the changes in the simulation over dt, the change in time over

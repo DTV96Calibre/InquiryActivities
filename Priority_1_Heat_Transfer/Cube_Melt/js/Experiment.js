@@ -165,6 +165,7 @@ function Experiment(type, ice) {
 
     if (this.ice.pctDistanceFallen >= 1) {
       this.ice.isFalling = false;
+      this.ice.isDoneFalling = true;
       this.ice.isStalling = true;
     }
 
