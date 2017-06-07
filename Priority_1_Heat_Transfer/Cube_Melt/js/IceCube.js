@@ -22,8 +22,9 @@ function IceCube() {
   this.iceMass;
 
   /* Colors */
-  this.iceColor = '#e9f7ef';
-  this.iceBorderColor = '#d0ece7';
+  this.iceColor = 'rgba(233, 247, 239,';
+  this.iceBorderColor = 'rgba(208, 236, 231,';
+  this.opacity = 1; // 0 to 1 range
 
   /* The offset in pixels to draw the center of the ice block. */
   this.xOffset;
@@ -43,10 +44,12 @@ function IceCube() {
   /* Other */
   this.hasDropped = false;
   this.isFalling = false;
+  this.isDissolving = false;
   this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
   this.numFramesStalled = 0;
+  this.timeToDissolveSeconds = 0;
 
   /*
    * Sets the dimensions of the ice cube (both when the cube is first 
@@ -83,8 +86,8 @@ function IceCube() {
         var yPos = piece.y + this.arrayPos.y;
 
         // Set up colors
-        fill(this.iceColor);
-        stroke(this.iceBorderColor);
+        fill(this.iceColor + this.getOpacity('body') + ')');
+        stroke(this.iceBorderColor + this.getOpacity('body') + ')');
 
         var dist = this.pctDistanceFallen * this.distanceToFall;
 
@@ -98,14 +101,15 @@ function IceCube() {
 
         // Don't draw details if ice pieces are small enough (helps avoid lag)
         if (this.numDivisions != MAX_DIVISIONS) {
+
           // Draw shading
           noStroke();
-          fill('white');
+          fill('rgba(255, 255, 255,' + this.getOpacity('shading') + ')'); // white
           var padding = piece.width / 10;
           triangle(xPos + padding * 4, yPos + piece.height - padding + dist, 
             xPos + piece.width - padding, yPos + padding * 4 + dist, 
             xPos + piece.width - padding, yPos + piece.height - padding + dist);
-          fill(this.iceColor);
+          fill(this.iceColor + this.getOpacity('shading') + ')');
           ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist, 
             piece.width - padding * 1.85, piece.height - padding * 1.85);
         }
@@ -218,6 +222,39 @@ function IceCube() {
   }
 
   /*
+   * Returns the appropriate opacity level (a float between 0 and 1) depending
+   * on the type of graphical object to draw. The reason for differences in opacity
+   * between types is to prevent shading from appearing overly dark due to
+   * superimposed shapes with additive opacity.
+   * @param type: A string, either 'body' or 'shading'
+   */
+  this.getOpacity = function(type) {
+    // Never want a negative opacity
+    if (this.opacity <= 0) {
+      return 0;
+    }
+
+    if (this.opacity > 0.5) {
+      // Opacity greater than 1/2 means an opaque body but faded shading
+      if (type == 'body') {
+        return 1;
+      }
+      else if (type == 'shading') {
+        return Math.max(2 * this.opacity - 1, 0.01);
+      }
+    }
+    else {
+      // Opacity less than 1/2 means transparent shading but faded body
+      if (type == 'body') {
+        return 2 * this.opacity;
+      }
+      else if (type == 'shading') {
+        return 0;
+      }
+    }
+  }
+
+  /*
    * 'Drops' the ice by the given incremental percentage.
    * @param pct: The percentage of the total drop to advance the ice's drop.
    */
@@ -232,6 +269,13 @@ function IceCube() {
       var acceleration = this.pctDistanceFallen * pct; // proof of concept
       this.pctDistanceFallen += (pct + acceleration);
     }
+  }
+
+  /*
+   * Dissolved this ice by reducing its total opacity by the given percentage.
+   */
+  this.dissolve = function(opacityPct) {
+    this.opacity -= opacityPct;
   }
 }
 

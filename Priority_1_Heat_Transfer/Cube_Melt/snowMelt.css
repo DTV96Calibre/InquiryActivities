@@ -7,6 +7,11 @@
  * (c) Margot Vigeant 2017
 */
 
+.body {
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
 /**************** Canvas positioning ****************/
 
 .chartCanvas-holder {
@@ -27,11 +32,6 @@
 	width: 45%;
 	height: 51%;
 	/*border: 5px solid pink;*/ /* For debugging */
-}
-
-.body {
-	max-width: 100%;
-	overflow-x: hidden;
 }
 
 

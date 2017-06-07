@@ -145,6 +145,13 @@ function Experiment(type, ice) {
       // Stage 3 (floating)
       this.floatIceToSurface();
     }
+
+    else if (this.ice.isDissolving) {
+      // TODO: Put this somewhere else so it's a result of a math calculation
+      this.ice.timeToDissolveSeconds = 3;
+      // Stage 4 (dissolving)
+      this.dissolveIce();
+    }
   }
 
   /*
@@ -194,6 +201,25 @@ function Experiment(type, ice) {
 
     if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
+      this.ice.isDissolving = true;
+    }
+
+    hasChanged = true;
+  }
+
+  /*
+   * Causes the ice to gradually dissolve in increments proportional to the
+   * calculated timeToDissolve (units in seconds).
+   */
+  this.dissolveIce = function() {
+    var numFramesToDissolve = this.ice.timeToDissolveSeconds * FRAME_RATE;
+    var opacityPct = 1 / numFramesToDissolve;
+    this.ice.dissolve(opacityPct);
+
+    // If the opacity has reached zero, it's finished dissolving
+    if (this.ice.opacity - opacityPct <= 0) {
+      this.ice.opacity = 0;
+      this.ice.isDissolving = false;
       this.ice.isDoneAnimating = true;
     }
 
