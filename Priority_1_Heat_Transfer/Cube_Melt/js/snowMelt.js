@@ -145,9 +145,9 @@ function drawTitle() {
     var fontPosY = windowHeight / 24;
 
     fill(32, 32, 32); // grey
-    text("Rate vs. Amount: ", fontPosX * 1.15, fontPosY);
+    text("Rate vs. Amount: ", fontPosX * 1.4, fontPosY);
     fill(0, 102, 153); // blue
-    text("Melting Ice Simulation", fontPosX, fontPosY * 1.45);
+    text("Melting Ice Simulation", fontPosX * 1.2, fontPosY * 1.45);
   }
   else {
     // Standard/desktop
