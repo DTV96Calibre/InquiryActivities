@@ -193,13 +193,8 @@ function mouseReleased() {
  */
 function swingHammer() {
   if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
-    print("Breaking ice");
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
-  }
-
-  else {
-    print("The ice couldn't be broken further");
   }
 }
 
@@ -255,12 +250,13 @@ function findT_waterNewMixing(mWater, tempWater, mMelted) {
 $(document).ready(function(){
   $("#startBtn").click(function () {
     startSimulation();
-    $("#startBtn").toggleClass("disabled");
+    // $("#startBtn").toggleClass("disabled");
+    $('#startBtn').attr('disabled','disabled');
   });
 
   $("#resetBtn").click(function () {
     resetSimulation();
-    $("#startBtn").toggleClass("disabled"); // re-enable
+    $("#startBtn").removeAttr('disabled');
   });
 });
 
@@ -281,11 +277,6 @@ function startSimulation() {
  * ice cubes as well as the chart.
  */
 function resetSimulation() {
-  // Re-enable the 'Start' button, but only if it is currently disabled
-  if ($('#startBtn').is('disabled')) {
-    $('#startBtn').toggleClass('disabled');
-  }
- 
   // Calling the p5 setup function will reset all onscreen elements
   setup();
 }
