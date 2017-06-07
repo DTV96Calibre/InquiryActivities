@@ -21,7 +21,7 @@ var DELTA_H_FUS_WATER = 333.86; // (Latent) heat of fusion of water in joules pe
 var H = 100; // Free water convection (Wm^-2K^-1) // Heat transfer constant
 
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
-var BASE_WIDTH_SCALING = 12; // Amount to divide windowWidth by to get size of ice block
+var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.

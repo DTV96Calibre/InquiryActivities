@@ -22,10 +22,10 @@ function Experiment(type, ice) {
   this.PERCENT_ICE_SUBMERGED = 0.75;
 
   // How quickly the ice drops as a percentage of the total distance to drop. 0.01 = 1% per frame.
-  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.025;
+  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.015;
 
   // The number of frames to pause before the ice begins floating to the surface.
-  this.NUM_FRAMES_BEFORE_FLOATING = 10;
+  this.NUM_FRAMES_BEFORE_FLOATING = 5;
 
   /*
    * Initializes this experiment.
@@ -131,6 +131,8 @@ function Experiment(type, ice) {
    * stalling, and floating.
    */
   this.animateIce = function() {
+    this.ice.setDivisions(this.ice.numDivisions);
+
     if (this.ice.isFalling) {
       // Stage 1 (falling)
       this.dropIceIntoCup();
@@ -203,6 +205,7 @@ function Experiment(type, ice) {
     if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
       this.ice.isMelting = true;
+      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;
@@ -221,7 +224,6 @@ function Experiment(type, ice) {
     if (this.ice.opacity - opacityPct <= 0) {
       this.ice.opacity = 0;
       this.ice.isMelting = false;
-      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;

@@ -94,13 +94,19 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         var xPos = piece.x + this.arrayPos.x;
         var yPos = piece.y + this.arrayPos.y;
 
+        // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
+        if (j % 2 == 1) {
+          var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
+          xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
+        }
+
         // Set up colors
         fill(this.iceColor + this.getOpacity('body') + ')');
         stroke(this.iceBorderColor + this.getOpacity('body') + ')');
 
         var dist = this.pctDistanceFallen * this.distanceToFall;
         // Pieces on the lower rows need to fall a lesser distance to reach the liquid
-        dist -= j * this.pctDistanceFallen * piece.width;
+        dist -= j * this.pctDistanceFallen * piece.width / 2;
 
         // Draw rounded edges if this ice block hasn't been fractured too much
         if (this.numDivisions < 3) {
@@ -206,7 +212,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     var paddingToPieceRatio = 0.5;
     for (var i = 0; i < length; i++) { // Iterate over pieces that exist
       for (var j = 0; j < length; j++) {
-        var offset = ((1 + paddingToPieceRatio) * baseWidth / length);
+        var offset = (1 + paddingToPieceRatio) * baseWidth / length;
         this.array[i][j].x = i * offset;
         this.array[i][j].y = j * offset;
         this.array[i][j].width = pieceWidth;
