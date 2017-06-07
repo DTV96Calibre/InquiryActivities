@@ -99,6 +99,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         stroke(this.iceBorderColor + this.getOpacity('body') + ')');
 
         var dist = this.pctDistanceFallen * this.distanceToFall;
+        // Pieces on the lower rows need to fall a lesser distance to reach the liquid
+        dist -= j * this.pctDistanceFallen * piece.width;
 
         // Draw rounded edges if this ice block hasn't been fractured too much
         if (this.numDivisions < 3) {
