@@ -81,25 +81,25 @@ var meltStep2;
 function init() {
 	numCubes = 0;
 	numEdges = 0;
-	
+
 	// Creates an input grid to know whether or not there is a cube
 	gridArray = new Array(6);
 	for (var i = 0; i < 6; i++) {
 		gridArray[i] = new Array(6);
 		for (var j = 0; j < 6; j++) {
-			gridArray [i][j] = false;	
+			gridArray [i][j] = false;
 		}
 	}
-	
+
 	// Creates a copy of the grid to determine if there is more than 1 group
 	copyArray = new Array(6);
 	for (var i = 0; i < 6; i++) {
 		copyArray[i] = new Array(6);
 		for (var j = 0; j < 6; j++) {
-			copyArray [i][j] = false;	
+			copyArray [i][j] = false;
 		}
 	}
-	
+
 	// Makes sure that the input grid is empty
 	var temp;
 	for (var y = 0; y < 6; y++) {
@@ -111,9 +111,9 @@ function init() {
 	// Makes sure that the automated grid is empty
 	for (var x = 1; x <= 18; x++) {
 		temp = "#mark" + x;
-		$(temp).hide();	
+		$(temp).hide();
 	}
-	
+
 	$("#help").live('click', displayAboutInfo);
 	$("#graph").hide();
 	generateGraphPoints();
@@ -126,12 +126,12 @@ function init() {
 function generateGraphPoints() {
 	var sit1HTML = "";
 	var sit2HTML = "";
-	
+
 	for(var i=1; i<=numGraphPts; i++) {
 		sit1HTML += '<img id="sit1Point' + i + '" class="sit1Point" src="blank_img.png" />';
 		sit2HTML += '<img id="sit2Point' + i + '" class="sit2Point" src="blank_img.png" />';
 	}
-	
+
 	$("#graph").after('<div id="graphPointsDiv">' + sit1HTML + sit2HTML + '</div>');
 }
 
@@ -146,12 +146,12 @@ function gridClick(y, x) {
 	if (gridArray[y][x] == false) {
 		if (numCubes+1 > 13) {
 			alert("Too much mass");
-			return;	
+			return;
 		}
 		gridArray[y][x] = true;
 		numCubes++;
 		var coordinate = "#mark_" + y + "_" + x;
-		$(coordinate).show();	
+		$(coordinate).show();
 		updateGrid(true);
 	} else {
 		gridArray[y][x] = false;
@@ -174,12 +174,12 @@ function updateGrid(add) {
 		$(cube).show();
 	} else {
 		cube = "#mark" + (numCubes + 1);
-		$(cube).hide();	
+		$(cube).hide();
 	}
 	return;
 }
 
-/* 
+/*
  * Function: createSnowball
  * Creates a snowball based on what parts the grid has bits in them
  * x and y coordinates are switched due to the nature of how the arrays were created....
@@ -190,25 +190,25 @@ function createSnowball() {
 	var edge3;
 	var edge4;
 	var temp;
-	
+
 	if(numCubes==0) {
 		alert("You need to make a snowball");
-		return;	
+		return;
 	}
-	
+
 	// Copy grid into copy array
 	for (var i = 0; i < 6; i++) {
 		for (var j = 0; j < 6; j++) {
-			copyArray [i][j] = gridArray[i][j];	
+			copyArray [i][j] = gridArray[i][j];
 		}
 	}
-	
+
 	// Checks to see if the ice is in more than 1 group
 	if (!determineCube()) {
 		alert("You cannot have a broken up cube");
 		return;
 	}
-	
+
 	for (var y = 0; y < 6; y++) {
 		for (var x = 0; x < 6; x++) {
 			if (gridArray[y][x]) {
@@ -220,60 +220,60 @@ function createSnowball() {
 				else edge3 = gridArray[y+1][x];
 				//checks if there is a block to the left
 				if (x == 0) edge4 = false;
-				else edge4 = gridArray[y][x-1];				
+				else edge4 = gridArray[y][x-1];
 				//checks if there is a block to the right
 				if (x == 5) edge2 = false;
 				else edge2 = gridArray[y][x+1];
-				
+
 				//Updates the image to the correct number of edges depending on what is next to it
 				temp = "mark_" + y + "_" + x;
 				if (edge1&&edge2&&edge3&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-0.png");
 				} else if ((!edge1)&&edge2&&edge3&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-1.png");
-					numEdges = numEdges + 1;	
+					numEdges = numEdges + 1;
 				} else if ((!edge1)&&(!edge2)&&edge3&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-2.png");
 					numEdges = numEdges + 2;
 				} else if ((!edge1)&&(!edge2)&&(!edge3)&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-2-3.png");
-					numEdges = numEdges + 3;	
+					numEdges = numEdges + 3;
 				} else if ((!edge1)&&(!edge2)&&(!edge3)&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-2-3-4.png");
 					numEdges = numEdges + 4;
 				} else if ((!edge1)&&(!edge2)&&edge3&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-2-4.png");
-					numEdges = numEdges + 3;	
+					numEdges = numEdges + 3;
 				} else if ((!edge1)&&edge2&&(!edge3)&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-3.png");
-					numEdges = numEdges + 2;	
+					numEdges = numEdges + 2;
 				} else if ((!edge1)&&edge2&&(!edge3)&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-3-4.png");
-					numEdges = numEdges + 3;	
+					numEdges = numEdges + 3;
 				} else if ((!edge1)&&edge2&&edge3&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-1-4.png");
-					numEdges = numEdges + 2;	
+					numEdges = numEdges + 2;
 				} else if (edge1&&(!edge2)&&edge3&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-2.png");
-					numEdges = numEdges + 1;	
+					numEdges = numEdges + 1;
 				} else if (edge1&&(!edge2)&&(!edge3)&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-2-3.png");
-					numEdges = numEdges + 2;	
+					numEdges = numEdges + 2;
 				} else if (edge1&&(!edge2)&&(!edge3)&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-2-3-4.png");
-					numEdges = numEdges + 3;	
+					numEdges = numEdges + 3;
 				} else if (edge1&&(!edge2)&&edge3&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-2-4.png");
-					numEdges = numEdges + 2;	
+					numEdges = numEdges + 2;
 				} else if (edge1&&edge2&&(!edge3)&&edge4) {
 					document.getElementById(temp).setAttribute('src', "Cube-3.png");
-					numEdges = numEdges + 1;	
+					numEdges = numEdges + 1;
 				} else if (edge1&&edge2&&(!edge3)&&(!edge4)) {
 					document.getElementById(temp).setAttribute('src', "Cube-3-4.png");
-					numEdges = numEdges + 2;	
+					numEdges = numEdges + 2;
 				} else {
 					document.getElementById(temp).setAttribute('src', "Cube-4.png");
-					numEdges = numEdges + 1;	
+					numEdges = numEdges + 1;
 				}
 			}
 		}
@@ -300,7 +300,7 @@ function dropSnowballs() {
 	//alert(" ");
 	findMeltingTime();
 	//alert(meltStep + "  " + meltStep2);
-	
+
 	// Finds the bottom of both cubes to know when to start to raise the water level
 	userBottom = findBottom(true);
 	userTop = findTop();
@@ -308,7 +308,7 @@ function dropSnowballs() {
 	// Converts the bottom to a delay time in milliseconds
 	userBottom = 400 - 50 * userBottom;
 	autoBottom = 400 - 50 * autoBottom;
-	
+
 	$("#grid1").fadeOut(100);
 	$("#grid2").fadeOut(100);
 	$("#graph").show();
@@ -336,7 +336,7 @@ function dropSnowballs() {
 			setTimeout(function(){
 				//if (meltStep2 == -1) $("#grid2Components").fadeTo((190*20), iceMass2/iceMassOrig2,"easeOutQuad");
 				//else $("#grid2Components").fadeOut(meltStep2*20,"easeOutQuad");
-				$("#grid2Components").fadeOut(meltStep2*20,"easeOutQuad");	
+				$("#grid2Components").fadeOut(meltStep2*20,"easeOutQuad");
 			},600);
 	})},autoBottom);
 	measureSimulation();
@@ -356,7 +356,7 @@ function autoIceRise(iceRise) {
 	if (numCubes > 6) {
 		$("#mark1").animate({top:"0px", left:"-40px"}, 600, "linear");
 		$("#mark2").animate({top:"0px"}, 600, "linear");
-		$("#mark3").animate({top:"0px", left:"250px"}, 600, "linear");	
+		$("#mark3").animate({top:"0px", left:"250px"}, 600, "linear");
 		$("#mark7").animate({top:"15px", left:"-10px"}, 600, "linear");
 		$("#mark8").animate({top:"15px", left:"60px"}, 600, "linear");
 		$("#mark9").animate({top:"15px", left:"200px"}, 600, "linear");
@@ -455,18 +455,18 @@ function resetSnowball() {
 	// Resets automated grid
 	for (var x = 1; x <= 18; x++) {
 		temp = "#mark" + x;
-		$(temp).hide();	
+		$(temp).hide();
 	}
 	//Hides the graph and the points
 	$("#graph").hide();
 	$(".sit1Point").hide();
 	$(".sit2Point").hide();
 	$("#startButton").removeAttr("disabled");
-	
+
 	//Shows the ice cubes again
 	$("#grid1Components").show();
 	$("#grid2Components").show();
-	
+
 	return;
 }
 
@@ -486,7 +486,7 @@ function determineCube() {
 		}
 	}
 	deleteGrid(firstX, firstY);
-	
+
 	for (var i = 0; i < 6; i++) {
 		for (var j = 0; j < 6; j++) {
 			if (copyArray[i][j] == true) {
@@ -524,13 +524,13 @@ function simulationSetup() {
 	//alert("surfArea: " + surfArea);
 	waterMass = massWaterInit;
 	//alert("waterMass: " + waterMass);
-	
+
 	waterT2 = waterT;
 	iceMass2 = iceMass;
 	surfArea2 = (lengthCube*lengthCube*numCubes*6)/10000;
 	waterMass2 = waterMass;
 	currentStep = 0;
-	
+
 	iceMassOrig = iceMass;
 	iceMassOrig2 = iceMass;
 }
@@ -544,7 +544,7 @@ function findMeltingTime() {
 	findMeltStep();
 	simulationSetup();
 	findMeltStep2();
-	simulationSetup();	
+	simulationSetup();
 }
 
 /*
@@ -569,7 +569,7 @@ function measureSimulation() {
 			//alert("waterMass: " + waterMass);
 			surfArea = iceMass/iceMassOld*surfArea;
 		}
-		
+
 		Qmelt2 = (waterT2-(Cice+CtoKelvin))*h*surfArea2*timeStep;
 		iceMelt2 = Qmelt2/hfusion;
 		iceMassOld2 = iceMass2;
@@ -580,25 +580,25 @@ function measureSimulation() {
 			waterMass2 = waterMass2 + iceMelt2;
 			surfArea2 = iceMass2/iceMassOld2*surfArea2;
 		}
-		
+
 		// Plots every other data point
 		if (currentStep % 2 == 0) {
 			x1 = 38 + currentStep + "px";
 			x2 = 39 + currentStep + "px";
-			
+
 			y1 = (graphHeight - (waterT-CtoKelvin)*(graphHeight/maxTemp) + 68); + "px";
 			y2 = (graphHeight - (waterT2-CtoKelvin)*(graphHeight/maxTemp) + 68); + "px";
 
 			if ((y2-y1) < 1.5) {
 				y2 = y2 + "px";
-				y1 = y2;	
+				y1 = y2;
 			} else {
 				y1 = y1 + "px";
 				y2 = y2 + "px";
 			}
-			
+
 			//alert(y1 + "    " + y2);
-			
+
 			var dot1 = "#sit1Point" + (currentStep/2);
 			var dot2 = "#sit2Point" + (currentStep/2);
 			$(dot1).css({top:y1, left:x1});
@@ -606,11 +606,11 @@ function measureSimulation() {
 			$(dot1).show();
 			$(dot2).show();
 		}
-				
+
 		currentStep++;
 		setTimeout(measureSimulation, 40);
 	} else {
-		$("#resetButton").removeAttr("disabled");	
+		$("#resetButton").removeAttr("disabled");
 	}
 }
 
@@ -659,7 +659,7 @@ function findMeltStep2() {
 			waterMass2 = waterMass2 + iceMelt2;
 			surfArea2 = iceMass2/iceMassOld2*surfArea2;
 		} else {
-			meltStep2 = currentStep;	
+			meltStep2 = currentStep;
 			return;
 		}
 		currentStep++;
@@ -694,7 +694,7 @@ function resetAutoGrid() {
 	$("#mark16").css("top", "210px");
 	$("#mark17").css("top", "210px");
 	$("#mark18").css("top", "210px");
-	
+
 	$("#mark1").css("left", "1px");
 	$("#mark2").css("left", "85px");
 	$("#mark3").css("left", "169px");
