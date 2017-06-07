@@ -53,12 +53,12 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   /* Other */
   this.hasDropped = false;
   this.isFalling = false;
-  this.isDissolving = false;
+  this.isMelting = false;
   this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0;
   this.numFramesStalled = 0;
-  this.timeToDissolveSeconds = 0;
+  this.timeToMeltSeconds = 0;
 
   /* ==================================================================
                               Graphical methods
@@ -285,9 +285,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Dissolved this ice by reducing its total opacity by the given percentage.
+   * Melt this ice by reducing its total opacity by the given percentage.
    */
-  this.dissolve = function(opacityPct) {
+  this.melt = function(opacityPct) {
     this.opacity -= opacityPct;
   }
 
@@ -299,7 +299,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   /*
   * The equivalent of setDimensions(), but for mathematical properties (e.g.
   * surface area) instead of graphical properties. Must be recomputed every 
-  * time the IceCube undergoes a change; e.g. being broken or dissolving.
+  * time the IceCube undergoes a change; e.g. being broken or melting.
   */
   this.calculateProperties = function() {
     this.edgeLength = this.calculateEdgeLength();

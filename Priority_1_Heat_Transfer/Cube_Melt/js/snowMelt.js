@@ -24,9 +24,7 @@ var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
 var BASE_WIDTH_SCALING = 12; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
-var FRAME_RATE = 60; // Frames per second
-
-var FPS = 60; // Frames per second. The rate at which the draw function is called.
+var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 
 /**************** Global variables ******************/
 
@@ -272,7 +270,7 @@ function stepSimulation(exp) {
 
   print("exp.name:", ice.name);
   print("exp.iceMass:", ice.iceMass);
-  var dt = 1/FPS; // inverse of the expected framerate.
+  var dt = 1/FRAME_RATE; // inverse of the expected framerate.
   print("period is:", dt);
   var n = ice.numPieces; // The number of pieces in the whole ice
   print("n is:", n);
@@ -371,13 +369,13 @@ function findEdgeLength(surfaceArea) {
 
 /*************** Chart Functionality ****************/
 
-/* Graphs a temperature datapoint. Assumes constant period (1/FPS) between adjacent points.
+/* Graphs a temperature datapoint. Assumes constant period (1/FRAME_RATE) between adjacent points.
  * Assumes points aren't being skipped!
  * @param temperature: The new temperature value to be graphed
  * @param name: The identifying string for a dataset to be appended to (found in IceCube.name)
  */
 function graphTemperature(temperature, name) {
-  var period = 1/FPS;
+  var period = 1/FRAME_RATE;
   var dataSetIndex; // The value
   if (name === "broken") {
     dataSetIndex = 0;

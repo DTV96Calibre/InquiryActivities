@@ -8,8 +8,7 @@
 
 /*
  * This class encapsulates the behavior of both cups rendered in the lower-left
- * quadrant of the screen. The cups have animations that show blocks of ice
- * dissolving over a short period of time.
+ * quadrant of the screen.
  */
 function Cup() {
 
