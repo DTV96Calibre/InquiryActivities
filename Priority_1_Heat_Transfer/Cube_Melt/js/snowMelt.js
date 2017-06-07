@@ -8,17 +8,24 @@
 
 /******************* Constants **********************/
 
+var ROOM_TEMPERATURE = 295; // Room temperature in Kelvin
 var ICE_FREEZE_TEMP_K = 273.15; // Temperature of ice at freezing point in Kelvin
-var ICE_DENSITY = 917; // Density of ice in kg/m^3
-var HEAT_CAPACITY_WATER = 4.184; /* Joules of heat for the temperature of one
+var ICE_DENSITY = 0.917; // Density of ice in g/cm^3
+//var WATER_DENSITY = ;
+//var CUP_VOLUME = ;
+var MASS_CUP_OF_WATER = 500; // Mass in grams of a "cup" of water. NOTE: Not actual cup unit
+
+var HEAT_CAPACITY_WATER = 4.205; /* Joules of heat for the temperature of one
   gram of water to increase 1 degrees Celcius.*/
-var DELTA_H_FUS_WATER = 33.55; // (Latent) heat of fusion of water in joules per gram.
-var H = 6.626070040e-34; // Planck's constant
+var DELTA_H_FUS_WATER = 333.86; // (Latent) heat of fusion of water in joules per gram.
+var H = 100; // Free water convection (Wm^-2K^-1) // Heat transfer constant
 
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
 var BASE_WIDTH_SCALING = 9; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
+
+var FPS = 60; // Frames per second. The rate at which the draw function is called.
 
 /**************** Global variables ******************/
 
@@ -84,7 +91,7 @@ function setup() {
   pixelDensity(1);
 
   mouseIsPressed = false;
-  
+
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice visualizations and initialize them
@@ -132,6 +139,7 @@ function draw() {
   // image(brokenIceCup.buffer, windowWidth / 4, windowHeight / 2);
 
   hasChanged = false;
+  stepSimulation(brokenIce);
 }
 
 /*
@@ -220,12 +228,63 @@ function swingHammer() {
 
 /************ Math and science functions ************/
 
+/* Calculates the changes in the simulation over dt, the change in time over
+ * a loop of the draw function which is called 60 times a second.
+ * @param exp: An IceCube object that tracks information about an experiment
+ */
+function stepSimulation(exp) {
+  print("exp.name:", exp.name);
+  print("exp.iceMass:", exp.iceMass);
+  var dt = 1/FPS; // inverse of the expected framerate.
+  print("period is:", dt);
+  var n = pow(pow(2, exp.numDivisions), 3); // The number of pieces in the whole ice
+  print("n is:", n);
+  var aOne = findAreaOfOneIcecubeFromMass(exp.iceMass, n);
+  print("aOne is:", aOne);
+  print("tempWater is:", exp.waterTemp);
+  var q = findQ(aOne, n, exp.waterTemp, dt);
+  print("q is:", q);
+  var mMelted = findM_melted(q); // The mass of the liquid created from melting ice.
+  exp.waterTemp = findT_waterNewMelting(exp.waterMass, exp.waterTemp, mMelted);
+  print("Melted, waterTemp is:", exp.waterTemp);
+  exp.waterTemp = findT_waterNewMixing(exp.waterMass, exp.waterTemp, mMelted);
+  exp.waterMass += mMelted; // Add new liquid to water
+  exp.iceMass -= mMelted;   // Remove melted mass from ice
+  exp.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
+  graphTemperature(exp.waterTemp, exp.name); // TODO: This function should be called in draw
+}
+
+/* TODO: This function is not in use, remove later
+ *
+ */
+function findAreaOfOneIcecubeFromLength(initLength, divisions) {
+  return pow((initLength/pow(2, divisions)), 3);
+}
+
+/* Determines the total area of ice divided into n parts.
+ * @param iceMass: the mass of the whole
+ * @param n: the number of parts in the whole
+ */
+function findAreaOfOneIcecubeFromMass(iceMass, n) {
+  return 6*pow(iceMass/(n*ICE_DENSITY),2/3);
+}
+
+/* Shortcut function that calculates the area of an icecube given it's mass.
+ * TODO: This function is not used, remove later
+ * @param iceMass: the mass of the whole
+ */
+function findAreaFromMass(iceMass) {
+  return findAreaOfOneIcecubeFromMass(iceMass, 1);
+}
+
+
+
 /*
- * Finds the melting time for the cubes in each cup to set up the animation 
+ * Finds the melting time for the cubes in each cup to set up the animation
  * fade time.
  * Calculates heat transfer due to water making contact with ice surface.
- * @param aOne: The area of one ice cube.
- * @param n: number of ice cubes. Units in mm^2. // TODO: ?
+ * @param aOne: The area of one ice cube. Units in mm^2. TODO: This should be cm^2?
+ * @param n: number of ice cubes.
  * @param tempWater: The current temperature of the water.
  * @param dt: change in time. Units in seconds.
  * @return The heat exchanged.
@@ -239,7 +298,7 @@ function findQ(aOne, n, tempWater, dt) {
  * @param q: The heat exchanged resulting in the ice melting.
  * @return Mass of the melted ice.
  */
-function findM_melted(q, tempWater, mWaterOld) {
+function findM_melted(q) {
   return q / DELTA_H_FUS_WATER;
 }
 
@@ -259,8 +318,41 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
  * @param mWater: The current mass of the water.
  * @param tempWater: The current temperature of the water (after previous calculation steps)
  * @param mMelted: The mass of melted ice.
- * @return: Temperature of water after mixing. (Kelvin)
+ * @return Temperature of water after mixing. (Kelvin)
  */
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
-  return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
+  return ((mWater * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
+}
+
+/* Finds the length of one edge of a cube given the surface area of that cube.
+ * @param surfaceArea: The surface area of a particular cube
+ * @return The length of one edge of the cube
+ */
+function findEdgeLength(surfaceArea) {
+  return sqrt(surfaceArea/6);
+}
+
+/************ Chart Functionality functions ************/
+
+/* Graphs a temperature datapoint. Assumes constant period (1/FPS) between adjacent points.
+ * Assumes points aren't being skipped!
+ * @param temperature: The new temperature value to be graphed
+ * @param name: The identifying string for a dataset to be appended to (found in IceCube.name)
+ */
+function graphTemperature(temperature, name) {
+  var period = 1/FPS;
+  var dataSetIndex; // The value
+  if (name === "broken") {
+    dataSetIndex = 0;
+  } else if (name === "unbroken") {
+    dataSetIndex = 1;
+  } else {
+    print("Tried to add data to", name, "which is not recognized by graphTemperature()");
+    return // Stop before attempting insertion of data point
+  }
+  var i = chartData.data.datasets[dataSetIndex].data.length-1; // index for the last element in data
+  var prevTime = chartData.data.datasets[dataSetIndex].data[i].x;
+  chartData.data.datasets[dataSetIndex].data.push({x:prevTime + period, y:temperature});
+  myLineChart.update();
+  return;
 }
