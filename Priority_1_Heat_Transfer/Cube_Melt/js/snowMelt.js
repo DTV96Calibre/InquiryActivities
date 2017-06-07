@@ -249,3 +249,43 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWaterOld * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
 }
+
+/**** Code to interface with HTML elements (e.g. bootstrap btns) ****/
+
+$(document).ready(function(){
+  $("#startBtn").click(function () {
+    startSimulation();
+    $("#startBtn").toggleClass("disabled");
+  });
+
+  $("#resetBtn").click(function () {
+    resetSimulation();
+    $("#startBtn").toggleClass("disabled"); // re-enable
+  });
+});
+
+/*
+ * Called when the user presses the green 'Start' button. Begins the simulation
+ * by dropping the ice cubes and beginning to run through the calculations.
+ */
+function startSimulation() {
+  // Don't allow the simulation to be started a second time
+  if (!brokenExp.ice.hasDropped) {
+    brokenExp.beginDroppingIce();
+    unbrokenExp.beginDroppingIce();
+  }
+}
+
+/*
+ * Called when the user presses the red 'Restart' button. Resets the states of both
+ * ice cubes as well as the chart.
+ */
+function resetSimulation() {
+  // Re-enable the 'Start' button, but only if it is currently disabled
+  if ($('#startBtn').is('disabled')) {
+    $('#startBtn').toggleClass('disabled');
+  }
+ 
+  // Calling the p5 setup function will reset all onscreen elements
+  setup();
+}
