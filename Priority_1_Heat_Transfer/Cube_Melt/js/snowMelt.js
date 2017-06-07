@@ -128,6 +128,9 @@ function draw() {
  * Writes the title of the page towards the top of the canvas.
  */
 function drawTitle() {
+  // Set exact font to avoid inconsistencies between browsers
+  textFont("Helvetica");
+
   /* When the window is longer than it is wide (e.g. mobile), draw the text
    * on top of each other instead of side-by-side for readability
    */
@@ -286,6 +289,7 @@ function findT_waterNewMixing(mWater, tempWater, mMelted) {
 
 /**** Code to interface with HTML elements (e.g. bootstrap btns) ****/
 
+// jQuery code to register button clicks and link them to appropriate JS functions
 $(document).ready(function(){
   $("#startBtn").click(function () {
     startSimulation();
