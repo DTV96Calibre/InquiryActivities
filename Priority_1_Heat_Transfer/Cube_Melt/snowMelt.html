@@ -44,12 +44,16 @@
 	</div>
 
     <div id="chartCanvas-holder" class="chartCanvas-holder">
-      <canvas id="myChart" width="400" height="400"></canvas>
+      <canvas id="myChart" width="50%" height="40%"></canvas>
+
       <!-- Bootstrap buttons -->
       <div class="row">
-      	<id="startBtn" class="btn" onclick="brokenExp.beginDroppingIce(); unbrokenExp.beginDroppingIce();">Start</a>
-      	<a href="" id="resetBtn" class="btn" class="btn">Reset</a>
+      	<div class="well" align="center">
+	      	<a href="javascript: onclick();" id="startBtn" class="btn btn-success btn-lg" onclick="brokenExp.beginDroppingIce(); unbrokenExp.beginDroppingIce();">Start</a>
+	      	<a href="" id="resetBtn" class="btn btn-danger btn-lg" class="btn">Reset</a>
+      	</div>
       </div>
+
     </div>
   </body>
 

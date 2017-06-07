@@ -30,7 +30,8 @@
 }
 
 .body {
-	background-color: #ebedef;
+	max-width: 100%;
+	overflow-x: hidden;
 }
 
 
