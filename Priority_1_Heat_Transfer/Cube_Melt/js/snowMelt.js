@@ -26,6 +26,14 @@ var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 
+// A collection of HTML div IDs for editable text values in the simulation info box.
+var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
+var BROKEN_NUM_CUBES_DIV = "broken-num-cubes";
+var UNBROKEN_MASS_DIV = "unbroken-mass";
+var BROKEN_MASS_DIV = "broken-mass";
+var UNBROKEN_SURF_AREA_DIV = "unbroken-surf-area";
+var BROKEN_SURF_AREA_DIV = "broken-surf-area";
+
 /**************** Global variables ******************/
 
 var iceCanvas;
@@ -51,13 +59,13 @@ var chartData = {
   data: {
     datasets: [
       {
-        label: 'Broken Ice',
-        data: [{x:0, y:1}, {x:1, y:2}]
-      },
-      {
         label: 'Unbroken Ice',
         backgroundColor: "rgba(75, 192, 192, 0.4)",
         data: [{x:0, y:2}, {x:1, y:0}]
+      },
+      {
+        label: 'Broken Ice',
+        data: [{x:0, y:1}, {x:1, y:2}]
       }
     ]
   },
