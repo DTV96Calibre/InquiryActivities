@@ -201,7 +201,7 @@ function drawTitle() {
     fill(32, 32, 32); // grey
     text("Rate vs. Amount: ", fontPosX * 1.4, fontPosY);
     fill(0, 102, 153); // blue
-    text("Melting Ice Simulation", fontPosX * 1.2, fontPosY * 1.45);
+    text("Cube Melt Simulation", fontPosX * 1.2, fontPosY * 1.45);
   }
   else {
     // Standard/desktop
@@ -214,7 +214,7 @@ function drawTitle() {
     fill(32, 32, 32); // grey
     text("Rate vs. Amount: ", fontPosX, fontPosY);
     fill(0, 102, 153); // blue
-    text("Melting Ice Simulation", fontPosX * 2.15, fontPosY);
+    text("Cube Melt Simulation", fontPosX * 2.12, fontPosY);
   }
 }
 
@@ -332,7 +332,7 @@ function stepSimulation(exp) {
   //print("Water mass is now:", exp.ice.waterMass);
   ice.iceMass -= mMelted;   // Remove melted mass from ice
   //print("Ice mass is now:", exp.ice.iceMass);
-  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
+  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
 }
 
 /* TODO: This function is not in use, remove later
@@ -350,7 +350,7 @@ function findAreaOfOneIcecubeFromMass(iceMass, n) {
   return 6*pow(iceMass/(n*ICE_DENSITY),2/3);
 }
 
-/* Shortcut function that calculates the area of an icecube given it's mass.
+/* Shortcut function that calculates the area of an icecube given its mass.
  * TODO: This function is not used, remove later
  * @param iceMass: the mass of the whole
  */
