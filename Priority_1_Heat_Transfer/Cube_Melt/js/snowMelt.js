@@ -201,7 +201,7 @@ function drawTitle() {
     fill(32, 32, 32); // grey
     text("Rate vs. Amount: ", fontPosX * 1.4, fontPosY);
     fill(0, 102, 153); // blue
-    text("Melting Ice Simulation", fontPosX * 1.2, fontPosY * 1.45);
+    text("Cube Melt Simulation", fontPosX * 1.2, fontPosY * 1.45);
   }
   else {
     // Standard/desktop
@@ -214,7 +214,7 @@ function drawTitle() {
     fill(32, 32, 32); // grey
     text("Rate vs. Amount: ", fontPosX, fontPosY);
     fill(0, 102, 153); // blue
-    text("Melting Ice Simulation", fontPosX * 2.15, fontPosY);
+    text("Cube Melt Simulation", fontPosX * 2.12, fontPosY);
   }
 }
 
