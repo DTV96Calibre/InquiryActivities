@@ -160,6 +160,7 @@ function draw() {
     stepSimulation(unbrokenExp);
     graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
     graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
+    myLineChart.resetZoom();
     myLineChart.update(0, true); // Redraw chart with new data points
   }
   // Don't re-render/recalculate drawings if they haven't been updated
