@@ -108,6 +108,7 @@ var chartData = {
 /***************** Experiment setup *****************/
 
 function initializeChart() {
+  if (typeof myLineChart !== 'undefined') {myLineChart.destroy();}
   ctx = document.getElementById("myChart").getContext("2d");
   myLineChart = new Chart(ctx, chartData);
 }
@@ -147,7 +148,7 @@ function draw() {
   }
   if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
-    updateSimulation();
+    //updateSimulation();
     stepSimulation(brokenExp);
     print(brokenExp.type);
     stepSimulation(unbrokenExp);
@@ -159,7 +160,7 @@ function draw() {
   if (!hasChanged) {
     return;
   }
-
+  updateSimulation();
   // Clear the canvas
   background(255, 255, 255);
 
@@ -297,7 +298,6 @@ function swingHammer() {
 function updateSimulation() {
   unbrokenExp.updateCalculations();
   brokenExp.updateCalculations();
-  stepSimulation(brokenExp);
 }
 
 /* Calculates the changes in the simulation over dt, the change in time over
