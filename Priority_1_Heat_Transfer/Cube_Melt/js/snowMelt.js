@@ -45,6 +45,7 @@ var baseWidth; // Number of pixels along one edge of an unbroken ice block
 var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 var mouseIsPressed;
+var simulationPaused = false;
 
 // Pieces of the experiment
 var unbrokenIce;
@@ -135,6 +136,12 @@ function setup() {
 
 function draw() {
   updateCursor();
+
+  // Don't do anything aside from update the cursor while the simulation is paused
+  if (simulationPaused) {
+    return;
+  }
+
   updateSimulation();
 
   // Don't re-render/recalculate drawings if they haven't been updated
@@ -264,7 +271,7 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
+  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther() && !simulationPaused) {
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
   }
@@ -440,6 +447,10 @@ $(document).ready(function(){
   $("#helpBtn").click(function () {
     toggleHelp(helpBoxDiv);
   });
+
+  $("#pauseBtn").click(function () {
+    pauseSimulation();
+  });
 });
 
 /*
@@ -474,3 +485,26 @@ function toggleHelp(element) {
     hide(element);
   }
 }
+
+/*
+ * Called when the user presses the pause button. If the simulation is live, pauses
+ * everything (including animations and calculations). Otherwise, resumes the
+ * simulation.
+ */
+function pauseSimulation() {
+  if (!simulationPaused) {
+    $("#pauseBtn").find(".glyphicon").removeClass('glyphicon-pause');
+    $("#pauseBtn").find(".glyphicon").addClass('glyphicon-play');
+    // The start button is also disabled in pause mode
+    $('#startBtn').attr('disabled','disabled');
+  }
+  else {
+    $("#pauseBtn").find(".glyphicon").removeClass('glyphicon-play');
+    $("#pauseBtn").find(".glyphicon").addClass('glyphicon-pause');
+    if (!brokenExp.ice.hasDropped) {
+      $("#startBtn").removeAttr('disabled');
+    }
+  }
+  simulationPaused = !simulationPaused;
+}
+  
