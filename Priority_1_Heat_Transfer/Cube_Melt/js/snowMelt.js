@@ -116,6 +116,7 @@ function initializeChart() {
   myLineChart = new Chart(ctx, chartData);
   myLineChart.data.datasets[0].data = []; // Manually set data to nothing
   myLineChart.data.datasets[1].data = [];
+  myLineChart.update();
 }
 
 function setup() {
