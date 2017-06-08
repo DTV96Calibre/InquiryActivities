@@ -67,26 +67,14 @@ var chartData = {
   data: {
     datasets: [
       {
-<<<<<<< HEAD
-        label: 'Broken Ice',
-        //data: [{x:0, y:1}, {x:1, y:2}]
-        data: []
-      },
-      {
-        label: 'Unbroken Ice',
-        backgroundColor: "rgba(75, 192, 192, 0.4)",
-        //data: [{x:0, y:2}, {x:1, y:0}]
-        data: []
-=======
         label: 'Unbroken Ice',
         backgroundColor: "rgba(" + UNBROKEN_ICE_CHART_COLOR + ", 0.4)",
-        data: [{x:0, y:2}, {x:1, y:0}]
+        data: []
       },
       {
         label: 'Broken Ice',
         backgroundColor: "rgba(" + BROKEN_ICE_CHART_COLOR + ", 0.4)",
-        data: [{x:0, y:1}, {x:1, y:2}]
->>>>>>> 0a49f8ac8bbc5995c6902a833cd9eac63debe6ec
+        data: []
       }
     ]
   },
