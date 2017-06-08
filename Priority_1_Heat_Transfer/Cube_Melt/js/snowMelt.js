@@ -40,6 +40,10 @@ var brokenIce;
 var unbrokenExp;
 var brokenExp;
 
+// For enabling web transitions on pop-up help tooltip
+var helpBoxPopUp;
+var helpBtn;
+
 /********** Configuration data for chart ************/
 
 var chartData = {
@@ -79,7 +83,8 @@ var chartData = {
       position: 'bottom'
     },
 
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: false
   },
 };
 
@@ -401,6 +406,14 @@ function graphTemperature(temperature, name) {
 
 // jQuery code to register button clicks and link them to appropriate JS functions
 $(document).ready(function(){
+  // For enabling web transitions on pop-up help tooltip
+  helpBoxPopUp = document.getElementById('help-box');
+  helpBtn = document.getElementById('helpBtn');
+  helpBtn.addEventListener("click", function(){
+    helpBoxPopUp.classList.toggle("appear");
+  }, false);
+  
+  // Button interactions
   $("#startBtn").click(function () {
     startSimulation();
     $('#startBtn').attr('disabled','disabled');
@@ -412,7 +425,7 @@ $(document).ready(function(){
   });
 
   $("#helpBtn").click(function () {
-    help();
+    toggleHelp(helpBoxDiv);
   });
 });
 
@@ -438,13 +451,13 @@ function resetSimulation() {
 }
 
 /*
- * Called when the user presses the help button. Creates a pop-up alert that gives
- * the user tips about using the simulation.
+ * Called when the user presses the help button. Alternatively hides or un-hides the
+ * blue tooltip box that appears beneath the chart and buttons.
  */
-function help() {
-  alert("Click or tap the ice cube on the right to break it into smaller ice chips. " +
-   "Both ice cubes have identical mass; the only difference is the ice cube on the l" +
-   "eft cannot be split into smaller pieces.\n\nPress the start button to begin drop" +
-   "ping the ice into room-temperature orange soda. The chart on the right will then" +
-   " begin plotting the temperature of the orange soda as the ice melts.");
+function toggleHelp(element) {
+  if (element.style.display === 'none') {
+    show(element);
+  } else {
+    hide(element);
+  }
 }
