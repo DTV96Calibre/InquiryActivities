@@ -25,6 +25,8 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
+var MAX_RUN_TIME = 5;
+var TIME_SCALE_FACTOR = 5; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
 /**************** Global variables ******************/
 
@@ -33,6 +35,7 @@ var baseWidth; // Number of pixels along one edge of an unbroken ice block
 var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 var mouseIsPressed;
+var simulationTime;
 
 // Pieces of the experiment
 var unbrokenIce;
@@ -47,17 +50,19 @@ var helpBtn;
 /********** Configuration data for chart ************/
 
 var chartData = {
-  type: 'line',
+  type: 'scatter', // line chart doesn't behave as expected
   data: {
     datasets: [
       {
         label: 'Broken Ice',
-        data: [{x:0, y:1}, {x:1, y:2}]
+        //data: [{x:0, y:1}, {x:1, y:2}]
+        data: []
       },
       {
         label: 'Unbroken Ice',
         backgroundColor: "rgba(75, 192, 192, 0.4)",
-        data: [{x:0, y:2}, {x:1, y:0}]
+        //data: [{x:0, y:2}, {x:1, y:0}]
+        data: []
       }
     ]
   },
@@ -109,12 +114,14 @@ function setup() {
 
   // Hook up the ice cubes to their respective experiments
   unbrokenExp = new Experiment('unbroken', unbrokenIce);
+  print(unbrokenExp.type);
   brokenExp = new Experiment('broken', brokenIce);
   unbrokenExp.init();
   brokenExp.init();
   iceCubeCanvasSetup();
 
   initializeChart();
+  simulationTime = 0;
   windowResized();
 
   hasChanged = true; // Force the draw function to execute
@@ -122,7 +129,17 @@ function setup() {
 
 function draw() {
   updateCursor();
-  updateSimulation();
+  if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
+    simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
+    updateSimulation();
+    stepSimulation(brokenExp);
+    print(brokenExp.type);
+    stepSimulation(unbrokenExp);
+    graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
+    graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
+    myLineChart.update(0, true); // Redraw chart with new data points
+  }
+
 
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
@@ -266,8 +283,7 @@ function swingHammer() {
 function updateSimulation() {
   unbrokenExp.updateCalculations();
   brokenExp.updateCalculations();
-
-  // stepSimulation(brokenExp);
+  stepSimulation(brokenExp);
 }
 
 /* Calculates the changes in the simulation over dt, the change in time over
@@ -278,9 +294,9 @@ function stepSimulation(exp) {
   // Consider the IceCube from the given Experiment obj.
   var ice = exp.ice;
 
-  print("exp.name:", ice.name);
-  print("exp.iceMass:", ice.iceMass);
-  var dt = 1/FRAME_RATE; // inverse of the expected framerate.
+  print("exp.type:", exp.type);
+  print("ice.iceMass:", ice.iceMass);
+  var dt = TIME_SCALE_FACTOR * 1/FRAME_RATE; // inverse of the expected framerate.
   print("period is:", dt);
   var n = ice.numPieces; // The number of pieces in the whole ice
   print("n is:", n);
@@ -296,7 +312,6 @@ function stepSimulation(exp) {
   ice.waterMass += mMelted; // Add new liquid to water
   ice.iceMass -= mMelted;   // Remove melted mass from ice
   ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
-  graphTemperature(ice.waterTemp, ice.name); // TODO: This function should be called in draw
 }
 
 /* TODO: This function is not in use, remove later
@@ -386,7 +401,7 @@ function findEdgeLength(surfaceArea) {
  */
 function graphTemperature(temperature, name) {
   var period = 1/FRAME_RATE;
-  var dataSetIndex; // The value
+  var dataSetIndex; // Index for referencing a dataset
   if (name === "broken") {
     dataSetIndex = 0;
   } else if (name === "unbroken") {
@@ -396,9 +411,11 @@ function graphTemperature(temperature, name) {
     return // Stop before attempting insertion of data point
   }
   var i = chartData.data.datasets[dataSetIndex].data.length-1; // index for the last element in data
-  var prevTime = chartData.data.datasets[dataSetIndex].data[i].x;
-  chartData.data.datasets[dataSetIndex].data.push({x:prevTime + period, y:temperature});
-  myLineChart.update();
+  // var prevTime = chartData.data.datasets[dataSetIndex].data[i].x;
+  // print("Previous time:", prevTime);
+  // var currTime = prevTime + period; // TODO: This should be reworked so that the first value edgecase is accounted for
+  // chartData.data.datasets[dataSetIndex].data.push({x:currTime, y:temperature});
+  chartData.data.datasets[dataSetIndex].data.push({x:simulationTime, y:temperature});
   return;
 }
 
@@ -412,7 +429,7 @@ $(document).ready(function(){
   helpBtn.addEventListener("click", function(){
     helpBoxPopUp.classList.toggle("appear");
   }, false);
-  
+
   // Button interactions
   $("#startBtn").click(function () {
     startSimulation();

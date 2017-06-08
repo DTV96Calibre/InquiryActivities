@@ -12,7 +12,6 @@
  */
 function IceCube() { // TODO: Refactor. This class also represents the water in the cup. The ice cube can also be divided into multiple ice cubes.
   // Class attributes
-  this.name = ""; // Used to identify experiment to graphing functionality
   this.array = []; // Array of squares (ice pieces)
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
@@ -26,7 +25,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.BASE_EDGE_LENGTH_CM = 20;
 
   this.edgeLength; // The length of a single cube (becomes smaller as ice is broken)
-  this.numPieces; 
+  this.numPieces;
   this.surfaceArea;
   this.volume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
   this.iceMass = ICE_DENSITY * this.volume;
@@ -126,7 +125,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
             xPos + piece.width - padding, yPos + padding * 4 + dist,
             xPos + piece.width - padding, yPos + piece.height - padding + dist);
           fill(this.iceColor + this.getOpacity('shading') + ')');
-          ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist, 
+          ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist,
             piece.width - padding * 1.85, piece.height - padding * 1.85);
         }
       }
@@ -235,13 +234,13 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Returns the offset to apply when centering this IceCube once it's fallen 
+   * Returns the offset to apply when centering this IceCube once it's fallen
    * into the cup. Necessary to prevent the top rows of broken ice shards from
    * appearing to float above the surface of the liquid.
    */
   this.findOffsetFromPadding = function() {
-    /* Find the actual width ('array range') of this IceCube minus the starting 
-     * (base) width. This coincides with the number of divisions (hits from a 
+    /* Find the actual width ('array range') of this IceCube minus the starting
+     * (base) width. This coincides with the number of divisions (hits from a
      * hammer).
      */
     var padding = this.findArrayRange() - baseWidth;
@@ -322,13 +321,13 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /* ==================================================================
-               Methods for mathematical calculations 
+               Methods for mathematical calculations
      ==================================================================
   */
- 
+
   /*
   * The equivalent of setDimensions(), but for mathematical properties (e.g.
-  * surface area) instead of graphical properties. Must be recomputed every 
+  * surface area) instead of graphical properties. Must be recomputed every
   * time the IceCube undergoes a change; e.g. being broken or melting.
   */
   this.calculateProperties = function() {
@@ -369,7 +368,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
 
   /*
    * Calculates and returns the volume of this ice block. All pieces are included,
-   * so both ice blocks will have the same volume regardless of the number of 
+   * so both ice blocks will have the same volume regardless of the number of
    * divisions.
    */
   this.calculateVolume = function() {

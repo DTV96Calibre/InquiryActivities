@@ -1,6 +1,6 @@
 /* File: Experiment.js
  * Dependencies: snowMelt.js, IceCube.js, Cup.js
- * 
+ *
  * Authors: Daniel Vasquez and Brooke Bullek (May 2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
  * (c) Margot Vigeant 2017
@@ -9,12 +9,12 @@
 /*
  * This class contains one set of broken/unbroken IceCube/Cup objects necessary
  * to carry out the experiment.
- * @param type: A string (either 'broken' or 'unbroken', referring to whether 
+ * @param type: A string (either 'broken' or 'unbroken', referring to whether
  * the ice block is breakable via hammer)
  */
 function Experiment(type, ice) {
   /* Class attributes */
-  this.type = type;
+  this.type = type; // Used to identify experiment to graphing functionality and something else Brooke did
   this.ice = ice;
   this.cup;
 
@@ -115,7 +115,7 @@ function Experiment(type, ice) {
       this.ice.pctDistanceFallen = targetPct;
     }
   }
-  
+
   /*
    * Begins to drop the array of ice cube(s) into a cup of liquid beneath.
    * Triggers the sequence that 1) makes the ice fall and 2) makes the ice
