@@ -349,7 +349,7 @@ function findAreaOfOneIcecubeFromMass(iceMass, n) {
   return 6*pow(iceMass/(n*ICE_DENSITY),2/3);
 }
 
-/* Shortcut function that calculates the area of an icecube given it's mass.
+/* Shortcut function that calculates the area of an icecube given its mass.
  * TODO: This function is not used, remove later
  * @param iceMass: the mass of the whole
  */
