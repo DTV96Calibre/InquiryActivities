@@ -31,6 +31,7 @@ function Cup() {
   this.liquidColor = 'rgb(255, 188, 136)';
   this.liquidColorTransp = 'rgba(255, 188, 136, 0.3)';
   this.liquidBorderColor = 'rgb(241, 173, 120)';
+  this.shadowColor;
 
   /* Dimensions */
   this.cupWidth;
@@ -56,6 +57,9 @@ function Cup() {
    * Draws this cup. All components are drawn w.r.t. xLength to maintain ratio.
    */
   this.display = function() {
+    // Draw the color-coded shadow behind the cup
+    this.displayShadow();
+
     // Set graphical attributes
     strokeWeight(this.cupThickness);
     stroke(this.borderColor);
@@ -77,7 +81,7 @@ function Cup() {
     arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2 + this.cupThickness, 
       this.yOffset + this.cupBeginPosY + this.cupHeight / 2.2, this.cupHandleWidth, 
       this.cupHandleHeight, PI / 2, -(PI / 2), OPEN);
-    fill('white');
+    fill(this.shadowColor);
     arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2, this.yOffset + 
       this.cupBeginPosY + this.cupHeight / 2.2, this.cupHandleWidth / 2, 
       this.cupHandleHeight / 2, PI / 2, -(PI / 2), CHORD);
@@ -86,6 +90,39 @@ function Cup() {
     if (this.hasLiquid) {
       this.displayLiquid(false);
     }
+  }
+
+  /*
+   * Draws a color-coded shadow behind this cup to visually distinguish the 
+   * melting rates on the graph as either unbroken or broken ice.
+   */
+  this.displayShadow = function() {
+    // Set graphical attributes
+    noStroke();
+    fill(this.shadowColor);
+
+    var shadowOffset = this.cupWidth / 20;
+
+    /* Draw the bottom of the cup */
+    rect(this.cupBeginPosX + this.xOffset - shadowOffset, 
+      this.cupBeginPosY + this.yOffset - shadowOffset / 2, 
+      this.cupWidth, this.cupHeight, 0, 0, this.cupRoundedCornerDegree, 
+      this.cupRoundedCornerDegree);
+
+    /* Draw the top of the cup */
+    arc(this.xOffset + this.cupBeginPosX + this.cupWidth / 2 - shadowOffset, 
+      this.yOffset + this.cupBeginPosY - this.cupThickness + 3 - shadowOffset / 2,
+      this.cupWidth, this.cupHeight / 27, PI, 0, OPEN);
+
+    /* Draw the cup's handle */
+    arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2 + this.cupThickness - 
+      shadowOffset, this.yOffset + this.cupBeginPosY + this.cupHeight / 2.2, 
+      this.cupHandleWidth - shadowOffset / 2, this.cupHandleHeight, PI / 2, -(PI / 2), 
+      OPEN);
+    fill('white');
+    arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2 + shadowOffset, 
+      this.yOffset + this.cupBeginPosY + this.cupHeight / 2.2 - shadowOffset / 2, 
+      this.cupHandleWidth / 2, this.cupHandleHeight / 2, PI / 2, -(PI / 2), CHORD);
   }
 
   /*

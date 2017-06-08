@@ -34,6 +34,10 @@ var BROKEN_MASS_DIV = "broken-mass";
 var UNBROKEN_SURF_AREA_DIV = "unbroken-surf-area";
 var BROKEN_SURF_AREA_DIV = "broken-surf-area";
 
+// RGB color values for distinguishing unbroken & broken ice on the chart
+var UNBROKEN_ICE_CHART_COLOR = '127, 205, 187';
+var BROKEN_ICE_CHART_COLOR = '44, 127, 184';
+
 /**************** Global variables ******************/
 
 var iceCanvas;
@@ -60,11 +64,12 @@ var chartData = {
     datasets: [
       {
         label: 'Unbroken Ice',
-        backgroundColor: "rgba(75, 192, 192, 0.4)",
+        backgroundColor: "rgba(" + UNBROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: [{x:0, y:2}, {x:1, y:0}]
       },
       {
         label: 'Broken Ice',
+        backgroundColor: "rgba(" + BROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: [{x:0, y:1}, {x:1, y:2}]
       }
     ]
