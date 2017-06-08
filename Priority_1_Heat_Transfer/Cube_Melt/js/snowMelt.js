@@ -25,7 +25,7 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
-var MAX_RUN_TIME = 5;
+var MAX_RUN_TIME = 1;
 var TIME_SCALE_FACTOR = 5; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
 // A collection of HTML div IDs for editable text values in the simulation info box.
@@ -108,9 +108,14 @@ var chartData = {
 /***************** Experiment setup *****************/
 
 function initializeChart() {
-  if (typeof myLineChart !== 'undefined') {myLineChart.destroy();}
+  if (typeof myLineChart !== 'undefined') {
+    myLineChart.destroy(); // TODO: Apparently doesn't do anything to clear data????
+    print("Destroyed chart");
+  }
   ctx = document.getElementById("myChart").getContext("2d");
   myLineChart = new Chart(ctx, chartData);
+  myLineChart.data.datasets[0].data = []; // Manually set data to nothing
+  myLineChart.data.datasets[1].data = [];
 }
 
 function setup() {
@@ -315,7 +320,6 @@ function stepSimulation(exp) {
   var n = ice.numPieces; // The number of pieces in the whole ice
   print("n is:", n);
   var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
-  print("aOne is:", aOne);
   print("tempWater is:", ice.waterTemp);
   var q = findQ(aOne, n, ice.waterTemp, dt);
   print("q is:", q);
