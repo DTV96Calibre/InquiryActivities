@@ -49,20 +49,57 @@
 	    <canvas id="myChart" width="50%" height="40%"></canvas>
 	      
 	    <!-- Begin control panel div underneath chart -->
-		  <div class="well well-sm" align="center">
-		  	<!-- Counter indicating how many ice pieces make up the rightmost block -->
-		  	<div>Number of ice cubes: 1<vr>Number of ice cubes: 1</div>
+		  <div class="well well-sm simulation-info" align="center">
 
-		  	<hr>
+		  	<!-- Table of simulation info -->
+			  <table style="width:100%">
+				  <tr align="center">
+				    <td>
+				    	Number of ice cubes:
+				    	<div class="sim-value-unbroken" id="unbroken-num-cubes">1</div>
+				    </td>
+				    <td>
+				    	Number of ice cubes:
+				    	<div class="sim-value-broken" id="broken-num-cubes">1</div>
+				    </td>
+				  </tr>
+
+				  <tr align="center">
+				    <td>
+				    	Ice mass:
+				    	<div class="sim-value-unbroken" id="unbroken-mass">1</div>
+				    </td>
+				    <td>
+				    	Ice mass:
+				    	<div class="sim-value-broken" id="broken-mass">1</div>
+				    </td>
+				  </tr>
+
+				  <tr align="center">
+				    <td>
+				    	Ice surface area:
+				    	<div class="sim-value-unbroken" id="unbroken-surf-area">1</div>
+				    </td>
+				    <td>
+				    	Ice surface area:
+				    	<div class="sim-value-broken" id="broken-surf-area">1</div>
+				    </td>
+				  </tr>
+
+				</table>
+		  </div>
+
+		  <div class="btn_array" align="center">
 
 		  	<!-- Bootstrap buttons (start/reset) -->
 		    <a href="javascript:" id="startBtn" class="btn btn-success btn-lg">Start</a>
 		    <a href="javascript:" id="resetBtn" class="btn btn-danger btn-lg">Reset</a>
 
-		    <!-- Glyphicon (help button) -->
+		    <!-- Glyphicons (help/pause buttons) -->
+		    <a href="javascript:" id="pauseBtn" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pause"></span></a>
 		    <a href="javascript:" id="helpBtn" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-question-sign"></span></a>
+
 		  </div>
-	    <!-- End control panel div -->
 
 	      <div class="alert alert-info" id="help-box">
 			  	<strong>Help:</strong> 

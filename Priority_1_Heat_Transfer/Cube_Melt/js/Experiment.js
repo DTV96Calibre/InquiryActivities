@@ -61,9 +61,11 @@ function Experiment(type, ice) {
 
     if (this.type == 'unbroken') {
       this.cup.initializeBuffer(xLength, yLength, 0, yOffset);
+      this.cup.shadowColor = 'rgba(' + UNBROKEN_ICE_CHART_COLOR + ', 0.4)';
     }
     else if (this.type == 'broken') {
       this.cup.initializeBuffer(xLength, yLength, windowWidth / 4, yOffset);
+      this.cup.shadowColor = 'rgba(' + BROKEN_ICE_CHART_COLOR + ', 0.4)';
     }
     else {
       throw new Error("Experiment obj needs to be of type 'broken' or 'unbroken'.");
@@ -259,10 +261,32 @@ function Experiment(type, ice) {
   }
 
   /*
-   * Updates the mathematical properties of the components of this Experiment.
+   * Updates the mathematical properties of the components of this Experiment
+   * as well as the onscreen numerical text values.
    */
   this.updateCalculations = function() {
     this.ice.calculateProperties();
+    this.updateOnscreenValues();
+  }
+
+  /*
+   * Updates the text values in the grey simulation info box (shown underneath 
+   * the chart onscreen).
+   */
+  this.updateOnscreenValues = function() {
+    if (this.type == 'unbroken') {
+      document.getElementById(UNBROKEN_NUM_CUBES_DIV).innerHTML = this.ice.numPieces;
+      document.getElementById(UNBROKEN_MASS_DIV).innerHTML = this.ice.iceMass;
+      document.getElementById(UNBROKEN_SURF_AREA_DIV).innerHTML = this.ice.surfaceArea;
+    }
+    else if (this.type == 'broken') {
+      document.getElementById(BROKEN_NUM_CUBES_DIV).innerHTML = this.ice.numPieces;
+      document.getElementById(BROKEN_MASS_DIV).innerHTML = this.ice.iceMass;
+      document.getElementById(BROKEN_SURF_AREA_DIV).innerHTML = this.ice.surfaceArea;
+    }
+    else {
+      throw new Error("Experiment obj needs to be of type 'broken' or 'unbroken'.");
+    }
   }
 }
 

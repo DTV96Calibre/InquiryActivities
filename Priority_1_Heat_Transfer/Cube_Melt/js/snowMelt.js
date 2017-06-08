@@ -28,6 +28,18 @@ var FRAME_RATE = 60; // Frames per second. The rate at which the draw function i
 var MAX_RUN_TIME = 5;
 var TIME_SCALE_FACTOR = 5; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
+// A collection of HTML div IDs for editable text values in the simulation info box.
+var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
+var BROKEN_NUM_CUBES_DIV = "broken-num-cubes";
+var UNBROKEN_MASS_DIV = "unbroken-mass";
+var BROKEN_MASS_DIV = "broken-mass";
+var UNBROKEN_SURF_AREA_DIV = "unbroken-surf-area";
+var BROKEN_SURF_AREA_DIV = "broken-surf-area";
+
+// RGB color values for distinguishing unbroken & broken ice on the chart
+var UNBROKEN_ICE_CHART_COLOR = '127, 205, 187';
+var BROKEN_ICE_CHART_COLOR = '44, 127, 184';
+
 /**************** Global variables ******************/
 
 var iceCanvas;
@@ -36,6 +48,7 @@ var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 var mouseIsPressed;
 var simulationTime;
+var simulationPaused = false;
 
 // Pieces of the experiment
 var unbrokenIce;
@@ -54,6 +67,7 @@ var chartData = {
   data: {
     datasets: [
       {
+<<<<<<< HEAD
         label: 'Broken Ice',
         //data: [{x:0, y:1}, {x:1, y:2}]
         data: []
@@ -63,6 +77,16 @@ var chartData = {
         backgroundColor: "rgba(75, 192, 192, 0.4)",
         //data: [{x:0, y:2}, {x:1, y:0}]
         data: []
+=======
+        label: 'Unbroken Ice',
+        backgroundColor: "rgba(" + UNBROKEN_ICE_CHART_COLOR + ", 0.4)",
+        data: [{x:0, y:2}, {x:1, y:0}]
+      },
+      {
+        label: 'Broken Ice',
+        backgroundColor: "rgba(" + BROKEN_ICE_CHART_COLOR + ", 0.4)",
+        data: [{x:0, y:1}, {x:1, y:2}]
+>>>>>>> 0a49f8ac8bbc5995c6902a833cd9eac63debe6ec
       }
     ]
   },
@@ -129,6 +153,10 @@ function setup() {
 
 function draw() {
   updateCursor();
+  // Don't do anything aside from update the cursor while the simulation is paused
+  if (simulationPaused) {
+    return;
+  }
   if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
     updateSimulation();
@@ -139,8 +167,6 @@ function draw() {
     graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
     myLineChart.update(0, true); // Redraw chart with new data points
   }
-
-
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
     return;
@@ -188,13 +214,13 @@ function drawTitle() {
     var fontSize = windowWidth / 2 / 32;
     textSize(fontSize);
 
-    var fontPosX = windowWidth / 10;
+    var fontPosX = windowWidth / 9;
     var fontPosY = windowHeight / 24;
 
     fill(32, 32, 32); // grey
     text("Rate vs. Amount: ", fontPosX, fontPosY);
     fill(0, 102, 153); // blue
-    text("Melting Ice Simulation", fontPosX * 2.25, fontPosY);
+    text("Melting Ice Simulation", fontPosX * 2.15, fontPosY);
   }
 }
 
@@ -268,7 +294,7 @@ function mouseReleased() {
  * Attempts to break the ice further. Does nothing if MAX_DIVISIONS is reached.
  */
 function swingHammer() {
-  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther()) {
+  if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther() && !simulationPaused) {
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
   }
@@ -444,6 +470,10 @@ $(document).ready(function(){
   $("#helpBtn").click(function () {
     toggleHelp(helpBoxDiv);
   });
+
+  $("#pauseBtn").click(function () {
+    pauseSimulation();
+  });
 });
 
 /*
@@ -477,4 +507,26 @@ function toggleHelp(element) {
   } else {
     hide(element);
   }
+}
+
+/*
+ * Called when the user presses the pause button. If the simulation is live, pauses
+ * everything (including animations and calculations). Otherwise, resumes the
+ * simulation.
+ */
+function pauseSimulation() {
+  if (!simulationPaused) {
+    $("#pauseBtn").find(".glyphicon").removeClass('glyphicon-pause');
+    $("#pauseBtn").find(".glyphicon").addClass('glyphicon-play');
+    // The start button is also disabled in pause mode
+    $('#startBtn').attr('disabled','disabled');
+  }
+  else {
+    $("#pauseBtn").find(".glyphicon").removeClass('glyphicon-play');
+    $("#pauseBtn").find(".glyphicon").addClass('glyphicon-pause');
+    if (!brokenExp.ice.hasDropped) {
+      $("#startBtn").removeAttr('disabled');
+    }
+  }
+  simulationPaused = !simulationPaused;
 }

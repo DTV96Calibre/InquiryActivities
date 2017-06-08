@@ -17,11 +17,32 @@
 	font-size: 1.5em;
 }
 
-/* Holds the control panel (info, start/reset/help buttons) */
+/* The grey box that holds information about the simulation */
 .well {
 	position: relative;
 	width: 95%;
 	left: 2%;
+}
+
+/* The text within the two-column table that displays simulation info */
+.simulation-info {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+	color: #444444;
+	font-size: 11pt;
+}
+
+/* The editable text values that update as the simulation progresses (unbroken ice) */
+.sim-value-unbroken {
+	display: inline;
+	font-weight: bold;
+	color: #7fcdbb;
+}
+
+/* The editable text values that update as the simulation progresses (broken ice) */
+.sim-value-broken {
+	display: inline;
+	font-weight: bold;
+	color: #2c7fb8;
 }
 
 /* Holds the hidden tooltip help pop-up */
@@ -31,12 +52,17 @@
 	left: 2%;
 }
 
+/* The row of buttons underneath the info panel */
+.btn_array {
+	padding-bottom: 2%;
+}
+
 .chartCanvas-holder {
 	position: absolute;
 	top: 5%;
 	right: 1%;
 	width: 50%;
-	height: 60%;
+	height: 50%;
 }
 
 .unbrokenIceCanvas-holder {
