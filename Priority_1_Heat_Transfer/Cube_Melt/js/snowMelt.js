@@ -493,6 +493,11 @@ function startSimulation() {
  * ice cubes as well as the chart.
  */
 function resetSimulation() {
+  // Resetting the simulation forces the pause button to reset as well
+  if (simulationPaused) {
+    pauseSimulation();
+  }
+
   // Calling the p5 setup function will reset all onscreen elements
   setup();
 }
