@@ -61,11 +61,11 @@ function Experiment(type, ice) {
 
     if (this.type == 'unbroken') {
       this.cup.initializeBuffer(xLength, yLength, 0, yOffset);
-      this.cup.shadowColor = 'rgba(' + UNBROKEN_ICE_CHART_COLOR + ', 0.4)';
+      this.cup.shadowColor = 'rgba(' + UNBROKEN_ICE_CHART_COLOR + ', 0.3)';
     }
     else if (this.type == 'broken') {
       this.cup.initializeBuffer(xLength, yLength, windowWidth / 4, yOffset);
-      this.cup.shadowColor = 'rgba(' + BROKEN_ICE_CHART_COLOR + ', 0.4)';
+      this.cup.shadowColor = 'rgba(' + BROKEN_ICE_CHART_COLOR + ', 0.3)';
     }
     else {
       throw new Error("Experiment obj needs to be of type 'broken' or 'unbroken'.");

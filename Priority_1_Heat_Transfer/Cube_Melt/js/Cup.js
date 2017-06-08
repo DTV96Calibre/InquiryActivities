@@ -105,24 +105,24 @@ function Cup() {
 
     /* Draw the bottom of the cup */
     rect(this.cupBeginPosX + this.xOffset - shadowOffset, 
-      this.cupBeginPosY + this.yOffset - shadowOffset / 2, 
+      this.cupBeginPosY + this.yOffset - shadowOffset / 1.5, 
       this.cupWidth, this.cupHeight, 0, 0, this.cupRoundedCornerDegree, 
       this.cupRoundedCornerDegree);
 
     /* Draw the top of the cup */
     arc(this.xOffset + this.cupBeginPosX + this.cupWidth / 2 - shadowOffset, 
-      this.yOffset + this.cupBeginPosY - this.cupThickness + 3 - shadowOffset / 2,
+      this.yOffset + this.cupBeginPosY - this.cupThickness + 2 - shadowOffset / 1.5,
       this.cupWidth, this.cupHeight / 27, PI, 0, OPEN);
 
     /* Draw the cup's handle */
-    arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2 + this.cupThickness - 
+    arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2 + this.cupThickness / 2 - 1 - 
       shadowOffset, this.yOffset + this.cupBeginPosY + this.cupHeight / 2.2, 
-      this.cupHandleWidth - shadowOffset / 2, this.cupHandleHeight, PI / 2, -(PI / 2), 
+      this.cupHandleWidth - shadowOffset / 1.5, this.cupHandleHeight, PI / 2, -(PI / 2), 
       OPEN);
     fill('white');
     arc(this.xOffset + this.xLength / 2 - this.cupWidth / 2 + shadowOffset, 
-      this.yOffset + this.cupBeginPosY + this.cupHeight / 2.2 - shadowOffset / 2, 
-      this.cupHandleWidth / 2, this.cupHandleHeight / 2, PI / 2, -(PI / 2), CHORD);
+      this.yOffset + this.cupBeginPosY + this.cupHeight / 2.2 - shadowOffset / 1.5, 
+      this.cupHandleWidth / 2, this.cupHandleHeight / 2, PI / 2, -(PI / 2), OPEN);
   }
 
   /*
