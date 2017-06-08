@@ -12,7 +12,9 @@
 	overflow-x: hidden;
 }
 
-/**************** Canvas positioning ****************/
+.glyphicon {
+	font-size: 1.5em;
+}
 
 .chartCanvas-holder {
 	position: absolute;

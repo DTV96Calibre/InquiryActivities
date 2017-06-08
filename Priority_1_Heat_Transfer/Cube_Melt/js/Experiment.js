@@ -22,7 +22,7 @@ function Experiment(type, ice) {
   this.PERCENT_ICE_SUBMERGED = 0.75;
 
   // How quickly the ice drops as a percentage of the total distance to drop. 0.01 = 1% per frame.
-  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.015;
+  this.ICE_FALLING_DISTANCE_PER_FRAME = 0.025;
 
   // The number of frames to pause before the ice begins floating to the surface.
   this.NUM_FRAMES_BEFORE_FLOATING = 5;
@@ -107,6 +107,7 @@ function Experiment(type, ice) {
 
     // Recalculate how many pixels the ice needs to fall to drop into the cup
     this.ice.distanceToFall = windowHeight / 2;
+
     // Also reorient the ice w.r.t. the top of the cup if it's already finished moving
     if (this.ice.isDoneAnimating) {
       var floatDistance = this.cup.cupHeight / 5

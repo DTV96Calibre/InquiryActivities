@@ -74,8 +74,13 @@ var chartData = {
       //rangeMax:{x: null, y: null}
     },
 
+    legend: {
+      display: true,
+      position: 'bottom'
+    },
+
     responsive: true
-  }
+  },
 };
 
 /***************** Experiment setup *****************/
@@ -398,13 +403,16 @@ function graphTemperature(temperature, name) {
 $(document).ready(function(){
   $("#startBtn").click(function () {
     startSimulation();
-    // $("#startBtn").toggleClass("disabled");
     $('#startBtn').attr('disabled','disabled');
   });
 
   $("#resetBtn").click(function () {
     resetSimulation();
     $("#startBtn").removeAttr('disabled');
+  });
+
+  $("#helpBtn").click(function () {
+    help();
   });
 });
 
@@ -427,4 +435,16 @@ function startSimulation() {
 function resetSimulation() {
   // Calling the p5 setup function will reset all onscreen elements
   setup();
+}
+
+/*
+ * Called when the user presses the help button. Creates a pop-up alert that gives
+ * the user tips about using the simulation.
+ */
+function help() {
+  alert("Click or tap the ice cube on the right to break it into smaller ice chips. " +
+   "Both ice cubes have identical mass; the only difference is the ice cube on the l" +
+   "eft cannot be split into smaller pieces.\n\nPress the start button to begin drop" +
+   "ping the ice into room-temperature orange soda. The chart on the right will then" +
+   " begin plotting the temperature of the orange soda as the ice melts.");
 }

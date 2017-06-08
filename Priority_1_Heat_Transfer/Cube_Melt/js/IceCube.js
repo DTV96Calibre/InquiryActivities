@@ -117,7 +117,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         }
 
         // Don't draw details if ice pieces are small enough (helps avoid lag)
-        if (this.numDivisions != MAX_DIVISIONS) {
+        if (this.numDivisions < 4) {
 
           // Draw shading
           noStroke();
