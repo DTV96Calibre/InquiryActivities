@@ -331,7 +331,7 @@ function stepSimulation(exp) {
   print("Water mass is now:", exp.ice.waterMass);
   ice.iceMass -= mMelted;   // Remove melted mass from ice
   print("Ice mass is now:", exp.ice.iceMass);
-  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
+  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
 }
 
 /* TODO: This function is not in use, remove later
