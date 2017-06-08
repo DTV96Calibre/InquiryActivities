@@ -154,12 +154,10 @@ function draw() {
   }
   if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
-    //updateSimulation();
-    stepSimulation(brokenExp);
-    print(brokenExp.type);
-    stepSimulation(unbrokenExp);
     graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
     graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
+    stepSimulation(brokenExp);
+    stepSimulation(unbrokenExp);
     myLineChart.resetZoom();
     myLineChart.update(0, true); // Redraw chart with new data points
   }
@@ -330,7 +328,9 @@ function stepSimulation(exp) {
   print("Melted, waterTemp is:", ice.waterTemp);
   ice.waterTemp = findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted);
   ice.waterMass += mMelted; // Add new liquid to water
+  print("Water mass is now:", exp.ice.waterMass);
   ice.iceMass -= mMelted;   // Remove melted mass from ice
+  print("Ice mass is now:", exp.ice.iceMass);
   ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength for drawing
 }
 
