@@ -24,6 +24,13 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    * size. */
   this.BASE_EDGE_LENGTH_CM = 20;
 
+  /*
+   * Amount to scale the vertical 'melting offset': the amount the ice cube sticks up
+   * out of the liquid when it's undergoing shrinkage due to melting. Smaller numbers
+   * submerge the ice cubes further into the liquid.
+   */
+  this.MELTED_OFFSET_SCALING = 1.7;
+
   this.edgeLength; // The length of a single cube (becomes smaller as ice is broken)
   this.numPieces;
   this.surfaceArea;
@@ -31,9 +38,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.iceMass = ICE_DENSITY * this.volume;
 
   /* Colors */
-  this.iceColor = 'rgba(233, 247, 239,';
-  this.iceBorderColor = 'rgba(208, 236, 231,';
-  this.opacity = 1; // 0 to 1 range
+  this.iceColor = 'rgb(233, 247, 239)';
+  this.iceBorderColor = 'rgb(208, 236, 231)';
 
   /* The offset in pixels to draw the center of the ice block. */
   this.xOffset;
@@ -56,7 +62,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.isDoneFalling = false;
   this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
-  this.pctDistanceFallen = 0;
+  this.pctDistanceFallen = 0; // Range is 0 to 1.0
+  this.pctMelted = 0; // Range is 0 to 1.0
   this.numFramesStalled = 0;
   this.timeToMeltSeconds = 0;
 
@@ -85,6 +92,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     strokeWeight(this.edgeThickness);
     var length = Math.pow(2, this.numDivisions);
 
+    // Skip drawing ice pieces that are already melted
+    if (this.pctMelted > 0.9999) {
+      return;
+    }
+
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
 
@@ -96,12 +108,13 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
         if (j % 2 == 1) {
           var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
+          iceChipShiftFactor /= (1 + this.pctMelted * 3);
           xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
         }
 
         // Set up colors
-        fill(this.iceColor + this.getOpacity('body') + ')');
-        stroke(this.iceBorderColor + this.getOpacity('body') + ')');
+        fill(this.iceColor);
+        stroke(this.iceBorderColor);
 
         var dist = this.pctDistanceFallen * this.distanceToFall;
         // Pieces on the lower rows need to fall a lesser distance to reach the liquid
@@ -119,12 +132,12 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         if (this.numDivisions < 4) {
           // Draw shading
           noStroke();
-          fill('rgba(255, 255, 255,' + this.getOpacity('shading') + ')'); // white
+          fill('white');
           var padding = piece.width / 10;
           triangle(xPos + padding * 4, yPos + piece.height - padding + dist,
             xPos + piece.width - padding, yPos + padding * 4 + dist,
             xPos + piece.width - padding, yPos + piece.height - padding + dist);
-          fill(this.iceColor + this.getOpacity('shading') + ')');
+          fill(this.iceColor);
           ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist,
             piece.width - padding * 1.85, piece.height - padding * 1.85);
         }
@@ -163,8 +176,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    */
   this.setCenterArrayPos = function(x, y) {
     var offset = this.findArrayRange() / 2;
-    this.arrayPos.x = x - offset;
-    this.arrayPos.y = y - offset + this.findOffsetFromPadding();
+    var paddingOffset = this.findOffsetFromPadding();
+    var meltedOffset = this.findOffsetFromMelting();
+
+    this.arrayPos.x = x - offset + meltedOffset;
+    this.arrayPos.y = y - offset + paddingOffset + meltedOffset / this.MELTED_OFFSET_SCALING;
   }
 
   /*
@@ -212,14 +228,14 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
       for (var j = 0; j < length; j++) {
         var offset = (1 + paddingToPieceRatio) * baseWidth / length;
         this.array[i][j].x = i * offset;
-        this.array[i][j].y = j * offset;
-        this.array[i][j].width = pieceWidth;
-        this.array[i][j].height = pieceWidth;
+        this.array[i][j].y = j * offset * (1 - this.pctMelted);
+        this.array[i][j].width = pieceWidth * (1 - this.pctMelted);
+        this.array[i][j].height = pieceWidth * (1 - this.pctMelted);
       }
     }
 
     // Edges become less rounded as pieces become smaller
-    this.edgeRoundness = this.baseEdgeRoundness / (this.numDivisions + 1);
+    this.edgeRoundness = this.baseEdgeRoundness / (this.numDivisions + 1) * (1 - this.pctMelted);
   }
 
   /*
@@ -256,44 +272,26 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
+   * Returns the offset needed to shift the shrinking cubes to the right by as they melt
+   * (to ensure they remain centered despite the origin of cubes being drawn in the top-left
+   * corner).
+   */
+  this.findOffsetFromMelting = function() {
+    var length = Math.pow(2, this.numDivisions);
+    // The length of one original (unmelted) ice chip in a cube with this many divisions
+    var originalPieceWidth = baseWidth / length;
+    // The length of the piece that is now gone (melted away)
+    var meltedPieceWidth = originalPieceWidth * this.pctMelted;
+    // Divide the melted portion in half to center the unmelted piece that remains
+    return meltedPieceWidth / 2;
+  }
+
+  /*
    * Returns true if this ice cube hasn't hit its max number of divisions AND
    * it hasn't yet been dropped into the cup.
    */
   this.canBeBrokenFurther = function() {
     return this.numDivisions < this.totalNumDivisions && !this.hasDropped;
-  }
-
-  /*
-   * Returns the appropriate opacity level (a float between 0 and 1) depending
-   * on the type of graphical object to draw. The reason for differences in opacity
-   * between types is to prevent shading from appearing overly dark due to
-   * superimposed shapes with additive opacity.
-   * @param type: A string, either 'body' or 'shading'
-   */
-  this.getOpacity = function(type) {
-    // Never want a negative opacity
-    if (this.opacity <= 0) {
-      return 0;
-    }
-
-    if (this.opacity > 0.5) {
-      // Opacity greater than 1/2 means an opaque body but faded shading
-      if (type == 'body') {
-        return 1;
-      }
-      else if (type == 'shading') {
-        return Math.max(2 * this.opacity - 1, 0.01);
-      }
-    }
-    else {
-      // Opacity less than 1/2 means transparent shading but faded body
-      if (type == 'body') {
-        return 2 * this.opacity;
-      }
-      else if (type == 'shading') {
-        return 0;
-      }
-    }
   }
 
   /*
@@ -314,10 +312,12 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Melt this ice by reducing its total opacity by the given percentage.
+   * Melt this ice by increasing its melted percentage by the given value.
+   * @param meltedPct: A number between 0 and 1
    */
-  this.melt = function(opacityPct) {
-    this.opacity -= opacityPct;
+  this.melt = function(meltedPct) {
+    this.pctMelted += meltedPct;
+    print(this.pctMelted);
   }
 
   /* ==================================================================

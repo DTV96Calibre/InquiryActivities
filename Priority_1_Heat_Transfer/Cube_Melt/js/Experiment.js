@@ -208,7 +208,6 @@ function Experiment(type, ice) {
     if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
       this.ice.isMelting = true;
-      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;
@@ -220,13 +219,17 @@ function Experiment(type, ice) {
    */
   this.meltIce = function() {
     var numFramesToMelt = this.ice.timeToMeltSeconds * FRAME_RATE;
-    var opacityPct = 1 / numFramesToMelt;
-    this.ice.melt(opacityPct);
 
-    // If the opacity has reached zero, it's finished melting
-    if (this.ice.opacity - opacityPct <= 0) {
-      this.ice.opacity = 0;
+    // The percent the ice will melt this frame
+    var meltedPct = 1 / numFramesToMelt;
+
+    this.ice.melt(meltedPct);
+
+    // If the ice has 100% melted, we're finished
+    if (this.ice.pctMelted + meltedPct >= 1) {
+      this.ice.pctMelted = 1;
       this.ice.isMelting = false;
+      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;
