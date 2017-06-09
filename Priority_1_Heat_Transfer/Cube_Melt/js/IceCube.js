@@ -101,13 +101,24 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
         var piece = this.array[i][j];
+
+        // Setup variables for positioning the ice pieces
+        var xPos = piece.x + this.arrayPos.x;
+        var yPos = piece.y + this.arrayPos.y;
         var distanceFallen = this.findDistanceFallen(piece, j);
 
-        this.displayBody(piece, j, distanceFallen);
+        // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
+        if (j % 2 == 1) {
+          var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
+          iceChipShiftFactor /= (1 + this.pctMelted * 3);
+          xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
+        }
 
+        this.displayBody(piece, distanceFallen, xPos, yPos);
+  
         // Don't draw details if ice pieces are small enough (helps avoid lag)
         if (this.numDivisions < 4) {
-          this.displayShading(piece, distanceFallen);
+         this.displayShading(piece, distanceFallen, xPos, yPos);
         }
       }
     }
@@ -116,20 +127,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   /*
    * Draws the body of the given piece of ice cube.
    * @param piece: The ice piece to render (ice pieces are stored in this.array)
-   * @param yPosArray: The index into the row in which this piece is stored in this.array
    * @param distanceFallen: The amount to draw the ice further down the page
+   * @param xPos: The horizontal offset to begin drawing the ice piece
+   * @param yPos: The vertical offset to begin drawing the ice piece
    */
-  this.displayBody = function(piece, yPosArray, distanceFallen) {
-    var xPos = piece.x + this.arrayPos.x;
-    var yPos = piece.y + this.arrayPos.y;
-
-    // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
-    if (yPosArray % 2 == 1) {
-      var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
-      iceChipShiftFactor /= (1 + this.pctMelted * 3);
-      xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
-    }
-
+  this.displayBody = function(piece, distanceFallen, xPos, yPos) {
     // Set up colors
     fill(this.iceColor);
     stroke(this.iceBorderColor);
@@ -147,11 +149,10 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    * Draws the shading (white triangle) of the given piece of ice cube.
    * @param piece: The ice piece to render (ice pieces are stored in this.array)
    * @param distanceFallen: The amount to draw the ice further down the page
+   * @param xPos: The horizontal offset to begin drawing the ice piece
+   * @param yPos: The vertical offset to begin drawing the ice piece
    */
-  this.displayShading = function(piece, distanceFallen) {
-    var xPos = piece.x + this.arrayPos.x;
-    var yPos = piece.y + this.arrayPos.y;
-
+  this.displayShading = function(piece, distanceFallen, xPos, yPos) {
     noStroke();
     fill('white');
     var padding = piece.width / 10;
@@ -163,7 +164,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     fill(this.iceColor);
     // Draw an ellipse to make the hypotenuse appear concave
     ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + distanceFallen,
-      piece.width - padding * 1.85, piece.height - padding * 1.85);
+      piece.width - padding * 1.5, piece.height - padding * 1.5);
   }
 
   /*
