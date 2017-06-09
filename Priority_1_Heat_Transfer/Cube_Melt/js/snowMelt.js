@@ -155,7 +155,7 @@ function draw() {
   if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
     graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
-    graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
+    graphTemperature(unbrokenExp.ice.waterMass, unbrokenExp.type);
     stepSimulation(brokenExp);
     stepSimulation(unbrokenExp);
     myLineChart.resetZoom();
@@ -313,24 +313,25 @@ function stepSimulation(exp) {
   // Consider the IceCube from the given Experiment obj.
   var ice = exp.ice;
 
-  print("exp.type:", exp.type);
-  print("ice.iceMass:", ice.iceMass);
+  //print("exp.type:", exp.type);
+  //print("ice.iceMass:", ice.iceMass);
   var dt = TIME_SCALE_FACTOR * 1/FRAME_RATE; // inverse of the expected framerate.
-  print("period is:", dt);
+  //print("period is:", dt);
   var n = ice.numPieces; // The number of pieces in the whole ice
-  print("n is:", n);
+  //print("n is:", n);
   var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
-  print("tempWater is:", ice.waterTemp);
+  print("area of one icecube found from mass:", aOne);
+  //print("tempWater is:", ice.waterTemp);
   var q = findQ(aOne, n, ice.waterTemp, dt);
-  print("q is:", q);
+  //print("q is:", q);
   var mMelted = findM_melted(q); // The mass of the liquid created from melting ice.
   ice.waterTemp = findT_waterNewMelting(ice.waterMass, ice.waterTemp, mMelted);
-  print("Melted, waterTemp is:", ice.waterTemp);
+  //print("Melted, waterTemp is:", ice.waterTemp);
   ice.waterTemp = findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted);
   ice.waterMass += mMelted; // Add new liquid to water
-  print("Water mass is now:", exp.ice.waterMass);
+  //print("Water mass is now:", exp.ice.waterMass);
   ice.iceMass -= mMelted;   // Remove melted mass from ice
-  print("Ice mass is now:", exp.ice.iceMass);
+  //print("Ice mass is now:", exp.ice.iceMass);
   ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
 }
 
@@ -359,10 +360,7 @@ function findAreaFromMass(iceMass) {
 
 
 
-/*
- * Finds the melting time for the cubes in each cup to set up the animation
- * fade time.
- * Calculates heat transfer due to water making contact with ice surface.
+/* Calculates heat transfer due to water making contact with ice surface.
  * @param aOne: The area of one ice cube. Units in mm^2. TODO: This should be cm^2?
  * @param n: number of ice cubes.
  * @param tempWater: The current temperature of the water.
