@@ -97,52 +97,73 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
       return;
     }
 
+    // Iterate through the ice pieces in this array
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
-
         var piece = this.array[i][j];
+        var distanceFallen = this.findDistanceFallen(piece, j);
 
-        var xPos = piece.x + this.arrayPos.x;
-        var yPos = piece.y + this.arrayPos.y;
-
-        // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
-        if (j % 2 == 1) {
-          var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
-          iceChipShiftFactor /= (1 + this.pctMelted * 3);
-          xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
-        }
-
-        // Set up colors
-        fill(this.iceColor);
-        stroke(this.iceBorderColor);
-
-        var dist = this.pctDistanceFallen * this.distanceToFall;
-        // Pieces on the lower rows need to fall a lesser distance to reach the liquid
-        dist -= j * this.pctDistanceFallen * piece.width / 2;
-
-        // Draw rounded edges if this ice block hasn't been fractured too much
-        if (this.numDivisions < 3) {
-          rect(xPos, yPos + dist, piece.width, piece.height,
-          this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
-        } else {
-          rect(xPos, yPos + dist, piece.width, piece.height);
-        }
+        this.displayBody(piece, j, distanceFallen);
 
         // Don't draw details if ice pieces are small enough (helps avoid lag)
         if (this.numDivisions < 4) {
-          // Draw shading
-          noStroke();
-          fill('white');
-          var padding = piece.width / 10;
-          triangle(xPos + padding * 4, yPos + piece.height - padding + dist,
-            xPos + piece.width - padding, yPos + padding * 4 + dist,
-            xPos + piece.width - padding, yPos + piece.height - padding + dist);
-          fill(this.iceColor);
-          ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + dist,
-            piece.width - padding * 1.85, piece.height - padding * 1.85);
+          this.displayShading(piece, distanceFallen);
         }
       }
     }
+  }
+
+  /*
+   * Draws the body of the given piece of ice cube.
+   * @param piece: The ice piece to render (ice pieces are stored in this.array)
+   * @param yPosArray: The index into the row in which this piece is stored in this.array
+   * @param distanceFallen: The amount to draw the ice further down the page
+   */
+  this.displayBody = function(piece, yPosArray, distanceFallen) {
+    var xPos = piece.x + this.arrayPos.x;
+    var yPos = piece.y + this.arrayPos.y;
+
+    // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
+    if (yPosArray % 2 == 1) {
+      var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
+      iceChipShiftFactor /= (1 + this.pctMelted * 3);
+      xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
+    }
+
+    // Set up colors
+    fill(this.iceColor);
+    stroke(this.iceBorderColor);
+
+    // Draw rounded edges if this ice block hasn't been fractured too much
+    if (this.numDivisions < 3) {
+      rect(xPos, yPos + distanceFallen, piece.width, piece.height,
+      this.edgeRoundness, this.edgeRoundness, this.edgeRoundness, this.edgeRoundness);
+    } else {
+      rect(xPos, yPos + distanceFallen, piece.width, piece.height);
+    }
+  }
+
+  /*
+   * Draws the shading (white triangle) of the given piece of ice cube.
+   * @param piece: The ice piece to render (ice pieces are stored in this.array)
+   * @param distanceFallen: The amount to draw the ice further down the page
+   */
+  this.displayShading = function(piece, distanceFallen) {
+    var xPos = piece.x + this.arrayPos.x;
+    var yPos = piece.y + this.arrayPos.y;
+
+    noStroke();
+    fill('white');
+    var padding = piece.width / 10;
+
+    // Draw the triangle on the lower-right corner of the cube
+    triangle(xPos + padding * 4, yPos + piece.height - padding + distanceFallen,
+      xPos + piece.width - padding, yPos + padding * 4 + distanceFallen,
+      xPos + piece.width - padding, yPos + piece.height - padding + distanceFallen);
+    fill(this.iceColor);
+    // Draw an ellipse to make the hypotenuse appear concave
+    ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + distanceFallen,
+      piece.width - padding * 1.85, piece.height - padding * 1.85);
   }
 
   /*
@@ -287,6 +308,19 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
+   * Returns the vertical distance to draw this IceCube piece further down the screen due to
+   * it falling towards the cup.
+   * @param piece: The ice piece to render (ice pieces are stored in this.array)
+   * @param yPosArray: The index into the row in which this piece is stored in this.array
+   */
+  this.findDistanceFallen = function(piece, yPosArray) {
+    var distanceFallen = this.pctDistanceFallen * this.distanceToFall;
+    // Pieces on the lower rows need to fall a lesser distance to reach the liquid
+    distanceFallen -= yPosArray * this.pctDistanceFallen * piece.width / 2;
+    return distanceFallen;
+  }
+
+  /*
    * Returns true if this ice cube hasn't hit its max number of divisions AND
    * it hasn't yet been dropped into the cup.
    */
@@ -317,7 +351,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    */
   this.melt = function(meltedPct) {
     this.pctMelted += meltedPct;
-    print(this.pctMelted);
   }
 
   /* ==================================================================
