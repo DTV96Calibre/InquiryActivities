@@ -27,6 +27,7 @@ var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 var MAX_RUN_TIME = 1;
 var TIME_SCALE_FACTOR = 5; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
 // A collection of HTML div IDs for editable text values in the simulation info box.
 var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
