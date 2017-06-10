@@ -282,13 +282,17 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
 
     // Ice pieces shift back and forth in the liquid as they melt
     if (rowIndex != 0) {
-      var floatDistance = this.pctMelted * piece.width * rowIndex / this.numDivisions;
+      var floatDistance = this.findFloatDistance(piece, rowIndex) / this.numDivisions;
+
       // Even-numbered directions will float to the right
       if (piece.floatDirection % 2 == 0) {
         var rightWallPos = this.arrayPos.x + this.findArrayRange();
         if (xPos + floatDistance + piece.width < rightWallPos) {
           xPos += floatDistance;
         } else {
+          // Switch direction this piece floats in
+          piece.floatDirection += 1;
+          // Set the position of this piece to be right against the boundary
           xPos = rightWallPos - piece.width;
         }
       // Odd-numbered directions will float to the left
@@ -297,6 +301,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         if (xPos - floatDistance > leftWallPos) {
           xPos -= floatDistance;
         } else {
+          // Switch direction this piece floats in
+          piece.floatDirection += 1;
+          // Set the position of this piece to be right against the boundary
           xPos = leftWallPos;
         }
       }
@@ -315,11 +322,23 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
 
     // Ice pieces gradually rise vertically as they melt
     if (rowIndex != 0) {
-      var floatDistance = this.pctMelted * piece.width * rowIndex / 4;
+      var floatDistance = this.findFloatDistance(piece, rowIndex) / 2;
       yPos -= floatDistance;
     }
 
     return yPos;
+  }
+
+  /*
+   * Computes the floatDistance (which will be added to the x-position of the
+   * given ice piece) as a consequent of the ice blocks melting and floating
+   * in the water.
+   * @param piece: An ice piece stored in this.array
+   * @param rowIndex: The index of the row in which this piece is stored
+   */
+  this.findFloatDistance = function(piece, rowIndex) {
+    var floatDistance = this.pctMelted * piece.width * rowIndex;
+    return floatDistance;
   }
 
   /*
