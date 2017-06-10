@@ -107,7 +107,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
         var distanceFallen = this.findDistanceFallen(piece, j);
 
         this.displayBody(piece, distanceFallen, xPos, yPos);
-  
+
         // Don't draw details if ice pieces are small enough (helps avoid lag)
         if (this.numDivisions < 4) {
          this.displayShading(piece, distanceFallen, xPos, yPos);
@@ -218,7 +218,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     for (var i = 0; i < length; i++) {
       var list = [];
       for (var j = 0; j < length; j++) {
-        list.push({x:0, y:0, width:0, height:0, 
+        list.push({x:0, y:0, width:0, height:0,
           floatDirection: int(random(100))});
       }
 
