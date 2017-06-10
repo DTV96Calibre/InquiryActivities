@@ -206,6 +206,7 @@ function Experiment(type, ice) {
     if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
       this.ice.isMelting = true;
+      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;
@@ -222,7 +223,6 @@ function Experiment(type, ice) {
     if (this.ice.pctMelted >= 0.999) {
       this.ice.pctMelted = 1;
       this.ice.isMelting = false;
-      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;

@@ -24,8 +24,8 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
-var MAX_RUN_TIME = 1800;
-var TIME_SCALE_FACTOR = 1; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var MAX_RUN_TIME = 18000;
+var TIME_SCALE_FACTOR = 0.01; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
@@ -120,7 +120,7 @@ var chartData = {
 function initializeChart() {
   if (typeof myLineChart !== 'undefined') {
     myLineChart.destroy(); // TODO: Apparently doesn't do anything to clear data????
-    print("Destroyed chart");
+    // print("Destroyed chart");
   }
   ctx = document.getElementById("myChart").getContext("2d");
   myLineChart = new Chart(ctx, chartData);
@@ -143,7 +143,6 @@ function setup() {
 
   // Hook up the ice cubes to their respective experiments
   unbrokenExp = new Experiment('unbroken', unbrokenIce);
-  print(unbrokenExp.type);
   brokenExp = new Experiment('broken', brokenIce);
   unbrokenExp.init();
   brokenExp.init();
@@ -158,11 +157,13 @@ function setup() {
 
 function draw() {
   updateCursor();
+
   // Don't do anything aside from update the cursor while the simulation is paused
   if (simulationPaused) {
     return;
   }
-  if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
+
+  if (unbrokenExp.ice.isMelting && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
 
     if (!brokenExp.isFinished()) {
@@ -176,11 +177,14 @@ function draw() {
     myLineChart.resetZoom();
     myLineChart.update(0, true); // Redraw chart with new data points
   }
+
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
     return;
   }
+
   updateSimulation();
+
   // Clear the canvas
   background(255, 255, 255);
 
@@ -258,6 +262,7 @@ function updateCursor() {
   if (unbrokenExp.ice.hasDropped) {
     cursor(ARROW);
   }
+
   // Ice hasn't fallen yet; mouse button isn't pressed
   else if (!mouseIsPressed) {
     if (cursorOverIceCubes()) {
@@ -266,6 +271,7 @@ function updateCursor() {
       cursor(ARROW);
     }
   }
+
   // Mouse is pressed
   else {
     if (cursorOverIceCubes()) {
@@ -325,7 +331,7 @@ function updateSimulation() {
  * @param exp: An Experiment object
  */
 function stepSimulation(exp) {
-  print("----------step------------");
+  // print("----------step------------");
   // Consider the IceCube from the given Experiment obj.
   var ice = exp.ice;
   /*if (ice.iceMass <= 0) {
@@ -337,9 +343,9 @@ function stepSimulation(exp) {
   //print("period is:", dt);
   var n = ice.numPieces; // The number of pieces in the whole ice
   //print("n is:", n);
-  print("icemass:",ice.iceMass);
+  // print("icemass:",ice.iceMass);
   var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
-  print("area of one icecube found from mass:", aOne);
+  // print("area of one icecube found from mass:", aOne);
   //print("tempWater is:", ice.waterTemp);
   var q = findQ(aOne, n, ice.waterTemp, dt);
   if (q == 0) {
@@ -347,15 +353,15 @@ function stepSimulation(exp) {
   }
   //print("q is:", q);
   var mMelted = Math.max(0, Math.min(findM_melted(q), ice.iceMass)); // The mass of the liquid created from melting ice.
-  print("mMelted is:", mMelted);
+  // print("mMelted is:", mMelted);
   ice.waterTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMelting(q, ice.waterTemp, ice.waterMass));
   //print("Melted, waterTemp is:", ice.waterTemp);
   ice.waterTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted));
   ice.waterMass += mMelted; // Add new liquid to water
   //print("Water mass is now:", exp.ice.waterMass);
-  print("Before substraction:", ice.iceMass);
+  // print("Before substraction:", ice.iceMass);
   ice.iceMass -= mMelted;   // Remove melted mass from ice
-  print("After substraction:", ice.iceMass);
+  // print("After substraction:", ice.iceMass);
   //print("Ice mass is now:", exp.ice.iceMass);
   ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
   return false;
@@ -387,8 +393,6 @@ function findAreaFromMass(iceMass) {
   return findAreaOfOneIcecubeFromMass(iceMass, 1);
 }
 
-
-
 /* Calculates heat transfer due to water making contact with ice surface.
  * @param aOne: The area of one ice cube. Units in mm^2. TODO: This should be cm^2?
  * @param n: number of ice cubes.
@@ -397,8 +401,8 @@ function findAreaFromMass(iceMass) {
  * @return The heat exchanged.
  */
 function findQ(aOne, n, tempWater, dt) {
-  print("findQ dt:", dt);
-  print("Water temp for q calculation:", tempWater);
+  // print("findQ dt:", dt);
+  // print("Water temp for q calculation:", tempWater);
   return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);// / 1000000; // TODO: Why is this factor required?
 }
 
@@ -408,8 +412,8 @@ function findQ(aOne, n, tempWater, dt) {
  * @return Mass of the melted ice.
  */
 function findM_melted(q) {
-  print("q in findM:", q);
-  print("findM_melted output:",-1 * q/DELTA_H_FUS_WATER);
+  // print("q in findM:", q);
+  // print("findM_melted output:",-1 * q/DELTA_H_FUS_WATER);
   return -1 * q / DELTA_H_FUS_WATER;
 }
 
@@ -421,7 +425,7 @@ function findM_melted(q) {
  * @return The new temperature of the water. (Kelvin)
  */
 function findT_waterNewMelting(q, tempWater, mWaterOld) {
-  print("mWater for findT is:", mWaterOld);
+  // print("mWater for findT is:", mWaterOld);
   return q / (HEAT_CAPACITY_WATER * mWaterOld) + tempWater;
 }
 
@@ -466,7 +470,7 @@ function graphTemperature(temperature, name) {
   } else if (name === "unbroken") {
     dataSetIndex = 1;
   } else {
-    print("Tried to add data to", name, "which is not recognized by graphTemperature()");
+    // print("Tried to add data to", name, "which is not recognized by graphTemperature()");
     return // Stop before attempting insertion of data point
   }
   var i = chartData.data.datasets[dataSetIndex].data.length-1; // index for the last element in data
