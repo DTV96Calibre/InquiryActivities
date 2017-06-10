@@ -123,7 +123,7 @@ function initializeChart() {
   if (typeof myLineChart !== 'undefined') {
     myLineChart.destroy();
   }
-  
+
   ctx = document.getElementById("myChart").getContext("2d");
   myLineChart = new Chart(ctx, chartData);
   myLineChart.data.datasets[0].data = []; // Manually set data to nothing
@@ -309,7 +309,10 @@ function stepSimulationHelper() {
   if (unbrokenExp.ice.hasStartedMelting && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1 / FRAME_RATE;
 
-    // Force graph to continue plotting until both simulations have finished
+    /* Force graph to continue plotting until both simulations have finished.
+     * The unbroken exp will always be the longer of the two, so use that as
+     * a baseline.
+     */
     if (!unbrokenExp.isFinished()) {
       graphTemperature(brokenExp.cup.liquidTemp, brokenExp.type);
       graphTemperature(unbrokenExp.cup.liquidTemp, unbrokenExp.type);
@@ -359,6 +362,7 @@ function stepSimulation(exp) {
   cup.liquidMass += mMelted; // Add new liquid to water
   ice.iceMass -= mMelted;   // Remove melted mass from ice
   ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
+
   return false;
 }
 
@@ -367,7 +371,7 @@ function stepSimulation(exp) {
  * @param n: the number of parts in the whole
  */
 function findAreaOfOneIcecubeFromMass(iceMass, n) {
-  if (iceMass === 0) {
+  if (iceMass == 0) {
     return 0;
   }
   return 6 * Math.pow(iceMass / (n * ICE_DENSITY), 2/3);
@@ -420,7 +424,7 @@ function findT_waterNewMixing(mWater, tempWater, mMelted) {
  * @return The length of one edge of the cube
  */
 function findEdgeLength(surfaceArea) {
-  return sqrt(surfaceArea/6);
+  return sqrt(surfaceArea / 6);
 }
 
 /*
@@ -440,9 +444,9 @@ Number.prototype.round = function(places) {
 function graphTemperature(temperature, name) {
   var period = TIME_SCALE_FACTOR * 1 / FRAME_RATE;
   var dataSetIndex; // Index for referencing a dataset
-  if (name === "broken") {
+  if (name == "broken") {
     dataSetIndex = 0;
-  } else if (name === "unbroken") {
+  } else if (name == "unbroken") {
     dataSetIndex = 1;
   } else {
     return; // Stop before attempting insertion of data point
@@ -518,7 +522,7 @@ function resetSimulation() {
  * blue tooltip box that appears beneath the chart and buttons.
  */
 function toggleHelp(element) {
-  if (element.style.display === 'none') {
+  if (element.style.display == 'none') {
     show(element);
   } else {
     hide(element);
