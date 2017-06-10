@@ -53,6 +53,9 @@ var mouseIsPressed;
 var simulationTime;
 var simulationPaused = false;
 
+// Images
+var sodaBottleImg;
+
 // Pieces of the experiment
 var unbrokenIce;
 var brokenIce;
@@ -138,7 +141,7 @@ function setup() {
   pixelDensity(1);
 
   mouseIsPressed = false;
-
+  sodaBottleImg = loadImage("./soda_bottle.jpg");
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice cubes and initialize them
@@ -161,6 +164,7 @@ function setup() {
 
 function draw() {
   updateCursor();
+  image(sodaBottleImg, 0, 0);
 
   // Don't do anything aside from update the cursor while simulation is paused
   if (simulationPaused) {
