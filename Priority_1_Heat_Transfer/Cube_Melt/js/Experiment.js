@@ -273,7 +273,7 @@ function Experiment(type, ice) {
   }
 
   /*
-   * Updates the text values in the grey simulation info box (shown underneath 
+   * Updates the text values in the grey simulation info box (shown underneath
    * the chart onscreen).
    */
   this.updateOnscreenValues = function() {
@@ -296,6 +296,10 @@ function Experiment(type, ice) {
     else {
       throw new Error("Experiment obj needs to be of type 'broken' or 'unbroken'.");
     }
+  }
+
+  this.isFinished = function() {
+    return (this.ice.iceMass === 0);
   }
 }
 
