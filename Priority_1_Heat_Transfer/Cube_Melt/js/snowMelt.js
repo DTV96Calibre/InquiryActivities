@@ -110,17 +110,17 @@ var chartData = {
 
     pan: {
       enabled: true,
-      mode: 'xy'
-      //rangeMin:{x: null, y: null},
-      //rangeMax:{x: null, y: null}
+      mode: 'xy',
+      rangeMin:{x: 0, y: 270},
+      rangeMax:{x: 2, y: 300}
     },
 
     zoom: {
       enabled: true,
       drag: false,
-      mode: 'y'
-      //rangeMin:{x: null, y: null},
-      //rangeMax:{x: null, y: null}
+      mode: 'y',
+      rangeMin:{x: 0, y: 270},
+      rangeMax:{x: 2, y: 300}
     },
 
     legend: {
