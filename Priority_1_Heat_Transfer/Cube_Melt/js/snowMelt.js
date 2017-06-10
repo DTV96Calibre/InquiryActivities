@@ -343,9 +343,9 @@ function stepSimulation(exp) {
   var ice = exp.ice;
   var cup = exp.cup;
 
-  var dt = TIME_SCALE_FACTOR * 1/FRAME_RATE; // inverse of the expected framerate.
+  var dt = TIME_SCALE_FACTOR * 1 / FRAME_RATE; // inverse of the expected framerate.
   var n = ice.numPieces; // The number of pieces in the whole ice
-  var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
+  var aOne = ice.calculateAreaOfPieceFromMass();
   var q = findQ(aOne, n, cup.liquidTemp, dt);
 
   if (q == 0) {
@@ -361,20 +361,8 @@ function stepSimulation(exp) {
     cup.liquidTemp, mMelted));
   cup.liquidMass += mMelted; // Add new liquid to water
   ice.iceMass -= mMelted;   // Remove melted mass from ice
-  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
 
   return false;
-}
-
-/* Determines the total area of ice divided into n parts.
- * @param iceMass: the mass of the whole
- * @param n: the number of parts in the whole
- */
-function findAreaOfOneIcecubeFromMass(iceMass, n) {
-  if (iceMass == 0) {
-    return 0;
-  }
-  return 6 * Math.pow(iceMass / (n * ICE_DENSITY), 2/3);
 }
 
 /* Calculates heat transfer due to water making contact with ice surface.
@@ -417,14 +405,6 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
  */
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWater * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater + mMelted);
-}
-
-/* Finds the length of one edge of a cube given the surface area of that cube.
- * @param surfaceArea: The surface area of a particular cube
- * @return The length of one edge of the cube
- */
-function findEdgeLength(surfaceArea) {
-  return sqrt(surfaceArea / 6);
 }
 
 /*

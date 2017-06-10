@@ -28,9 +28,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    */
   this.MELTED_OFFSET_SCALING = 1.7;
 
-  this.edgeLength; // The length of a single cube (becomes smaller as ice is broken)
-  this.numPieces;
-  this.surfaceArea;
+  this.edgeLength = this.BASE_EDGE_LENGTH_CM; // The length of a single cube (becomes smaller as ice is broken)
+  this.numPieces = 1;
+  this.surfaceArea = this.edgeLength * this.edgeLength * 6 * 1;
   this.iceVolume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
   this.iceMass = STARTING_ICE_MASS;
 
@@ -433,19 +433,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.calculateProperties = function() {
     this.edgeLength = this.calculateEdgeLength();
     this.numPieces = this.calculateNumPieces();
-    this.surfaceArea = this.calculateSurfaceArea();
+    this.surfaceArea = this.calculateAreaOfPieceFromMass() * this.numPieces;
     this.iceVolume = this.calculateVolume();
-    // this.iceMass = this.calculateMass();
-  }
-
-  /*
-   * Calculates and returns the edge length for one shard of this ice cube.
-   * Although the ice cube visually shrinks/grows as the window is resized,
-   * this has no effect on the stored edgeLength of the cubes.
-   */
-  this.calculateEdgeLength = function() {
-    var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
-    return this.BASE_EDGE_LENGTH_CM / length;
   }
 
   /*
@@ -463,7 +452,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    * Note more divisions = more surface area.
    */
   this.calculateSurfaceArea = function() {
-    return this.edgeLength * this.edgeLength * 6 * this.numPieces;
+    var volumeOfOneIcePiece = this.calculateVolume() / this.numPieces;
+    var surfAreaOfOneIcePiece = 6 * Math.pow(volumeOfOneIcePiece, 2 / 3);
+    return surfAreaOfOneIcePiece * this.numPieces;
   }
 
   /*
@@ -475,11 +466,24 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     return Math.pow(this.edgeLength, 3) * this.numPieces;
   }
 
-  /*
-   * Calculates the total mass of all pieces of this ice block.
+  /* 
+   * Finds the length of one edge of a cube by first calculating the surface area 
+   * of that cube.
    */
-  this.calculateMass = function() {
-    return ICE_DENSITY * this.iceVolume;
+  this.calculateEdgeLength = function() {
+    var surfaceAreaOfOneIcePiece = this.calculateAreaOfPieceFromMass();
+    return sqrt(surfaceAreaOfOneIcePiece / 6);
+  }
+
+  /* 
+   * Determines the surface area of ONE of this IceCube's pieces using this
+   * IceCube's total mass.
+   */
+  this.calculateAreaOfPieceFromMass = function() {
+    if (this.iceMass == 0) {
+      return 0;
+    }
+    return 6 * Math.pow(this.iceMass / (this.numPieces * ICE_DENSITY), 2 / 3);
   }
 }
 
