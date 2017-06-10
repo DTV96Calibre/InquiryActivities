@@ -12,7 +12,7 @@
  */
 function Cup() {
 
-  // Class attributes
+  /* Class attributes */
   
   // The amount that this cup's liquid will rise once ice falls in
   this.LIQUID_DISPLACEMENT_FACTOR = 0.10;
@@ -24,6 +24,10 @@ function Cup() {
   // The offset from the left (x) and top (y) of the screen (in pixels)
   this.xOffset;
   this.yOffset;
+
+  /* Properties to be used in mathematical calculations */
+  this.liquidTemp = ROOM_TEMPERATURE; // Temperature of water in Kelvin
+  this.liquidMass = MASS_CUP_OF_WATER;
 
   /* Colors */
   this.cupColor =    'rgb(235, 237, 239)';

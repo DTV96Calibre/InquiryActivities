@@ -7,14 +7,14 @@
  */
 
 /*
- * This class contains one set of broken/unbroken IceCube/Cup objects necessary
- * to carry out the experiment.
+ * This class contains one set of either broken or unbroken IceCube/Cup objects n
+ * necessary to carry out the experiment.
  * @param type: A string (either 'broken' or 'unbroken', referring to whether
  * the ice block is breakable via hammer)
  */
 function Experiment(type, ice) {
   /* Class attributes */
-  this.type = type; // Used to identify experiment to graphing functionality and something else Brooke did
+  this.type = type; // 'Broken' or 'unbroken' string that identifies nature of experiment
   this.ice = ice;
   this.cup;
 

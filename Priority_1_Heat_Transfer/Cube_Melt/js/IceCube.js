@@ -16,12 +16,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
 
-  // TODO: Make these attributes of the Cup instead
-  this.waterTemp = ROOM_TEMPERATURE; // Temperature of water in Kelvin
-  this.waterMass = MASS_CUP_OF_WATER;
-
-  /* Length (in cm) of one edge of the original unbroken ice cube. NOT dependent on window
-   * size. */
+  /* Length (in cm) of one edge of the original unbroken ice cube. NOT dependent
+   *on window size. 
+   */
   this.BASE_EDGE_LENGTH_CM = 20;
 
   /*
