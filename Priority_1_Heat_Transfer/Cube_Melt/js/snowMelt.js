@@ -27,7 +27,7 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
-var MAX_RUN_TIME = 18000;
+var MAX_RUN_TIME = 1800;
 var TIME_SCALE_FACTOR = 0.05; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
@@ -71,12 +71,14 @@ var chartData = {
     datasets: [
       {
         label: 'Unbroken Ice',
+        fill: false,
         cubicInterpolationMode: 'monotone',
         backgroundColor: "rgba(" + UNBROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: []
       },
       {
         label: 'Broken Ice',
+        fill: false,
         cubicInterpolationMode: 'monotone',
         backgroundColor: "rgba(" + BROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: []
