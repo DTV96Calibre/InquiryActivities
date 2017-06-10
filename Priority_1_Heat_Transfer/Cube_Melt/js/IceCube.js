@@ -35,7 +35,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.numPieces;
   this.surfaceArea;
   this.iceVolume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
-  this.iceMass = 100;
+  this.iceMass = INITIAL_ICE_MASS;
 
   /* Colors */
   this.iceColor = 'rgb(233, 247, 239)';
