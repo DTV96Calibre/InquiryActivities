@@ -468,10 +468,6 @@ $(document).ready(function(){
     $("#startBtn").removeAttr('disabled');
   });
 
-  $("#helpBtn").click(function () {
-    toggleHelp(helpBoxDiv);
-  });
-
   $("#pauseBtn").click(function () {
     pauseSimulation();
   });
@@ -501,18 +497,6 @@ function resetSimulation() {
 
   // Calling the p5 setup function will reset all onscreen elements
   setup();
-}
-
-/*
- * Called when the user presses the help button. Alternatively hides or un-hides the
- * blue tooltip box that appears beneath the chart and buttons.
- */
-function toggleHelp(element) {
-  if (element.style.display == 'none') {
-    show(element);
-  } else {
-    hide(element);
-  }
 }
 
 /*
