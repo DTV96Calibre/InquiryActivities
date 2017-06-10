@@ -427,9 +427,9 @@ function graphTemperature(temperature, name) {
   var period = TIME_SCALE_FACTOR * 1 / FRAME_RATE;
   var dataSetIndex; // Index for referencing a dataset
   if (name == "broken") {
-    dataSetIndex = 0;
-  } else if (name == "unbroken") {
     dataSetIndex = 1;
+  } else if (name == "unbroken") {
+    dataSetIndex = 0;
   } else {
     return; // Stop before attempting insertion of data point
   }
