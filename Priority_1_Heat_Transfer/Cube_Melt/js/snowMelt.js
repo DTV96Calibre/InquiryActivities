@@ -89,11 +89,25 @@ var chartData = {
   options: {
     scales: {
       yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Temperature (K)',
+          fontSize: 15
+        },
         ticks: {
           suggestedMin: 270
         }
+      }],
+
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Time (Minutes)',
+          fontSize: 15
+        }
       }]
     },
+
     pan: {
       enabled: true,
       mode: 'xy'
@@ -111,7 +125,8 @@ var chartData = {
 
     legend: {
       display: true,
-      position: 'bottom'
+      position: 'bottom',
+      padding: 100
     },
 
     responsive: true,
