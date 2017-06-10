@@ -53,9 +53,6 @@ var mouseIsPressed;
 var simulationTime;
 var simulationPaused = false;
 
-// Images
-var sodaBottleImg;
-
 // Pieces of the experiment
 var unbrokenIce;
 var brokenIce;
@@ -154,9 +151,6 @@ function setup() {
   brokenExp.init();
   iceCubeCanvasSetup();
 
-  // Draw soda image
-  sodaBottleImg = loadImage("./soda_bottle.jpg");
-
   initializeChart();
   simulationTime = 0;
   windowResized();
@@ -166,7 +160,6 @@ function setup() {
 
 function draw() {
   updateCursor();
-  image(sodaBottleImg, 0, 0);
 
   // Don't do anything aside from update the cursor while simulation is paused
   if (simulationPaused) {
