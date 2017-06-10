@@ -451,6 +451,11 @@ $(document).ready(function(){
     helpBoxPopUp.classList.toggle("appear");
   }, false);
 
+  // Prevent user from accidentally highlighting chart while clicking ice
+  document.onselectstart = function(){
+    return false;
+  }
+
   // Button interactions
   $("#startBtn").click(function () {
     startSimulation();
