@@ -445,6 +445,13 @@ function findEdgeLength(surfaceArea) {
   return sqrt(surfaceArea/6);
 }
 
+/*
+ * Rounds a value to the given number of places.
+ */
+Number.prototype.round = function(places) {
+  return +(Math.round(this + "e+" + places)  + "e-" + places);
+}
+
 /*************** Chart Functionality ****************/
 
 /* Graphs a temperature datapoint. Assumes constant period (1/FRAME_RATE) between adjacent points.
