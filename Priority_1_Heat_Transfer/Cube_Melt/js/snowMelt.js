@@ -62,6 +62,10 @@ var brokenExp;
 // For enabling web transitions on pop-up help tooltip
 var helpBoxPopUp;
 var helpBtn;
+var infoBoxPopUp;
+var infoBtn;
+var helpBtnActive = false;
+var infoBtnActive = false;
 
 /********** Configuration data for chart ************/
 
@@ -464,7 +468,14 @@ $(document).ready(function(){
   helpBoxPopUp = document.getElementById('help-box');
   helpBtn = document.getElementById('helpBtn');
   helpBtn.addEventListener("click", function(){
-    helpBoxPopUp.classList.toggle("appear");
+    toggleHelp();
+  }, false);
+
+  // For enabling web transitions on pop-up info tooltip
+  infoBoxPopUp = document.getElementById('info-box');
+  infoBtn = document.getElementById('infoBtn');
+  infoBtn.addEventListener("click", function(){
+    toggleInfo();
   }, false);
 
   // Prevent user from accidentally highlighting chart while clicking ice
@@ -534,4 +545,30 @@ function pauseSimulation() {
     }
   }
   simulationPaused = !simulationPaused;
+}
+
+/*
+ * Called when the user presses the help button.
+ */
+function toggleHelp() {
+  if (infoBtnActive) {
+    // Make info box disappear to make room for help box
+    infoBoxPopUp.classList.toggle("appear");
+    infoBtnActive = false;
+  }
+  helpBoxPopUp.classList.toggle("appear");
+  helpBtnActive = !helpBtnActive;
+}
+
+/*
+ * Called when the user presses the info button.
+ */
+function toggleInfo() {
+  if (helpBtnActive) {
+    // Make help box disappear to make room for info box
+    helpBoxPopUp.classList.toggle("appear");
+    helpBtnActive = false;
+  }
+  infoBoxPopUp.classList.toggle("appear");
+  infoBtnActive = !infoBtnActive;
 }

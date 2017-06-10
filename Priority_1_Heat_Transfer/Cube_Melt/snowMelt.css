@@ -74,9 +74,9 @@
 	height: 51%;
 }
 
-/* Transition animations when toggling the help box */
+/* Transition animations when toggling the help and info boxes */
 
-#help-box {
+#help-box, #info-box {
   padding: 10px;
   position: absolute;
   visibility: hidden;
@@ -87,7 +87,7 @@
   -webkit-transform: translateX(-100%);
 }
 
-#help-box.appear{
+#help-box.appear, #info-box.appear{
   visibility: visible;
   opacity: 1;
           transform: translateX(0);
