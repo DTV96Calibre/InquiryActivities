@@ -153,7 +153,7 @@ function Experiment(type, ice) {
 
     else if (this.ice.isMelting) {
       // TODO: Put this somewhere else so it's a result of a math calculation
-      this.ice.timeToMeltSeconds = 3;
+      this.ice.timeToMeltSeconds = 6;
       // Stage 4 (melting)
       this.meltIce();
     }
@@ -278,14 +278,20 @@ function Experiment(type, ice) {
    */
   this.updateOnscreenValues = function() {
     if (this.type == 'unbroken') {
-      document.getElementById(UNBROKEN_NUM_CUBES_DIV).innerHTML = this.ice.numPieces;
-      document.getElementById(UNBROKEN_MASS_DIV).innerHTML = this.ice.iceMass;
-      document.getElementById(UNBROKEN_SURF_AREA_DIV).innerHTML = this.ice.surfaceArea;
+      document.getElementById(UNBROKEN_NUM_CUBES_DIV).innerHTML = 
+        this.ice.numPieces.toFixed(VALUE_PRECISION);
+      document.getElementById(UNBROKEN_MASS_DIV).innerHTML = 
+        this.ice.iceMass.toFixed(VALUE_PRECISION);
+      document.getElementById(UNBROKEN_SURF_AREA_DIV).innerHTML = 
+        this.ice.surfaceArea.toFixed(VALUE_PRECISION);
     }
     else if (this.type == 'broken') {
-      document.getElementById(BROKEN_NUM_CUBES_DIV).innerHTML = this.ice.numPieces;
-      document.getElementById(BROKEN_MASS_DIV).innerHTML = this.ice.iceMass;
-      document.getElementById(BROKEN_SURF_AREA_DIV).innerHTML = this.ice.surfaceArea;
+      document.getElementById(BROKEN_NUM_CUBES_DIV).innerHTML = 
+        this.ice.numPieces.toFixed(VALUE_PRECISION);
+      document.getElementById(BROKEN_MASS_DIV).innerHTML = 
+        this.ice.iceMass.toFixed(VALUE_PRECISION);
+      document.getElementById(BROKEN_SURF_AREA_DIV).innerHTML = 
+        this.ice.surfaceArea.toFixed(VALUE_PRECISION);
     }
     else {
       throw new Error("Experiment obj needs to be of type 'broken' or 'unbroken'.");

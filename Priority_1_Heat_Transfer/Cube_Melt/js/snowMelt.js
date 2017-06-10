@@ -28,6 +28,8 @@ var FRAME_RATE = 60; // Frames per second. The rate at which the draw function i
 var MAX_RUN_TIME = 1800;
 var TIME_SCALE_FACTOR = 500; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
+var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
+
 // A collection of HTML div IDs for editable text values in the simulation info box.
 var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
 var BROKEN_NUM_CUBES_DIV = "broken-num-cubes";

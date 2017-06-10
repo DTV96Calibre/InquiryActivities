@@ -101,13 +101,17 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     for (var i = 0; i < length; i++) {
       for (var j = 0; j < length; j++) {
         var piece = this.array[i][j];
+
+        // Setup variables for positioning the ice pieces
+        var xPos = this.findXPosOfPiece(piece, j);
+        var yPos = this.findYPosOfPiece(piece, j);
         var distanceFallen = this.findDistanceFallen(piece, j);
 
-        this.displayBody(piece, j, distanceFallen);
-
+        this.displayBody(piece, distanceFallen, xPos, yPos);
+  
         // Don't draw details if ice pieces are small enough (helps avoid lag)
         if (this.numDivisions < 4) {
-          this.displayShading(piece, distanceFallen);
+         this.displayShading(piece, distanceFallen, xPos, yPos);
         }
       }
     }
@@ -116,20 +120,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   /*
    * Draws the body of the given piece of ice cube.
    * @param piece: The ice piece to render (ice pieces are stored in this.array)
-   * @param yPosArray: The index into the row in which this piece is stored in this.array
    * @param distanceFallen: The amount to draw the ice further down the page
+   * @param xPos: The horizontal offset to begin drawing the ice piece
+   * @param yPos: The vertical offset to begin drawing the ice piece
    */
-  this.displayBody = function(piece, yPosArray, distanceFallen) {
-    var xPos = piece.x + this.arrayPos.x;
-    var yPos = piece.y + this.arrayPos.y;
-
-    // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
-    if (yPosArray % 2 == 1) {
-      var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
-      iceChipShiftFactor /= (1 + this.pctMelted * 3);
-      xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
-    }
-
+  this.displayBody = function(piece, distanceFallen, xPos, yPos) {
     // Set up colors
     fill(this.iceColor);
     stroke(this.iceBorderColor);
@@ -147,11 +142,10 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    * Draws the shading (white triangle) of the given piece of ice cube.
    * @param piece: The ice piece to render (ice pieces are stored in this.array)
    * @param distanceFallen: The amount to draw the ice further down the page
+   * @param xPos: The horizontal offset to begin drawing the ice piece
+   * @param yPos: The vertical offset to begin drawing the ice piece
    */
-  this.displayShading = function(piece, distanceFallen) {
-    var xPos = piece.x + this.arrayPos.x;
-    var yPos = piece.y + this.arrayPos.y;
-
+  this.displayShading = function(piece, distanceFallen, xPos, yPos) {
     noStroke();
     fill('white');
     var padding = piece.width / 10;
@@ -163,7 +157,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     fill(this.iceColor);
     // Draw an ellipse to make the hypotenuse appear concave
     ellipse(xPos + piece.width / 2, yPos + piece.height / 2 + distanceFallen,
-      piece.width - padding * 1.85, piece.height - padding * 1.85);
+      piece.width - padding * 1.5, piece.height - padding * 1.5);
   }
 
   /*
@@ -225,7 +219,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     for (var i = 0; i < length; i++) {
       var list = [];
       for (var j = 0; j < length; j++) {
-        list.push({x:0, y:0, width:0, height:0});
+        list.push({x:0, y:0, width:0, height:0, 
+          floatDirection: int(random(100))});
       }
 
       this.array.push(list);
@@ -261,13 +256,89 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
 
   /*
    * Returns the length of either side of the split-up ice pieces. Assumes each
-   * piece's length and width are identical.
+   * piece's height and width are identical.
    */
   this.findArrayRange = function() {
     var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
     var pieceWidth = baseWidth / length;
     var xRange = this.array[length - 1][length - 1].x + pieceWidth;
     return xRange;
+  }
+
+  /*
+   * Computes the xPos (horizontal position) of an ice piece to draw it onscreen.
+   * @param piece: An ice piece stored in this.array
+   * @param rowIndex: The index of the row in which this piece is stored
+   */
+  this.findXPosOfPiece = function(piece, rowIndex) {
+    var xPos = piece.x + this.arrayPos.x;
+
+    // Odd-numbered rows of falling ice chips shift horizontally to improve 'stacking' effect
+    if (rowIndex % 2 == 1) {
+      var iceChipShiftFactor = MAX_DIVISIONS - this.numDivisions + 1;
+      iceChipShiftFactor /= (1 + this.pctMelted * 3);
+      xPos += this.pctDistanceFallen * piece.width / 2 / iceChipShiftFactor;
+    }
+
+    // Ice pieces shift back and forth in the liquid as they melt
+    if (rowIndex != 0) {
+      var floatDistance = this.findFloatDistance(piece, rowIndex) / this.numDivisions;
+
+      // Even-numbered directions will float to the right
+      if (piece.floatDirection % 2 == 0) {
+        var rightWallPos = this.arrayPos.x + this.findArrayRange();
+        if (xPos + floatDistance + piece.width < rightWallPos) {
+          xPos += floatDistance;
+        } else {
+          // Switch direction this piece floats in
+          piece.floatDirection += 1;
+          // Set the position of this piece to be right against the boundary
+          xPos = rightWallPos - piece.width;
+        }
+      // Odd-numbered directions will float to the left
+      } else {
+        var leftWallPos = this.arrayPos.x;
+        if (xPos - floatDistance > leftWallPos) {
+          xPos -= floatDistance;
+        } else {
+          // Switch direction this piece floats in
+          piece.floatDirection += 1;
+          // Set the position of this piece to be right against the boundary
+          xPos = leftWallPos;
+        }
+      }
+    }
+
+    return xPos;
+  }
+
+  /*
+   * Computes the yPos (vertical position) of an ice piece to draw it onscreen.
+   * @param piece: An ice piece stored in this.array
+   * @param rowIndex: The index of the row in which this piece is stored
+   */
+  this.findYPosOfPiece = function(piece, rowIndex) {
+    var yPos = piece.y + this.arrayPos.y;
+
+    // Ice pieces gradually rise vertically as they melt
+    if (rowIndex != 0) {
+      var floatDistance = this.findFloatDistance(piece, rowIndex) / 2;
+      yPos -= floatDistance;
+    }
+
+    return yPos;
+  }
+
+  /*
+   * Computes the floatDistance (which will be added to the x-position of the
+   * given ice piece) as a consequent of the ice blocks melting and floating
+   * in the water.
+   * @param piece: An ice piece stored in this.array
+   * @param rowIndex: The index of the row in which this piece is stored
+   */
+  this.findFloatDistance = function(piece, rowIndex) {
+    var floatDistance = this.pctMelted * piece.width * rowIndex;
+    return floatDistance;
   }
 
   /*
