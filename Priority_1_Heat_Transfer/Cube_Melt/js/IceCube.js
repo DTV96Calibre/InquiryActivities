@@ -17,7 +17,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.canvas = null;
 
   // TODO: Make these attributes of the Cup instead
-  this.waterTemp = 295; // Temperature of water in Kelvin
+  this.waterTemp = ROOM_TEMPERATURE; // Temperature of water in Kelvin
   this.waterMass = MASS_CUP_OF_WATER;
 
   /* Length (in cm) of one edge of the original unbroken ice cube. NOT dependent on window
@@ -34,8 +34,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.edgeLength; // The length of a single cube (becomes smaller as ice is broken)
   this.numPieces;
   this.surfaceArea;
-  this.volume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
-  this.iceMass = ICE_DENSITY * this.volume;
+  this.iceVolume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
+  this.iceMass = ICE_DENSITY * this.iceVolume;
 
   /* Colors */
   this.iceColor = 'rgb(233, 247, 239)';
@@ -367,8 +367,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
     this.edgeLength = this.calculateEdgeLength();
     this.numPieces = this.calculateNumPieces();
     this.surfaceArea = this.calculateSurfaceArea();
-    this.volume = this.calculateVolume();
-    this.iceMass = this.calculateMass();
+    this.iceVolume = this.calculateVolume();
+    // this.iceMass = this.calculateMass();
   }
 
   /*
@@ -412,7 +412,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    * Calculates the total mass of all pieces of this ice block.
    */
   this.calculateMass = function() {
-    return ICE_DENSITY * this.volume;
+    return ICE_DENSITY * this.iceVolume;
   }
 }
 

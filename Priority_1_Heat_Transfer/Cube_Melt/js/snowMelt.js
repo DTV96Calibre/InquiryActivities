@@ -25,8 +25,8 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
-var MAX_RUN_TIME = 1;
-var TIME_SCALE_FACTOR = 5; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var MAX_RUN_TIME = 1800;
+var TIME_SCALE_FACTOR = 500; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
 // A collection of HTML div IDs for editable text values in the simulation info box.
 var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
@@ -68,11 +68,13 @@ var chartData = {
     datasets: [
       {
         label: 'Unbroken Ice',
+        cubicInterpolationMode: 'monotone',
         backgroundColor: "rgba(" + UNBROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: []
       },
       {
         label: 'Broken Ice',
+        cubicInterpolationMode: 'monotone',
         backgroundColor: "rgba(" + BROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: []
       }
@@ -80,6 +82,13 @@ var chartData = {
   },
 
   options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          suggestedMin: 270
+        }
+      }]
+    },
     pan: {
       enabled: true,
       mode: 'xy'
@@ -154,10 +163,15 @@ function draw() {
   }
   if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
-    graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
-    graphTemperature(unbrokenExp.ice.waterMass, unbrokenExp.type);
-    stepSimulation(brokenExp);
-    stepSimulation(unbrokenExp);
+
+    if (!brokenExp.isFinished()) {
+      graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
+      stepSimulation(brokenExp);
+    }
+    if (!unbrokenExp.isFinished()) {
+      graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
+      stepSimulation(unbrokenExp);
+    }
     myLineChart.resetZoom();
     myLineChart.update(0, true); // Redraw chart with new data points
   }
@@ -310,29 +324,40 @@ function updateSimulation() {
  * @param exp: An Experiment object
  */
 function stepSimulation(exp) {
+  print("----------step------------");
   // Consider the IceCube from the given Experiment obj.
   var ice = exp.ice;
-
+  /*if (ice.iceMass <= 0) {
+    return true;
+  }*/
   //print("exp.type:", exp.type);
   //print("ice.iceMass:", ice.iceMass);
   var dt = TIME_SCALE_FACTOR * 1/FRAME_RATE; // inverse of the expected framerate.
   //print("period is:", dt);
   var n = ice.numPieces; // The number of pieces in the whole ice
   //print("n is:", n);
+  print("icemass:",ice.iceMass);
   var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
   print("area of one icecube found from mass:", aOne);
   //print("tempWater is:", ice.waterTemp);
   var q = findQ(aOne, n, ice.waterTemp, dt);
+  if (q == 0) {
+    return true;
+  }
   //print("q is:", q);
-  var mMelted = findM_melted(q); // The mass of the liquid created from melting ice.
-  ice.waterTemp = findT_waterNewMelting(ice.waterMass, ice.waterTemp, mMelted);
+  var mMelted = Math.max(0, Math.min(findM_melted(q), ice.iceMass)); // The mass of the liquid created from melting ice.
+  print("mMelted is:", mMelted);
+  ice.waterTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMelting(q, ice.waterTemp, ice.waterMass));
   //print("Melted, waterTemp is:", ice.waterTemp);
-  ice.waterTemp = findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted);
+  ice.waterTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted));
   ice.waterMass += mMelted; // Add new liquid to water
   //print("Water mass is now:", exp.ice.waterMass);
+  print("Before substraction:", ice.iceMass);
   ice.iceMass -= mMelted;   // Remove melted mass from ice
+  print("After substraction:", ice.iceMass);
   //print("Ice mass is now:", exp.ice.iceMass);
   ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
+  return false;
 }
 
 /* TODO: This function is not in use, remove later
@@ -347,6 +372,9 @@ function findAreaOfOneIcecubeFromLength(initLength, divisions) {
  * @param n: the number of parts in the whole
  */
 function findAreaOfOneIcecubeFromMass(iceMass, n) {
+  if (iceMass === 0) {
+    return 0;
+  }
   return 6*pow(iceMass/(n*ICE_DENSITY),2/3);
 }
 
@@ -368,7 +396,9 @@ function findAreaFromMass(iceMass) {
  * @return The heat exchanged.
  */
 function findQ(aOne, n, tempWater, dt) {
-  return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);
+  print("findQ dt:", dt);
+  print("Water temp for q calculation:", tempWater);
+  return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater) / 1000000; // TODO: Why is this factor required?
 }
 
 /*
@@ -377,7 +407,9 @@ function findQ(aOne, n, tempWater, dt) {
  * @return Mass of the melted ice.
  */
 function findM_melted(q) {
-  return q / DELTA_H_FUS_WATER;
+  print("q in findM:", q);
+  print("findM_melted output:",-1 * q/DELTA_H_FUS_WATER);
+  return -1 * q / DELTA_H_FUS_WATER;
 }
 
 /*
@@ -388,6 +420,7 @@ function findM_melted(q) {
  * @return The new temperature of the water. (Kelvin)
  */
 function findT_waterNewMelting(q, tempWater, mWaterOld) {
+  print("mWater for findT is:", mWaterOld);
   return q / (HEAT_CAPACITY_WATER * mWaterOld) + tempWater;
 }
 
@@ -399,7 +432,7 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
  * @return Temperature of water after mixing. (Kelvin)
  */
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
-  return ((mWater * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater * mMelted);
+  return ((mWater * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater + mMelted);
 }
 
 /* Finds the length of one edge of a cube given the surface area of that cube.
@@ -418,7 +451,7 @@ function findEdgeLength(surfaceArea) {
  * @param name: The identifying string for a dataset to be appended to (found in IceCube.name)
  */
 function graphTemperature(temperature, name) {
-  var period = 1/FRAME_RATE;
+  var period = TIME_SCALE_FACTOR*1/FRAME_RATE;
   var dataSetIndex; // Index for referencing a dataset
   if (name === "broken") {
     dataSetIndex = 0;
