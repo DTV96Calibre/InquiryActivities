@@ -153,7 +153,7 @@ function Experiment(type, ice) {
 
     else if (this.ice.isMelting) {
       // TODO: Put this somewhere else so it's a result of a math calculation
-      this.ice.timeToMeltSeconds = 3;
+      this.ice.timeToMeltSeconds = 6;
       // Stage 4 (melting)
       this.meltIce();
     }
