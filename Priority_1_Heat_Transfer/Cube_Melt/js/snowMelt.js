@@ -26,7 +26,7 @@ var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 var MAX_RUN_TIME = 1800;
-var TIME_SCALE_FACTOR = 500; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var TIME_SCALE_FACTOR = 1; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
@@ -400,7 +400,7 @@ function findAreaFromMass(iceMass) {
 function findQ(aOne, n, tempWater, dt) {
   print("findQ dt:", dt);
   print("Water temp for q calculation:", tempWater);
-  return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater) / 1000000; // TODO: Why is this factor required?
+  return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);// / 1000000; // TODO: Why is this factor required?
 }
 
 /*
