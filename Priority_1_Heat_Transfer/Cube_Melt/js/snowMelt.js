@@ -121,9 +121,9 @@ var chartData = {
 
 function initializeChart() {
   if (typeof myLineChart !== 'undefined') {
-    myLineChart.destroy(); // TODO: Apparently doesn't do anything to clear data????
-    // print("Destroyed chart");
+    myLineChart.destroy();
   }
+  
   ctx = document.getElementById("myChart").getContext("2d");
   myLineChart = new Chart(ctx, chartData);
   myLineChart.data.datasets[0].data = []; // Manually set data to nothing
@@ -165,33 +165,12 @@ function draw() {
     return;
   }
 
-  if (unbrokenExp.ice.hasStartedMelting && simulationTime < MAX_RUN_TIME) {
-    simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
-
-    // Force graph to continue plotting until both simulations have finished
-    if (!unbrokenExp.isFinished()) {
-      graphTemperature(brokenExp.cup.liquidTemp, brokenExp.type);
-      graphTemperature(unbrokenExp.cup.liquidTemp, unbrokenExp.type);
-    }
-
-    // Continue with the IceCubes' respective simulations, if applicable
-    if (!brokenExp.isFinished()) {
-      stepSimulation(brokenExp);
-    }
-    if (!unbrokenExp.isFinished()) {
-      stepSimulation(unbrokenExp);
-    }
-
-    myLineChart.resetZoom();
-    myLineChart.update(0, true); // Redraw chart with new data points
-  }
+  stepSimulationHelper();
 
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
     return;
   }
-
-  updateSimulation();
 
   // Clear the canvas
   background(255, 255, 255);
@@ -326,7 +305,28 @@ function swingHammer() {
  * Advances the simulation by updating the mathematical calculations. All functions of
  * this nature should be put here in order to run once per draw() loop.
  */
-function updateSimulation() {
+function stepSimulationHelper() {
+  if (unbrokenExp.ice.hasStartedMelting && simulationTime < MAX_RUN_TIME) {
+    simulationTime += TIME_SCALE_FACTOR * 1 / FRAME_RATE;
+
+    // Force graph to continue plotting until both simulations have finished
+    if (!unbrokenExp.isFinished()) {
+      graphTemperature(brokenExp.cup.liquidTemp, brokenExp.type);
+      graphTemperature(unbrokenExp.cup.liquidTemp, unbrokenExp.type);
+    }
+
+    // Continue with the IceCubes' respective simulations, if applicable
+    if (!brokenExp.isFinished()) {
+      stepSimulation(brokenExp);
+    }
+    if (!unbrokenExp.isFinished()) {
+      stepSimulation(unbrokenExp);
+    }
+
+    myLineChart.resetZoom();
+    myLineChart.update(0, true); // Redraw chart with new data points
+  }
+
   unbrokenExp.updateCalculations();
   brokenExp.updateCalculations();
 }
