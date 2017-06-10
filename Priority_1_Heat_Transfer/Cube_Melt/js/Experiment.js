@@ -111,7 +111,7 @@ function Experiment(type, ice) {
     this.ice.distanceToFall = windowHeight / 2;
 
     // Also reorient the ice w.r.t. the top of the cup if it's already finished moving
-    if (this.ice.isDoneAnimating) {
+    if (this.ice.hasStartedMelting) {
       var floatDistance = this.cup.cupHeight / 5
       var targetPct = (this.ice.distanceToFall - floatDistance) / this.ice.distanceToFall;
       this.ice.pctDistanceFallen = targetPct;
@@ -206,7 +206,7 @@ function Experiment(type, ice) {
     if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
       this.ice.isMelting = true;
-      this.ice.isDoneAnimating = true;
+      this.ice.hasStartedMelting = true;
     }
 
     hasChanged = true;

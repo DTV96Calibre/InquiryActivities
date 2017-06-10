@@ -58,8 +58,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   /* Other */
   this.hasDropped = false;
   this.isFalling = false;
+  this.hasStartedMelting = false;
   this.isMelting = false;
-  this.isDoneFalling = false;
   this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0; // Range is 0 to 1.0

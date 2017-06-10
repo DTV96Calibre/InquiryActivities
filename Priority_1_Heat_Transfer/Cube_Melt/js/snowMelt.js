@@ -25,7 +25,7 @@ var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 var MAX_RUN_TIME = 18000;
-var TIME_SCALE_FACTOR = 0.01; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var TIME_SCALE_FACTOR = 0.05; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
@@ -163,15 +163,16 @@ function draw() {
     return;
   }
 
-  if (unbrokenExp.ice.isMelting && simulationTime < MAX_RUN_TIME) {
+  if (unbrokenExp.ice.hasStartedMelting && simulationTime < MAX_RUN_TIME) {
     simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
 
+    graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
+    graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
+
     if (!brokenExp.isFinished()) {
-      graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
       stepSimulation(brokenExp);
     }
     if (!unbrokenExp.isFinished()) {
-      graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
       stepSimulation(unbrokenExp);
     }
     myLineChart.resetZoom();
