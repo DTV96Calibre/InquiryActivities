@@ -141,7 +141,6 @@ function setup() {
   pixelDensity(1);
 
   mouseIsPressed = false;
-  sodaBottleImg = loadImage("./soda_bottle.jpg");
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice cubes and initialize them
@@ -154,6 +153,9 @@ function setup() {
   unbrokenExp.init();
   brokenExp.init();
   iceCubeCanvasSetup();
+
+  // Draw soda image
+  sodaBottleImg = loadImage("./soda_bottle.jpg");
 
   initializeChart();
   simulationTime = 0;
