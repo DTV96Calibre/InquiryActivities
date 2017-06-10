@@ -152,8 +152,6 @@ function Experiment(type, ice) {
     }
 
     else if (this.ice.isMelting) {
-      // TODO: Put this somewhere else so it's a result of a math calculation
-      this.ice.timeToMeltSeconds = 6;
       // Stage 4 (melting)
       this.meltIce();
     }
@@ -214,19 +212,14 @@ function Experiment(type, ice) {
   }
 
   /*
-   * Causes the ice to gradually melt in increments proportional to the
-   * calculated timeToMelt (units in seconds).
+   * Causes the ice to gradually melt by updating its pctMelted variable (which
+   * is a function of the ice's current mass).
    */
   this.meltIce = function() {
-    var numFramesToMelt = this.ice.timeToMeltSeconds * FRAME_RATE;
-
-    // The percent the ice will melt this frame
-    var meltedPct = 1 / numFramesToMelt;
-
-    this.ice.melt(meltedPct);
+    this.ice.melt();
 
     // If the ice has 100% melted, we're finished
-    if (this.ice.pctMelted + meltedPct >= 1) {
+    if (this.ice.pctMelted >= 0.999) {
       this.ice.pctMelted = 1;
       this.ice.isMelting = false;
       this.ice.isDoneAnimating = true;

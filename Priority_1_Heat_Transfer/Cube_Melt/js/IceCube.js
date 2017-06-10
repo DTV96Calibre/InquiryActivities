@@ -35,7 +35,7 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.numPieces;
   this.surfaceArea;
   this.iceVolume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
-  this.iceMass = ICE_DENSITY * this.iceVolume;
+  this.iceMass = STARTING_ICE_MASS;
 
   /* Colors */
   this.iceColor = 'rgb(233, 247, 239)';
@@ -65,7 +65,6 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.pctDistanceFallen = 0; // Range is 0 to 1.0
   this.pctMelted = 0; // Range is 0 to 1.0
   this.numFramesStalled = 0;
-  this.timeToMeltSeconds = 0;
 
   /* ==================================================================
                               Graphical methods
@@ -417,11 +416,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Melt this ice by increasing its melted percentage by the given value.
-   * @param meltedPct: A number between 0 and 1
+   * Melt this ice by updating its melted percentage with respect to its
+   * current mass.
    */
-  this.melt = function(meltedPct) {
-    this.pctMelted += meltedPct;
+  this.melt = function() {
+    this.pctMelted = (STARTING_ICE_MASS - this.iceMass) / 100;
   }
 
   /* ==================================================================

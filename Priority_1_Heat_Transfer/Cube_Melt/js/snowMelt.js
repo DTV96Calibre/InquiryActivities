@@ -11,9 +11,8 @@
 var ROOM_TEMPERATURE = 295; // Room temperature in Kelvin
 var ICE_FREEZE_TEMP_K = 273.15; // Temperature of ice at freezing point in Kelvin
 var ICE_DENSITY = 0.917; // Density of ice in g/cm^3
-//var WATER_DENSITY = ;
-//var CUP_VOLUME = ;
 var MASS_CUP_OF_WATER = 500; // Mass in grams of a "cup" of water. NOTE: Not actual cup unit
+var STARTING_ICE_MASS = 100; // Starting mass of either ice cube in grams
 
 var HEAT_CAPACITY_WATER = 4.205; /* Joules of heat for the temperature of one
   gram of water to increase 1 degrees Celcius.*/
