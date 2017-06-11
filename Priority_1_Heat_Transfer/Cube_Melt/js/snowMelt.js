@@ -101,7 +101,7 @@ var chartData = {
           fontSize: 15
         },
         ticks: {
-          suggestedMin: 270
+          //suggestedMin: ICE_FREEZE_TEMP_K
         }
       }],
 
@@ -125,7 +125,7 @@ var chartData = {
       enabled: true,
       drag: false,
       mode: 'y',
-      rangeMin:{x: 0, y: 270},
+      rangeMin:{x:   0, y: 270},
       rangeMax:{x: 180, y: 300}
     },
 
