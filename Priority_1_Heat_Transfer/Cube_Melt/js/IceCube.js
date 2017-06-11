@@ -16,12 +16,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.arrayPos = {x:0, y:0};
   this.canvas = null;
 
-  // TODO: Make these attributes of the Cup instead
-  this.waterTemp = ROOM_TEMPERATURE; // Temperature of water in Kelvin
-  this.waterMass = MASS_CUP_OF_WATER;
-
-  /* Length (in cm) of one edge of the original unbroken ice cube. NOT dependent on window
-   * size. */
+  /* Length (in cm) of one edge of the original unbroken ice cube. NOT dependent
+   *on window size.
+   */
   this.BASE_EDGE_LENGTH_CM = 20;
 
   /*
@@ -31,11 +28,13 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    */
   this.MELTED_OFFSET_SCALING = 1.7;
 
-  this.edgeLength; // The length of a single cube (becomes smaller as ice is broken)
-  this.numPieces;
-  this.surfaceArea;
+  this.edgeLength = this.BASE_EDGE_LENGTH_CM; // The length of a single cube (becomes smaller as ice is broken)
+  this.numPieces = 1;
+  this.surfaceArea = this.edgeLength * this.edgeLength * 6 * 1;
   this.iceVolume = Math.pow(baseWidth, 3); // TODO: Refactor, (isn't clear what volume this represents)
-  this.iceMass = INITIAL_ICE_MASS;
+
+
+  this.iceMass = STARTING_ICE_MASS;
 
   /* Colors */
   this.iceColor = 'rgb(233, 247, 239)';
@@ -58,14 +57,13 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   /* Other */
   this.hasDropped = false;
   this.isFalling = false;
+  this.hasStartedMelting = false;
   this.isMelting = false;
-  this.isDoneFalling = false;
   this.isDoneAnimating = false;
   this.distanceToFall = 0; // in pixels
   this.pctDistanceFallen = 0; // Range is 0 to 1.0
   this.pctMelted = 0; // Range is 0 to 1.0
   this.numFramesStalled = 0;
-  this.timeToMeltSeconds = 0;
 
   /* ==================================================================
                               Graphical methods
@@ -417,11 +415,11 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Melt this ice by increasing its melted percentage by the given value.
-   * @param meltedPct: A number between 0 and 1
+   * Melt this ice by updating its melted percentage with respect to its
+   * current mass.
    */
-  this.melt = function(meltedPct) {
-    this.pctMelted += meltedPct;
+  this.melt = function() {
+    this.pctMelted = (STARTING_ICE_MASS - this.iceMass) / 100;
   }
 
   /* ==================================================================
@@ -437,19 +435,8 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   this.calculateProperties = function() {
     this.edgeLength = this.calculateEdgeLength();
     this.numPieces = this.calculateNumPieces();
-    this.surfaceArea = this.calculateSurfaceArea();
+    this.surfaceArea = this.calculateAreaOfPieceFromMass() * this.numPieces;
     this.iceVolume = this.calculateVolume();
-    // this.iceMass = this.calculateMass();
-  }
-
-  /*
-   * Calculates and returns the edge length for one shard of this ice cube.
-   * Although the ice cube visually shrinks/grows as the window is resized,
-   * this has no effect on the stored edgeLength of the cubes.
-   */
-  this.calculateEdgeLength = function() {
-    var length = Math.pow(2, this.numDivisions); // The number of pieces along one axis
-    return this.BASE_EDGE_LENGTH_CM / length;
   }
 
   /*
@@ -467,7 +454,9 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
    * Note more divisions = more surface area.
    */
   this.calculateSurfaceArea = function() {
-    return this.edgeLength * this.edgeLength * 6 * this.numPieces;
+    var volumeOfOneIcePiece = this.calculateVolume() / this.numPieces;
+    var surfAreaOfOneIcePiece = 6 * Math.pow(volumeOfOneIcePiece, 2 / 3);
+    return surfAreaOfOneIcePiece * this.numPieces;
   }
 
   /*
@@ -480,10 +469,23 @@ function IceCube() { // TODO: Refactor. This class also represents the water in 
   }
 
   /*
-   * Calculates the total mass of all pieces of this ice block.
+   * Finds the length of one edge of a cube by first calculating the surface area
+   * of that cube.
    */
-  this.calculateMass = function() {
-    return ICE_DENSITY * this.iceVolume;
+  this.calculateEdgeLength = function() {
+    var surfaceAreaOfOneIcePiece = this.calculateAreaOfPieceFromMass();
+    return sqrt(surfaceAreaOfOneIcePiece / 6);
+  }
+
+  /*
+   * Determines the surface area of ONE of this IceCube's pieces using this
+   * IceCube's total mass.
+   */
+  this.calculateAreaOfPieceFromMass = function() {
+    if (this.iceMass == 0) {
+      return 0;
+    }
+    return 6 * Math.pow(this.iceMass / (this.numPieces * ICE_DENSITY), 2 / 3);
   }
 }
 

@@ -8,30 +8,31 @@
 
 /******************* Constants **********************/
 
+/* Mathematical constants */
 var ROOM_TEMPERATURE = 295; // Room temperature in Kelvin
 var ICE_FREEZE_TEMP_K = 273.15; // Temperature of ice at freezing point in Kelvin
 var ICE_DENSITY = 0.917; // Density of ice in g/cm^3
-//var WATER_DENSITY = ;
-//var CUP_VOLUME = ;
-var MASS_CUP_OF_WATER = 500; // Mass, in grams, of a "cup" of water. NOTE: Not actual cup unit
-var INITIAL_ICE_MASS = 100; // Mass in grams
+
+var MASS_CUP_OF_WATER = 500; // Mass in grams of a "cup" of water. NOTE: Not actual cup unit
+var STARTING_ICE_MASS = 100; // Starting mass of either ice cube in grams
 
 var HEAT_CAPACITY_WATER = 4.205; /* Joules of heat for the temperature of one
   gram of water to increase 1 degrees Celcius.*/
+
 var DELTA_H_FUS_WATER = 333.86; // (Latent) heat of fusion of water in joules per gram.
 var H = 100; // Free water convection (Wm^-2K^-1) // Heat transfer constant
 
+/* Other constants */
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
 var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of ice block
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 var MAX_RUN_TIME = 1800;
-var TIME_SCALE_FACTOR = 1; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
-
+var TIME_SCALE_FACTOR = 0.05; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
-// A collection of HTML div IDs for editable text values in the simulation info box.
+/* A collection of HTML div IDs for editable text values in the simulation info box. */
 var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
 var BROKEN_NUM_CUBES_DIV = "broken-num-cubes";
 var UNBROKEN_MASS_DIV = "unbroken-mass";
@@ -39,7 +40,7 @@ var BROKEN_MASS_DIV = "broken-mass";
 var UNBROKEN_SURF_AREA_DIV = "unbroken-surf-area";
 var BROKEN_SURF_AREA_DIV = "broken-surf-area";
 
-// RGB color values for distinguishing unbroken & broken ice on the chart
+/* RGB color values for distinguishing unbroken & broken ice on the chart */
 var UNBROKEN_ICE_CHART_COLOR = '127, 205, 187';
 var BROKEN_ICE_CHART_COLOR = '44, 127, 184';
 
@@ -62,6 +63,10 @@ var brokenExp;
 // For enabling web transitions on pop-up help tooltip
 var helpBoxPopUp;
 var helpBtn;
+var infoBoxPopUp;
+var infoBtn;
+var helpBtnActive = false;
+var infoBtnActive = false;
 
 /********** Configuration data for chart ************/
 
@@ -71,12 +76,14 @@ var chartData = {
     datasets: [
       {
         label: 'Unbroken Ice',
+        fill: false,
         cubicInterpolationMode: 'monotone',
         backgroundColor: "rgba(" + UNBROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: []
       },
       {
         label: 'Broken Ice',
+        fill: false,
         cubicInterpolationMode: 'monotone',
         backgroundColor: "rgba(" + BROKEN_ICE_CHART_COLOR + ", 0.4)",
         data: []
@@ -87,29 +94,44 @@ var chartData = {
   options: {
     scales: {
       yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Temperature (K)',
+          fontSize: 15
+        },
         ticks: {
           suggestedMin: 270
         }
+      }],
+
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Time (Minutes)',
+          fontSize: 15
+        }
       }]
     },
+
     pan: {
       enabled: true,
-      mode: 'xy'
-      //rangeMin:{x: null, y: null},
-      //rangeMax:{x: null, y: null}
+      mode: 'xy',
+      rangeMin:{x: 0, y: 270},
+      rangeMax:{x: 2, y: 300}
     },
 
     zoom: {
       enabled: true,
       drag: false,
-      mode: 'y'
-      //rangeMin:{x: null, y: null},
-      //rangeMax:{x: null, y: null}
+      mode: 'y',
+      rangeMin:{x: 0, y: 270},
+      rangeMax:{x: 2, y: 300}
     },
 
     legend: {
       display: true,
-      position: 'bottom'
+      position: 'bottom',
+      padding: 100
     },
 
     responsive: true,
@@ -121,9 +143,9 @@ var chartData = {
 
 function initializeChart() {
   if (typeof myLineChart !== 'undefined') {
-    myLineChart.destroy(); // TODO: Apparently doesn't do anything to clear data????
-    print("Destroyed chart");
+    myLineChart.destroy();
   }
+
   ctx = document.getElementById("myChart").getContext("2d");
   myLineChart = new Chart(ctx, chartData);
   myLineChart.data.datasets[0].data = []; // Manually set data to nothing
@@ -136,7 +158,6 @@ function setup() {
   pixelDensity(1);
 
   mouseIsPressed = false;
-
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
 
   // Create both ice cubes and initialize them
@@ -145,7 +166,6 @@ function setup() {
 
   // Hook up the ice cubes to their respective experiments
   unbrokenExp = new Experiment('unbroken', unbrokenIce);
-  print(unbrokenExp.type);
   brokenExp = new Experiment('broken', brokenIce);
   unbrokenExp.init();
   brokenExp.init();
@@ -160,36 +180,23 @@ function setup() {
 
 function draw() {
   updateCursor();
-  // Don't do anything aside from update the cursor while the simulation is paused
+
+  // Don't do anything aside from update the cursor while simulation is paused
   if (simulationPaused) {
     return;
   }
-  if (brokenExp.ice.hasDropped && simulationTime < MAX_RUN_TIME) {
-    simulationTime += TIME_SCALE_FACTOR * 1/FRAME_RATE;
 
-    if (!brokenExp.isFinished()) {
-      graphTemperature(brokenExp.ice.waterTemp, brokenExp.type);
-      stepSimulation(brokenExp);
-    }
-    if (!unbrokenExp.isFinished()) {
-      graphTemperature(unbrokenExp.ice.waterTemp, unbrokenExp.type);
-      stepSimulation(unbrokenExp);
-    }
-    myLineChart.resetZoom();
-    myLineChart.update(0, true); // Redraw chart with new data points
-  }
+  stepSimulationHelper();
+
   // Don't re-render/recalculate drawings if they haven't been updated
   if (!hasChanged) {
     return;
   }
-  updateSimulation();
+
   // Clear the canvas
   background(255, 255, 255);
 
   drawTitle();
-
-  //myLineChart.data.datasets[0].data[0] += 1;
-  //myLineChart.update();
 
   unbrokenExp.display();
   brokenExp.display();
@@ -260,6 +267,7 @@ function updateCursor() {
   if (unbrokenExp.ice.hasDropped) {
     cursor(ARROW);
   }
+
   // Ice hasn't fallen yet; mouse button isn't pressed
   else if (!mouseIsPressed) {
     if (cursorOverIceCubes()) {
@@ -268,6 +276,7 @@ function updateCursor() {
       cursor(ARROW);
     }
   }
+
   // Mouse is pressed
   else {
     if (cursorOverIceCubes()) {
@@ -317,7 +326,31 @@ function swingHammer() {
  * Advances the simulation by updating the mathematical calculations. All functions of
  * this nature should be put here in order to run once per draw() loop.
  */
-function updateSimulation() {
+function stepSimulationHelper() {
+  if (unbrokenExp.ice.hasStartedMelting && simulationTime < MAX_RUN_TIME) {
+    simulationTime += TIME_SCALE_FACTOR * 1 / FRAME_RATE;
+
+    /* Force graph to continue plotting until both simulations have finished.
+     * The unbroken exp will always be the longer of the two, so use that as
+     * a baseline.
+     */
+    if (!unbrokenExp.isFinished()) {
+      graphTemperature(brokenExp.cup.liquidTemp, brokenExp.type);
+      graphTemperature(unbrokenExp.cup.liquidTemp, unbrokenExp.type);
+    }
+
+    // Continue with the IceCubes' respective simulations, if applicable
+    if (!brokenExp.isFinished()) {
+      stepSimulation(brokenExp);
+    }
+    if (!unbrokenExp.isFinished()) {
+      stepSimulation(unbrokenExp);
+    }
+
+    myLineChart.resetZoom();
+    myLineChart.update(0, true); // Redraw chart with new data points
+  }
+
   unbrokenExp.updateCalculations();
   brokenExp.updateCalculations();
 }
@@ -327,69 +360,31 @@ function updateSimulation() {
  * @param exp: An Experiment object
  */
 function stepSimulation(exp) {
-  print("----------step------------");
-  // Consider the IceCube from the given Experiment obj.
+  // Consider the components from the given Experiment obj.
   var ice = exp.ice;
-  /*if (ice.iceMass <= 0) {
-    return true;
-  }*/
-  //print("exp.type:", exp.type);
-  //print("ice.iceMass:", ice.iceMass);
-  var dt = TIME_SCALE_FACTOR * 1/FRAME_RATE; // inverse of the expected framerate.
-  //print("period is:", dt);
+  var cup = exp.cup;
+
+  var dt = TIME_SCALE_FACTOR * 1 / FRAME_RATE; // inverse of the expected framerate.
   var n = ice.numPieces; // The number of pieces in the whole ice
-  //print("n is:", n);
-  print("icemass:",ice.iceMass);
-  var aOne = findAreaOfOneIcecubeFromMass(ice.iceMass, n);
-  print("area of one icecube found from mass:", aOne);
-  //print("tempWater is:", ice.waterTemp);
-  var q = findQ(aOne, n, ice.waterTemp, dt);
+  var aOne = ice.calculateAreaOfPieceFromMass();
+  var q = findQ(aOne, n, cup.liquidTemp, dt);
+
   if (q == 0) {
     return true;
   }
-  //print("q is:", q);
-  var mMelted = Math.max(0, Math.min(findM_melted(q), ice.iceMass)); // The mass of the liquid created from melting ice.
-  print("mMelted is:", mMelted);
-  ice.waterTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMelting(q, ice.waterTemp, ice.waterMass));
-  //print("Melted, waterTemp is:", ice.waterTemp);
-  ice.waterTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMixing(ice.waterMass, ice.waterTemp, mMelted));
-  ice.waterMass += mMelted; // Add new liquid to water
-  //print("Water mass is now:", exp.ice.waterMass);
-  print("Before substraction:", ice.iceMass);
+
+  // The mass of the liquid created from melting ice
+  var mMelted = Math.max(0, Math.min(findM_melted(q), ice.iceMass));
+
+  cup.liquidTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMelting(q, cup.liquidTemp,
+   cup.liquidMass));
+  cup.liquidTemp = Math.max(ICE_FREEZE_TEMP_K, findT_waterNewMixing(cup.liquidMass,
+    cup.liquidTemp, mMelted));
+  cup.liquidMass += mMelted; // Add new liquid to water
   ice.iceMass -= mMelted;   // Remove melted mass from ice
-  print("After substraction:", ice.iceMass);
-  //print("Ice mass is now:", exp.ice.iceMass);
-  ice.edgeLength = findEdgeLength(aOne); // Store piece edgelength
+
   return false;
 }
-
-/* TODO: This function is not in use, remove later
- *
- */
-function findAreaOfOneIcecubeFromLength(initLength, divisions) {
-  return pow((initLength/pow(2, divisions)), 3);
-}
-
-/* Determines the total area of ice divided into n parts.
- * @param iceMass: the mass of the whole
- * @param n: the number of parts in the whole
- */
-function findAreaOfOneIcecubeFromMass(iceMass, n) {
-  if (iceMass === 0) {
-    return 0;
-  }
-  return 6*pow(iceMass/(n*ICE_DENSITY),2/3);
-}
-
-/* Shortcut function that calculates the area of an icecube given its mass.
- * TODO: This function is not used, remove later
- * @param iceMass: the mass of the whole
- */
-function findAreaFromMass(iceMass) {
-  return findAreaOfOneIcecubeFromMass(iceMass, 1);
-}
-
-
 
 /* Calculates heat transfer due to water making contact with ice surface.
  * @param aOne: The area of one ice cube. Units in mm^2. TODO: This should be cm^2?
@@ -399,8 +394,6 @@ function findAreaFromMass(iceMass) {
  * @return The heat exchanged.
  */
 function findQ(aOne, n, tempWater, dt) {
-  print("findQ dt:", dt);
-  print("Water temp for q calculation:", tempWater);
   return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);// / 1000000; // TODO: Why is this factor required?
 }
 
@@ -410,8 +403,6 @@ function findQ(aOne, n, tempWater, dt) {
  * @return Mass of the melted ice.
  */
 function findM_melted(q) {
-  print("q in findM:", q);
-  print("findM_melted output:",-1 * q/DELTA_H_FUS_WATER);
   return -1 * q / DELTA_H_FUS_WATER;
 }
 
@@ -423,7 +414,6 @@ function findM_melted(q) {
  * @return The new temperature of the water. (Kelvin)
  */
 function findT_waterNewMelting(q, tempWater, mWaterOld) {
-  print("mWater for findT is:", mWaterOld);
   return q / (HEAT_CAPACITY_WATER * mWaterOld) + tempWater;
 }
 
@@ -436,14 +426,6 @@ function findT_waterNewMelting(q, tempWater, mWaterOld) {
  */
 function findT_waterNewMixing(mWater, tempWater, mMelted) {
   return ((mWater * tempWater) + (mMelted * ICE_FREEZE_TEMP_K)) / (mWater + mMelted);
-}
-
-/* Finds the length of one edge of a cube given the surface area of that cube.
- * @param surfaceArea: The surface area of a particular cube
- * @return The length of one edge of the cube
- */
-function findEdgeLength(surfaceArea) {
-  return sqrt(surfaceArea/6);
 }
 
 /*
@@ -461,15 +443,14 @@ Number.prototype.round = function(places) {
  * @param name: The identifying string for a dataset to be appended to (found in IceCube.name)
  */
 function graphTemperature(temperature, name) {
-  var period = TIME_SCALE_FACTOR*1/FRAME_RATE;
+  var period = TIME_SCALE_FACTOR * 1 / FRAME_RATE;
   var dataSetIndex; // Index for referencing a dataset
-  if (name === "broken") {
-    dataSetIndex = 0;
-  } else if (name === "unbroken") {
+  if (name == "broken") {
     dataSetIndex = 1;
+  } else if (name == "unbroken") {
+    dataSetIndex = 0;
   } else {
-    print("Tried to add data to", name, "which is not recognized by graphTemperature()");
-    return // Stop before attempting insertion of data point
+    return; // Stop before attempting insertion of data point
   }
   var i = chartData.data.datasets[dataSetIndex].data.length-1; // index for the last element in data
   // var prevTime = chartData.data.datasets[dataSetIndex].data[i].x;
@@ -488,8 +469,20 @@ $(document).ready(function(){
   helpBoxPopUp = document.getElementById('help-box');
   helpBtn = document.getElementById('helpBtn');
   helpBtn.addEventListener("click", function(){
-    helpBoxPopUp.classList.toggle("appear");
+    toggleHelp();
   }, false);
+
+  // For enabling web transitions on pop-up info tooltip
+  infoBoxPopUp = document.getElementById('info-box');
+  infoBtn = document.getElementById('infoBtn');
+  infoBtn.addEventListener("click", function(){
+    toggleInfo();
+  }, false);
+
+  // Prevent user from accidentally highlighting chart while clicking ice
+  document.onselectstart = function(){
+    return false;
+  }
 
   // Button interactions
   $("#startBtn").click(function () {
@@ -500,10 +493,6 @@ $(document).ready(function(){
   $("#resetBtn").click(function () {
     resetSimulation();
     $("#startBtn").removeAttr('disabled');
-  });
-
-  $("#helpBtn").click(function () {
-    toggleHelp(helpBoxDiv);
   });
 
   $("#pauseBtn").click(function () {
@@ -538,18 +527,6 @@ function resetSimulation() {
 }
 
 /*
- * Called when the user presses the help button. Alternatively hides or un-hides the
- * blue tooltip box that appears beneath the chart and buttons.
- */
-function toggleHelp(element) {
-  if (element.style.display === 'none') {
-    show(element);
-  } else {
-    hide(element);
-  }
-}
-
-/*
  * Called when the user presses the pause button. If the simulation is live, pauses
  * everything (including animations and calculations). Otherwise, resumes the
  * simulation.
@@ -569,4 +546,30 @@ function pauseSimulation() {
     }
   }
   simulationPaused = !simulationPaused;
+}
+
+/*
+ * Called when the user presses the help button.
+ */
+function toggleHelp() {
+  if (infoBtnActive) {
+    // Make info box disappear to make room for help box
+    infoBoxPopUp.classList.toggle("appear");
+    infoBtnActive = false;
+  }
+  helpBoxPopUp.classList.toggle("appear");
+  helpBtnActive = !helpBtnActive;
+}
+
+/*
+ * Called when the user presses the info button.
+ */
+function toggleInfo() {
+  if (helpBtnActive) {
+    // Make help box disappear to make room for info box
+    helpBoxPopUp.classList.toggle("appear");
+    helpBtnActive = false;
+  }
+  infoBoxPopUp.classList.toggle("appear");
+  infoBtnActive = !infoBtnActive;
 }

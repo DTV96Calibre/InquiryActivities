@@ -12,7 +12,7 @@
  */
 function Cup() {
 
-  // Class attributes
+  /* Class attributes */
   
   // The amount that this cup's liquid will rise once ice falls in
   this.LIQUID_DISPLACEMENT_FACTOR = 0.10;
@@ -24,6 +24,10 @@ function Cup() {
   // The offset from the left (x) and top (y) of the screen (in pixels)
   this.xOffset;
   this.yOffset;
+
+  /* Properties to be used in mathematical calculations */
+  this.liquidTemp = ROOM_TEMPERATURE; // Temperature of water in Kelvin
+  this.liquidMass = MASS_CUP_OF_WATER;
 
   /* Colors */
   this.cupColor =    'rgb(235, 237, 239)';
@@ -90,6 +94,8 @@ function Cup() {
     if (this.hasLiquid) {
       this.displayLiquid(false);
     }
+
+    this.displayTemp();
   }
 
   /*
@@ -151,6 +157,36 @@ function Cup() {
   }
 
   /*
+   * Writes the temperature of the liquid in this cup.
+   */
+  this.displayTemp = function() {
+    // Set exact font to avoid inconsistencies between browsers
+    textFont("Helvetica");
+
+    var fontSize = windowWidth / 2 / 42;
+    textSize(fontSize);
+
+    // Draw the box that surrounds the liquid temp text
+    var boxPosX = this.cupBeginPosX * 0.7 + this.xOffset;
+    var boxPosY = this.cupBeginPosY + this.yOffset + this.cupHeight * 1.05;
+    var boxEdgeDegree = this.cupRoundedCornerDegree / 5;
+    fill(this.shadowColor);
+    noStroke();
+    rect(boxPosX, boxPosY, fontSize * 14.7, fontSize * 1.5, boxEdgeDegree, boxEdgeDegree,
+      boxEdgeDegree, boxEdgeDegree);
+
+    // Draw the text itself
+    var fontPosX = this.xOffset + this.cupBeginPosX * 0.84;
+    var fontPosY = boxPosY + fontSize + 1;
+    strokeWeight(this.cupThickness);
+    stroke(this.shadowColor);
+    fill(32, 32, 32); // grey
+    text("Orange Soda Temp: ", fontPosX, fontPosY);
+    text(this.liquidTemp.toFixed(VALUE_PRECISION - 1) + " K", fontPosX + fontSize * 9.5, 
+      fontPosY);
+  }
+
+  /*
    * Initializes this cup's dimensions on the canvas.
    * @param _xLength: The width in pixels of the buffer.
    * @param _yLength: The height in pixels of the buffer.
@@ -180,7 +216,7 @@ function Cup() {
    */
   this.setDimensions = function() {
     this.cupWidth = this.xLength * 0.6;
-    this.cupHeight = this.xLength * 0.8;
+    this.cupHeight = this.xLength * 0.75;
     this.cupThickness = this.cupWidth / 150;
     this.cupRoundedCornerDegree = this.cupWidth / 5;
     this.cupBeginPosX = this.xLength / 2 - this.cupWidth / 2;

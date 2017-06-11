@@ -7,14 +7,14 @@
  */
 
 /*
- * This class contains one set of broken/unbroken IceCube/Cup objects necessary
- * to carry out the experiment.
+ * This class contains one set of either broken or unbroken IceCube/Cup objects n
+ * necessary to carry out the experiment.
  * @param type: A string (either 'broken' or 'unbroken', referring to whether
  * the ice block is breakable via hammer)
  */
 function Experiment(type, ice) {
   /* Class attributes */
-  this.type = type; // Used to identify experiment to graphing functionality and something else Brooke did
+  this.type = type; // 'Broken' or 'unbroken' string that identifies nature of experiment
   this.ice = ice;
   this.cup;
 
@@ -111,7 +111,7 @@ function Experiment(type, ice) {
     this.ice.distanceToFall = windowHeight / 2;
 
     // Also reorient the ice w.r.t. the top of the cup if it's already finished moving
-    if (this.ice.isDoneAnimating) {
+    if (this.ice.hasStartedMelting) {
       var floatDistance = this.cup.cupHeight / 5
       var targetPct = (this.ice.distanceToFall - floatDistance) / this.ice.distanceToFall;
       this.ice.pctDistanceFallen = targetPct;
@@ -152,8 +152,6 @@ function Experiment(type, ice) {
     }
 
     else if (this.ice.isMelting) {
-      // TODO: Put this somewhere else so it's a result of a math calculation
-      this.ice.timeToMeltSeconds = 6;
       // Stage 4 (melting)
       this.meltIce();
     }
@@ -208,28 +206,23 @@ function Experiment(type, ice) {
     if (this.ice.pctDistanceFallen < targetPct) {
       this.ice.isFloating = false;
       this.ice.isMelting = true;
+      this.ice.hasStartedMelting = true;
     }
 
     hasChanged = true;
   }
 
   /*
-   * Causes the ice to gradually melt in increments proportional to the
-   * calculated timeToMelt (units in seconds).
+   * Causes the ice to gradually melt by updating its pctMelted variable (which
+   * is a function of the ice's current mass).
    */
   this.meltIce = function() {
-    var numFramesToMelt = this.ice.timeToMeltSeconds * FRAME_RATE;
-
-    // The percent the ice will melt this frame
-    var meltedPct = 1 / numFramesToMelt;
-
-    this.ice.melt(meltedPct);
+    this.ice.melt();
 
     // If the ice has 100% melted, we're finished
-    if (this.ice.pctMelted + meltedPct >= 1) {
+    if (this.ice.pctMelted >= 0.999) {
       this.ice.pctMelted = 1;
       this.ice.isMelting = false;
-      this.ice.isDoneAnimating = true;
     }
 
     hasChanged = true;
