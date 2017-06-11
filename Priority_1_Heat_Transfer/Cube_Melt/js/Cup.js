@@ -178,8 +178,9 @@ function Cup() {
     // Draw the text itself
     var fontPosX = this.xOffset + this.cupBeginPosX * 0.84;
     var fontPosY = boxPosY + fontSize + 1;
-    strokeWeight(this.cupThickness);
-    stroke(this.shadowColor);
+    noStroke();
+    // strokeWeight(this.cupThickness);
+    // stroke(this.shadowColor);
     fill(32, 32, 32); // grey
     text("Orange Soda Temp: ", fontPosX, fontPosY);
     text(this.liquidTemp.toFixed(VALUE_PRECISION - 1) + " K", fontPosX + fontSize * 9.5, 
