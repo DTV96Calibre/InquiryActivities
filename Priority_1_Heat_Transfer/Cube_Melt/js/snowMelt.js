@@ -20,7 +20,7 @@ var HEAT_CAPACITY_WATER = 4.205; /* Joules of heat for the temperature of one
   gram of water to increase 1 degrees Celcius.*/
 
 var DELTA_H_FUS_WATER = 333.86; // (Latent) heat of fusion of water in joules per gram.
-var H = 100; // Free water convection (Wm^-2K^-1) // Heat transfer constant
+var H = 0.01; // Free water convection (Wm^-2K^-1) // Heat transfer constant
 
 /* Other constants */
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
@@ -28,8 +28,8 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
-var MAX_RUN_TIME = 1800;
-var TIME_SCALE_FACTOR = 0.05; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var MAX_RUN_TIME = 5400;
+var TIME_SCALE_FACTOR = 1000; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 
 /* A collection of HTML div IDs for editable text values in the simulation info box. */
@@ -368,6 +368,7 @@ function stepSimulation(exp) {
   var n = ice.numPieces; // The number of pieces in the whole ice
   var aOne = ice.calculateAreaOfPieceFromMass();
   var q = findQ(aOne, n, cup.liquidTemp, dt);
+  print("q:", q);
 
   if (q == 0) {
     return true;
