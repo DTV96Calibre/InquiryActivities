@@ -28,9 +28,10 @@ var BASE_WIDTH_SCALING = 11.5; // Amount to divide windowWidth by to get size of
 var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
-var MAX_RUN_TIME = 5400;
-var TIME_SCALE_FACTOR = 1000; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var MAX_RUN_TIME = 10000; // This shouldn't be reached unless STARTING_ICE_MASS is increased from 500
+var TIME_SCALE_FACTOR = 5000; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
+var SECONDS_IN_MINUTES = 60;
 
 /* A collection of HTML div IDs for editable text values in the simulation info box. */
 var UNBROKEN_NUM_CUBES_DIV = 'unbroken-num-cubes';
@@ -368,7 +369,6 @@ function stepSimulation(exp) {
   var n = ice.numPieces; // The number of pieces in the whole ice
   var aOne = ice.calculateAreaOfPieceFromMass();
   var q = findQ(aOne, n, cup.liquidTemp, dt);
-  print("q:", q);
 
   if (q == 0) {
     return true;
@@ -453,12 +453,12 @@ function graphTemperature(temperature, name) {
   } else {
     return; // Stop before attempting insertion of data point
   }
-  var i = chartData.data.datasets[dataSetIndex].data.length-1; // index for the last element in data
+  //var i = chartData.data.datasets[dataSetIndex].data.length-1; // index for the last element in data
   // var prevTime = chartData.data.datasets[dataSetIndex].data[i].x;
   // print("Previous time:", prevTime);
   // var currTime = prevTime + period; // TODO: This should be reworked so that the first value edgecase is accounted for
   // chartData.data.datasets[dataSetIndex].data.push({x:currTime, y:temperature});
-  chartData.data.datasets[dataSetIndex].data.push({x:simulationTime, y:temperature});
+  chartData.data.datasets[dataSetIndex].data.push({x:simulationTime / SECONDS_IN_MINUTES, y:temperature});
   return;
 }
 
