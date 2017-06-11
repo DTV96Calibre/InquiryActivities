@@ -20,7 +20,7 @@ var HEAT_CAPACITY_WATER = 4.205; /* Joules of heat for the temperature of one
   gram of water to increase 1 degrees Celcius.*/
 
 var DELTA_H_FUS_WATER = 333.86; // (Latent) heat of fusion of water in joules per gram.
-var H = 0.01; // Free water convection (Wm^-2K^-1) // Heat transfer constant
+var H = 0.01; // Free water convection (Wcm^-2K^-1) // Heat transfer constant
 
 /* Other constants */
 var MAX_DIVISIONS = 5; // Maximum number of times user can break the ice block
@@ -118,7 +118,7 @@ var chartData = {
       enabled: true,
       mode: 'xy',
       rangeMin:{x: 0, y: 270},
-      rangeMax:{x: 2, y: 300}
+      rangeMax:{x: 180, y: 300}
     },
 
     zoom: {
@@ -126,7 +126,7 @@ var chartData = {
       drag: false,
       mode: 'y',
       rangeMin:{x: 0, y: 270},
-      rangeMax:{x: 2, y: 300}
+      rangeMax:{x: 180, y: 300}
     },
 
     legend: {
@@ -395,7 +395,7 @@ function stepSimulation(exp) {
  * @return The heat exchanged.
  */
 function findQ(aOne, n, tempWater, dt) {
-  return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);// / 1000000; // TODO: Why is this factor required?
+  return dt * H * (aOne * n) * (ICE_FREEZE_TEMP_K - tempWater);
 }
 
 /*
@@ -444,6 +444,7 @@ Number.prototype.round = function(places) {
  * @param name: The identifying string for a dataset to be appended to (found in IceCube.name)
  */
 function graphTemperature(temperature, name) {
+  temperature = temperature.toFixed(VALUE_PRECISION); // Reduce decimal places displayed
   var period = TIME_SCALE_FACTOR * 1 / FRAME_RATE;
   var dataSetIndex; // Index for referencing a dataset
   if (name == "broken") {
@@ -458,7 +459,8 @@ function graphTemperature(temperature, name) {
   // print("Previous time:", prevTime);
   // var currTime = prevTime + period; // TODO: This should be reworked so that the first value edgecase is accounted for
   // chartData.data.datasets[dataSetIndex].data.push({x:currTime, y:temperature});
-  chartData.data.datasets[dataSetIndex].data.push({x:simulationTime / SECONDS_IN_MINUTES, y:temperature});
+  var lowPrecisionTime = (simulationTime / SECONDS_IN_MINUTES).toFixed(VALUE_PRECISION);
+  chartData.data.datasets[dataSetIndex].data.push({x:lowPrecisionTime, y:temperature});
   return;
 }
 
