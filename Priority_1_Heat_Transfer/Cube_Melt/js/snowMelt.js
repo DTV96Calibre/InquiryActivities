@@ -29,7 +29,7 @@ var BROKEN_ICE_DIV_ID = "brokenIceCanvas-holder"; // For placing p5 canvases
 var UNBROKEN_ICE_DIV_ID = "unbrokenIceCanvas-holder";
 var FRAME_RATE = 60; // Frames per second. The rate at which the draw function is called.
 var MAX_RUN_TIME = 10000; // This shouldn't be reached unless STARTING_ICE_MASS is increased from 500
-var TIME_SCALE_FACTOR = 5000; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
+var TIME_SCALE_FACTOR = 1000; // Scales simulation rate (we don't want to wait 20 minutes for ice to melt)
 var VALUE_PRECISION = 3; // Number of decimals to round to when displaying values under chart
 var SECONDS_IN_MINUTES = 60;
 
