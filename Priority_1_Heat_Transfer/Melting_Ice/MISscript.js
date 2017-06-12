@@ -90,33 +90,33 @@ function init() {
 	resetExperiment(); // the experiment animations must be reset AFTER the graph points are initialized
 	
 	// register event handlers for Situation 1 input fields
-	$("#temp1").live('change', getTemps);
-	$("#heatCapacity1").live('change', getHeatCapacities);
-	$("#mass1").live('change', getMasses);
-	$("#area1").live('change', getAreas);
-	$("#numBlocks1").live('change', getNumBlocks);
+	$("#temp1").on('change', getTemps);
+	$("#heatCapacity1").on('change', getHeatCapacities);
+	$("#mass1").on('change', getMasses);
+	$("#area1").on('change', getAreas);
+	$("#numBlocks1").on('change', getNumBlocks);
 	$("#stirBarCheck1").click(toggleStirBar1); // check box must be registered with "click" to work correctly in IE
-	$("#sit1DefaultButton").live('click', resetSituation1);
+	$("#sit1DefaultButton").on('click', resetSituation1);
 	
 	// register event handlers for Situation 1 input fields
-	$("#temp2").live('change', getTemps);
-	$("#heatCapacity2").live('change', getHeatCapacities);
-	$("#mass2").live('change', getMasses);
-	$("#area2").live('change', getAreas);
-	$("#numBlocks2").live('change', getNumBlocks);
+	$("#temp2").on('change', getTemps);
+	$("#heatCapacity2").on('change', getHeatCapacities);
+	$("#mass2").on('change', getMasses);
+	$("#area2").on('change', getAreas);
+	$("#numBlocks2").on('change', getNumBlocks);
 	$("#stirBarCheck2").click(toggleStirBar2); // check box must be registered with "click" to work correctly in IE
-	$("#sit2DefaultButton").live('click', resetSituation2);
+	$("#sit2DefaultButton").on('click', resetSituation2);
 	
 	// register event handlers for control buttons (start, pause, reset)
-	$("#startButton").live('click', startMelting);
-	$("#pauseButton").live('click', pauseMelting);
-	$("#resetButton").live('click', resetExperiment);
-	$("#helpButton").live('click', showHelp);
+	$("#startButton").on('click', startMelting);
+	$("#pauseButton").on('click', pauseMelting);
+	$("#resetButton").on('click', resetExperiment);
+	$("#helpButton").on('click', showHelp);
 	
 	// register event handlers for links to display more info
-	$("#graphInfo").live('click', displayGraphInfo);
-	$("#about").live('click', displayAboutInfo);
-	$("#IEexp").live('click', displayIEexp);	
+	$("#graphInfo").on('click', displayGraphInfo);
+	$("#about").on('click', displayAboutInfo);
+	$("#IEexp").on('click', displayIEexp);	
 }
 
 /*

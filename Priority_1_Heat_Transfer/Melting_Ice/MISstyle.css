@@ -10,13 +10,24 @@
 
 /**********Tag selectors************/
 body {
-	font-size:100%;
+	font-size: 15px;
 }
+
 h3 {
 	margin:0px;
 	width:200px;
 	text-decoration:underline;
+	font-size:19px;
+	font-weight: bold;
+	font-family: 'Times New Roman';
 }
+
+h1 {
+	font-family: Georgia;
+	font-weight: bold;
+	font-size: 25px;
+}
+
 a {
 	font-size:0.80em;
 	color:#C00;
@@ -29,9 +40,11 @@ a {
 .input1 {
 	color:blue;
 }
+
 .input2 {
 	color:red;
 }
+
 .input1Label {
 	position:absolute;
 	font-weight:bold;
