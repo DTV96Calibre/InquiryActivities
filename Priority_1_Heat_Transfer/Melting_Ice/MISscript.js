@@ -980,21 +980,19 @@ function calculateStep() {
 */
 
 function showHelp() {
-	alert("Melting Ice Simulation lets you compare the rate of energy transfer\n" +
-		  "from heated blocks to ice cubes in two different beakers, each under\n" +
-		  "its own set of initial conditions.\n\n" +
-		  "Choose the initial conditions for Situation 1 and Situation 2.\n\n" +
-		  "Then click the Start button to watch the ice melt.\n\n" +
-		  "After the ice has melted, in order to change the initial conditions\n" +
-		  "for another experiment, you must first press the Reset button to\n" +
-		  "return the ice and the heated blocks to their initial positions\n" +
-		  "and energies.\n\n" +
-		  "While the ice is melting, you can watch the graph to see the mass\n" +
-		  "of ice melted in each beaker over time. Note that the axes are\n" +
-		  "recalculated every time to ensure a good view of the graph.\n\n" +
-		  "This simulation assumes that all energy transferred goes into\n" +
-		  "melting ice at 0°C into water at 0°C, and none goes into changing\n" +
-		  "the temperature of the water or ice.");
+	alert("Melting Ice Simulation lets you compare the rate of energy transfer\
+		from heated blocks to ice cubes in two different beakers, each under\
+		its own set of initial conditions. \n\nChoose the initial conditions\
+		for Situation 1 and Situation 2.\n\n Then click the Start button to\
+		watch the ice melt.\n\n After the ice has melted, in order to change\
+		the initial conditions for another experiment, you must first press the\
+		Reset button to return the ice and the heated blocks to their initial\
+		positions and energies.\n\n While the ice is melting, you can watch the\
+		graph to see the mass of ice melted in each beaker over time. Note that\
+		the axes are recalculated every time to ensure a good view of the \
+		graph.\n\n This simulation assumes that all energy transferred goes into\
+		melting ice at 0°C into water at 0°C, and none goes into changing the\
+		temperature of the water or ice.");
 }
 
 function displayGraphInfo() {
@@ -1012,14 +1010,13 @@ function displayGraphInfo() {
 }
 
 function displayAboutInfo(){
-	alert("This program was created under the direction of Dr. Margot Vigeant\n" +
-		  "and Dr. Michael Prince at Bucknell University. It was first developed\n" +
-		  "in Flash by Matt Koppenhaver under Dr. Prince, and was adapted to\n" +
-		  "Javascript by Emily Ehrenberger under Dr. Vigeant in 2011.\n\n" +
-		  "The development of this program was funded by the National Science\n" +
-		  "Foundation Grant DUE-0442234 (Prince) and DUE-0717536 (Vigeant).\n\n" +
-		  "Address any questions or comments to prince@bucknell.edu.\n\n" +
-		  "                                                Copyright.");
+	alert("This program was created under the direction of Dr. Margot Vigeant\
+		and Dr. Michael Prince at Bucknell University. It was first developed\
+		in Flash by Matt Koppenhaver under Dr. Prince, and was adapted to\
+		Javascript by Emily Ehrenberger under Dr. Vigeant in \
+		2011.\n\nThe development of this program was funded by the National Science\
+		Foundation Grant DUE-0442234 (Prince) and DUE-0717536 (Vigeant).\n\nAddress\
+		any questions or comments to prince@bucknell.edu.\n\nCopyright.");
 	return false;
 }
 
