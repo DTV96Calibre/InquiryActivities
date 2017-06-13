@@ -116,7 +116,7 @@ function init() {
 	
 	// register event handlers for links to display more info
 	$("#graphInfo").on('click', displayGraphInfo);
-	$("#about").on('click', displayAboutInfo);
+	$("#infoButton").on('click', displayAboutInfo);
 	$("#IEexp").on('click', displayIEexp);	
 }
 

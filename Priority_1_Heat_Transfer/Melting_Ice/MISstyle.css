@@ -525,44 +525,55 @@ a {
 
 #startButton {
 	position:absolute;
-	top:325px;
-	left:-15px;
+	top:310px;
+	left:25px;
 }
 
 #resetButton {
 	position:absolute;
-	top:325px;
-	left:43px;
+	top:310px;
+	left:100px;
 }
 
 #pauseButton {
 	position:absolute;
-	top:325px;
-	left:110px;
+	top:360px;
+	left:30px;
 }
 
 #helpButton {
 	position:absolute;
-	top:325px;
-	left:160px;
+	top:360px;
+	left:80px;
+}
+
+#infoButton {
+	position:absolute;
+	top:360px;
+	left:130px;
 }
 
 /****** "more info" links ******/
 
 #initialIceLabel {
 	position:absolute;
-	top:420px;
+	top:550px;
 	font-weight:bold;
 }
+
 #initialIce {
 	position:absolute;
-	top:445px;
+	top:570px;
+	font-weight:normal;
 }
+
 #initialIceUnits {
 	position:absolute;
-	top:445px;
-	left:50px;
+	top:570px;
+	left:44px;
+	font-weight:normal;
 }
+
 #graphInfoLabel {
 	position:absolute;
 	top:500px;
@@ -575,7 +586,7 @@ a {
 }
 #graphInfo {
 	position:absolute;
-	top:550px;
+	top:650px;
 	width:210px;
 	font-family:sans-serif;
 	font-size:1em;
