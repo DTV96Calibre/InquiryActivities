@@ -69,6 +69,11 @@ a {
   width: 50%;
 }
 
+/* The Bootstrap question-mark help and pause buttons */
+.glyphicon {
+	font-size: 1.5em;
+}
+
 /*****Classes for ice/beaker animation elements*****/
 
 .sit1block {
@@ -201,17 +206,7 @@ a {
 	padding-left:11px;
 	padding-top:7px;
 }*/
-#helpButton {
-	position:absolute;
-	top:268px;
-	left:511px;
-	height:25px;
-	width:100px;
-	font-weight:bold;
-	border-style:outset;
-	border-color:#FC0;
-	font-family:Arial, Helvetica, sans-serif;
-}
+
 #beakersImg {
 	position:absolute;
 	top:100px;
@@ -525,43 +520,34 @@ a {
 }
 
 
-/***** control buttons (start, pause, reset) *****/
+/***** control buttons (start, pause, reset, help) *****/
+
 #startButton {
 	position:absolute;
 	top:325px;
-	left:-25px;
-	height:25px;
-	width:70px;
-	font-weight:bold;
-	border-style:outset;
-	border-color:#093;
-	font-family:Arial, Helvetica, sans-serif;
+	left:-15px;
 }
+
 #resetButton {
 	position:absolute;
 	top:325px;
-	left:50px;
-	height:25px;
-	width:70px;
-	font-weight:bold;
-	border-style:outset;
-	border-color:#39F;
-	font-family:Arial, Helvetica, sans-serif;
+	left:43px;
 }
+
 #pauseButton {
 	position:absolute;
 	top:325px;
-	left:125px;
-	height:25px;
-	width:80px;
-	font-weight:bold;
-	border-style:outset;
-	border-color:#F00;
-	font-family:Arial, Helvetica, sans-serif;
+	left:110px;
 }
 
+#helpButton {
+	position:absolute;
+	top:325px;
+	left:160px;
+}
 
 /****** "more info" links ******/
+
 #initialIceLabel {
 	position:absolute;
 	top:420px;

@@ -23,6 +23,7 @@ var graphHeight = 453; // The height of the graph in pixels; used for scaling
 
 // Variables to keep track of state
 var graphInfoShowing = false;
+var experimentStarted = false;
 var experimentRunning = false;
 var sit1BlockTop;
 var sit2BlockTop;
@@ -107,7 +108,7 @@ function init() {
 	$("#stirBarCheck2").click(toggleStirBar2); // check box must be registered with "click" to work correctly in IE
 	$("#sit2DefaultButton").on('click', resetSituation2);
 	
-	// register event handlers for control buttons (start, pause, reset)
+	// register event handlers for control buttons (start, pause, reset, help)
 	$("#startButton").on('click', startMelting);
 	$("#pauseButton").on('click', pauseMelting);
 	$("#resetButton").on('click', resetExperiment);
@@ -146,6 +147,7 @@ function generateGraphPoints() {
 function resetExperiment() {
 	
 	experimentRunning = false;
+	experimentStarted = false;
 	
 	// Re-enable the input fields, and change all the colors back to their original
 	// reds and blues. (Many are grayed out manually in the startMelting function.)
@@ -163,11 +165,11 @@ function resetExperiment() {
 	
 	$("#startButton").removeAttr("disabled");
 	$("#startButton").css("border-color", "#093");
-	
+
+	$("#pauseButton").find(".glyphicon").removeClass('glyphicon-play');
+    $("#pauseButton").find(".glyphicon").addClass('glyphicon-pause');	
 	
 	// Make sure the Pause button reads "PAUSE" rather than "RESET", and disable the Pause button
-	$("#pauseButton").html("PAUSE");
-	$("#pauseButton").attr("value", "pause");
 	$("#pauseButton").attr("disabled", "disabled");
 	$("#pauseButton").css("border-color", "gray");
 	
@@ -660,15 +662,19 @@ function resetSituation2() {
  * resetting or changing any other aspects of the display or state. Also changes the Pause button to read "RESUME" instead.
 */
 function pauseMelting() {
-	if(experimentRunning) {
+	if (!experimentStarted) {
+		return;
+	}
+
+	if (experimentRunning) {
 		experimentRunning = false;
-		$("#pauseButton").html("RESUME");
-		$("#pauseButton").attr("value", "resume");
+		$("#pauseButton").find(".glyphicon").removeClass('glyphicon-play');
+    	$("#pauseButton").find(".glyphicon").addClass('glyphicon-pause');
 	}
 	else {
 		experimentRunning = true;
-		$("#pauseButton").html("PAUSE");
-		$("#pauseButton").attr("value", "pause");
+		$("#pauseButton").find(".glyphicon").removeClass('glyphicon-pause');
+    	$("#pauseButton").find(".glyphicon").addClass('glyphicon-play');
 		calculateStep();
 	}
 }
@@ -711,6 +717,7 @@ function startMelting() {
 	
 	// Start the experiment
 	experimentRunning = true;
+	experimentStarted = true;
 	dropBlocks();
 }
 
@@ -991,7 +998,7 @@ function showHelp() {
 }
 
 function displayGraphInfo() {
-	if(graphInfoShowing) {
+	if (graphInfoShowing) {
 		$("#graphHeightInfo").hide();
 		$("#graphSlopeInfo").hide();
 		graphInfoShowing = false;

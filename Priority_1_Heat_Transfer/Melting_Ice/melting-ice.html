@@ -139,12 +139,11 @@
                 <button id="sit2DefaultButton" value="sit2Default">Default</button>
             </div> <!-- End of input 2 div -->
 
-
-        	<button id="startButton" value="start">START</button>
-            <button id="resetButton" value="reset">RESET</button>
-            <button id="pauseButton" value="pause">PAUSE</button>
-            <button id="helpButton" value="help">HELP</button>
-<!--            <textarea id="beakerHelp" class="tooltip" cols="25" rows="5">This program assumes that all energy transferred goes into melting ice at 0&#8451; into water at 0&#8451;, and none goes into changing the water temperature.</textarea>-->
+            <!-- Bootstrap buttons (start/reset/pause) -->
+            <a href="javascript:" id="startButton" class="btn btn-success btn-md" value="start">Start</a>
+            <a href="javascript:" id="resetButton" class="btn btn-danger btn-md" value="reset">Reset</a>
+            <a href="javascript:" id="pauseButton" class="btn btn-default btn-md" value="pause"><span class="glyphicon glyphicon-pause"></span></a>
+            <a href="javascript:" id="helpButton" class="btn btn-default btn-md" value="help"><span class="glyphicon glyphicon-question-sign"></span></a>
 
             <!--<label id="graphInfoLabel">Q: What information can you get from looking at the graph?<br /><br />A:</label>-->
 			<label id="initialIceLabel">Initial condition:</label>
@@ -152,7 +151,7 @@
 			<label id="initialIceUnits">g ice in each cup</label>
             <a href="" id="graphInfo">What information can you get from looking at the graph?</a>
             <a href="" id="about">About MIS...</a>
-<!--[if IE]><a id="IEexp" href="">Why do my ice cubes look like an 8-bit video game?</a><![endif]-->
+            <!--[if IE]><a id="IEexp" href="">Why do my ice cubes look like an 8-bit video game?</a><![endif]-->
 
             <img id="graphBase" src="graphBase.png" alt="" />
             <textarea id="graphHeightInfo" class="tooltip" cols="25" rows="5">The height of the graph represents how much ice has melted.</textarea>
