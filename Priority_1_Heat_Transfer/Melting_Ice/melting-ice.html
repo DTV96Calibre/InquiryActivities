@@ -44,36 +44,40 @@
             <div id="sit1Div">
                 <h3 id="sit1Heading">Situation 1</h3>
 
-                <label id="tempLabel" class="input1Label">Initial Block Temp.:</label>
-                <input id="temp1" class="input1" type="text" maxLength="3" />
-                <label id="tempUnits" class="input1Label">&#8451;</label>
+                <div> <!-- Beginning of input 1 div -->
 
-                <label id="heatCapacityLabel" class="input1Label">Block Heat Capacity:</label>
-                <input id="heatCapacity1" class="input1" type="text" maxLength="3" />
-                <label id="heatCapacityUnits" class="input1Label">J/(g &#8451;)</label>
+                    <label id="tempLabel" class="input1Label">Initial Block Temp.:</label>
+                    <input id="temp1" class="input1" type="text"/>
+                    <label id="tempUnits" class="input1Label">&#8451;</label>
 
-                <label id="massLabel" class="input1Label">Mass of each block:</label>
-                <input id="mass1" class="input1" type="text" maxlength="2" />
-                <label id="massUnits" class="input1Label">g</label>
+                    <label id="heatCapacityLabel" class="input1Label">Block Heat Capacity:</label>
+                    <input id="heatCapacity1" class="input1" type="text" maxLength="3" />
+                    <label id="heatCapacityUnits" class="input1Label">J/(g &#8451;)</label>
 
-                <label id="areaLabel" class="input1Label">Area of each block:</label>
-                <input id="area1" class="input1" type="text" maxlength="1" />
-                <label id="areaUnits" class="input1Label">cm<sup>2</sup></label>
+                    <label id="massLabel" class="input1Label">Mass of each block:</label>
+                    <input id="mass1" class="input1" type="text" maxlength="2" />
+                    <label id="massUnits" class="input1Label">g</label>
 
-                <label id="numBlocksLabel" class="input1Label">Number of blocks:</label>
-                <select id="numBlocks1" class="input1">
-                	<option id="numBlocks1Default" value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
+                    <label id="areaLabel" class="input1Label">Area of each block:</label>
+                    <input id="area1" class="input1" type="text" maxlength="1" />
+                    <label id="areaUnits" class="input1Label">cm<sup>2</sup></label>
 
-                <label id="currentBlockTempLabel" class="input1Label">Current Block Temp.:</label>
-                <label id="currentBlockTemp1" class="input1Label">200</label>
-                <label id="currentBlockTempUnits" class="input1Label">&#8451;</label>
+                    <label id="numBlocksLabel" class="input1Label">Number of blocks:</label>
+                    <select id="numBlocks1" class="input1">
+                    	<option id="numBlocks1Default" value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
 
-                <label id="stirBarCheckLabel" class="input1Label">Stir Bar:</label>
-                <input id="stirBarCheck1" name="stirBarCheck1" type="checkbox" value="checked" />
+                    <label id="currentBlockTempLabel" class="input1Label">Current Block Temp.:</label>
+                    <label id="currentBlockTemp1" class="input1Label">200</label>
+                    <label id="currentBlockTempUnits" class="input1Label">&#8451;</label>
+
+                    <label id="stirBarCheckLabel" class="input1Label">Stir Bar:</label>
+                    <input id="stirBarCheck1" name="stirBarCheck1" type="checkbox" value="checked" />
+
+                </div> <!-- End of input form div -->
 
                 <button id="sit1DefaultButton" value="sit1Default">Default</button>
             </div>
@@ -99,7 +103,7 @@
             <img id="sit2Ice2" class="sit2Ice" alt="" src="blank_img.png" />
             <img id="sit2Ice3" class="sit2Ice" alt="" src="blank_img.png" />
 
-            <div id="sit2Div">
+            <div id="sit2Div"> <!-- Beginning of input 2 div -->
                 <h3 id="sit2Heading">Situation 2</h3>
                 <label id="tempLabel" class="input2Label">Initial Block Temp.:</label>
                 <input id="temp2" class="input2" type="text" maxLength="3" />
@@ -133,7 +137,7 @@
                 <input id="stirBarCheck2" name="stirBarCheck2" type="checkbox" value="checked" />
 
                 <button id="sit2DefaultButton" value="sit2Default">Default</button>
-            </div>
+            </div> <!-- End of input 2 div -->
 
 
         	<button id="startButton" value="start">START</button>

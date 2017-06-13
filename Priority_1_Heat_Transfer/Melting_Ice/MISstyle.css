@@ -9,6 +9,7 @@
 
 
 /**********Tag selectors************/
+
 body {
 	font-size: 15px;
 }
@@ -33,16 +34,17 @@ a {
 	color:#C00;
 }
 
-
 /**********Class selectors************/
 
 /*****Classes for input fields*****/
 .input1 {
 	color:blue;
+	font-size:13px;
 }
 
 .input2 {
 	color:red;
+	font-size:13px;
 }
 
 .input1Label {
@@ -61,7 +63,14 @@ a {
 	color:#2011D0;
 }
 
+/******************** Other ************************/
+
+.frm {
+  width: 50%;
+}
+
 /*****Classes for ice/beaker animation elements*****/
+
 .sit1block {
 	position:absolute;
 	top:60px;
