@@ -136,7 +136,8 @@ a {
 	width:4px;
 	background-color:#03C;
 }
-.tooltip {
+
+.myTooltip {
 	position:absolute;
 	background-color:#FFC;
 	border-style:solid;
@@ -150,12 +151,12 @@ a {
 	font-family:sans-serif;
 	font-size:0.85em;
 	z-index:3; /* Ensure the tooltip appears on top of all the images (except for tooltipTrigger images) */
-	overflow:auto; /* Necessary to prevent IE from automatically putting scrollbars everywhere */
+	/* Prevent browsers from automatically putting scrollbars everywhere */
+	overflow:hidden;
+	overflow-y: hidden;
+	overflow-x: hidden; 
+	line-height: normal;
 }
-
-
-
-
 
 /**********ID selectors************/
 
@@ -510,6 +511,7 @@ a {
 	padding-left:9px;
 	padding-top:7px;
 }
+
 #graphSlopeInfo {
 	top:585px;
 	left:400px;
@@ -518,7 +520,6 @@ a {
 	padding-left:11px;
 	padding-top:7px;
 }
-
 
 /***** control buttons (start, pause, reset, help) *****/
 
