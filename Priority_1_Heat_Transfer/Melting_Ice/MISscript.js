@@ -668,13 +668,13 @@ function pauseMelting() {
 
 	if (experimentRunning) {
 		experimentRunning = false;
-		$("#pauseButton").find(".glyphicon").removeClass('glyphicon-play');
-    	$("#pauseButton").find(".glyphicon").addClass('glyphicon-pause');
+		$("#pauseButton").find(".glyphicon").removeClass('glyphicon-pause');
+    	$("#pauseButton").find(".glyphicon").addClass('glyphicon-play');
 	}
 	else {
 		experimentRunning = true;
-		$("#pauseButton").find(".glyphicon").removeClass('glyphicon-pause');
-    	$("#pauseButton").find(".glyphicon").addClass('glyphicon-play');
+		$("#pauseButton").find(".glyphicon").removeClass('glyphicon-play');
+    	$("#pauseButton").find(".glyphicon").addClass('glyphicon-pause');
 		calculateStep();
 	}
 }
