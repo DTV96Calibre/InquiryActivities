@@ -609,7 +609,7 @@ function resetSituation1() {
 	$("#heatCapacity1").val(1);
 	$("#mass1").val(40);
 	$("#area1").val(4);
-	$("#numBlocks1Default").attr("selected", "selected");
+	$("#numBlocks1").val("1");
 	$("#stirBarCheck1").removeAttr("checked");
 	
 	// Calls the event handler functions to read in the new values rather than setting them directly, because
@@ -634,7 +634,7 @@ function resetSituation2() {
 	$("#heatCapacity2").val(1);
 	$("#mass2").val(40);
 	$("#area2").val(4);
-	$("#numBlocks2Default").attr("selected", "selected");
+	$("#numBlocks2").val("1");
 	$("#stirBarCheck2").removeAttr("checked");
 	
 	// Calls the event handler functions to read in the new values rather than setting them directly, because
