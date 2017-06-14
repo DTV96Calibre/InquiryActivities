@@ -439,12 +439,12 @@ h1 {
 #faucetFlowRateUnits {
 	position:absolute;
 	top:630px;
-	left:645px;
+	left:640px;
 	font-weight: normal;
 }
 #getMeasurementButton {
 	position:absolute;
-	top:780px;
+	top:785px;
 	left:120px;
 	width:160px;
 	z-index:5;
@@ -476,10 +476,10 @@ h1 {
 	position:absolute;
 	left:470px;
 	top:700px;
-	height:190px;
+	height:210px;
 	width:240px;
 	border-style:solid;
-	border-width:thick;
+	border-width:4px;
 	background-color:#00F;
 }
 #clock {
@@ -491,23 +491,23 @@ h1 {
 }
 #startstopbutton {
 	position:absolute;
-	top:50px;
+	top:55px;
 	left:20px;	
 }
 #splitbutton {
 	position:absolute;
-	top:50px;
+	top:55px;
 	left:75px;	
 }
 #resetbutton {
 	position:absolute;
-	top:50px;
+	top:55px;
 	left:155px;	
 }
 #output {
 	position:absolute;
-	top:80px;
-	left:25px;
-	height:90px;
-	width:180px;
+	top:90px;
+	left:20px;
+	height:100px;
+	width:190px;
 }

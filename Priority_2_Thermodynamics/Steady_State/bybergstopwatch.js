@@ -17,20 +17,24 @@ function startstop()
 	var startstop = document.getElementById('startstopbutton');
 	var startdate = new Date();
 	var starttime = startdate.getTime();
-	if(flagclock==0)
-		{
-		startstop.value = 'Stop';
+	if(flagclock == 0) {
+		startstop.text = 'Stop';
+		if ($('#startstopbutton').hasClass('btn-success')) {
+			$('#startstopbutton').removeClass('btn-success').addClass('btn-danger');
+		}
 		flagclock = 1;
 		counter(starttime);
+	}
+	else {
+		startstop.text = 'Start';
+		if ($('#startstopbutton').hasClass('btn-danger')) {
+			$('#startstopbutton').removeClass('btn-danger').addClass('btn-success');
 		}
-	else
-		{
-		startstop.value = 'Start';
 		flagclock = 0;
 		flagstop = 1;
 		splitdate = '';
-		}
 	}
+}
 
 function counter(starttime)
 	{
