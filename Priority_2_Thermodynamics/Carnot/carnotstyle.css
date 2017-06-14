@@ -394,58 +394,10 @@ textarea {
 
 /* About button */ 
 
-.btn-about { 
+.btn-about, .btn-more-info { 
   color: #000000; 
-  background-color: #FCF797; 
-  border-color: #C6CC6E; 
-} 
- 
-.btn-about:hover, 
-.btn-about:focus, 
-.btn-about:active, 
-.btn-about.active, 
-.open .dropdown-toggle.btn-about { 
-  color: #000000; 
-  background-color: #F2F27B; 
-  border-color: #C6CC6E; 
-} 
- 
-.btn-about:active, 
-.btn-about.active, 
-.open .dropdown-toggle.btn-about { 
-  background-image: none; 
-} 
- 
-.btn-about.disabled, 
-.btn-about[disabled], 
-fieldset[disabled] .btn-about, 
-.btn-about.disabled:hover, 
-.btn-about[disabled]:hover, 
-fieldset[disabled] .btn-about:hover, 
-.btn-about.disabled:focus, 
-.btn-about[disabled]:focus, 
-fieldset[disabled] .btn-about:focus, 
-.btn-about.disabled:active, 
-.btn-about[disabled]:active, 
-fieldset[disabled] .btn-about:active, 
-.btn-about.disabled.active, 
-.btn-about[disabled].active, 
-fieldset[disabled] .btn-about.active { 
-  background-color: #FCF797; 
-  border-color: #C6CC6E; 
-} 
- 
-.btn-about .badge { 
-  color: #FCF797; 
-  background-color: #000000; 
-}
-
-/* More info button */
-
-.btn-more-info { 
-  color: #000000; 
-  background-color: #A8EEFF; 
-  border-color: #72ADA1; 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
 } 
  
 .btn-more-info:hover, 
@@ -454,8 +406,8 @@ fieldset[disabled] .btn-about.active {
 .btn-more-info.active, 
 .open .dropdown-toggle.btn-more-info { 
   color: #000000; 
-  background-color: #5DE8E1; 
-  border-color: #72ADA1; 
+  background-color: #C2C2C2; 
+  border-color: #999999; 
 } 
  
 .btn-more-info:active, 
@@ -479,11 +431,11 @@ fieldset[disabled] .btn-more-info:active,
 .btn-more-info.disabled.active, 
 .btn-more-info[disabled].active, 
 fieldset[disabled] .btn-more-info.active { 
-  background-color: #A8EEFF; 
-  border-color: #72ADA1; 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
 } 
  
 .btn-more-info .badge { 
-  color: #A8EEFF; 
+  color: #DEDEDE; 
   background-color: #000000; 
 }
