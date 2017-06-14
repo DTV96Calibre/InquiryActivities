@@ -13,6 +13,20 @@
 	<head>
 		<title>Carnot Engine</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+		<!-- jQuery dependencies -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+
+        <!-- Bootstrap: Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Bootstrap: Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Bootstrap: Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 		<link href="carnotstyle.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 		<script type="text/javascript" src="carnotAnimate.js"></script>
@@ -45,18 +59,18 @@
 			<h4 id="hotTempLabel">Hot Temperature</h4>
             <input id="hotTempInput" type="text" maxlength="10" />
             <select id="hotTempUnits">
-                <option id="hotUnitDefault" value="c" selected="selected">�C</option>
+                <option id="hotUnitDefault" value="c" selected="selected">&deg;C</option>
                 <option value="k">K</option>
-                <option value="f">�F</option>
+                <option value="f">&deg;F</option>
                 <option value="r">R</option>
             </select>
             
 			<h4 id="coldTempLabel">Cold Temperature</h4>
 			<input id="coldTempInput" type="text" maxlength="10" />
             <select id="coldTempUnits">
-                <option id="coldUnitDefault" value="c" selected="selected">�C</option>
+                <option id="coldUnitDefault" value="c" selected="selected">&deg;C</option>
                 <option value="k">K</option>
-                <option value="f">�F</option>
+                <option value="f">&deg;F</option>
                 <option value="r">R</option>
             </select>
             
@@ -72,17 +86,17 @@
             to which the mouseover events can be attached.
             -->
             <img id="cycleLeftHover" alt="" src="blank_img.png" class="tooltipTrigger" />
-            <textarea id="cycleLeftTooltip" class="tooltip" cols="25" rows="5">This is the isothermal expansion step, where 1000 kW of heat is turned into work. The temperature does not change during this step.</textarea>
+            <textarea id="cycleLeftTooltip" class="myTooltip" cols="25" rows="5">This is the isothermal expansion step, where 1000 kW of heat is turned into work. The temperature does not change during this step.</textarea>
             <img id="cycleTopHover" alt="" src="blank_img.png" class="tooltipTrigger" />
-            <textarea id="cycleTopTooltip" class="tooltip" cols="25" rows="5">This is the expansion step. Under ideal conditions, all of the expansion can be obtained as work, but with real components, some is lost through friction.</textarea>
+            <textarea id="cycleTopTooltip" class="myTooltip" cols="25" rows="5">This is the expansion step. Under ideal conditions, all of the expansion can be obtained as work, but with real components, some is lost through friction.</textarea>
             <img id="cycleRightHover" alt="" src="blank_img.png" class="tooltipTrigger" />
-            <textarea id="cycleRightTooltip" class="tooltip" cols="30" rows="5">This is the isothermal compression step, where the gas is compressed and excess heat is rejected to the cold reservoir. The temperature remains constant.</textarea>
+            <textarea id="cycleRightTooltip" class="myTooltip" cols="30" rows="5">This is the isothermal compression step, where the gas is compressed and excess heat is rejected to the cold reservoir. The temperature remains constant.</textarea>
             <img id="cycleBottomHover" alt="" src="blank_img.png" class="tooltipTrigger" />
-            <textarea id="cycleBottomTooltip" class="tooltip" cols="25" rows="5">This is the compression step. Under ideal conditions, all of the energy goes into compressing the gas, but with real components some is lost through friction.</textarea>
+            <textarea id="cycleBottomTooltip" class="myTooltip" cols="25" rows="5">This is the compression step. Under ideal conditions, all of the energy goes into compressing the gas, but with real components some is lost through friction.</textarea>
 			<img id="engineWindowHover" alt="" src="blank_img.png" class="tooltipTrigger" />
-			<textarea id="engineWindowTooltip" class="tooltip" cols="25" rows="5">In this window you can see how much work is being done by the weight of the object being lifted.</textarea>
+			<textarea id="engineWindowTooltip" class="myTooltip" cols="25" rows="5">In this window you can see how much work is being done by the weight of the object being lifted.</textarea>
 			<img id="idealGasHover" alt="" src="blank_img.png" class="tooltipTrigger" />
-			<textarea id="idealGasTooltip" class="tooltip" cols="25" rows="5">The working fluid in the cycle is an ideal gas. How "real" the cycle is comes from the use of a pump and turbine efficiency.</textarea>
+			<textarea id="idealGasTooltip" class="myTooltip" cols="25" rows="5">The working fluid in the cycle is an ideal gas. How "real" the cycle is comes from the use of a pump and turbine efficiency.</textarea>
 			<textarea id="hotTempTooltip" class="instructionTooltip" cols="25" rows="5">This is where the temperature for the heat source is set.  In a real steam-turbine system, this would be the temperature of the boiler / superheater.  In a Carnot system, the heat source and the working fluid are assumed to reach the same temperature, which would typically require an impractically long heat exchanger.</textarea>
 			<textArea id="coldTempTooltip" class="instructionTooltip" cols="25" rows="5">This is where the temperature for the heat sink is set.  In a real power plant, this is usually a condenser or cooling tower.  In a Carnot system, the heat-sink and the working fluid are assumed to reach the same temperature, which would typically require an impractically long heat exchanger.</textArea>
 			<textArea id="compSelectTooltip" class="instructionTooltip" cols="25" rows="5">Here you can set the level of friction / heat loss for the system.  A Carnot system is typically assumed to have zero frictional losses as well as zero heat losses to the environment in the compression and pumping steps.  In this system, you can add both friction and heat loss to observe the efficiency both in ideal and more realistic settings.</textArea>
@@ -105,9 +119,10 @@
 			<h4 id="thermEff"></h4>
 			<h4 id="triviaLabel">Efficiency Trivia</h4>
 			<textarea id="triviaArea" rows="5" cols="50" readonly="readonly"></textarea>
-            
-            <a href="" id="about">About this program</a>
-            <a href="" id="toggleTooltips">More info (off)</a>
+
+			<!-- Bootstrap buttons -->
+			<a href="javascript:" id="about" class="btn btn-success btn-sm">About this program</a>
+            <a href="javascript:" id="toggleTooltips" class="btn btn-danger btn-sm">More info (off)</a>
             
 		</div>
         
