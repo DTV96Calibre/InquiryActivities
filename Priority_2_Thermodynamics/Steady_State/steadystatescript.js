@@ -146,12 +146,12 @@ function init() {
 	numCoughDrops = 0;
 	
 	// Adds functionality to the buttons
-	$("#faucetFlowRate").live('change',getFlowRate);
-	$("#addDropButton").live('click', addCoughDrop);
-	$("#getMeasurementButton").live('click', getMeasurement);
-	$("#emptyBeakerButton").live('click', emptyBeakers);
-	$("#beakerSaturated").live('click', displaySaturatedText);
-	$("#about").live('click', displayAboutInfo);
+	$("#faucetFlowRate").on('change',getFlowRate);
+	$("#addDropButton").on('click', addCoughDrop);
+	$("#getMeasurementButton").on('click', getMeasurement);
+	$("#emptyBeakerButton").on('click', emptyBeakers);
+	$("#beakerSaturated").on('click', displaySaturatedText);
+	$("#about").on('click', displayAboutInfo);
 }
 
 /*
