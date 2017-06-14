@@ -6,6 +6,20 @@
  * (c) Margot Vigeant 2012
 */
 
+body
+{
+    background-color: #cda26f !important;
+    color: #000000;
+    font-weight: normal;
+}
+
+h1 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 32px;
+	color: #000000;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -413,17 +427,20 @@
 	position:absolute;
 	top:630px;
 	left:480px;
+	font-weight: normal;
 }
 #faucetFlowRateRange {
 	position:absolute;
 	top:655px;
 	left:570px;
 	width: 40px;
+	font-weight: normal;
 }
 #faucetFlowRateUnits {
 	position:absolute;
 	top:630px;
-	left:645px;	
+	left:645px;
+	font-weight: normal;
 }
 #getMeasurementButton {
 	position:absolute;
