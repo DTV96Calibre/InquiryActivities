@@ -11,23 +11,34 @@
 /**********Tag selectors************/
 
 body {
-	font-size:100%;
+	font-size:15px;
+	font-family: Arial;
 }
+
+h1 {
+	font-family: Garamond;
+	font-size: 32px;
+	font-weight: bold;
+}
+
 h4 {
 	margin:0px;
 	width:200px;
+	font-weight: bold;
+	font-family: "Times New Roman", Garamond;
+	font-size: 16px;
 }
+
 a {
 	font-size:0.80em;
 	color:#C00;
 }
+
 textarea {
-	font-size:0.75em;
+	font-size:0.85em;
 	font-family:sans-serif;
 	overflow:auto; /* Necessary to prevent IE from automatically putting scrollbars everywhere */
 }
-
-
 
 /**********Class selectors************/
 
@@ -47,16 +58,21 @@ textarea {
 .mask {
 	z-index:2;
 }
-.tooltip {
+.myTooltip {
 	position:absolute;
 	width:180px;
-	height:100px;
+	height:110px;
 	background-color:#FFC;
 	border-style:solid;
 	border-width:thin;
 	border-color:#000;
 	padding-left:1px;
 	z-index:3; /* Ensure the tooltip appears on top of all the images (except for tooltipTrigger images) */
+	/* Prevent browsers from automatically putting scrollbars everywhere */
+	overflow:hidden;
+	overflow-y: hidden;
+	overflow-x: hidden; 
+	line-height: normal;
 }
 .instructionTooltip {
 	position:absolute;
@@ -103,14 +119,17 @@ textarea {
 }
 #compSelLabel {
 	position:absolute;
-	left:235px;
+	left:245px;
 	top:15px;
 	width:200px;
 	font-size:0.80em;
+	font-family: "Times New Roman", Garamond;
+	font-weight:normal;
 }
 #compSelect {
 	position:absolute;
-	left:200px;
+	width:220px;
+	left:202px;
 	top:35px;
 }
 #compSelectTooltip {
@@ -119,18 +138,18 @@ textarea {
 }
 #hotTempLabel {
 	position:absolute;
-	left:5px;
+	left:17px;
 	top:145px;
 }
 #hotTempInput {
 	position:absolute;
-	left:5px;
+	left:17px;
 	top:170px;
 	width:100px;
 }
 #hotTempUnits {
 	position:absolute;
-	left:115px;
+	left:127px;
 	top:171px;
 }
 #hotTempTooltip {
@@ -331,7 +350,7 @@ textarea {
 #netWk {
 	position:absolute;
 	top:465px;
-	left:75px;
+	left:89px;
 	color:Blue;
 }
 #thermEffLabel {
@@ -341,7 +360,7 @@ textarea {
 #thermEff {
 	position:absolute;
 	top:490px;
-	left:140px;
+	left:159px;
 }
 #triviaLabel {
 	position:absolute;
@@ -364,7 +383,7 @@ textarea {
 }
 #toggleTooltips {
 	position:absolute;
-	top:550px;
+	top:530px;
 }
 #programInfo {
 	position:relative;
