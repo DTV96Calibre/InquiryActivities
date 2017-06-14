@@ -380,10 +380,12 @@ textarea {
 #about {
 	position:absolute;
 	top:570px;
+	left:17px;
 }
 #toggleTooltips {
 	position:absolute;
 	top:530px;
+	left:17px;
 }
 #programInfo {
 	position:relative;
