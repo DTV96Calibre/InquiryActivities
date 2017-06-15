@@ -10,15 +10,24 @@
 
 /**********Tag selectors************/
 
-body {
-	font-size:100%;
-}
 a {
 	font-size:0.80em;
 	color:#C00;
 }
 
+h1 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 32px;
+	color: #000000;
+}
 
+h3 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 18px;
+	color: #000000;
+}
 
 /**********Class selectors************/
 
@@ -26,9 +35,13 @@ a {
 	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
 	margin-left:auto;
 	margin-right:auto;
+	font-family: "Times New Roman";
+	font-size: 16px;
+	width:800px;
 }
 .text {
 	line-height:120%;
+	width:470px;
 }
 .tooltip {
 	position:absolute;
@@ -70,14 +83,17 @@ a {
 #submitP {
 	text-align:center;
 }
+
 #submitButton {
+	position:absolute;
+	left: 180px;
+	top: 230px;
 	width:100px;
 }
+
 #tryItTitle {
 	text-align:center;
 }
-
-
 
 /***** demoContainer and contents (contains all of the pictures, as well as experimentParameters and experimentResults)*******/
 
@@ -165,52 +181,64 @@ a {
 
 #bigBeakerSubstance {
 	position:absolute;
+	font-weight: normal;
 }
 #bigBeakerTemp {
 	position:absolute;
 	top:25px;
+	font-weight: normal;
 }
 #bigBeakerVolume {
 	position: absolute;
 	top:50px;
+	font-weight: normal;
 }
 #smallBeakerSubstanceLabel {
 	position:absolute;
 	left:380px;
+	font-weight: normal;
 }
 #smallBeakerSubstanceSelect {
 	position:absolute;
 	left:470px;
+	font-weight: normal;
 }
 #smallBeakerTempLabel {
 	position:absolute;
 	top:25px;
 	left:380px;
+	font-weight: normal;
 }
 #smallBeakerTempSelect {
 	position:absolute;
 	top:25px;
 	left:470px;
+	font-weight: normal;
 }
 #smallBeakerTempUnits {
 	position:absolute;
 	top:25px;
 	left:525px;
+	font-weight: normal;
 }
 #smallBeakerVolumeLabel {
 	position:absolute;
 	top:50px;
 	left:380px;
+	font-weight: normal;
 }
 #smallBeakerVolume {
 	position:absolute;
 	top:50px;
 	left:470px;
+	width: 100px;
+	font-weight: normal;
 }
 #smallBeakerConcentration {
 	position:absolute;
 	top:73px;
 	left:380px;
+	font-weight: normal;
 }
 
 

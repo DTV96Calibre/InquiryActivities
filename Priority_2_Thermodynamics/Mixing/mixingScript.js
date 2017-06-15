@@ -56,13 +56,13 @@ function init() {
 	// when the user actually activates the animation
 	generateZoomDots();
 
-	$("Mixing.html").on('click', "#submitButton", questionAnswered);
-	$("Mixing.html").on('change', "#smallBeakerSubstanceSelect", getSmallSubstance);
-	$("Mixing.html").on('change', "#smallBeakerTempSelect", getSmallTemp);
-	$("Mixing.html").on('click', "#zoomLink", showZoom);
-	$("Mixing.html").on('click', "#tryItButton", mix);
-	$("Mixing.html").on('click', "#toggleAnimations", toggleAnimations);
-	$("Mixing.html").on('click', "#about", displayAboutInfo);
+	$("#submitButton").on('click', questionAnswered);
+	$("#smallBeakerSubstanceSelect").on('change', getSmallSubstance);
+	$("#smallBeakerTempSelect").on('change', getSmallTemp);
+	$("#zoomLink").on('click', showZoom);
+	$("#tryItButton").on('click', mix);
+	$("#toggleAnimations").on('click', toggleAnimations);
+	$("#about").on('click', displayAboutInfo);
 }
 
 /*
