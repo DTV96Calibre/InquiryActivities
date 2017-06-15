@@ -34,7 +34,7 @@ function init() {
 	// Hide the instructions/info paragraph, which isn't supposed to show until after the initial "quiz"
 	// question is answered
 	$("#demoInstructions").hide();
-	
+
 	// Hide pieces of the demo that aren't supposed to be visible yet
 	$("#bigLiquid").hide();
 	$("#smallLiquid").hide();
@@ -47,22 +47,22 @@ function init() {
 	$("#zoomLink").hide();
 	$("#zoomInBackdrop").hide();
 	$("#zoomInfo").hide();
-	
+
 	// The "pouring" gif must be actually removed from the page, not just hidden, to ensure that the
 	// gif animation starts at the beginning when the image is added again
 	$("#smallBeakerPour").detach();
-	
+
 	// Creates the dots that represent particles in the "zoom"/particle animation so time isn't wasted doing that
 	// when the user actually activates the animation
 	generateZoomDots();
-	
-	$("#submitButton").live('click', questionAnswered);
-	$("#smallBeakerSubstanceSelect").live('change', getSmallSubstance);
-	$("#smallBeakerTempSelect").live('change', getSmallTemp);
-	$("#zoomLink").live('click', showZoom);
-	$("#tryItButton").live('click', mix);
-	$("#toggleAnimations").live('click', toggleAnimations);
-	$("#about").live('click', displayAboutInfo);
+
+	$("Mixing.html").on('click', "#submitButton", questionAnswered);
+	$("Mixing.html").on('change', "#smallBeakerSubstanceSelect", getSmallSubstance);
+	$("Mixing.html").on('change', "#smallBeakerTempSelect", getSmallTemp);
+	$("Mixing.html").on('click', "#zoomLink", showZoom);
+	$("Mixing.html").on('click', "#tryItButton", mix);
+	$("Mixing.html").on('click', "#toggleAnimations", toggleAnimations);
+	$("Mixing.html").on('click', "#about", displayAboutInfo);
 }
 
 /*
@@ -73,7 +73,7 @@ function init() {
 function questionAnswered(){
 	var answer = $("input[name='quiz']:checked").val(); // read in the selected value from the radio buttons
 	var responseText;
-		
+
 	if(answer=="a")
 		responseText = "You chose answer a) Higher.";
 	else if (answer=="b")
@@ -84,12 +84,12 @@ function questionAnswered(){
 		responseText = "You chose answer d) Not enough information.";
 	else
 		return; // If the user hasn't selected an answer, don't do anything
-		
+
 	// Resets the inputs to their default values, and otherwise resets the demo experiment
 	$("#defaultSmallSubstance").attr("selected","selected");
 	$("#defaultSmallTemp").attr("selected", "selected");
 	resetExperiment();
-	
+
 	$("#startQuestion").hide();
 	$("#responseText").html(responseText);
 	$("#responseText").show();
@@ -110,22 +110,22 @@ function resetExperiment() {
 	$("#zoomLink").hide();
 	$("#experimentResults").hide();
 	$("#tryItButton").html("Try it!");
-	
+
 	// Enable the "substance select" drop-down list
 	$("#smallBeakerSubstanceSelect").removeAttr("disabled");
 	// Read in the selected substance again to ensure other fields are enabled or disabled
 	// according to which substance is selected
 	getSmallSubstance();
-	
+
 	// Reset beaker pictures to show unmixed liquids
 	$("#eyedropper").hide();
 	$("#bigLiquid").css("background", "url('bigLiquid.png') 0 0");
 	$("#smallLiquid").show();
-	
+
 	// Show instructions
 	$("#tryItTitle").show();
 	$("#instructionsParagraph").html("Try mixing hot and cold water and see what happens to the entropy. You can also try mixing oil and water or dye and water.");
-	
+
 	// showZoom is in charge of resetting itself
 	if(zoomPlaying)
 		showZoom();
@@ -161,7 +161,7 @@ function displayAboutInfo(){
 */
 function getSmallSubstance() {
 	smallSubstance = $("#smallBeakerSubstanceSelect").val();
-	
+
 	// If the substance is water, enable the user to select the temperature.
 	// Otherwise, disable temperature selection and set the temperature (both on the screen and in the
 	// program) to 25.
@@ -175,7 +175,7 @@ function getSmallSubstance() {
 		$("#smallBeakerTempSelect").attr("disabled", "disabled");
 		smallTemp = 25;
 	}
-	
+
 	// If the substance is dye, change the volume to 1mL and display additional information about the concentration.
 	// Otherwise, set the volume to 100mL and hide concentration information.
 	if(smallSubstance=="dye") {
@@ -189,7 +189,7 @@ function getSmallSubstance() {
 		$("#smallBeakerVolume").html("100 mL");
 		smallVolume = 100;
 	}
-	
+
 	// Oil doesn't have any special conditions to set, but you still have to make sure it shows up in the
 	// picture of the small beaker
 	if(smallSubstance=="oil") {
@@ -221,28 +221,28 @@ function toggleAnimations() {
 		showAnimations = true;
 		$("#toggleAnimations").html("Disable animations");
 	}
-	
+
 	return false;
 }
 
 /*
  * Event Handler Function: mix
  * Called when the user clicks the "Try it!" / "Do another!" button
- * 
+ *
  * If an experiment is ready to be run, starts the appropriate animations (if animations are enabled) or sets the display to
  * the appropriate end state and calls the appropriate calculation function (depending on which substance is selected for the
  * small beaker). If an experiment has just been run, resets the demo to prepare for the next experiment.
 */
 function mix() {
-	
+
 	// If an experiment is ready to be run
 	if($("#tryItButton").html() == "Try it!") {
-		
+
 		// Disable experiment inputs until the experiment is reset (do it first to make sure they're
 		// disabled if/while the animations run)
 		$("#smallBeakerSubstanceSelect").attr("disabled", "disabled");
 		$("#smallBeakerTempSelect").attr("disabled", "disabled");
-		
+
 		if(smallSubstance=="water") {
 			if(showAnimations)
 				animateWater(); // no need to call mixWater if animations are on, because the animations will call it when they finish
@@ -284,7 +284,7 @@ function mix() {
 *************************************************************************
 */
 
-/* 
+/*
  * Function: mixWater
  * Performs the calculations appropriate to mixing hot water with cold water, and displays the results
 */
@@ -293,11 +293,11 @@ function mixWater() {
 	var hot = (smallTemp*1) + 273.15;
 	var cold = 25 + 273.15;
 	var mixed = (hot + cold) / 2; // the final temperature of the mixture
-	
+
 	var hotEntropyChange;
 	var coldEntropyChange;
 	var totalEntropyChange;
-	
+
 	// If the two beakers of water are the same temperature, calculate the entropy change from the change
 	// in surface area
 	if(hot==cold) {
@@ -306,7 +306,7 @@ function mixWater() {
 		totalEntropyChange = hotEntropyChange + coldEntropyChange;
 		mixed = mixed - 273.15; //convert mixture temperature back to celsius
 		mixed = mixed + totalEntropyChange*298.15/(4.18*200);
-		
+
 		$("#instructionsParagraph").html("The temperatures were the same, so the entropy does not change.  However, to be " +
 										 "absolutely rigorous, even changing the surface area of the water causes a change " +
 										 "in surface energy, which results in a small change in entropy.");
@@ -322,7 +322,7 @@ function mixWater() {
 		hotEntropyChange = 4.18 * 100 * Math.log(mixed/hot);
 		coldEntropyChange = 4.18 * 100 * Math.log(mixed/cold);
 		totalEntropyChange = hotEntropyChange + coldEntropyChange;
-		
+
 		$("#instructionsParagraph").html("The entropy change involved in a change in temperature is proportional to the " +
 										 "natural log of the ratio of the final and initial temperatures.  The hot water " +
 										 "loses less entropy than the cold water gains.");
@@ -333,12 +333,12 @@ function mixWater() {
 		$("#otherResult").show();
 		$("#otherResult").val(mixed + " \xB0C");
 	}
-	
+
 	$("#bigBeakerEntropyChangeLabel").html("Cold Water<br />Entropy Change:");
 	$("#smallBeakerEntropyChangeLabel").html("Hot Water<br />Entropy Change:");
 	$("#otherResultLabel").show();
 	$("#otherResultLabel").html("Final Temperature:");
-	
+
 	$("#zoomLink").html("Click here to see<br />how water mixes");
 	$("#zoomLink").show();
 	$("#responseText").hide();
@@ -348,7 +348,7 @@ function mixWater() {
 	$("#tryItButton").html("Do another!");
 }
 
-/* 
+/*
  * Function: mixOil
  * Performs the calculations appropriate to mixing oil with water, and displays the results
 */
@@ -366,7 +366,7 @@ function mixOil() {
 	$("#otherResult").hide();
 	$("#instructionsParagraph").html("The oil and water do not mix, but there is a small amount of entropy involved " +
 									 "in creating and destroying surface and interfacial boundaries.");
-	
+
 	$("#responseText").hide();
 	$("#tryItTitle").hide();
 	$("#experimentResults").show();
@@ -374,7 +374,7 @@ function mixOil() {
 	$("#tryItButton").html("Do another!");
 }
 
-/* 
+/*
  * Function: mixDye
  * Performs the calculations appropriate to mixing dye with water, and displays the results
 */
@@ -382,7 +382,7 @@ function mixDye() {
 	var dyeEntropyChange = -.001*8.314*Math.log(.001/(100/18.02+.001));
 	var waterEntropyChange = -100/18.02*8.314*Math.log((100/18.02)/(100/18.02+.001));
 	var totalEntropyChange = dyeEntropyChange + waterEntropyChange;
-	
+
 	$("#bigBeakerEntropyChangeLabel").html("Water<br />Entropy Change:");
 	$("#bigBeakerEntropyChange").val(waterEntropyChange.toFixed(3) + " J/K");
 	$("#smallBeakerEntropyChangeLabel").html("Dye<br />Entropy Change:");
@@ -393,7 +393,7 @@ function mixDye() {
 	$("#otherResult").show();
 	$("#otherResult").val("0.01 M");
 	$("#instructionsParagraph").html("When a dye is mixed with water, the change in concentration results in a change in entropy.");
-	
+
 	$("#zoomLink").html("Click here to see<br />how the dye mixes");
 	$("#zoomLink").show();
 	$("#responseText").hide();
@@ -440,14 +440,14 @@ function moveWaterBeaker() {
 function pourWater() {
 	$("#smallBeaker").hide();
 	$("#smallLiquid").hide();
-	
+
 	// The gif must be added and removed from the page, rather than just shown and hidden, to ensure
 	// that the animation always starts from the beginning.
 	$("#smallLiquid").after('<img id="smallBeakerPour" src="blank_img.png" />');
-	
+
 	// Align the gif so that the "water pouring" animation shows (as opposed to the "oil pouring" animation)
 	$("#smallBeakerPour").css("background", "url('smallBeakerPour2.gif') -150px 0");
-	
+
 	// "Animate" the "motion" of the gif to the location where it already is for 500 milliseconds (essentially,
 	// do nothing for 500 milliseconds)--this is just to give the gif's internal animation time to run
 	// before moving on to the next stage
@@ -463,7 +463,7 @@ function pourWater() {
 function changeBigBeakerWater() {
 	// Align the bigLiquid picture so that the picture representing "mixed water" shows
 	$("#bigLiquid").css("background", "url('bigLiquid.png') 0 -65px");
-	
+
 	// "Move" the gif to where it already is; essentially, do nothing for 1 second while the gif's
 	// internal animation completes
 	$("#smallBeakerPour").animate({top:"-99px"}, 1000, "linear", finishAnimateWater);
@@ -494,7 +494,7 @@ function finishAnimateWater() {
  * 			  finishAnimateOil
  *
  * Animate the various stages of pouring oil from the small beaker into the large beaker. These function
- * the same way as animateWater, moveWaterBeaker, etc. 
+ * the same way as animateWater, moveWaterBeaker, etc.
 */
 function animateOil() {
 	$("#tryItButton").attr("disabled", "disabled");
@@ -618,14 +618,14 @@ function generateZoomDots() {
 	var zoomHTML = '<div id="zoomDiv">';
 	var coldHTML = '<img id="cold1" class="coldDot" src="blank_img.png" />';
 	var hotHTML = '<img id="hot1" class="hotDot" src="blank_img.png" />';
-	
+
 	// The source image is blank_img.png so that the color of the dots can be manipulated by
 	// simply changing the background color via CSS
 	for(var i=2; i<=100; i++) {
 		coldHTML += '<img id="' + "cold" + i + '" class="coldDot" src="blank_img.png" />';
 		hotHTML += '<img id="' + "hot" + i + '" class="hotDot" src="blank_img.png" />';
 	}
-	
+
 	zoomHTML += coldHTML + hotHTML + '</div>';
 	$("#zoomInBackdrop").after(zoomHTML);
 	$("#zoomDiv").hide();
@@ -659,11 +659,11 @@ function showZoom() {
 			$("#hot1").css("top", "1px");
 			$("#hot1").css("left", "11px");
 			$("#zoomInfo").val("The hot and cold water mixes through diffusion. Can diffusion unmix the water?");
-			
+
 			// All of the other dots have their positions chosen randomly, with blue dots on the left
 			// and red dots on the right.
 			for (var i=2; i<=100; i++) {
-				
+
 				randomizeColdPosition("#cold" + i);
 				randomizeHotPosition("#hot" + i);
 			}
@@ -675,7 +675,7 @@ function showZoom() {
 			$(".hotDot").css({"background-color":"green", left:"0px", top:"0px"});
 			$("#zoomInfo").val("The individual molecules of dye are mixed by Brownian (random) motion. Can the process be reversed?");
 		}
-		
+
 		// Starting the animation itself is the same regardless of the substance
 		zoomPlaying = true;
 		$("#zoomInfo").show();
@@ -683,7 +683,7 @@ function showZoom() {
 		$("#zoomDiv").show();
 		animateZoomDots();
 	}
-	
+
 	return false;
 }
 
@@ -699,7 +699,7 @@ function randomizeColdPosition(name) {
 	// will evaluate to true.
 	var x = 200;
 	var y = 150;
-	
+
 	// 4688 is approximately equal to r^2 of the circle. If x^2 + y^2 = r^2,
 	// the point is outside of the circle, so generate random coordinates until
 	// the point is inside the circle.
@@ -711,10 +711,10 @@ function randomizeColdPosition(name) {
 			y = y*-1;
 		}
 	}
-	
+
 	x = x + "px";
 	y = y + "px";
-	
+
 	$(name).css("top", y);
 	$(name).css("left", x);
 }
@@ -728,7 +728,7 @@ function randomizeColdPosition(name) {
 function randomizeHotPosition(name) {
 	var x = 200;
 	var y = 150;
-	
+
 	while( (Math.pow(x, 2)+Math.pow(y, 2)) > 2250) {
 		// x must be positive to put the particle on the right side
 		x = Math.random()*100;
@@ -737,10 +737,10 @@ function randomizeHotPosition(name) {
 			y = y*-1;
 		}
 	}
-	
+
 	x = x + "px";
 	y = y + "px";
-	
+
 	$(name).css("top", y);
 	$(name).css("left", x);
 }
@@ -760,56 +760,56 @@ function animateZoomDots() {
 	// Use this flag to stop the function from indefinitely calling itself and stop the animation
 	if(!zoomPlaying)
 		return;
-	
+
 	var x, y, xmove, ymove, name, ind;
-	
+
 	for(var i=1; i<=100; i++) {
 		// Randomly move the "cold" dot first
 		name = "#cold" + i;
-		
+
 		// Read/parse the CSS "left" value to determine x-coordinate
 		x = $(name).css("left");
 		ind = x.indexOf("p");
 		x = x.substring(0, ind);
-		
+
 		// Read/parse the CSS "top" value to determine y-coordinate
 		y = $(name).css("top");
 		ind = y.indexOf("p");
 		y = y.substring(0, ind);
-		
+
 		// Randomly determine move distance and direction and assign new coordinates
 		xmove = (x*1) + determineXMove(x, y);
 		ymove = (y*1) + determineYMove(x, y);
 		xmove = xmove + "px";
 		ymove = ymove + "px";
 		$(name).css({left:xmove, top:ymove});
-		
+
 		// Randomly move the "hot" dot next
 		name = "#hot" + i;
-		
+
 		// Read/parse the CSS "left" value to determine x-coordinate
 		x = $(name).css("left");
 		ind = x.indexOf("p");
 		x = x.substring(0, ind);
-		
+
 		// Read/parse the CSS "top" value to determine y-coordinate
 		y = $(name).css("top");
 		ind = y.indexOf("p");
 		y = y.substring(0, ind);
-		
+
 		// Randomly determine move distance and direction and assign new coordinates
 		xmove = (x*1) + determineXMove(x, y);
 		ymove = (y*1) + determineYMove(x, y);
 		xmove = xmove + "px";
 		ymove = ymove + "px";
-		
+
 		// Use animate() instead of css() to assign the new location for the last dot,
 		// because animate() will take a callback, allowing this function to indirectly
 		// call itself indefinitely without blocking all the other code in an infinite loop.
 		if(i==100) {
 			$(name).animate({left:xmove, top:ymove}, 5, "linear", animateZoomDots);
 		}
-		else {		
+		else {
 			$(name).css({left:xmove, top:ymove});
 		}
 	}
@@ -821,13 +821,13 @@ function animateZoomDots() {
  * to move a particle horizontally. The arguments x and y represent the current
  * location of the particle; these are only used to ensure that the determined
  * movement will not cause the particle to go outside of the circle.
- * 
+ *
  * Returns the number representing distance and direction of the move, NOT
  * a new x-coordinate for the particle.
 */
 function determineXMove(x, y) {
 	var xmove;
-	
+
 	// If the dot is already at the edge of the circle, move it towards the
 	// middle of the circle
 	if (Math.pow((x), 2)+Math.pow((y), 2)>2250) {
@@ -843,7 +843,7 @@ function determineXMove(x, y) {
 			xmove = xmove*-1;
 		}
 	}
-	
+
 	return xmove;
 }
 
@@ -853,13 +853,13 @@ function determineXMove(x, y) {
  * to move a particle vertically. The arguments x and y represent the current
  * location of the particle; these are only used to ensure that the determined
  * movement will not cause the particle to go outside of the circle.
- * 
+ *
  * Returns the number representing distance and direction of the move, NOT
  * a new y-coordinate for the particle.
 */
 function determineYMove(x, y) {
 	var ymove;
-	
+
 	// If the dot is already at the edge of the circle, move it towards the
 	// middle of the circle
 	if (Math.pow((x), 2)+Math.pow((y), 2)>2250) {
@@ -875,6 +875,6 @@ function determineYMove(x, y) {
 			ymove = ymove*-1;
 		}
 	}
-	
+
 	return ymove;
 }

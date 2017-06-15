@@ -13,8 +13,18 @@
     <head>
         <title>Entropy of Mixing</title>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <!-- Bootstrap: Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Bootstrap: Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Bootstrap: Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
         <link href="mixingstyle.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 		<script type="text/javascript" src="mixingScript.js"></script>
 		<script type="text/javascript">
 			<!--
@@ -27,14 +37,14 @@
 			-->
 		</script>
     </head>
-    
+
     <body>
         <noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
-            
+
         <h1 align="center">Entropy of Mixing Activity</h1>
-        
+
         <div class="container" id="textContainer">
-        
+
         	<span id="startQuestion">
                 <h3>Question:</h3>
                 <p class="text">
@@ -45,11 +55,11 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="quiz" name="quiz" value="b" />The same<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="quiz" name="quiz" value="c" />Lower<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="quiz" name="quiz" value="d" />Not enough information<br />
-                
+
                 <p id="submitP"><button id="submitButton" value="submit">Submit</button></p>
             </span>
-            
-            
+
+
             <span id="demoInstructions">
             	<p id="responseText"></p>
             	<h3 id="tryItTitle">Is that the right answer? Try it out!</h3>
@@ -58,9 +68,9 @@
                     or dye and water.
                 </p>
             </span>
-            
+
         </div>
-        
+
         <div class="container" id="demoContainer">
         	<img id="table" src="table.png" />
             <img id="bigBeaker" src="bigBeaker.png" />
@@ -70,13 +80,13 @@
             <img id="smallBeakerPour" src="blank_img.png" />
             <img id="eyedropper" src="eyedropper.png" />
             <img id="dyeDrops" src="dyeDrops.png" />
-            
-            
+
+
 			<div id="experimentParameters">
 				<label id="bigBeakerSubstance">Substance:   Water</label>
 				<label id="bigBeakerTemp">Temperature:   25 &deg;C</label>
 				<label id="bigBeakerVolume">Volume:   100 mL</label>
-				
+
 				<label id="smallBeakerSubstanceLabel">Substance:   </label>
 				<select id="smallBeakerSubstanceSelect">
 					<option id="defaultSmallSubstance" value="water">Water</option>
@@ -107,34 +117,37 @@
 				<label id="smallBeakerVolume">100 mL</label>
 				<label id="smallBeakerConcentration">Concentration: 1M</label>
 			</div>
-            
-            
+
+
             <div id="experimentResults">
             	<label id="bigBeakerEntropyChangeLabel"></label>
                 <input type="text" id="bigBeakerEntropyChange" disabled="disabled" />
-                
+
                 <label id="smallBeakerEntropyChangeLabel"></label>
                 <input type="text" id="smallBeakerEntropyChange" disabled="disabled" />
-                
+
                 <label id="totalEntropyChangeLabel">Total Entropy Change:</label>
                 <input type="text" id="totalEntropyChange" disabled="disabled" />
-                
+
                 <label id="otherResultLabel">Final Temperature:</label>
                 <input type="text" id="otherResult" disabled="disabled"  />
             </div>
-            
-            
+
+
             <img id="zoomInBackdrop" src="zoomInBackdrop3.png" />
             <textarea id="zoomInfo" class="tooltip" cols="25" rows="5" readonly="readonly"></textarea>
             <a href="" id="zoomLink"></a>
-            
-            
-			<button id="tryItButton" value="tryit">Try it!</button>
+
+
+			<!-- <button id="tryItButton" value="tryit">Try it!</button>
             <a href="" id="toggleAnimations">Disable animations</a>
-            <a href="" id="about">About this program</a>
-            
+            <a href="" id="about">About this program</a> -->
+            <!-- Bootstrap buttons -->)
+            <a href="javascript:" id="toggleAnimations" class="btn btn-info btn-md" value="toggleAnimations">Toggle animations</a>
+            <a href="javascript:" id="about" class="btn btn-default btn-md" value="info"><span class="glyphicon glyphicon-info-sign"></span></a>
+
         </div>
-        
+
         <p align="center" id="programInfo">
 		(c) Margot Vigeant 2011
 		<br /><br />
