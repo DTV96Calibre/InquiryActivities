@@ -7,7 +7,6 @@
  * (c) Margot Vigeant 2011
 */
 
-
 /*
  * This file makes use of the following libraries:
  * JQuery libraries (http://jquery.com/)
@@ -66,8 +65,8 @@ function init() {
 	
 	detectiPad();
 	
-	$("#continueLink").live('click', openSim);
-	$("#pistonPosition").live('change', positionTextFieldChanged);
+	$("#continueLink").on('click', openSim);
+	$("#pistonPosition").on('change', positionTextFieldChanged);
 	// Set up drag-and-drop for normal browsers. If the user is on an iPad this will not detect anything (but won't break anything either)
 	$("#slidingPiston").draggable( {containment:'parent', drag:pistonDragged, stop:pistonDragged} );
 	
@@ -76,14 +75,14 @@ function init() {
 		slidingPistoniPad = new webkit_draggable('slidingPiston', {onMove:pistonDraggediPad, onEnd:pistonDraggediPad});
 	}
 	
-	$("#heatSourceTemp").live('change', getHeatSourceTemp);
-	$(".stepType").live('click', getStepType);
-	$("#saveStepButton").live('click', saveStep);
-	$("#resetButton").live('click', resetAll);
-	$("#finishCycleButton").live('click', closeCyclePressed);
-	$("#about").live('click', displayAboutInfo);
-	$("#instructions").live('click', displayInstructions);
-	$("#toggleTooltips").live('click', toggleTooltips);
+	$("#heatSourceTemp").on('change', getHeatSourceTemp);
+	$(".stepType").on('click', getStepType);
+	$("#saveStepButton").on('click', saveStep);
+	$("#resetButton").on('click', resetAll);
+	$("#finishCycleButton").on('click', closeCyclePressed);
+	$("#about").on('click', displayAboutInfo);
+	$("#instructions").on('click', displayInstructions);
+	$("#toggleTooltips").on('click', toggleTooltips);
 }
 
 
@@ -259,22 +258,21 @@ function closeCyclePressed() {
 
 function displayInstructions() {
 	alert("Instructions:\n\n" +
-		  "Try to create an engine (or heat pump) step by step. See how\n" +
+		  "Try to create an engine (or heat pump) step by step. See how " +
 		  "efficient you can be!\n\n" +
-		  "For each step in the cycle, choose a thermodynamic process and adjust\n" +
-		  "the temperature and volume of the system by typing into the input\n" +
-		  "boxes or dragging the piston. Once you have finished changing the\n" +
-		  "state of the system, click \"Save Step\" to record the state change and\n" +
-		  "add that step to the cycle. Look in the box to the left of the buttons\n" +
+		  "For each step in the cycle, choose a thermodynamic process and adjust " +
+		  "the temperature and volume of the system by typing into the input " +
+		  "boxes or dragging the piston. Once you have finished changing the " +
+		  "state of the system, click \"Save Step\" to record the state change and " +
+		  "add that step to the cycle. Look in the box to the left of the buttons " +
 		  "to see the steps in your cycle so far.\n\n" +
-		  "Once you have completed a cycle and returned the system to its\n" +
-		  "initial state, click the \"Finish Cycle\" button to calculate the cycle\n" +
-		  "efficiency. If you click \"Finish Cycle\" when at least one of the\n" +
-		  "parameters (pressure, entropy, temperature, volume) has returned to its\n" +
-		  "starting value, the simulation will calculate the last step of the cycle\n" +
+		  "Once you have completed a cycle and returned the system to its " +
+		  "initial state, click the \"Finish Cycle\" button to calculate the cycle" +
+		  "efficiency. If you click \"Finish Cycle\" when at least one of the " +
+		  "parameters (pressure, entropy, temperature, volume) has returned to its " +
+		  "starting value, the simulation will calculate the last step of the cycle " +
 		  "automatically.\n\n" +
-		  "Click the \"Reset\" button to clear your cycle and start over. Click\n" +
-		  "\"Enable tooltips\" for more information.");
+		  "Click the \"Reset\" button to clear your cycle and start over.");
 	
 	return false;
 }
@@ -289,13 +287,13 @@ function toggleTooltips() {
  * Displays a dialog box containing information about the program when the user clicks the link labeled "About this program"
 */
 function displayAboutInfo(){
-	alert("This program was created under the direction of Dr. Margot Vigeant at \n" +
-		  "Bucknell University. It was initially developed in Flash by Gavin \n" +
+	alert("This program was created under the direction of Dr. Margot Vigeant at " +
+		  "Bucknell University. It was initially developed in Flash by Gavin " +
 		  "MacInnes, and was adapted to Javascript by Emily Ehrenberger in 2011.\n\n" +
-		  "The development of this program was funded by the National Science\n" +
+		  "The development of this program was funded by the National Science " +
 		  "Foundation Grant DUE-0442234 (2009) and DUE-0717536 (2011).\n\n" +
 		  "Address any questions or comments to mvigeant@bucknell.edu.\n\n" +
-		  "                                                Copyright.");
+		  "\u00A9 Margot Vigeant 2011");
 	return false;
 }
 
@@ -1023,7 +1021,7 @@ function calculateCycleStats() {
 		cycleType = determineEngineType();
 	}
 	else {
-		$("#cycleInfo").val($("#cycleInfo").val() + "You've created an engine with a net work of 0! Your engine does nothing.");
+		$("#cycleInfo").val($("#cycleInfo").val() + "You've created an engine with a net work of 0! Your engine does nothing.\n");
 		return;
 	}
 	

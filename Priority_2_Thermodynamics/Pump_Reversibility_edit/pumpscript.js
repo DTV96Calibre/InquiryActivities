@@ -210,13 +210,13 @@ function runPump() {
  * Displays a dialog box containing information about the program when the user clicks the link labeled "About this program"
 */
 function displayAboutInfo(){
-	alert("This program was created by Emily Ehrenberger under the direction of Dr.\n" +
-		  "Margot Vigeant Bucknell University in 2012.\n\n" +
-		  "The development of this program was funded by the National Science\n" +
+	alert("This program was created by Emily Ehrenberger under the direction of Dr. " +
+		  "Margot Vigeant, Bucknell University Department of Chemical Engineering in 2012.\n\n" +
+		  "The development of this program was funded by the National Science " +
 		  "Foundation Grant DUE-0717536 (2011).\n\n" +
 		  "The simulated pump was based on data from Gould Pumps Industrial Products.\n\n" +
 		  "Address any questions or comments to mvigeant@bucknell.edu.\n\n" +
-		  "                                                Copyright.");
+		  "\u00A9 Margot Vigeant 2012");
 	return false;
 }
 

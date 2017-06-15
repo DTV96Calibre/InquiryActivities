@@ -132,18 +132,24 @@ h1 {
 }
 #runButton {
 	position:absolute;
-	top:235px;
+	top:245px;
 	left:100px;
-}
-#skipButton {
-  position:absolute;
-  top:270px;
-  left:100px
 }
 #resetButton {
 	position:absolute;
-	top:305px;
-	left:100px;
+	top:245px;
+	left:180px;
+	width:65px;
+}
+#skipButton {
+  position:absolute;
+  top:280px;
+  left:100px
+}
+#about {
+	position:absolute;
+	top:280px;
+	left:205px;
 }
 
 /**********Picture / animation components************/
@@ -256,57 +262,4 @@ h1 {
 	position:absolute;
 	top:650px;
 	left:-20px;
-}
-
-#about {
-	position:absolute;
-	top:500px;
-	left:100px;
-}
-
-/* Custom Bootstrap button class */
-.btn-about, .btn-utility { 
-  color: #000000; 
-  background-color: #DEDEDE; 
-  border-color: #999999; 
-} 
- 
-.btn-utility:hover, 
-.btn-utility:focus, 
-.btn-utility:active, 
-.btn-utility.active, 
-.open .dropdown-toggle.btn-utility { 
-  color: #000000; 
-  background-color: #C2C2C2; 
-  border-color: #999999; 
-} 
- 
-.btn-utility:active, 
-.btn-utility.active, 
-.open .dropdown-toggle.btn-utility { 
-  background-image: none; 
-} 
- 
-.btn-utility.disabled, 
-.btn-utility[disabled], 
-fieldset[disabled] .btn-utility, 
-.btn-utility.disabled:hover, 
-.btn-utility[disabled]:hover, 
-fieldset[disabled] .btn-utility:hover, 
-.btn-utility.disabled:focus, 
-.btn-utility[disabled]:focus, 
-fieldset[disabled] .btn-utility:focus, 
-.btn-utility.disabled:active, 
-.btn-utility[disabled]:active, 
-fieldset[disabled] .btn-utility:active, 
-.btn-utility.disabled.active, 
-.btn-utility[disabled].active, 
-fieldset[disabled] .btn-utility.active { 
-  background-color: #DEDEDE; 
-  border-color: #999999; 
-} 
- 
-.btn-utility .badge { 
-  color: #DEDEDE; 
-  background-color: #000000; 
 }

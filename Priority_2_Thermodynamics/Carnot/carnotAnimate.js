@@ -313,10 +313,11 @@ function displayAboutInfo(){
 		  "Foundation Grant DUE-0442234 (2009) and DUE-0717536 (2011).\n\n" +
 		  "Address any questions or comments to mvigeant@bucknell.edu.\n\n" +
 		  "                                                Copyright.");*/
-	alert("This program was created under the direction of Dr. Margot Vigeant at Bucknell University. It was developed in Flash by " +
-		"Gavin MacInnes in 2009, and was adapted to Javascript by Emily Ehrenberger in 2011.\n\n" +
-		  "The development of this program was funded by the National Science Foundation Grant DUE-0442234 (2009) and DUE-0717536 (2011).\n\n" +
-		  "Address any questions or comments to mvigeant@bucknell.edu\n\nCopyright.");
+	alert("This program was created under the direction of Dr. Margot Vigeant, Bucknell University Department of Chemical " +
+		" Engineering. It was developed in Flash by Gavin MacInnes in 2009, and was adapted to Javascript by Emily " +
+		"Ehrenberger in 2011.\n\n The development of this program was funded by the National Science Foundation Grant " +
+		"DUE-0442234 (2009) and DUE-0717536 (2011).\n\n Address any questions or comments to mvigeant@bucknell.edu\n\n" +
+		"\u00A9 Margot Vigeant 2011.");
 	return false;
 }
 

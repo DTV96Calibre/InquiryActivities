@@ -14,9 +14,21 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>Thermodynamic Cycle Modeler</title>
+
+		<!-- jQuery dependencies -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+
+        <!-- Bootstrap: Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Bootstrap: Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Bootstrap: Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 		<link href="cyclestyle.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="lib/webkitdragdrop.js"></script><!-- Plugin downloaded from gotProject http://www.gotproject.com/blog/post2.html-->
 		<script type="text/javascript" src="lib/raphael-min.js"></script><!-- Plugin downloaded from raphaeljs.com -->
 		<script type="text/javascript" src="lib/g.raphael-min.js"></script><!-- Plugin downloaded from g.raphaeljs.com -->
@@ -98,24 +110,16 @@
 			
 			<label id="cycleStepsLabel">Cycle Steps</label>
 			<textarea id="cycleSteps" cols="25" rows="10" readonly="readonly"></textarea>
-			<button id="saveStepButton">Save Step</button>
-			<button id="finishCycleButton">Finish Cycle</button>
-			<button id="resetButton">Reset</button>
-			<a href="" id="instructions">Instructions</a>
-			<a href="" id="toggleTooltips">Enable tooltips</a>
-			<a href="" id="about">About this program</a>
+
+			<!-- Bootstrap buttons -->
+		    <a href="javascript:" id="saveStepButton" class="btn btn-success btn-sm">Save Step</a>
+		    <a href="javascript:" id="finishCycleButton" class="btn btn-warning btn-sm">Finish Cycle</a>
+		    <a href="javascript:" id="resetButton" class="btn btn-danger btn-sm">Reset</a>
+		    <a href="javascript:" id="instructions" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
+		    <a href="javascript:" id="about" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
+
 			<textarea id="cycleInfo" cols="25" rows="10" readonly="readonly"></textarea>
-		</div>
-		
-		<p align="center" id="programInfo">
-		(c) Margot Vigeant 2011
-		<br /><br />
-		Produced through the efforts of Gavin MacInnes and Emily Ehrenberger
-		<br /><br />
-		Supported by NSF DUE-0442234 (2006) and NSF DUE-0717536 (2011)
-        <br /><br />
-        Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
-		</p>
-		
+			
+		</div>		
 	</body>
 </html>

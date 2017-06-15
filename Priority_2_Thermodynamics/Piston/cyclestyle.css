@@ -1,6 +1,17 @@
 body {
-	font-size:100%;
+	font-family: "Times New Roman";
+	font-size: 16px;
+	color: #000000;
+	line-height: 100%;
 }
+
+h1 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 32px;
+	color: #000000;
+}
+
 textarea {
 	font-size:0.8em;
 	font-family:sans-serif;
@@ -8,6 +19,10 @@ textarea {
 	line-height:150%;
 }
 
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.5em;
+}
 
 .container {
 	position:relative; /* Must have non-static positioning so other elements can be absolutely positioned relative to the container */
@@ -79,7 +94,7 @@ textarea {
 }
 #cycleIntroLabel {
 	position:absolute;
-	left:575px;
+	left:590px;
 	top:25px;
 	height:296px;
 	width:175px;
@@ -130,21 +145,20 @@ textarea {
 	top:180px;
 }
 
-
-
 #stepDetailsDiv {
 	position:absolute;
 	top:-5px;
 	left:130px;
-	height:165px;
-	width:285px;
+	height:190px;
+	width:315px;
 	border-style:solid;
 	border-width:thin;
 	padding:10px;
+	font-weight: normal;
 }
 #stepDetailsLabel {
 	position:absolute;
-	top:-16px;
+	top:-13px;
 	left:224px;
 	padding-left:5px;
 	padding-right:5px;
@@ -160,29 +174,31 @@ textarea {
 }
 #pistonPosition {
 	position:absolute;
-	left:130px;
-	width:30px;
+	left:134px;
+	width:35px;
 }
 #pistonPositionUnits {
 	position:absolute;
 	left:175px;
+	font-weight: normal;
 }
 #heatSourceTempLabel {
 	position:absolute;
-	top:35px;
+	top:40px;
 	font-weight:bold;
 	font-size:0.9em;
 }
 #heatSourceTemp {
 	position:absolute;
-	left:130px;
+	left:134px;
 	top:35px;
-	width:30px;
+	width:35px;
 }
 #heatSourceTempUnits {
 	position:absolute;
 	left:175px;
-	top:35px;
+	top:40px;
+	font-weight: normal;
 }
 #stepTypeDiv {
 	position:absolute;
@@ -250,11 +266,13 @@ textarea {
 	top:210px;
 	width:55px;
 	text-align:right;
+	font-weight: normal;
 }
 #gasPressureUnits {
 	position:absolute;
 	left:195px;
 	top:210px;
+	font-weight: normal;
 }
 
 #gasTempLabel {
@@ -269,11 +287,13 @@ textarea {
 	top:210px;
 	width:55px;
 	text-align:right;
+	font-weight: normal;
 }
 #gasTempUnits {
 	position:absolute;
 	left:305px;
 	top:210px;
+	font-weight: normal;
 }
 
 
@@ -289,61 +309,49 @@ textarea {
 	position:absolute;
 	top:370px;
 	width:325px;
-	height:150px;
+	height:140px;
 	color:#060;
 	font-size:0.75em;
 }
 #saveStepButton {
 	position:absolute;
 	top:370px;
-	left:345px;
+	left:348px;
 	width:100px;
 }
 #finishCycleButton {
 	position:absolute;
 	top:405px;
-	left:345px;
+	left:348px;
 	width:100px;
 }
 #resetButton {
 	position:absolute;
 	top:440px;
-	left:345px;
+	left:348px;
 	width:100px;
 }
 #instructions {
 	position:absolute;
-	top:470px;
-	left:340px;
-	width:110px;
+	top:475px;
+	left:348px;
+	width:47px;
 	text-align:center;
-	font-size:0.80em;
-	color:#C00;
-}
-#toggleTooltips {
-	position:absolute;
-	top:491px;
-	left:340px;
-	width:110px;
-	text-align:center;
-	font-size:0.80em;
-	color:#C00;
 }
 #about {
 	position:absolute;
-	top:520px;
-	left:340px;
-	width:110px;
+	top:475px;
+	left:401px;
+	width:47px;
 	text-align:center;
-	font-size:0.80em;
-	color:#C00;
 }
+
 #cycleInfo {
 	position:absolute;
 	top:370px;
 	left:455px;
 	width:325px;
-	height:150px;
+	height:140px;
 	color:red;
 }
 
@@ -351,4 +359,51 @@ textarea {
 	position:absolute;
 	top:650px;
 	left:275px;
+}
+
+/* Custom Bootstrap button class */
+.btn-utility { 
+  color: #000000; 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility:hover, 
+.btn-utility:focus, 
+.btn-utility:active, 
+.btn-utility.active, 
+.open .dropdown-toggle.btn-utility { 
+  color: #000000; 
+  background-color: #C2C2C2; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility:active, 
+.btn-utility.active, 
+.open .dropdown-toggle.btn-utility { 
+  background-image: none; 
+} 
+ 
+.btn-utility.disabled, 
+.btn-utility[disabled], 
+fieldset[disabled] .btn-utility, 
+.btn-utility.disabled:hover, 
+.btn-utility[disabled]:hover, 
+fieldset[disabled] .btn-utility:hover, 
+.btn-utility.disabled:focus, 
+.btn-utility[disabled]:focus, 
+fieldset[disabled] .btn-utility:focus, 
+.btn-utility.disabled:active, 
+.btn-utility[disabled]:active, 
+fieldset[disabled] .btn-utility:active, 
+.btn-utility.disabled.active, 
+.btn-utility[disabled].active, 
+fieldset[disabled] .btn-utility.active { 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility .badge { 
+  color: #DEDEDE; 
+  background-color: #000000; 
 }
