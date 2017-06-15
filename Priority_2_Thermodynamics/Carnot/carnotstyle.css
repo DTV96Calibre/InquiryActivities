@@ -40,6 +40,11 @@ textarea {
 	overflow:auto; /* Necessary to prevent IE from automatically putting scrollbars everywhere */
 }
 
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.5em;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -379,8 +384,8 @@ textarea {
 
 #about {
 	position:absolute;
-	top:570px;
-	left:17px;
+	top:530px;
+	left:120px;
 }
 #toggleTooltips {
 	position:absolute;
@@ -390,52 +395,4 @@ textarea {
 #programInfo {
 	position:relative;
 	top:650px;
-}
-
-/* About button */ 
-
-.btn-about, .btn-more-info { 
-  color: #000000; 
-  background-color: #DEDEDE; 
-  border-color: #999999; 
-} 
- 
-.btn-more-info:hover, 
-.btn-more-info:focus, 
-.btn-more-info:active, 
-.btn-more-info.active, 
-.open .dropdown-toggle.btn-more-info { 
-  color: #000000; 
-  background-color: #C2C2C2; 
-  border-color: #999999; 
-} 
- 
-.btn-more-info:active, 
-.btn-more-info.active, 
-.open .dropdown-toggle.btn-more-info { 
-  background-image: none; 
-} 
- 
-.btn-more-info.disabled, 
-.btn-more-info[disabled], 
-fieldset[disabled] .btn-more-info, 
-.btn-more-info.disabled:hover, 
-.btn-more-info[disabled]:hover, 
-fieldset[disabled] .btn-more-info:hover, 
-.btn-more-info.disabled:focus, 
-.btn-more-info[disabled]:focus, 
-fieldset[disabled] .btn-more-info:focus, 
-.btn-more-info.disabled:active, 
-.btn-more-info[disabled]:active, 
-fieldset[disabled] .btn-more-info:active, 
-.btn-more-info.disabled.active, 
-.btn-more-info[disabled].active, 
-fieldset[disabled] .btn-more-info.active { 
-  background-color: #DEDEDE; 
-  border-color: #999999; 
-} 
- 
-.btn-more-info .badge { 
-  color: #DEDEDE; 
-  background-color: #000000; 
 }
