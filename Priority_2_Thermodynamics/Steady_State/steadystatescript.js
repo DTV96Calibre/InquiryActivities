@@ -383,11 +383,11 @@ function displayHelpAlert() {
 }
 
 function displayInfoAlert() {
-	var str = "\u00A9 Margot Vigeant 2012\n";
-	str += "Produced through the efforts of Daniel Prudente\n";
-	str += "Supported by NSF DUE-0717536\n";
-	str += "Stopwatch JavaScript code created by Kare Byberg \u00A9 01.21.2005\n";
-	str += "Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical Engineering";
+	var str = "Produced through the efforts of Daniel Prudente\n\n";
+	str += "Supported by NSF DUE-0717536\n\n";
+	str += "Stopwatch JavaScript code created by Kare Byberg \u00A9 01.21.2005\n\n";
+	str += "Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical Engineering\n\n";
+	str += "\u00A9 Margot Vigeant 2012";
 	alert(str);
 	return false;
 }
