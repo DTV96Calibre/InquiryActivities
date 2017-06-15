@@ -6,6 +6,22 @@
  * (c) Margot Vigeant 2012
 */
 
+body {
+	font-weight: normal;
+}
+
+h1 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 32px;
+	color: #000000;
+}
+
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.5em;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -16,14 +32,13 @@
 	width:50%;
 }
 
-
 /**********Components of the box for calculation results************/
 
 #resultsLabel {
 	position:absolute;
 	top:-2px;
 	left:106px;
-	width:81px;
+	width:102px;
 	text-align:center;
 	background-color:#FFFFFF;
 }
@@ -32,7 +47,7 @@
 	left:-10;
 	top:35px;
 	height:135px;
-	width:300px;
+	width:305px;
 	padding:10px;
 	z-index:-1;
 	border-style:solid;
@@ -50,6 +65,7 @@
 	position:absolute;
 	top:20px;
 	left:220px;
+	font-weight: normal;
 }
 #pumpWorkLabel {
 	position:absolute;
@@ -63,6 +79,7 @@
 	position:absolute;
 	top:50px;
 	left:220px;
+	font-weight: normal;
 }
 #drainWorkLabel {
 	position:absolute;
@@ -76,6 +93,7 @@
 	position:absolute;
 	top:80px;
 	left:220px;
+	font-weight: normal;
 }
 #powerRecoveryLabel {
 	position:absolute;
@@ -88,6 +106,7 @@
 	position:absolute;
 	top:110px;
 	left:220px;
+	font-weight: normal;
 }
 
 
@@ -95,37 +114,37 @@
 
 #pumpRateLabel {
 	position:absolute;
-	top:220px;
+	top:200px;
 	left:100px;
 	font-weight:bold;
 }
 #pumpRate {
 	position:absolute;
-	top:220px;
+	top:195px;
 	left:185px;
 	width:50px;
 }
 #pumpRateUnits {
 	position:absolute;
-	top:220px;
+	top:200px;
 	left:250px;
+	font-weight: normal;
 }
 #runButton {
 	position:absolute;
-	top:250px;
-	left:100px;
-}
-#resetButton {
-	position:absolute;
-	top:310px;
+	top:235px;
 	left:100px;
 }
 #skipButton {
   position:absolute;
-  top:280px;
+  top:270px;
   left:100px
 }
-
+#resetButton {
+	position:absolute;
+	top:305px;
+	left:100px;
+}
 
 /**********Picture / animation components************/
 
@@ -135,13 +154,13 @@
 
 #measurement {
 	position:absolute;
-	left:562px;
+	left:582px;
 }
 
 #tank1Water {
 	position:absolute;
-	top:340px;
-	left:89px;
+	top:338px;
+	left:103px;
 	z-index:-1;
 }
 
@@ -155,62 +174,62 @@
 #tank2Water {
 	position:absolute;
 	top:98px;
-	left:365px;
+	left:380px;
 	z-index:-1;
 }
 
 #openValve {
 	position:absolute;
 	top:393px;
-	left:321px;
+	left:335px;
 }
 
 #closedValve {
 	position:absolute;
 	top:404px;
-	left:321px;
+	left:335px;
 }
 
 #openSideValve {
 	position:absolute;
 	top:466px;
-	left:462px;
+	left:467px;
 }
 
 #closedSideValve {
 	position:absolute;
 	top:466px;
-	left:452px;
+	left:472px;
 }
 
 #startWater {
 	position:absolute;
-	left:182px;
+	left:197px;
 	top:424px;
 }
 
 #pumpWater {
 	position:absolute;
-	left:182px;
+	left:197px;
 	top:102px;
 }
 
 #suspendedWater {
 	position:absolute;
-	left:251px;
+	left:266px;
 	top:103px;
 }
 
 #drainWater {
 	position:absolute;
-	left:251px;
+	left:266px;
 	top:103px;
 }
 
 #splash {
 	position:absolute;
 	top:533px;
-	left:336px;
+	left:350px;
 }
 
 #pumpWorkArrow {
@@ -239,17 +258,55 @@
 	left:-20px;
 }
 
-/*#help {
-	position:absolute;
-	top:400px;
-	left:310px;
-	color:#C00;
-}*/
-
 #about {
 	position:absolute;
-	top:360px;
-	/*left:360px;*/
-	left:300px;
-	color:#C00;
+	top:500px;
+	left:100px;
+}
+
+/* Custom Bootstrap button class */
+.btn-about, .btn-utility { 
+  color: #000000; 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility:hover, 
+.btn-utility:focus, 
+.btn-utility:active, 
+.btn-utility.active, 
+.open .dropdown-toggle.btn-utility { 
+  color: #000000; 
+  background-color: #C2C2C2; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility:active, 
+.btn-utility.active, 
+.open .dropdown-toggle.btn-utility { 
+  background-image: none; 
+} 
+ 
+.btn-utility.disabled, 
+.btn-utility[disabled], 
+fieldset[disabled] .btn-utility, 
+.btn-utility.disabled:hover, 
+.btn-utility[disabled]:hover, 
+fieldset[disabled] .btn-utility:hover, 
+.btn-utility.disabled:focus, 
+.btn-utility[disabled]:focus, 
+fieldset[disabled] .btn-utility:focus, 
+.btn-utility.disabled:active, 
+.btn-utility[disabled]:active, 
+fieldset[disabled] .btn-utility:active, 
+.btn-utility.disabled.active, 
+.btn-utility[disabled].active, 
+fieldset[disabled] .btn-utility.active { 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility .badge { 
+  color: #DEDEDE; 
+  background-color: #000000; 
 }

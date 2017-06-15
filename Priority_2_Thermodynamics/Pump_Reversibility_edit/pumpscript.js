@@ -13,6 +13,8 @@
 
 $(document).ready(init);
 
+var simulationStarted = false;
+
 // constants
 var minRate = 0.062;
 var maxRate = 13.9;   // Found from ITT website
@@ -93,12 +95,11 @@ function init() {
 	$("#pumpRate").removeAttr("disabled");
 	
 	// register event handlers
-	$("#pumpRate").live('change', getPumpRate);
-	$("#runButton").live('click', runPump);
-	$("#resetButton").live('click', resetPump);
-  	$("#skipButton").live('click', skip);
-	$("#about").live('click', displayAboutInfo);
-
+	$("#pumpRate").on('change', getPumpRate);
+	$("#runButton").on('click', runPump);
+	$("#resetButton").on('click', resetPump);
+  	$("#skipButton").on('click', skip);
+	$("#about").on('click', displayAboutInfo);
 }
 
 /*
@@ -161,7 +162,7 @@ function resetPump() {
 	finishDrain();
 	
 	// return animation components to their initial state
-	$("#tank1Water").css("top", "340px");
+	$("#tank1Water").css("top", "338px");
 	$("#tank2Water").css("top", "97px");
 	$("#startWater").show();
 	
@@ -180,7 +181,7 @@ function resetPump() {
 */
 function runPump() {
 	
-	if(isNaN(pumpRate))
+	if(isNaN(pumpRate) || simulationStarted)
 		return;
 		
 	pumpTime = volWater / pumpRate * 1000; // pump time in milliseconds
@@ -192,6 +193,7 @@ function runPump() {
 	// (leave "Reset" button enabled so users have a way to cancel the animation)
 	$("#runButton").attr("disabled", "disabled");
 	$("#pumpRate").attr("disabled", "disabled");
+	simulationStarted = true;
 	
 	// begin the animation
 	pumpWater();
@@ -288,6 +290,7 @@ function finishDrain() {
 	$("#drainWater").hide();
 	$("#drainWorkArrow").hide();
 	$("#splash").hide();
+	simulationStarted = false;
 	displayStats();
 }
 

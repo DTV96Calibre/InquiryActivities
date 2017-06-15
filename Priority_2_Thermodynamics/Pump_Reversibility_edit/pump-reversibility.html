@@ -13,9 +13,21 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>Water Pump Reversibility</title>
+
+		<!-- jQuery dependencies -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+
+        <!-- Bootstrap: Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Bootstrap: Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Bootstrap: Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 		<link href="pumpstyle.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="pumpscript.js"></script>
 	</head>
 	
@@ -58,14 +70,13 @@
 			<label id="powerRecoveryLabel" name="powerRecoveryLabel">Power Recovery:</label>
 			<label id="powerRecovery" name="powerRecovery"></label>
 		</div>
-		<!--<a href="" id="help" name="help">Help</a>-->
-		<a href="" id="about">About this program</a>
+
+		<!-- <a href="javascript:" id="about" class="btn btn-utility btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a> -->
 		
-		
-		<button id="runButton" name="runButton">Run Pump</button>
-		<button id="resetButton" name="resetButton">Reset</button>
-   		<button id="skipButton" name="skipButton">Skip Animation</button>
-		
+		<!-- Bootstrap buttons -->
+        <a href="javascript:" id="runButton" name="runButton" class="btn btn-utility btn-sm"">Run Pump</a>
+        <a href="javascript:" id="resetButton" name="resetButton" class="btn btn-utility btn-sm"">Reset</a>
+        <a href="javascript:" id="skipButton" name="skipButton" class="btn btn-utility btn-sm"">Skip Animation</a>		
 		
 		<p align="center" id="programInfo">
 			(c) Margot Vigeant 2012
