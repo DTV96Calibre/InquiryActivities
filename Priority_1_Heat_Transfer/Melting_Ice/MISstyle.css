@@ -546,13 +546,13 @@ a {
 #helpButton {
 	position:absolute;
 	top:360px;
-	left:80px;
+	left:130px;
 }
 
 #infoButton {
 	position:absolute;
 	top:360px;
-	left:130px;
+	left:80px;
 }
 
 /****** "more info" links ******/
