@@ -12,111 +12,108 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>Radiation</title>
+
+		<!-- jQuery dependencies -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+
+        <!-- Bootstrap: Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Bootstrap: Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Bootstrap: Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
 		<link href="radiationstyle.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="radiationscript.js"></script>
 	</head>
   
  	<body>
-        	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
-        
+    	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
+    
 		<h1 align="center">Radiation Activity</h1>
         
 		<div class="container">
 		
-		<img id="blackUpperPipe" name="blackUpperPipe" alt="" src="black_upper_pipe.png" />
-		<img id="goldUpperPipe" name="goldUpperPipe" alt="" src="gold_upper_pipe.png" />
-        <img id="whiteUpperPipe" name="whiteUpperPipe" alt="" src="white_upper_pipe.png" />
-		<img id="blackUpperPipe2" name="blackUpperPipe2" alt="" src="black_upper_pipe.png" />
-		<img id="goldUpperPipe2" name="goldUpperPipe2" alt="" src="gold_upper_pipe.png" />
-        <img id="whiteUpperPipe2" name="whiteUpperPipe2" alt="" src="white_upper_pipe.png" />
-		<img id="customUpperPipe" name="customUpperPipe" alt="" src="custom_upper_pipe_two.png" />
-		<img id="steamPipe" name="steamPipe" alt="" src="steam_pipe.png" />
-		<img id="steamLabel" name="steamLabel" alt="" src="steam_curved_arrow.png" />
-        <img id="steamPipeLabel" name="steamPipeLabel" alt="" src="steam_pipe_label.png" />
-        <label id="crossSectionText" name="crossSectionText">Pipe Cross Sections</label>
+			<img id="blackUpperPipe" name="blackUpperPipe" alt="" src="black_upper_pipe.png" />
+			<img id="goldUpperPipe" name="goldUpperPipe" alt="" src="gold_upper_pipe.png" />
+	        <img id="whiteUpperPipe" name="whiteUpperPipe" alt="" src="white_upper_pipe.png" />
+			<img id="blackUpperPipe2" name="blackUpperPipe2" alt="" src="black_upper_pipe.png" />
+			<img id="goldUpperPipe2" name="goldUpperPipe2" alt="" src="gold_upper_pipe.png" />
+	        <img id="whiteUpperPipe2" name="whiteUpperPipe2" alt="" src="white_upper_pipe.png" />
+			<img id="customUpperPipe" name="customUpperPipe" alt="" src="custom_upper_pipe_two.png" />
+			<img id="steamPipe" name="steamPipe" alt="" src="steam_pipe.png" />
+			<img id="steamLabel" name="steamLabel" alt="" src="steam_curved_arrow.png" />
+	        <img id="steamPipeLabel" name="steamPipeLabel" alt="" src="steam_pipe_label.png" />
+	        <label id="crossSectionText" name="crossSectionText">Pipe Cross Sections</label>
+			
+	        <img id="blackBottomPipe" name="blackBottomPipe" alt="" src="black_outer_pipe2.png" />
+			<img id="goldBottomPipe" name="goldBottomPipe" alt="" src="gold_outer_pipe2.png" />
+			<img id="whiteBottomPipe" name="whiteBottomPipe" alt="" src="white_outer_pipe2.png" />
+			<img id="customBottomPipe" name="customBottomPipe" alt="" src="custom_outer_pipe.png" />
+			<img id="innerPiping" name="innerPiping" alt="" src="inner_piping2.png" />	
+			<img id="fillingWater" name="fillingWater" alt="" src="filling_water.png" />
+			<img id="steamGraphic" name="steamGraphic" alt="" src="steam_in_pipe.png" />
+			<label id="caseLabel" name="caseLabel">Case 1</label>
+			<label id="fullSign" name="fullSign">FULL</label>
+			<label id="timeFill" name="timeFill"></label>
+			<label id="pipeSelectText" name="pipeSelectText" alt="">Choose Pipe Surface:</label>
+			<button id="blackButton" name="blackButton"><img src="black_button.png" /></button>
+			<button id="whiteButton" name="whiteButton"><img src="white_button.png" /></button>
+			<button id="goldButton" name="goldButton"><img src="gold_button.png" /></button>
+			<label id="pipeTypeText" name="pipeTypeText" alt=""></label>
+			<a href="javascript:" id="customButton" name="customButton" class="btn btn-default btn-sm">Custom Emissivity</a>			
+			<input id="emissivity" name="emissivity" type="text" maxLength="6" />
+			<label id="emissivityLimit" name="emissivityLimit" alt="">(0.01-1)</label>
 		
-        <img id="blackBottomPipe" name="blackBottomPipe" alt="" src="black_outer_pipe2.png" />
-		<img id="goldBottomPipe" name="goldBottomPipe" alt="" src="gold_outer_pipe2.png" />
-		<img id="whiteBottomPipe" name="whiteBottomPipe" alt="" src="white_outer_pipe2.png" />
-		<img id="customBottomPipe" name="customBottomPipe" alt="" src="custom_outer_pipe.png" />
-		<img id="innerPiping" name="innerPiping" alt="" src="inner_piping2.png" />	
-		<img id="fillingWater" name="fillingWater" alt="" src="filling_water.png" />
-		<img id="steamGraphic" name="steamGraphic" alt="" src="steam_in_pipe.png" />
-		<label id="caseLabel" name="caseLabel">Case 1</label>
-		<label id="fullSign" name="fullSign">FULL</label>
-		<label id="timeFill" name="timeFill"></label>
-		<label id="pipeSelectText" name="pipeSelectText" alt="">Choose Pipe Surface:</label>
-		<button id="blackButton" name="blackButton"><img src="black_button.png" /></button>
-		<button id="whiteButton" name="whiteButton"><img src="white_button.png" /></button>
-		<button id="goldButton" name="goldButton"><img src="gold_button.png" /></button>
-		<label id="pipeTypeText" name="pipeTypeText" alt=""></label>
-		<button id="customButton" name="customButton">Custom Emissivity</button>
-		<input id="emissivity" name="emissivity" type="text" maxLength="6" />
-		<label id="emissivityLimit" name="emissivityLimit" alt="">(0.01-1)</label>
-	
-		<img id="blackBottomPipe2" name="blackBottomPipe2" alt="" src="black_outer_pipe2.png" />
-        <img id="goldBottomPipe2" name="goldBottomPipe2" alt="" src="gold_outer_pipe2.png" />
-		<img id="whiteBottomPipe2" name="whiteBottomPipe2" alt="" src="white_outer_pipe2.png" />
-		<img id="innerPiping2" name="innerPiping2" alt="" src="inner_piping2.png" />
-		<img id="fillingWater2" name="fillingWater2" alt="" src="filling_water.png" />
-		<img id="steamGraphic2" name="steamGraphic2" alt="" src="steam_in_pipe.png" />
-		<label id="case2Label" name="case2Label">Case 2</label>
-		<label id="fullSign2" name="fullSign2">FULL</label>
-		<label id="timeFill2" name="timeFill2"></label>
-		<label id="pipeSelectText2" name="pipeSelectText2" alt="">Choose Pipe Surface:</label>
-		<button id="blackButton2" name="blackButton2"><img src="black_button.png" /></button>
-		<button id="whiteButton2" name="whiteButton2"><img src="white_button.png" /></button>
-		<button id="goldButton2" name="goldButton2"><img src="gold_button.png" /></button>
-		<label id="pipeTypeText2" name="pipeTypeText2" alt=""></label>
+			<img id="blackBottomPipe2" name="blackBottomPipe2" alt="" src="black_outer_pipe2.png" />
+	        <img id="goldBottomPipe2" name="goldBottomPipe2" alt="" src="gold_outer_pipe2.png" />
+			<img id="whiteBottomPipe2" name="whiteBottomPipe2" alt="" src="white_outer_pipe2.png" />
+			<img id="innerPiping2" name="innerPiping2" alt="" src="inner_piping2.png" />
+			<img id="fillingWater2" name="fillingWater2" alt="" src="filling_water.png" />
+			<img id="steamGraphic2" name="steamGraphic2" alt="" src="steam_in_pipe.png" />
+			<label id="case2Label" name="case2Label">Case 2</label>
+			<label id="fullSign2" name="fullSign2">FULL</label>
+			<label id="timeFill2" name="timeFill2"></label>
+			<label id="pipeSelectText2" name="pipeSelectText2" alt="">Choose Pipe Surface:</label>
+			<button id="blackButton2" name="blackButton2"><img src="black_button.png" /></button>
+			<button id="whiteButton2" name="whiteButton2"><img src="white_button.png" /></button>
+			<button id="goldButton2" name="goldButton2"><img src="gold_button.png" /></button>
+			<label id="pipeTypeText2" name="pipeTypeText2" alt=""></label>
 
-		<h2 id="properties" name="properties">Properties</h2>
-		<div id="propertiesDiv" name="propertiesDiv">
-			<input id="steamTemp" name="steamTemp" type="text" maxLength="3" />
-			<label id="steamTempLabel" name="steamTempLabel">Steam Temp. </label>
-			<label id="steamTempUnits" name="steamTempUnits">&deg;Celsius</label>
-			<label id="steamTempLimit" name="steamTempLimit">(100-200)</label>
-			<input id="roomTemp" name="roomTemp" type="text" maxLength="2" />
-			<label id="roomTempLabel" name="roomTempLabel">Room Temp. </label>
-			<label id="roomTempUnits" name="roomTempUnits">&deg;Celsius</label>
-			<label id="roomTempLimit" name="roomTempLimit">(10-30)</label>
-			<input id="heatTransferCoeff" name="heatTransferCoeff" type="text" maxLength="2" />
-			<label id="heatTransferCoeffLabel" name="heatTransferCoeffLabel">Heat Transfer Coeff. </label>
-			<label id="heatTransferCoeffUnits" name="heatTransferCoeffUnits">W/m<sup>2</sup>K</label>
-			<label id="heatTransferCoeffLimit" name="heatTransferCoeffLimit">(1-50)</label>
-		</div>
-	
-		<div id="funFactsDiv" name="funFactsDiv">
-			<h2 id="funFactTitle" name="funFactTitle">Did You Know...</h2>
-			<label id="funFact" name="funFact"></label>
-		</div>
-		<img id="pipeGuides" name="pipeGuides" alt="" src="pipe_guides.png" />
-	
-		<button id="startButton" name="startButton"><img src="start_button.png" /></button>
-		<button id="skipButton" name="skipButton"><img src="skip_button.png" /></button>
-		<button id="resetButton" name="resetButton"><img src="reset_button.png" /></button>
-        
-        <div align="center" id="buttonHolders" name="buttonHolders">
-			<button id="advancedButton" name="advancedButton">Show Advanced Customization</button>
-        	<button id="basicButton" name="basicButton">Hide Advanced Customization</button>
-        </div>
-        
-		<p align="center" id="programInfo" name="programInfo">
-			(c) Margot Vigeant and Michael Prince 2012
-			<br /><br />
-			Produced through the efforts of Daniel Prudente
-			<br /><br />
-			Based off of the previous work of Matthew Koppenhaver
-			<br /><br />
-			Emissivity values referenced from Fundamentals of Heat and Mass Transfer, Third Edition
-			<br />
-			by Frank P. Incropera and David P. De Witt
-			<br /><br />
-			Supported by NSF DUE-0717536 and NSF DUE-0442234
-			<br /><br />
-		  Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering		</p>
+			<h2 id="properties" name="properties">Properties</h2>
+			<div id="propertiesDiv" name="propertiesDiv">
+				<input id="steamTemp" name="steamTemp" type="text" maxLength="3" />
+				<label id="steamTempLabel" name="steamTempLabel">Steam Temp. </label>
+				<label id="steamTempUnits" name="steamTempUnits">&deg;Celsius</label>
+				<label id="steamTempLimit" name="steamTempLimit">(100-200)</label>
+				<input id="roomTemp" name="roomTemp" type="text" maxLength="2" />
+				<label id="roomTempLabel" name="roomTempLabel">Room Temp. </label>
+				<label id="roomTempUnits" name="roomTempUnits">&deg;Celsius</label>
+				<label id="roomTempLimit" name="roomTempLimit">(10-30)</label>
+				<input id="heatTransferCoeff" name="heatTransferCoeff" type="text" maxLength="2" />
+				<label id="heatTransferCoeffLabel" name="heatTransferCoeffLabel">Heat Transfer Coeff. </label>
+				<label id="heatTransferCoeffUnits" name="heatTransferCoeffUnits">W/m<sup>2</sup>K</label>
+				<label id="heatTransferCoeffLimit" name="heatTransferCoeffLimit">(1-50)</label>
+			</div>
+		
+			<div id="funFactsDiv" name="funFactsDiv">
+				<h2 id="funFactTitle" name="funFactTitle">Did You Know...</h2>
+				<label id="funFact" name="funFact"></label>
+			</div>
+			<img id="pipeGuides" name="pipeGuides" alt="" src="pipe_guides.png" />
+		
+			<button id="startButton" name="startButton"><img src="start_button.png" /></button>
+			<button id="skipButton" name="skipButton"><img src="skip_button.png" /></button>
+			<button id="resetButton" name="resetButton"><img src="reset_button.png" /></button>
 
-	</div>
+			<!-- Bootstrap buttons -->
+			<a href="javascript:" id="advancedButton" name="advancedButton" class="btn btn-default btn-sm">Show Advanced Customization</a>
+			<a href="javascript:" id="helpButton" name="helpButton" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
+	    	<a href="javascript:" id="infoButton" name="infoButton" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
+		</div>
  	</body>
 </html>

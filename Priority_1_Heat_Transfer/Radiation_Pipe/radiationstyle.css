@@ -6,6 +6,17 @@
  * (c) Margot Vigeant 2012
 */
 
+h1 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 32px;
+	color: #000000;
+}
+
+h2, h3, h4 {
+	color: #000000;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -14,190 +25,210 @@
 	margin-left:auto;
 	margin-right:auto;
 	width:450px;
+	color: #000000;
+}
+
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.5em;
 }
 
 
 /**********Picture / animation components************/
 #blackUpperPipe {
 	position:absolute;
-	top:0px;
+	top:20px;
 	left:-150px;
 }
 #goldUpperPipe {
 	position:absolute;
-	top:0px;
+	top:20px;
 	left:-150px;
 }
 #whiteUpperPipe {
 	position:absolute;
-	top:0px;
+	top:20px;
 	left:-150px;
 }
 #customUpperPipe {
 	position:absolute;
-	top:0px;
+	top:20px;
 	left:-150px;
 	z-index:1;
 }
 #steamLabel {
 	position:absolute;
-	top:65px;
+	top:85px;
 	left:-157px;
 }
 #steamPipeLabel {
 	position:absolute;
 	left:-140px;
-	top:-30px;	
+	top:-10px;	
 }
 #blackUpperPipe2 {
 	position:absolute;
-	top:-60px;
+	top:-40px;
 	left:-150px;
 }
 #goldUpperPipe2 {
 	position:absolute;
-	top:-60px;
+	top:-40px;
 	left:-150px;
 }
 #whiteUpperPipe2 {
 	position:absolute;
-	top:-60px;
+	top:-40px;
 	left:-150px;
 }
 #pipeGuides {
 	position:absolute;
-	top:-5px;
+	top:15px;
 	left:-43px;
 }
 #steamPipe {
 	position:absolute;
-	top:-70px;
+	top:-50px;
 	left:-166px;
 	z-index:-1;
 }
 #crossSectionText {
 	position:absolute;
-	top:123px;
+	top:143px;
 	left:16px;
 	z-index:2;
 	font-size:14pt;
 	font-weight:bold;
+	font-family: "Times New Roman";
+	font-color: #000000;
 }
 #pipeSelectText {
 	position:absolute;
-	top:375px;
+	top:395px;
 	left:-85px;
+	font-weight: normal;
+	font-family: "Times New Roman";
+	font-size: 16px;
 }
 #pipeSelectText2 {
 	position:absolute;
-	top:375px;
+	top:395px;
 	left:227px;
+	font-weight: normal;
+	font-family: "Times New Roman";
+	font-size: 16px;
 }
 #blackBottomPipe {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:-180px;
 }
 #whiteBottomPipe {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:-180px;
 }
 #goldBottomPipe {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:-180px;
 }
 #customBottomPipe {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:-180px;
 }
 #blackBottomPipe2 {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:122px;
 }
 #whiteBottomPipe2 {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:122px;
 }
 #goldBottomPipe2 {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:122px;
 }
 #steamGraphic {
 	position:absolute;
-	top:220px;
+	top:240px;
 	left:-60px;
 	z-index:-2;
 }
 #steamGraphic2 {
 	position:absolute;
-	top:220px;
+	top:240px;
 	left:242px;
 	z-index:-2;
 }
 #caseLabel {
 	position:absolute;
-	top:120px;
+	top:140px;
 	left:-160px;
 	z-index:1;
+	font-weight: normal;
+	font-family: "Times New Roman";
+	font-size: 16px;
 }
 #case2Label {
 	position:absolute;
-	top:120px;
-	left:340px;
+	top:140px;
+	left:320px;
 	z-index:1;
+	font-weight: normal;
+	font-family: "Times New Roman";
+	font-size: 16px;
 }
 #innerPiping {
 	position:absolute;
-	top:178px;
+	top:198px;
 	left:-82px;
 	z-index:-2;
 }
 #innerPiping2 {
 	position:absolute;
-	top:178px;
+	top:198px;
 	left:220px;
 	z-index:-2;
 }
 #fillingWater {
 	position:absolute;
-	top:355px;
+	top:375px;
 	left:-165px;
 	z-index:-1;
 }
 #fullSign {
 	position:absolute;
-	top:238px;
+	top:258px;
 	left:-65px;
 	font-size:36pt;
 	color:white;
 }
 #fillingWater2 {
 	position:absolute;
-	top:355px;
+	top:375px;
 	left:137px;
 	z-index:-1;
 }
 #fullSign2 {
 	position:absolute;
-	top:238px;
+	top:258px;
 	left:237px;
 	font-size:36pt;
 	color:white;
 }
 #scale {
 	position:absolute;
-	top:328px;
+	top:348px;
 	left:-126px;
 }
 #scaleLabel {
 	position:absolute;
-	top:253px;
+	top:273px;
 	left:-205px;
 	font-size:10pt;
 }
@@ -207,9 +238,9 @@
 
 #funFactsDiv {
 	position:absolute;
-	top:485px;
+	top:505px;
 	left:100px;
-	width:250px;
+	width:278px;
 	height:100px;
 	border-style:solid;
 	border-width:thin;
@@ -217,100 +248,135 @@
 }
 #funFactTitle {
 	position:absolute;
-	top:-10px;
+	top:-15px;
 	left:5px;
 	font-size:14pt;
+	font-family: "Times New Roman";
+	font-weight: bold;
 }
 #funFact {
 	position:absolute;
 	top:30px;
 	left:5px;
 	font-size:10pt;
+	width: 270px;
+	font-family: "Times New Roman";
+	font-weight: normal;
+	color: #000000;
 }
 
 /**********Components of the box for input calculations************/
 
 #properties {
 	position:absolute;
-	top:-20px;
+	top:20px;
 	left:490px;
 	width:81px;
 	text-align:center;
 	background-color:#FFFFFF;
+	font-family: "Times New Roman";
+	font-size: 26px;
+	font-weight:bold;
 }
 #propertiesDiv {
 	position:absolute;
 	left:420px;
-	top:35px;
+	top:75px;
 	height:180px;
 	width:240px;
 	padding:10px;
 	z-index:-1;
 	border-style:solid;
 	border-width:thin;
+	font-weight: normal;
 }
 #steamTempLabel {
 	position:absolute;
 	left:25px;
-	top:20px;
+	top:10px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #steamTemp {
 	position:absolute;
 	left:112px;
-	top:20px;
+	top:10px;
 	width:46px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #steamTempUnits {
 	position:absolute;
 	left:172px;
-	top:20px;
+	top:10px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #steamTempLimit {
 	position:absolute;
 	left:106px;
-	top:45px;
+	top:35px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #roomTempLabel {
 	position:absolute;
 	left:25px;
-	top:80px;
+	top:70px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #roomTemp {
 	position:absolute;
 	left:112px;
-	top:80px;
+	top:70px;
 	width:46px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #roomTempUnits {
 	position:absolute;
 	left:172px;
-	top:80px;
+	top:70px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #roomTempLimit {
 	position:absolute;
 	left:114px;
-	top:105px;
+	top:95px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #heatTransferCoeffLabel {
 	position:absolute;
-	left:5px;
-	top:140px;
+	left:25px;
+	top:130px;
+	width:100px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #heatTransferCoeff {
 	position:absolute;
-	left:137px;
-	top:140px;
+	left:114px;
+	top:130px;
 	width:46px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #heatTransferCoeffUnits {
 	position:absolute;
-	left:195px;
-	top:140px;
+	left:172px;
+	top:130px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 #heatTransferCoeffLimit {
 	position:absolute;
-	left:143px;
-	top:165px;
+	left:114px;
+	top:155px;
+	font-weight: normal;
+	font-family: "Times New Roman";
 }
 
 
@@ -318,117 +384,125 @@
 
 #blackButton {
 	position:absolute;
-	top:400px;
+	top:420px;
 	left:-100px;
 	width:50px;
 	height:35px;
 }
 #whiteButton {
 	position:absolute;
-	top:400px;
+	top:420px;
 	left:-40px;
 	width:50px;
 	height:35px;
 }
 #goldButton {
 	position:absolute;
-	top:400px;
+	top:420px;
 	left:20px;
 	width:50px;
 	height:35px;
 }
 #customButton {
 	position:absolute;
-	top:465px;
+	top:485px;
 	left:-80px;
 	width:134px;
 }
 #emissivity {
 	position:absolute;
-	top:490px;
+	top:520px;
 	left:-67px;
 	width:100px;
+	font-family: "Times New Roman";
 }
 #emissivityLimit {
 	position:absolute;
-	top:513px;
+	top:546px;
 	left:-36px;
-	font-size:10pt;	
+	font-size:10pt;
+	font-family: "Times New Roman";	
+	font-weight:normal;
 }
 #blackButton2 {
 	position:absolute;
-	top:400px;
+	top:420px;
 	left:212px;
 	width:50px;
 	height:35px;
 }
 #whiteButton2 {
 	position:absolute;
-	top:400px;
+	top:420px;
 	left:272px;
 	width:50px;
 	height:35px;
 }
 #goldButton2 {
 	position:absolute;
-	top:400px;
+	top:420px;
 	left:332px;
 	width:50px;
 	height:35px;
 }
 #startButton {
 	position:absolute;
-	top:430px;
+	top:450px;
 	left:486px;
 	width:130px;
 	height:70px;
 }
 #skipButton {
 	position:absolute;
-	top:350px;
+	top:370px;
 	left:486px;
 	width:130px;
 	height:70px;
 }
 #resetButton {
 	position:absolute;
-	top:270px;
+	top:290px;
 	left:486px;
 	width:130px;
 	height:70px;
-}
-#buttonHolders {
-	position:relative;
-	top:980px;
-	text-align:center;
 }
 
 /**********Output components************/
 #timeFill {
 	position:absolute;
-	top:350px;
+	top:370px;
 	left:75px;
 	font-size:16pt;
 	z-index:1;
+	font-weight:normal;
+	font-family: "Times New Roman";
 }
 #timeFill2 {
 	position:absolute;
-	top:350px;
+	top:370px;
 	left:387px;
 	font-size:16pt;
 	z-index:1;
+	font-weight:normal;
+	font-family: "Times New Roman";
 }
 #pipeTypeText {
 	position:absolute;
-	top:439px;
+	top:459px;
 	left:-100px;
 	font-weight:bold;
+	font-family: "Times New Roman";
+	font-size: 16px;
+	font-color: #000000;
 }
 #pipeTypeText2 {
 	position:absolute;
-	top:439px;
+	top:459px;
 	left:212px;
-	font-weight:bold;	
+	font-weight:bold;
+	font-family: "Times New Roman";
+	font-size: 16px;
+	font-color: #000000;
 }
 
 /**********Program info displayed at bottom of page************/
@@ -438,15 +512,21 @@
 	top:670px;
 }
 
-#help {
+#helpButton {
 	position:absolute;
-	top:640px;
-	left:210px;
+	top:625px;
+	left:340px;
 }
 
-#about {
+#infoButton {
 	position:absolute;
-	top:360px;
-	left:300px;
-	color:#C00;
+	top:625px;
+	left:295px;
+}
+
+#advancedButton {
+	position:absolute;
+	top:625px;
+	left:100px;
+	width:190px;
 }
