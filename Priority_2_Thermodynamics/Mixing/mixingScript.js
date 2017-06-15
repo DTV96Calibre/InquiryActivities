@@ -142,13 +142,13 @@ function resetExperiment() {
  * Displays a dialog box containing information about the program when the user clicks the link labeled "About this program"
 */
 function displayAboutInfo(){
-	alert("This program was created under the direction of Dr. Margot Vigeant at \n" +
-		  "Bucknell University. It was developed in Flash by Gavin MacInnes in\n" +
+	alert("This program was created under the direction of Dr. Margot Vigeant at " +
+		  "Bucknell University. It was developed in Flash by Gavin MacInnes in " +
 		  "2006, and was adapted to Javascript by Emily Ehrenberger in 2011.\n\n" +
-		  "The development of this program was funded by the National Science\n" +
+		  "The development of this program was funded by the National Science " +
 		  "Foundation Grant DUE-0442234 (2009) and DUE-0717536 (2011).\n\n" +
 		  "Address any questions or comments to mvigeant@bucknell.edu.\n\n" +
-		  "                                                Copyright.");
+		  "\u00A9 Margot Vigeant 2011");
 	return false;
 }
 

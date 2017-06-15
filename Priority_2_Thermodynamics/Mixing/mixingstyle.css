@@ -29,6 +29,11 @@ h3 {
 	color: #000000;
 }
 
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.5em;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -37,7 +42,7 @@ h3 {
 	margin-right:auto;
 	font-family: "Times New Roman";
 	font-size: 16px;
-	width:800px;
+	height:0px;
 }
 .text {
 	line-height:120%;
@@ -75,7 +80,7 @@ h3 {
 
 #textContainer {
 	width: 25%;
-	top:20px;
+	top:0px;
 	height:300px;
 	z-index:2;
 }
@@ -91,8 +96,21 @@ h3 {
 	width:100px;
 }
 
+#responseText {
+	position:absolute;
+	top: 40px;
+}
+
 #tryItTitle {
+	position:absolute;
+	top: 55px;
 	text-align:center;
+	left: 100px;
+}
+
+#instructionsParagraph {
+	position:absolute;
+	top: 110px;
 }
 
 /***** demoContainer and contents (contains all of the pictures, as well as experimentParameters and experimentResults)*******/
@@ -341,10 +359,10 @@ h3 {
 #toggleAnimations {
 	position:absolute;
 	top:220px;
-	left:25px;
+	left:40px;
 }
 #about {
 	position:absolute;
-	top:240px;
-	left:25px;
+	top:220px;
+	left:175px;
 }
