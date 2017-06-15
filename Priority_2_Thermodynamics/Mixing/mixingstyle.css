@@ -34,6 +34,10 @@ h3 {
 	font-size: 1.5em;
 }
 
+.btn {
+	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -352,17 +356,18 @@ h3 {
 
 #tryItButton {
 	position:absolute;
-	top:215px;
-	left:270px;
+	top:220px;
+	left:40px;
 	width:100px;
 }
 #toggleAnimations {
 	position:absolute;
 	top:220px;
-	left:40px;
+	left:147px;
+	width:140px;
 }
 #about {
 	position:absolute;
 	top:220px;
-	left:175px;
+	left:294px;
 }
