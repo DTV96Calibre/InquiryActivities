@@ -662,59 +662,59 @@ function getHotFact(){
 	} else if (celsius>100000) {
 		HotBlurb = "The core of the Sun is estimated to be 15 million Kelvin.";
 	} else if (celsius>20000) {
-		HotBlurb = "A lightning bolt can reach temperatures of up to 30,000 캜 (55,000캟).";
+		HotBlurb = "A lightning bolt can reach temperatures of up to 30,000 째C (55,000째F).";
 	} else if (celsius>10000) {
-		HotBlurb = "An arc welder can reach 20,000 캜 (36,000캟) in the arc.";
+		HotBlurb = "An arc welder can reach 20,000 째C (36,000째F) in the arc.";
 	} else if (celsius>6500) {
-		HotBlurb = "The Earth's Core is estimated to be at a temperature of up to 7,000 캜 (13,000캟).";
+		HotBlurb = "The Earth's Core is estimated to be at a temperature of up to 7,000 째C (13,000째F).";
 	} else if (celsius>3700) {
-		HotBlurb = "The photsphere (outer layer) of the sun is estimated to be 6,000 캜 (11,000 캟).";
+		HotBlurb = "The photsphere (outer layer) of the sun is estimated to be 6,000 째C (11,000 째F).";
 	} else if (celsius>3600) {
-		HotBlurb = "Tungsten is the last element to melt at 3683 캜 (6661 캟).";
+		HotBlurb = "Tungsten is the last element to melt at 3683 째C (6661 째F).";
 	} else if (celsius>3200) {
-		HotBlurb = "An oxyacetylene cutting torch will reach temperatures of up to 3480 캜 (6290 캟).";
+		HotBlurb = "An oxyacetylene cutting torch will reach temperatures of up to 3480 째C (6290 째F).";
 	} else if (celsius>2900) {
-		HotBlurb = "The hottest a typical hydrocarbon can reach burning in pure oxygen (the adiabatic flame temperature) is 3000 캜 (5400 캟).";
+		HotBlurb = "The hottest a typical hydrocarbon can reach burning in pure oxygen (the adiabatic flame temperature) is 3000 째C (5400 째F).";
 	} else if (celsius>2300) {
-		HotBlurb = "Tungsten Carbide, used for very hard tool bits, will melt at 2870 캜 (5178 캟).";
+		HotBlurb = "Tungsten Carbide, used for very hard tool bits, will melt at 2870 째C (5178 째F).";
 	} else if (celsius>1800) {
-		HotBlurb = "The hottest a typical hydrocarbon can reach burning in air (adiabatic flame temperature) is 2000 캜 (3600 캟).";
+		HotBlurb = "The hottest a typical hydrocarbon can reach burning in air (adiabatic flame temperature) is 2000 째C (3600 째F).";
 	} else if (celsius>1500) {
-		HotBlurb = "A blast furnace, used in iron refining, ranges from 1500-1800 캜 (2700-3250 캟).";
+		HotBlurb = "A blast furnace, used in iron refining, ranges from 1500-1800 째C (2700-3250 째F).";
 	} else if (celsius>1400) {
-		HotBlurb = "The outer core of a candle flame (the blue part) will be 1400 캜 (2550 캟).";
+		HotBlurb = "The outer core of a candle flame (the blue part) will be 1400 째C (2550 째F).";
 	} else if (celsius>1250) {
-		HotBlurb = "Steel will melt at 1370 캜 (2490 캟).";
+		HotBlurb = "Steel will melt at 1370 째C (2490 째F).";
 	} else if (celsius>1100) {
-		HotBlurb = "Fresh lava can reach temperatures of up to 1200 캜 (2160 캟).";
+		HotBlurb = "Fresh lava can reach temperatures of up to 1200 째C (2160 째F).";
 	} else if (celsius>799) {
-		HotBlurb = "Typical flame temperatures in gas turbines are around 800 캜 (1500 캟).";
+		HotBlurb = "Typical flame temperatures in gas turbines are around 800 째C (1500 째F).";
 	} else if (celsius>700) {
-		HotBlurb = "The red part of a candle flame is 800 캜 (1440 캟).";
+		HotBlurb = "The red part of a candle flame is 800 째C (1440 째F).";
 	} else if (celsius>499) {
-		HotBlurb = "The steam temperature of a typical steam turbine ranges from 500-600 캜 (900-1100 캟).";
+		HotBlurb = "The steam temperature of a typical steam turbine ranges from 500-600 째C (900-1100 째F).";
 	} else if (celsius>399) {
-		HotBlurb = "The average surface temperature of Venus is 460 캜 (850 캟).";
+		HotBlurb = "The average surface temperature of Venus is 460 째C (850 째F).";
 	} else if (celsius>320) {
-		HotBlurb = "Teflon melts at 335 캜 (635 캟).";
+		HotBlurb = "Teflon melts at 335 째C (635 째F).";
 	} else if (celsius>160) {
-		HotBlurb = "The average home oven can reach temperatures of 280 캜 (500 캟).";
+		HotBlurb = "The average home oven can reach temperatures of 280 째C (500 째F).";
 	} else if (celsius>130) {
-		HotBlurb = "Polyethylene will melt around 130-145 캜 (266-293 캟).";
+		HotBlurb = "Polyethylene will melt around 130-145 째C (266-293 째F).";
 	} else if (celsius>80) {
-		HotBlurb = "Water boils at 100 캜 (212 캟).";
+		HotBlurb = "Water boils at 100 째C (212 째F).";
 	} else if (celsius>50) {
-		HotBlurb = "The highest recorded temperature on Earth was in Libya on 7/13/1922 when it reached 57.7 캜 (135.9 캟).";
+		HotBlurb = "The highest recorded temperature on Earth was in Libya on 7/13/1922 when it reached 57.7 째C (135.9 째F).";
 	} else if (celsius>30) {
-		HotBlurb = "Did you know that Carbon Dioxide is a supercritical fluid at only 31.1 캜 (88 캟) and 74 bars?";
+		HotBlurb = "Did you know that Carbon Dioxide is a supercritical fluid at only 31.1 째C (88 째F) and 74 bars?";
 	} else if (celsius>20) {
-		HotBlurb = "Room temperature is around 25 캜 (78 캟).";
+		HotBlurb = "Room temperature is around 25 째C (78 째F).";
 	} else if (celsius<20 && tinyECarnot) {
 		HotBlurb = "I wouldn't really call this hot, would you?";
 	} else if (celsius>-1) {
-		HotBlurb = "Water freezes at 0 캜 (32 캟).";
+		HotBlurb = "Water freezes at 0 째C (32 째F).";
 	} else if (celsius>-10) {
-		HotBlurb = "The average winter temperature in Northeastern America is -5 캜 (23 캟).";
+		HotBlurb = "The average winter temperature in Northeastern America is -5 째C (23 째F).";
 	} else if (celsius>-50) {
 		HotBlurb = "This would only be hot in Antarctica.";
 	} else if (celsius>-210) {
@@ -753,33 +753,33 @@ function getColdFact(){
 	} else if (celsius>50) {
 		ColdBlurb = "Too cold to boil water.";
 	} else if (celsius>20) {
-		ColdBlurb = "Room temperature is 25 캜 (78 캟).";
+		ColdBlurb = "Room temperature is 25 째C (78 째F).";
 	} else if (celsius>5) {
-		ColdBlurb = "The average temperature of the earth is 15 캜 (59 캟).";
+		ColdBlurb = "The average temperature of the earth is 15 째C (59 째F).";
 	} else if (celsius>-12) {
-		ColdBlurb = "The average winter temperature in Northeastern America is -5 캜 (23 캟).";
+		ColdBlurb = "The average winter temperature in Northeastern America is -5 째C (23 째F).";
 	} else if (celsius>-35) {
-		ColdBlurb = "Ammonia (a common industrial refrigerant) is a liquid at -33.6 캜 (-28.5 캟).";
+		ColdBlurb = "Ammonia (a common industrial refrigerant) is a liquid at -33.6 째C (-28.5 째F).";
 	} else if (celsius>-39) {
-		ColdBlurb = "Mercury freezes at -39 캜 (-38.2 캟).";
+		ColdBlurb = "Mercury freezes at -39 째C (-38.2 째F).";
 	} else if (celsius>-41) {
-		ColdBlurb = "-40 캜 and -40 캟 are the same temperature.";
+		ColdBlurb = "-40 째C and -40 째F are the same temperature.";
 	} else if (celsius>-60) {
-		ColdBlurb = "The average temperature at the south pole is -48 캜 (-54.4 캟).";
+		ColdBlurb = "The average temperature at the south pole is -48 째C (-54.4 째F).";
 	} else if (celsius>-70) {
 		ColdBlurb = "Steel will shatter at these temperatures.";
 	} else if (celsius>-82) {
-		ColdBlurb = "Solid carbon dioxide (dry ice) sublimes at -78.5 캜 (-109.3 캟).";
+		ColdBlurb = "Solid carbon dioxide (dry ice) sublimes at -78.5 째C (-109.3 째F).";
 	} else if (celsius>-100) {
-		ColdBlurb = "The coldest recorded temperature on earth was in Vostock II (Antarctica) on 7/21/1983, -89.2 캜 (-128.6 캟).";
+		ColdBlurb = "The coldest recorded temperature on earth was in Vostock II (Antarctica) on 7/21/1983, -89.2 째C (-128.6 째F).";
 	} else if (celsius>-143) {
-		ColdBlurb = "Ethanol freezes at -114.1 캜 (159 K).";
+		ColdBlurb = "Ethanol freezes at -114.1 째C (159 K).";
 	} else if (celsius>-168) {
-		ColdBlurb = "LNG (Liquified Natural Gas) is 112 K (-161 캜).";
+		ColdBlurb = "LNG (Liquified Natural Gas) is 112 K (-161 째C).";
 	} else if (celsius>-193) {
-		ColdBlurb = "Liquid oxygen boils at 89.98 K (-183 캜).";
+		ColdBlurb = "Liquid oxygen boils at 89.98 K (-183 째C).";
 	} else if (celsius>-223) {
-		ColdBlurb = "Nitrogen is liquid at 77 K (-196 캜).";
+		ColdBlurb = "Nitrogen is liquid at 77 K (-196 째C).";
 	} else if (celsius>-243) {
 		ColdBlurb = "The surface of Pluto ranges from 35-45 K.";
 	} else if (celsius>-263) {
@@ -812,7 +812,7 @@ function getEfficiencyTrivia(){
 	} else if (thermEff>0.75) {
 		EffBlurb = "A hydrogen fuel cell can achieve an equivalent efficiency of 80%.  Note that a fuel cell is not a heat engine.";
 	} else if (thermEff>0.55) {
-		EffBlurb = "The most efficient engines today can reach 60% thermal efficiency, which is done by using high temperature materials that can stand temperatures as high as 1450 캜 (2650 캟).";
+		EffBlurb = "The most efficient engines today can reach 60% thermal efficiency, which is done by using high temperature materials that can stand temperatures as high as 1450 째C (2650 째F).";
 	} else if (thermEff>0.46) {
 		EffBlurb = "Combined cycle gas turbines in the 1990s allowed thermal efficiencies of 50%.";
 	} else if (thermEff>0.42) {
