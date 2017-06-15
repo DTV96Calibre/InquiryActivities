@@ -16,7 +16,7 @@
 
 		<!-- jQuery dependencies -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
         <!-- Bootstrap: Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -31,23 +31,23 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 		<script type="text/javascript" src="carnotAnimate.js"></script>
 	</head>
-    
-    
+
+
 	<body>
-    
+
     	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
-        
-        
+
+
 		<h1 align="center">Carnot Engine Activity</h1>
-        
+
 		<div class="container">
-        
+
 			<h4 id="hotFactLabel">Hot Facts</h4>
             <textarea id="hotFactArea" rows="6" cols="27" readonly="readonly">Please enter a hot temperature.</textarea>
-            
+
 			<h4 id="coldFactLabel">Cold Facts</h4>
             <textarea id="coldFactArea" rows="6" cols="27" readonly="readonly">Please enter a cold temperature.</textarea>
-            
+
 			<label id="compSelLabel">Please choose cycle ideality</label>
             <select id="compSelect" name="compSelect">
                 <option id="componentsDefault" value="normal" selected="selected">Real, Normal Components</option>
@@ -55,7 +55,7 @@
                 <option value="great">Real, Cutting Edge Components</option>
                 <option value="ideal">Ideal (frictionless, reversible)</option>
             </select>
-            
+
 			<h4 id="hotTempLabel">Hot Temperature</h4>
             <input id="hotTempInput" type="text" maxlength="10" />
             <select id="hotTempUnits">
@@ -64,7 +64,7 @@
                 <option value="f">&deg;F</option>
                 <option value="r">R</option>
             </select>
-            
+
 			<h4 id="coldTempLabel">Cold Temperature</h4>
 			<input id="coldTempInput" type="text" maxlength="10" />
             <select id="coldTempUnits">
@@ -73,14 +73,14 @@
                 <option value="f">&deg;F</option>
                 <option value="r">R</option>
             </select>
-            
+
             <img id="engineImg" alt="" src="Carnot_engine.gif" name="engineImg" />
 			<img id="animal" alt="" src="blank_img.png" name="animal" />
 			<img id="topMask" alt="" src="blank_img.png" name="topMask" class="mask" />
 			<img id="leftMask" alt="" src="blank_img.png" name="leftMask" class="mask" />
 			<img id="rightMask" alt="" src="blank_img.png" name="rightMask" class="mask" />
 			<img id="bottomMask" alt="" src="blank_img.png" name="bottomMask" class="mask" />
-            
+
             <!--
             Code to support the tooltips. Note that the "img" tags merely contain blank images to act as placeholders,
             to which the mouseover events can be attached.
@@ -100,7 +100,7 @@
 			<textarea id="hotTempTooltip" class="instructionTooltip" cols="25" rows="5">This is where the temperature for the heat source is set.  In a real steam-turbine system, this would be the temperature of the boiler / superheater.  In a Carnot system, the heat source and the working fluid are assumed to reach the same temperature, which would typically require an impractically long heat exchanger.</textarea>
 			<textArea id="coldTempTooltip" class="instructionTooltip" cols="25" rows="5">This is where the temperature for the heat sink is set.  In a real power plant, this is usually a condenser or cooling tower.  In a Carnot system, the heat-sink and the working fluid are assumed to reach the same temperature, which would typically require an impractically long heat exchanger.</textArea>
 			<textArea id="compSelectTooltip" class="instructionTooltip" cols="25" rows="5">Here you can set the level of friction / heat loss for the system.  A Carnot system is typically assumed to have zero frictional losses as well as zero heat losses to the environment in the compression and pumping steps.  In this system, you can add both friction and heat loss to observe the efficiency both in ideal and more realistic settings.</textArea>
-            
+
 			<h4 id="heatIn">1000 kW</h4>
 			<h4 id="heatOut">kW</h4>
 			<label id="wkOutLabel">Work out:</label>
@@ -111,8 +111,8 @@
 			<label class="cycleData" id="pressure2"></label>
 			<label class="cycleData" id="pressure3"></label>
 			<label class="cycleData" id="pressure4"></label>
-            
-            
+
+
             <h4 id="netWkLabel">Net work:</h4>
 			<h4 id="netWk">kW</h4>
 			<h4 id="thermEffLabel">Thermal Efficiency:</h4>
@@ -123,10 +123,10 @@
 			<!-- Bootstrap buttons -->
 			<a href="javascript:" id="about" class="btn btn-about btn-sm">About this program</a>
             <a href="javascript:" id="toggleTooltips" class="btn btn-more-info btn-sm">More info (off)</a>
-            
+
 		</div>
-        
-        
+
+
 		<p align="center" id="programInfo">
 		(c) Margot Vigeant 2011
 		<br /><br />
@@ -136,7 +136,7 @@
         <br /><br />
         Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
 		</p>
-        
-       
+
+
 	</body>
 </html>
