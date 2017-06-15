@@ -113,9 +113,13 @@
     <label id="faucetFlowRateLabel" name="faucetFlowRateLabel">Flow Rate:</label>
     <label id="faucetFlowRateUnits" name="faucetFlowRateUnits">cm<sup>2</sup>/s</label>
     <label id="faucetFlowRateRange" name="faucetFlowRateRabge">(0-10)</label>
-    <button id="addDropButton" name="addDropButton">Add a Cough Drop</button>
-    <button id="getMeasurementButton" name="getMeasurementButton">Take a Measurement</button>
-    <button id="emptyBeakerButton" name="emptyBeakerButton">Empty all Beakers</button>              
+
+    <!-- Bootstrap buttons -->
+    <a href="javascript:" id="addDropButton" name="addDropButton" class="btn btn-utility btn-sm">Add a Cough Drop</a>
+    <a href="javascript:" id="getMeasurementButton" name="getMeasurementButton" class="btn btn-utility btn-sm">Take a Measurement</a>
+    <a href="javascript:" id="emptyBeakerButton" name="emptyBeakerButton" class="btn btn-utility btn-sm">Empty All Beakers</a>
+    <a href="javascript:" id="helpButton" name="helpButton" class="btn btn-utility btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
+    <a href="javascript:" id="infoButton" name="infoButton" class="btn btn-utility btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
   	
     <div id="stopwatchDiv" name="stopwatchDiv">
         <input id="clock" type="text" value="00:00:0" style="text-align: center;" readonly><br>
@@ -125,20 +129,5 @@
         <a href="javascript:" id="resetbutton" class="btn btn-danger btn-sm" value="Reset" onClick="resetclock();">Reset</a>
 		<textarea id="output" style="resize:none"></textarea>
     </div>
-    
-    <a href="" id="about">Help</a>
-    
-	<p align="center" id="programInfo" name="programInfo">
-		&copy; Margot Vigeant 2012
-		<br /><br />
-		Produced through the efforts of Daniel Prudente
-		<br /><br />
-		Supported by NSF DUE-0717536
-		<br /><br />
-        Stopwatch javascript code created by K&aring;re Byberg &copy; 01.21.2005
-        <br /><br />
-	  Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
-      </p>
-   </div>
 </body>
 </html>

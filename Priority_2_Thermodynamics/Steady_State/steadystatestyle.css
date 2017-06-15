@@ -20,6 +20,11 @@ h1 {
 	color: #000000;
 }
 
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.5em;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -31,70 +36,65 @@ h1 {
 }
 
 /**********Picture / animation components************/
-#about {
-	position:absolute;
-	top:1020px;
-	left:280px;
-}
 #beaker0 {
 	position:absolute;
 	left: -40px;
-	top: 830px;
+	top: 850px;
 	z-index:3;
 }
 #beaker1 {
 	position:absolute;
 	left: 60px;
-	top: 830px;
+	top: 850px;
 	z-index:3;
 }
 #beaker2 {
 	position:absolute;
 	left: 160px;
-	top: 830px;
+	top: 850px;
 	z-index:3;
 }
 #beaker3 {
 	position:absolute;
 	left: 260px;
-	top: 830px;
+	top: 850px;
 	z-index:3;
 }
 #beaker4 {
 	position:absolute;
 	left: 360px;
-	top: 830px;
+	top: 850px;
 	z-index:3;
 }
 #beakerSoln00 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln10 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln20 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln30 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln40 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln50 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln01 {
 	position:absolute;
@@ -104,52 +104,52 @@ h1 {
 #beakerSoln11 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln21 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln31 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln41 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln51 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln02 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln12 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln22 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln32 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln42 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln52 {
 	position:absolute;
@@ -159,62 +159,62 @@ h1 {
 #beakerSoln03 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln13 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln23 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln33 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln43 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln53 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln04 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln14 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln24 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln34 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln44 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #beakerSoln54 {
 	position:absolute;
 	left:175px;
-	top:641px;	
+	top:661px;	
 }
 #buchnerFunnelFront {
 	position:absolute;
@@ -230,12 +230,13 @@ h1 {
 }
 #colorScale {
 	position:absolute;
-	top:960px;
-	left:0px;	
+	top:980px;
+	left:0px;
+	padding-bottom:100px;
 }
 #colorScaleLabel {
 	position:absolute;
-	top:956px;
+	top:976px;
 	left:-95px;	
 }
 #coughDrop0 {
@@ -356,7 +357,7 @@ h1 {
 }
 #solution0 {
 	position:absolute;
-	top:740px;
+	top:760px;
 	left:178px;
 	z-index:-2;	
 }
@@ -411,16 +412,10 @@ h1 {
 	width:140px;
 	z-index:4;	
 }
-#emptyBeakerButton {
-	position:absolute;
-	top:990px;
-	left:130px;
-	width:140px;	
-}
 #faucetFlowRate {
 	position:absolute;
-	top:630px;
-	left:550px;
+	top:625px;
+	left:552px;
 	width:80px;	
 }
 #faucetFlowRateLabel {
@@ -444,10 +439,26 @@ h1 {
 }
 #getMeasurementButton {
 	position:absolute;
-	top:785px;
-	left:120px;
+	top:795px;
+	left:0px;
 	width:160px;
 	z-index:5;
+}
+#emptyBeakerButton {
+	position:absolute;
+	top:795px;
+	left:165px;
+	width:140px;	
+}
+#helpButton {
+	position:absolute;
+	top:795px;
+	left:310px;
+}
+#infoButton {
+	position:absolute;
+	top:795px;
+	left:355px;
 }
 /**********Saturated Beaker components************/
 #beakerSaturated {
@@ -510,4 +521,51 @@ h1 {
 	left:20px;
 	height:100px;
 	width:190px;
+}
+
+/* Custom Bootstrap button class */
+.btn-about, .btn-utility { 
+  color: #000000; 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility:hover, 
+.btn-utility:focus, 
+.btn-utility:active, 
+.btn-utility.active, 
+.open .dropdown-toggle.btn-utility { 
+  color: #000000; 
+  background-color: #C2C2C2; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility:active, 
+.btn-utility.active, 
+.open .dropdown-toggle.btn-utility { 
+  background-image: none; 
+} 
+ 
+.btn-utility.disabled, 
+.btn-utility[disabled], 
+fieldset[disabled] .btn-utility, 
+.btn-utility.disabled:hover, 
+.btn-utility[disabled]:hover, 
+fieldset[disabled] .btn-utility:hover, 
+.btn-utility.disabled:focus, 
+.btn-utility[disabled]:focus, 
+fieldset[disabled] .btn-utility:focus, 
+.btn-utility.disabled:active, 
+.btn-utility[disabled]:active, 
+fieldset[disabled] .btn-utility:active, 
+.btn-utility.disabled.active, 
+.btn-utility[disabled].active, 
+fieldset[disabled] .btn-utility.active { 
+  background-color: #DEDEDE; 
+  border-color: #999999; 
+} 
+ 
+.btn-utility .badge { 
+  color: #DEDEDE; 
+  background-color: #000000; 
 }

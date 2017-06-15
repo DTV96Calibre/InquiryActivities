@@ -151,7 +151,8 @@ function init() {
 	$("#getMeasurementButton").on('click', getMeasurement);
 	$("#emptyBeakerButton").on('click', emptyBeakers);
 	$("#beakerSaturated").on('click', displaySaturatedText);
-	$("#about").on('click', displayAboutInfo);
+	$("#helpButton").on('click', displayHelpAlert);
+	$("#infoButton").on('click', displayInfoAlert);
 }
 
 /*
@@ -375,9 +376,19 @@ function emptyBeakers() {
 	currentBeaker = 0;	
 }
 
-function displayAboutInfo(){
-	alert("The objective of this activity is to be able to measure the same shade of red with all five measuring beakers. " +
+function displayHelpAlert() {
+	alert("The objective of this activity is to measure the same shade of red with all five measuring beakers. " +
 			"However, measuring white five times does not count.");
+	return false;
+}
+
+function displayInfoAlert() {
+	var str = "\u00A9 Margot Vigeant 2012\n";
+	str += "Produced through the efforts of Daniel Prudente\n";
+	str += "Supported by NSF DUE-0717536\n";
+	str += "Stopwatch JavaScript code created by Kare Byberg \u00A9 01.21.2005\n";
+	str += "Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical Engineering";
+	alert(str);
 	return false;
 }
 
@@ -422,9 +433,9 @@ function returnBeaker() {
 	
 	// Hide the empty beaker and solution by itself and return it to the original spot
 	$("#beaker" + currentBeaker).hide();
-	$("#solution" + currentConc).css({"top" : "740px"});
-	$("#beaker" + currentBeaker).css({"top": "830px", "left": leftPx});
-	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "830px", left: leftPx}, 1000, "linear");
+	$("#solution" + currentConc).css({"top" : "760px"});
+	$("#beaker" + currentBeaker).css({"top": "850px", "left": leftPx});
+	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "850px", left: leftPx}, 1000, "linear");
 	
 	// Updates beaker counter
 	currentBeaker++;
