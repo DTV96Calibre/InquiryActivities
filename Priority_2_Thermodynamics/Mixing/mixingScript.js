@@ -314,7 +314,7 @@ function mixWater() {
 		$("#smallBeakerEntropyChange").val(hotEntropyChange.toExponential(2) + " J/K");
 		$("#totalEntropyChange").val(totalEntropyChange.toExponential(2) + " J/K");
 		$("#otherResult").show();
-		$("#otherResult").val(mixed.toFixed(7) + " °C");
+		$("#otherResult").val(mixed.toFixed(7) + " Â°C");
 	}
 	// If the waters are different temperatures, calculate the entropy change from
 	// mixing the temperatures
@@ -331,7 +331,7 @@ function mixWater() {
 		$("#totalEntropyChange").val(totalEntropyChange.toFixed(2) + " J/K");
 		mixed = mixed  - 273.15; //convert mixture temperature back to celsius
 		$("#otherResult").show();
-		$("#otherResult").val(mixed + " °C");
+		$("#otherResult").val(mixed + " Â°C");
 	}
 	
 	$("#bigBeakerEntropyChangeLabel").html("Cold Water<br />Entropy Change:");

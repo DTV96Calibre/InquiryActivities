@@ -84,12 +84,12 @@ function init() {
 	$("#stirBar2").hide();
 	$("#graphHeightInfo").hide();
 	$("#graphSlopeInfo").hide();
-	
+
 	resetSituation1(); // restore Situation 1 parameters to default values (in program and on display)
 	resetSituation2();
 	generateGraphPoints(); // must initialize the objects used as points on the graph
 	resetExperiment(); // the experiment animations must be reset AFTER the graph points are initialized
-	
+
 	// register event handlers for Situation 1 input fields
 	$("#temp1").on('change', getTemps);
 	$("#heatCapacity1").on('change', getHeatCapacities);
@@ -98,7 +98,7 @@ function init() {
 	$("#numBlocks1").on('change', getNumBlocks);
 	$("#stirBarCheck1").click(toggleStirBar1); // check box must be registered with "click" to work correctly in IE
 	$("#sit1DefaultButton").on('click', resetSituation1);
-	
+
 	// register event handlers for Situation 1 input fields
 	$("#temp2").on('change', getTemps);
 	$("#heatCapacity2").on('change', getHeatCapacities);
@@ -107,17 +107,17 @@ function init() {
 	$("#numBlocks2").on('change', getNumBlocks);
 	$("#stirBarCheck2").click(toggleStirBar2); // check box must be registered with "click" to work correctly in IE
 	$("#sit2DefaultButton").on('click', resetSituation2);
-	
+
 	// register event handlers for control buttons (start, pause, reset, help)
 	$("#startButton").on('click', startMelting);
 	$("#pauseButton").on('click', pauseMelting);
 	$("#resetButton").on('click', resetExperiment);
 	$("#helpButton").on('click', showHelp);
-	
+
 	// register event handlers for links to display more info
 	$("#graphInfo").on('click', displayGraphInfo);
 	$("#infoButton").on('click', displayAboutInfo);
-	$("#IEexp").on('click', displayIEexp);	
+	$("#IEexp").on('click', displayIEexp);
 }
 
 /*
@@ -128,16 +128,16 @@ function init() {
 function generateGraphPoints() {
 	var sit1HTML = "";
 	var sit2HTML = "";
-	
+
 	for(var i=1; i<=200; i++) {
 		sit1HTML += '<img id="sit1Point' + i + '" class="sit1Point" src="blank_img.png" />';
 		sit2HTML += '<img id="sit2Point' + i + '" class="sit2Point" src="blank_img.png" />';
 	}
-	
+
 	$("#graphBase").after('<div id="graphPointsDiv">' + sit1HTML + sit2HTML + '</div>');
 }
 
-/* 
+/*
  * Function: resetExperiment
  * Resets the visual display to what it should look like before an experiment is run. Largely consists
  * of enabling input fields (which are disabled while an experiment is running). It is also necessary
@@ -145,10 +145,10 @@ function generateGraphPoints() {
  * is running.
 */
 function resetExperiment() {
-	
+
 	experimentRunning = false;
 	experimentStarted = false;
-	
+
 	// Re-enable the input fields, and change all the colors back to their original
 	// reds and blues. (Many are grayed out manually in the startMelting function.)
 	$(".input1").removeAttr("disabled");
@@ -156,23 +156,23 @@ function resetExperiment() {
 	$("#stirBarCheck1").removeAttr("disabled");
 	$("#sit1DefaultButton").removeAttr("disabled");
 	$("#sit1DefaultButton").css("border-color", "#B90000");
-	
+
 	$(".input2").removeAttr("disabled");
 	$(".input2").css("color", "red");
 	$("#stirBarCheck2").removeAttr("disabled");
 	$("#sit2DefaultButton").removeAttr("disabled");
 	$("#sit2DefaultButton").css("border-color", "#2011D0");
-	
+
 	$("#startButton").removeAttr("disabled");
 	$("#startButton").css("border-color", "#093");
 
 	$("#pauseButton").find(".glyphicon").removeClass('glyphicon-play');
-    $("#pauseButton").find(".glyphicon").addClass('glyphicon-pause');	
-	
+    $("#pauseButton").find(".glyphicon").addClass('glyphicon-pause');
+
 	// Make sure the Pause button reads "PAUSE" rather than "RESET", and disable the Pause button
 	$("#pauseButton").attr("disabled", "disabled");
 	$("#pauseButton").css("border-color", "gray");
-	
+
 	// Return the blocks to their original positions and the ice cubes to their
 	// original sizes. Hide all data points and labels on the graph.
 	getAreas(); //getAreas automatically returns the blocks to the correct height based on their size
@@ -181,11 +181,11 @@ function resetExperiment() {
 	$(".sit1Point").hide();
 	$(".sit2Point").hide();
 	$(".graphLabel").hide();
-	
+
 	// reset currentBlockTemp1 and currentBlockTemp2 by simply re-reading in the initial
 	// temperature inputs
 	getTemps();
-	
+
 	// Clears the display of initial ice that the beakers start with, since this number is not
 	// calculated until the Start button is pressed
 	$("#initialIce").html("");
@@ -209,7 +209,7 @@ function resetExperiment() {
 function getTemps() {
 	initialTemp1 = $("#temp1").val();
 	if(initialTemp1 == "") initialTemp1 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset initialTemp1 to its default value
 	if(isNaN(initialTemp1)) {
 		$("#temp1").val(200);
@@ -220,16 +220,16 @@ function getTemps() {
 		$("#temp1").val(0);
 		initialTemp1 = 0;
 	}
-	
+
 	// Now that initialTemp1 is sure to have a valid value, change the "current temperature"
 	// label to reflect the new temperature
 	currentBlockTemp1 = initialTemp1;
 	$("#currentBlockTemp1").html(currentBlockTemp1);
-	
-	
+
+
 	initialTemp2 = $("#temp2").val();
 	if(initialTemp2 == "") initialTemp2 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset initialTemp2 to its default value
 	if(isNaN(initialTemp2)) {
 		$("#temp2").val(200);
@@ -240,7 +240,7 @@ function getTemps() {
 		$("#temp2").val(0);
 		initialTemp2 = 0;
 	}
-	
+
 	// Now that initialTemp2 is sure to have a valid value, change the "current temperature"
 	// label to reflect the new temperature
 	currentBlockTemp2 = initialTemp2;
@@ -269,7 +269,7 @@ function updateBlockColors() {
 	else {
 		$(".sit1block").css("background", "url('blocks.png') -144px 0"); // bright red
 	}
-	
+
 	// Change situation 2 blocks' color to reflect the temperature
 	if(currentBlockTemp2 < 40) {
 		$(".sit2block").css("background", "url('blocks.png') 0 0"); // black
@@ -294,7 +294,7 @@ function updateBlockColors() {
 function getHeatCapacities() {
 	heatCapacity1 = $("#heatCapacity1").val();
 	if(heatCapacity1=="") heatCapacity1 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset heatCapacity1 to its default value
 	if(isNaN(heatCapacity1)) {
 		$("#heatCapacity1").val(1);
@@ -305,11 +305,11 @@ function getHeatCapacities() {
 		$("#heatCapacity1").val(0.1);
 		heatCapacity1 = 0.1;
 	}
-	
-	
+
+
 	heatCapacity2 = $("#heatCapacity2").val();
 	if(heatCapacity2=="") heatCapacity2 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset heatCapacity2 to its default value
 	if(isNaN(heatCapacity2)) {
 		$("#heatCapacity2").val(1);
@@ -331,7 +331,7 @@ function getHeatCapacities() {
 function getMasses() {
 	mass1 = $("#mass1").val();
 	if(mass1=="") mass1 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset mass1 to its default value
 	if(isNaN(mass1)) {
 		$("#mass1").val(40);
@@ -342,11 +342,11 @@ function getMasses() {
 		$("#mass1").val(1);
 		mass1 = 1;
 	}
-	
-	
+
+
 	mass2 = $("#mass2").val();
 	if(mass2=="") mass2 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset mass2 to its default value
 	if(isNaN(mass2)) {
 		$("#mass2").val(40);
@@ -369,13 +369,13 @@ function getMasses() {
 function getAreas() {
 	area1 = $("#area1").val();
 	if(area1=="") area1 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset area1 to its default value
 	if(isNaN(area1)) {
 		$("#area1").val(4);
 		area1 = 4;
 	}
-	
+
 	// Change the blocks' size according to the input surface area
 	switch(area1*1) { // must multiply by 1 to make sure area1 is treated as an integer
 	case 0: $("#area1").val(1);
@@ -425,19 +425,19 @@ function getAreas() {
 			sit2BlockHeight = 33;
 			break;
 	}
-	
-	
+
+
 	// Now read in and process area2
-	
+
 	area2 = $("#area2").val();
 	if(area2=="") area2 = NaN; // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	// If the value entered is not a number, reset area1 to its default value
 	if(isNaN(area2)) {
 		$("#area2").val(4);
 		area1 = 4;
 	}
-	
+
 	// Change the blocks' size according to the input surface area
 	switch(area2*1) { // must multiply by 1 to make sure area2 is treated as an integer
 	case 0: $("#area2").val(1);
@@ -498,7 +498,7 @@ function getAreas() {
 */
 function getNumBlocks() {
 	numBlocks1 = $("#numBlocks1").val(); // no need for validation because this is a drop-down box, so entering an illegal value is impossible
-	
+
 	switch(numBlocks1*1) {
 	case 1:
 			$("#sit1block1").hide();
@@ -525,10 +525,10 @@ function getNumBlocks() {
 			$("#sit1block4").show();
 			break;
 	}
-	
-	
+
+
 	numBlocks2 = $("#numBlocks2").val();
-	
+
 	switch(numBlocks2*1) {
 	case 1:
 			$("#sit2block1").hide();
@@ -566,7 +566,7 @@ function getNumBlocks() {
 */
 function toggleStirBar1() {
 	var isChecked = $("#stirBarCheck1").is(":checked");
-	
+
 	if(isChecked) {
 		$("#stirBar1").show();
 		stirFactor1 = 0.1;
@@ -586,7 +586,7 @@ function toggleStirBar1() {
 */
 function toggleStirBar2() {
 	var isChecked = $("#stirBarCheck2").is(":checked");
-	
+
 	if(isChecked) {
 		$("#stirBar2").show();
 		stirFactor2 = 0.1;
@@ -600,7 +600,7 @@ function toggleStirBar2() {
 /*
  * Event Handler Function: resetSituation1
  * Called when the user clicks the "Default" button for Situation 1
- * 
+ *
  * Restores all parameters for Situation 1 to default values, both in the program
  * and in the display.
 */
@@ -611,7 +611,7 @@ function resetSituation1() {
 	$("#area1").val(4);
 	$("#numBlocks1").val("1");
 	$("#stirBarCheck1").removeAttr("checked");
-	
+
 	// Calls the event handler functions to read in the new values rather than setting them directly, because
 	// some of these parameters require other side effects to happen as well (such as changes in the display)
 	getTemps();
@@ -625,7 +625,7 @@ function resetSituation1() {
 /*
  * Event Handler Function: resetSituation2
  * Called when the user clicks the "Default" button for Situation 2
- * 
+ *
  * Restores all parameters for Situation 2 to default values, both in the program
  * and in the display.
 */
@@ -636,7 +636,7 @@ function resetSituation2() {
 	$("#area2").val(4);
 	$("#numBlocks2").val("1");
 	$("#stirBarCheck2").removeAttr("checked");
-	
+
 	// Calls the event handler functions to read in the new values rather than setting them directly, because
 	// some of these parameters require other side effects to happen as well (such as changes in the display)
 	getTemps();
@@ -690,7 +690,7 @@ function startMelting() {
 	// Reset experiment to the beginning (ex. unmelt ice cubes, move blocks back to their starting location, etc.) just
 	// in case the user re-starts the experiment without explicitly clicking the Reset button first
 	resetExperiment();
-	
+
 	// Disable all input fields. Also change the blues and reds back to grays and blacks,
 	// to make it visually clearer that they're disabled.
 	$(".input1").attr("disabled", "disabled");
@@ -698,23 +698,23 @@ function startMelting() {
 	$("#stirBarCheck1").attr("disabled", "disabled");
 	$("#sit1DefaultButton").attr("disabled", "disabled");
 	$("#sit1DefaultButton").css("border-color", "gray");
-	
+
 	$(".input2").attr("disabled", "disabled");
 	$(".input2").css("color", "black");
 	$("#stirBarCheck2").attr("disabled", "disabled");
 	$("#sit2DefaultButton").attr("disabled", "disabled");
 	$("#sit2DefaultButton").css("border-color", "gray");
-	
+
 	// Disable "start" button and enable "pause" button
 	$("#startButton").attr("disabled", "disabled");
 	$("#startButton").css("border-color", "gray");
 	$("#pauseButton").removeAttr("disabled");
 	$("#pauseButton").css("border-color", "#F00");
-	
+
 	// Initialize starting values for the calculations
 	calculateGraphLabels();
 	initializeCalculationVars();
-	
+
 	// Start the experiment
 	experimentRunning = true;
 	experimentStarted = true;
@@ -744,7 +744,7 @@ function calculateGraphLabels() {
 	var qInstant2;
 	var xMax;
 	var yMax;
-	
+
 	for(var i=1; i<=200; i++) {
 		// Calculate heat transfer and new block temperatures for this step for the blocks of situation 1
 		qInstant1 = stirFactor1 * area1 * numBlocks1 * (currentBlockTemp1 - icewaterTemp) * secondsPerStep;
@@ -760,20 +760,20 @@ function calculateGraphLabels() {
 		q2 = q2 - qInstant2;
 		currentBlockTemp2 = q2/(numBlocks2 * mass2 * heatCapacity2) + icewaterTemp;
 	}
-	
+
 	var iceMelt1 = (initialQ1 - q1) / 2.01; // The heat capacity for ice is 2.01 j/gC
 	var iceMelt2 = (initialQ2 - q2) / 2.01;
 	var maxIceMelt;
-	
+
 	if(iceMelt1 > iceMelt2)
 		maxIceMelt = Math.floor(iceMelt1);
 	else
 		maxIceMelt = Math.floor(iceMelt2);
-		
+
 	// Now that we know the amount of ice that both beakers will start with (i.e. the max ice that will
 	// be melted) we can update that amount on the display
 	$("#initialIce").html(maxIceMelt);
-		
+
 	// We only want the order of magnitude for y, so separate out the first digit
 	// and fill in the rest with 0's
 	if(maxIceMelt >= 100000)
@@ -788,36 +788,36 @@ function calculateGraphLabels() {
 		yMax = Math.ceil(maxIceMelt/10) * 10;
 	else
 		yMax = Math.ceil(maxIceMelt);
-		
-		
+
+
 	// Having calculated yMax, fill in the values of the 4 labels on the y-axis accordingly
 	$("#yLabel1").html(yMax / 4);
 	$("#yLabel2").html(yMax / 2);
 	$("#yLabel3").html(yMax * 3/4);
 	$("#yLabel4").html(yMax);
-	
-	
+
+
 	// Now label the x-axis
 	xMax = Math.floor(tau);
 	$("#xLabel1").html(xMax / 4);
 	$("#xLabel2").html(xMax / 2);
 	$("#xLabel3").html(xMax * 3/4);
 	$("#xLabel4").html(xMax);
-	
+
 	$(".graphLabel").show();
-	
+
 	// Finally, calculate xScale and yScale
 	xScale = graphWidth / xMax;
 	yScale = graphHeight / yMax;
 }
 
-/* 
+/*
  * Function: initializeCalculationVars
- * 
+ *
 */
 function initializeCalculationVars() {
 	currentStep = 1;
-	
+
 	// Ensure all input values are current
 	getTemps();
 	getHeatCapacities();
@@ -826,26 +826,26 @@ function initializeCalculationVars() {
 	getNumBlocks();
 	toggleStirBar1();
 	toggleStirBar2();
-	
+
 	var tau1 = mass1 * heatCapacity1/(numBlocks1 * stirFactor1 * area1);
 	var tau2 = mass2 * heatCapacity2/(numBlocks2 * stirFactor2 * area2);
 	if(tau1 > tau2)
 		tau = tau1 * tauNumber;
 	else
 		tau  = tau2 * tauNumber;
-		
+
 	secondsPerStep = tau/200;
 
 	initialQ1 = mass1 * heatCapacity1 * (currentBlockTemp1-icewaterTemp) * numBlocks1;
 	q1 = initialQ1;
 	initialQ2 = mass2 * heatCapacity2 * (currentBlockTemp2-icewaterTemp) * numBlocks2;
 	q2 = initialQ2;
-	
+
 	currentIceHeight1 = 42;
 	currentIceWidth1 = 85;
 	currentIceHeight2 = 42;
 	currentIceWidth2 = 85;
-	
+
 	// Whichever situation has the bigger initial q value should have its ice melt all the way (max time and
 	// max ice melted were calculated to make sure that happens). For the other situation, the amount of ice
 	// that melts is proportional of the ratio of the two situations' initial q values.
@@ -866,10 +866,10 @@ function initializeCalculationVars() {
 function dropBlocks() {
 	sit1BlockTop = sit1BlockTop + 45;
 	var cssVal1 = sit1BlockTop + "px";
-	
+
 	sit2BlockTop = sit2BlockTop + 45;
 	var cssVal2 = sit2BlockTop + "px";
-	
+
 	// Move the blocks down until they hit the water (the coordinates that were just calculated). Make
 	// the fall take half a second (500ms). Then call calculateStep to start the heat-transfer calculations.
 	$(".sit1block").animate({top:cssVal1}, 500, "linear");
@@ -896,7 +896,7 @@ function calculateStep() {
 		$("#pauseButton").css("border-color", "gray");
 		return;
 	}
-	
+
 	// Calculate heat transfer and new block temperatures for this step for the blocks of situation 1
 	var qInstant1 = stirFactor1 * area1 * numBlocks1 * (currentBlockTemp1 - icewaterTemp) * secondsPerStep;
 	if (qInstant1 > initialQ1)
@@ -910,7 +910,7 @@ function calculateStep() {
 		qInstant2 = initialQ2;
 	q2 = q2 - qInstant2;
 	currentBlockTemp2 = q2/(numBlocks2 * mass2 * heatCapacity2) + icewaterTemp;
-	
+
 	// Calculate the coordinates for the points on the graph
 	var x = currentStep * secondsPerStep * xScale;
 	x = x + "px";
@@ -922,7 +922,7 @@ function calculateStep() {
 	y2 = graphHeight - y2;
 	y2 = y2 + "px";
 
-	
+
 	// Calculate the new height and width values for the ice cubes of situation 1
 	// Note that since currentIceHeight is a global variable, it is necessary to make a copy of it
 	// to format it correctly for CSS, because if you change the format of the original you'll have
@@ -931,18 +931,18 @@ function calculateStep() {
 	var cssHeight1 = currentIceHeight1 + "px";
 	currentIceWidth1 = currentIceWidth1 - (qInstant1/initialQ1 * iceMeltWidth1);
 	var cssWidth1 = currentIceWidth1 + "px";
-	
+
 	// Update the current temperature of the blocks on the screen, and change the color to match
 	$("#currentBlockTemp1").html(currentBlockTemp1.toFixed(2));
 	$("#currentBlockTemp2").html(currentBlockTemp2.toFixed(2));
 	updateBlockColors();
-	
+
 	// Calculate the new height and width values for the ice cubes of situation 2
 	currentIceHeight2 = currentIceHeight2 - (qInstant2/initialQ2 * iceMeltHeight2);
 	var cssHeight2 = currentIceHeight2 + "px";
 	currentIceWidth2 = currentIceWidth2 - (qInstant2/initialQ2 * iceMeltWidth2);
 	var cssWidth2 = currentIceWidth2 + "px";
-	
+
 	// Animate blocks. The rest of the visual changes will take place while the animation is
 	// running; as a callback, the animation will re-call this function. Like in dropBlocks,
 	// sit2block4 will be animated separately so that the callback can be attached to that block alone,
@@ -956,18 +956,18 @@ function calculateStep() {
 	$(".sit1block").css("top", cssVal1);
 	$("#sit2block1, #sit2block2, #sit2block3").css("top", cssVal2);
 	$("#sit2block4").animate({top:cssVal2}, 50, "linear", calculateStep); // One frame should take about 50ms
-	
+
 	// Shrink the ice cubes
 	$(".sit1Ice").css({height:cssHeight1, width:cssWidth1});
 	$(".sit2Ice").css({height:cssHeight2, width:cssWidth2});
-	
+
 	var dot1 = "#sit1Point" + currentStep;
 	var dot2 = "#sit2Point" + currentStep;
 	$(dot1).css({top:y1, left:x});
 	$(dot2).css({top:y2, left:x});
 	$(dot1).show();
 	$(dot2).show();
-	
+
 	currentStep++;
 }
 
@@ -980,19 +980,20 @@ function calculateStep() {
 */
 
 function showHelp() {
-	alert("Melting Ice Simulation lets you compare the rate of energy transfer\
-		from heated blocks to ice cubes in two different beakers, each under\
-		its own set of initial conditions. \n\nChoose the initial conditions\
-		for Situation 1 and Situation 2.\n\n Then click the Start button to\
-		watch the ice melt.\n\n After the ice has melted, in order to change\
-		the initial conditions for another experiment, you must first press the\
-		Reset button to return the ice and the heated blocks to their initial\
-		positions and energies.\n\n While the ice is melting, you can watch the\
-		graph to see the mass of ice melted in each beaker over time. Note that\
-		the axes are recalculated every time to ensure a good view of the \
-		graph.\n\n This simulation assumes that all energy transferred goes into\
-		melting ice at 0°C into water at 0°C, and none goes into changing the\
-		temperature of the water or ice.");
+	var string = "Melting Ice Simulation lets you compare the rate of energy transfer";
+    string += " from heated blocks to ice cubes in two different beakers, each under";
+    string += " its own set of initial conditions. \n\nChoose the initial conditions";
+    string += " for Situation 1 and Situation 2.\n\nThen click the Start button to";
+    string += " watch the ice melt.\n\nAfter the ice has melted, in order to change";
+    string += " the initial conditions for another experiment, you must first press the";
+    string += " Reset button to return the ice and the heated blocks to their initial";
+    string += " positions and energies.\n\nWhile the ice is melting, you can watch the";
+    string += " graph to see the mass of ice melted in each beaker over time. Note that";
+    string += " the axes are recalculated every time to ensure a good view of the";
+    string += " graph.\n\nThis simulation assumes that all energy transferred goes into";
+    string += " melting ice at 0Â°C into water at 0Â°C, and none goes into changing the";
+    string += " temperature of the water or ice.";
+  alert(string);
 }
 
 function displayGraphInfo() {
@@ -1024,6 +1025,6 @@ function displayIEexp() {
 	alert("Your ice cubes look like giant bricks because you are using a browser that cannot always display rounded corners correctly. " +
 		  "If you want nicer-looking ice cubes, try switching to a different browser. But don't worry, the simulation will " +
 		  "work fine either way!");
-	
+
 	return false;
 }

@@ -84,17 +84,17 @@ function init() {
 	steamTemp = NaN;
 	roomTemp = NaN;
 	heatTransferCoeff = NaN;
-	
+
 	// clear output fields
 	$("#timeFill").html("");
 	$("#timeFill2").html("");
-		
+
 	// make sure reset, skip, and black button selectors are disabled (in case the user refreshes the page while some elements are enabled)
 	$("#resetButton").attr("disabled", "disabled");
   	$("#skipButton").attr("disabled", "disabled");
 	$("#blackButton").attr("disabled", "disabled");
 	$("#blackButton2").attr("disabled", "disabled");
-	
+
 	// sets up and hides the customization options
 	advanced = false;
 	$("#customButton").hide();
@@ -104,8 +104,8 @@ function init() {
 	customEmissivity = .98;
 	$("#funFactsDiv").hide();
 	$("#basicButton").hide();
-	$("#emissivityLimit").hide();	
-	
+	$("#emissivityLimit").hide();
+
 	// updates text underneath the select buttons
 	$("#pipeTypeText").html("Black (Parsons) Paint");
 	$("#pipeTypeText2").html("Black (Parsons) Paint");
@@ -119,8 +119,8 @@ function init() {
 	$("#steamTemp").removeAttr("disabled");
 	$("#roomTemp").removeAttr("disabled");
 	$("#heatTransferCoeff").removeAttr("disabled");
-	$("#customButton").removeAttr("disabled");	
-	
+	$("#customButton").removeAttr("disabled");
+
 	// register event handlers
 	$("#help").live('click', displayHelp);
 	$("#steamTemp").live('change', getSteamTemp);
@@ -158,15 +158,15 @@ function init() {
 */
 function getSteamTemp() {
 	var input = $("#steamTemp").val();
-	
+
 	// if the entered value is not a valid number, keep the current steam temperature and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
 	if(isNaN(input) || input == "") {
 		if(!isNaN(steamTemp)) {
-			$("#steamTemp").val(steamTemp);	
+			$("#steamTemp").val(steamTemp);
 		}
 		else {
-			$("#steamTemp").val("");	
+			$("#steamTemp").val("");
 		}
 	}
 	// if the input is outside the valid range, set the steam temperature to the highest/lowest valid value
@@ -181,7 +181,7 @@ function getSteamTemp() {
 	}
 	// if input is valid, set pumpRate
 	else {
-		steamTemp = input;	
+		steamTemp = input;
 	}
 }
 
@@ -194,15 +194,15 @@ function getSteamTemp() {
 */
 function getRoomTemp() {
 	var input = $("#roomTemp").val();
-	
+
 	// if the entered value is not a valid number, keep the current room temperature and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
 	if(isNaN(input) || input == "") {
 		if(!isNaN(roomTemp)) {
-			$("#roomTemp").val(roomTemp);	
+			$("#roomTemp").val(roomTemp);
 		}
 		else {
-			$("#roomTemp").val("");	
+			$("#roomTemp").val("");
 		}
 	}
 	// if the input is outside the valid range, set the room temperature to the highest/lowest valid value
@@ -217,7 +217,7 @@ function getRoomTemp() {
 	}
 	// if input is valid, set pumpRate
 	else {
-		roomTemp = input;	
+		roomTemp = input;
 	}
 }
 
@@ -230,15 +230,15 @@ function getRoomTemp() {
 */
 function getHeatTransferCoeff() {
 	var input = $("#heatTransferCoeff").val();
-	
+
 	// if the entered value is not a valid number, keep the current heat transfer coefficient and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
 	if(isNaN(input) || input == "") {
 		if(!isNaN(heatTransferCoeff)) {
-			$("#heatTransferCoeff").val(heatTransferCoeff);	
+			$("#heatTransferCoeff").val(heatTransferCoeff);
 		}
 		else {
-			$("#heatTransferCoeff").val("");	
+			$("#heatTransferCoeff").val("");
 		}
 	}
 	// if the input is outside the valid range, set the heat transfer coefficient to the highest/lowest valid value
@@ -253,7 +253,7 @@ function getHeatTransferCoeff() {
 	}
 	// if input is valid, set the heat transfer coefficient
 	else {
-		heatTransferCoeff = input;	
+		heatTransferCoeff = input;
 	}
 }
 
@@ -266,15 +266,15 @@ function getHeatTransferCoeff() {
 */
 function getEmissivity() {
 	var input = $("#emissivity").val();
-	
+
 	// if the entered value is not a valid number, keep the current emissivity and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
 	if(isNaN(input) || input == "") {
 		if(!isNaN(customEmissivity)) {
-			$("#emissivity").val(customEmissivity);	
+			$("#emissivity").val(customEmissivity);
 		}
 		else {
-			$("#emissivity").val("");	
+			$("#emissivity").val("");
 		}
 	}
 	// if the input is outside the valid range, set the heat transfer coefficient to the highest/lowest valid value
@@ -289,7 +289,7 @@ function getEmissivity() {
 	}
 	// if input is valid, set the heat transfer coefficient
 	else {
-		customEmissivity = input;	
+		customEmissivity = input;
 	}
 	if (customEmissivity < .05) {
 		$("#funFact").html("At this temperature, this emissivity is around the range of polished gold and silver");
@@ -323,7 +323,7 @@ function changeToBlack() {
 	// enables the vision of the black upper and bottom pipe
 	$("#blackUpperPipe").show();
 	$("#blackBottomPipe").show();
-	
+
 	// disables the vision of the white and gold upper and bottom pipes
 	$("#whiteUpperPipe").hide();
 	$("#goldUpperPipe").hide();
@@ -332,7 +332,7 @@ function changeToBlack() {
 	$("#funFactsDiv").hide();
 	$("#customUpperPipe").hide();
 	$("#customBottomPipe").hide();
-	
+
 	// disables the black button
 	$("#blackButton").attr("disabled", "disabled");
 
@@ -363,7 +363,7 @@ function changeToWhite() {
 	// enables the vision of the white upper and bottom pipe
 	$("#whiteUpperPipe").show();
 	$("#whiteBottomPipe").show();
-	
+
 	// disables the vision of the white and gold upper and bottom pipes
 	$("#blackUpperPipe").hide();
 	$("#goldUpperPipe").hide();
@@ -372,7 +372,7 @@ function changeToWhite() {
 	$("#funFactsDiv").hide();
 	$("#customUpperPipe").hide();
 	$("#customBottomPipe").hide();
-	
+
 	// disables the white button
 	$("#whiteButton").attr("disabled", "disabled");
 
@@ -404,7 +404,7 @@ function changeToGold() {
 	// enables the vision of the gold upper and bottom pipe
 	$("#goldUpperPipe").show();
 	$("#goldBottomPipe").show();
-	
+
 	// disables the vision of the white and gold upper and bottom pipes
 	$("#whiteUpperPipe").hide();
 	$("#blackUpperPipe").hide();
@@ -413,7 +413,7 @@ function changeToGold() {
 	$("#funFactsDiv").hide();
 	$("#customUpperPipe").hide();
 	$("#customBottomPipe").hide();
-	
+
 	// disables the gold button
 	$("#goldButton").attr("disabled", "disabled");
 
@@ -460,14 +460,14 @@ function changeToCustom() {
 	$("#whiteButton").removeAttr("disabled");
 	$("#blackButton").removeAttr("disabled");
 	$("#goldButton").removeAttr("disabled");
-	
+
 	pipeType = "custom";
 
 	// updates text underneath the button
 	$("#pipeTypeText").html("Custom Piping");
 
 	// enables the input box for a custom emissivity
-	$("#emissivity").removeAttr("disabled");	
+	$("#emissivity").removeAttr("disabled");
 }
 
 
@@ -481,13 +481,13 @@ function changeToBlack2() {
 	// enables the vision of the black upper and bottom pipe
 	$("#blackUpperPipe2").show();
 	$("#blackBottomPipe2").show();
-	
+
 	// disables the vision of the white and gold upper and bottom pipes
 	$("#whiteUpperPipe2").hide();
 	$("#goldUpperPipe2").hide();
 	$("#whiteBottomPipe2").hide();
 	$("#goldBottomPipe2").hide();
-	
+
 	// disables the black button
 	$("#blackButton2").attr("disabled", "disabled");
 
@@ -512,13 +512,13 @@ function changeToWhite2() {
 	// enables the vision of the white upper and bottom pipe
 	$("#whiteUpperPipe2").show();
 	$("#whiteBottomPipe2").show();
-	
+
 	// disables the vision of the white and gold upper and bottom pipes
 	$("#blackUpperPipe2").hide();
 	$("#goldUpperPipe2").hide();
 	$("#blackBottomPipe2").hide();
 	$("#goldBottomPipe2").hide();
-	
+
 	// disables the black button
 	$("#whiteButton2").attr("disabled", "disabled");
 
@@ -543,13 +543,13 @@ function changeToGold2() {
 	// enables the vision of the gold upper and bottom pipe
 	$("#goldUpperPipe2").show();
 	$("#goldBottomPipe2").show();
-	
+
 	// disables the vision of the white and gold upper and bottom pipes
 	$("#whiteUpperPipe2").hide();
 	$("#blackUpperPipe2").hide();
 	$("#whiteBottomPipe2").hide();
 	$("#blackBottomPipe2").hide();
-	
+
 	// disables the black button
 	$("#goldButton2").attr("disabled", "disabled");
 
@@ -576,7 +576,7 @@ function changeToAdvanced() {
 	$("#customButton").show();
 	$("#emissivity").show();
 	$("#emissivityLimit").show();
-	advanced = true;	
+	advanced = true;
 }
 
 /*
@@ -594,7 +594,7 @@ function changeToBasic() {
 	$("#funFactTitle").hide();
 	$("#funFact").hide();
 	$("#emissivityLimit").hide();
-	if (pipeType === "custom")	
+	if (pipeType === "custom")
 		changeToBlack();
 	advanced = false;
 }
@@ -638,10 +638,10 @@ function startSimulation() {
 	$("#customButton").attr("disabled", "disabled");
 	$("#advancedButton").attr("disabled", "disabled");
 	$("#basicButton").attr("disabled", "disabled");
-	
+
 	// enable the skip button
 	$("#skipButton").removeAttr("disabled");
-	
+
 	// begin the animation
 	fillPipes();
 
@@ -659,7 +659,7 @@ function resetSimulation() {
 	$("#fillingWater2").css("top", "355px");
 	$("#fullSign").hide();
 	$("#fullSign2").hide();
-	
+
 	// clear output fields
 	$("#timeFill").html("");
 	$("#timeFill2").html("");
@@ -673,13 +673,13 @@ function resetSimulation() {
 	// enables the advanced/basic button
 	$("#advancedButton").removeAttr("disabled");
 	$("#basicButton").removeAttr("disabled");
-	
+
 	//enables the input boxes and clears the calculated heat transfer for basic users
 	$("#steamTemp").removeAttr("disabled");
 	$("#roomTemp").removeAttr("disabled");
 	$("#heatTransferCoeff").removeAttr("disabled");
-	$("#basicHeatTransferCoeff").html("");	
-	
+	$("#basicHeatTransferCoeff").html("");
+
 	// enables the color buttons that the pipe isn't currently
 	if (pipeType === "black") {
 		$("#whiteButton").removeAttr("disabled");
@@ -694,7 +694,7 @@ function resetSimulation() {
 		$("#blackButton").removeAttr("disabled");
 		$("#customButton").removeAttr("disabled");
 	} else {
-		$("#blackButton").removeAttr("disabled");	
+		$("#blackButton").removeAttr("disabled");
 		$("#whiteButton").removeAttr("disabled");
 		$("#goldButton").removeAttr("disabled");
 		$("#emissivity").removeAttr("disabled");
@@ -710,7 +710,7 @@ function resetSimulation() {
 		$("#whiteButton2").removeAttr("disabled");
 		$("#blackButton2").removeAttr("disabled");
 	}
-	
+
 	$("#steamGraphic").show();
 	$("#steamGraphic2").show();
 }
@@ -737,10 +737,10 @@ $.easing.easePipe = function (x, t, b, c, d) {
  * Runs the portion of the animation for water starting to fill the pipes
 */
 function fillPipes() {
-	
+
 	// animate the water level rising in both pipes
 
-	
+
 
 	if (simulationTime > simulationTime2) {
 		$("#steamGraphic").fadeOut(simulationTime/4);
@@ -758,7 +758,7 @@ function fillPipes() {
 /*
  * Function: skip
  * Skips the current animation and removes the animation from the queue
-*/  
+*/
 function skip() {
 	// for the animation to look correct the animation that is longer needs to be skipped last
 	if (simulationTime > simulationTime2) {
@@ -847,7 +847,7 @@ function calculateRunTime(type) {
 
 	var totalPower = powerBlackBody + powerConvection;
 
-	
+
 	return energyNeeded / totalPower;
 }
 
@@ -863,11 +863,11 @@ function calculateHeatTransferCoeff() {
 	var v = 22.8 * Math.pow(10,-6); // m^2/s
 	var a = 32.8 * Math.pow(10,-6); // m^2/s
 	var pr = .697;
-	
+
 	var Rad = g * b * (steamTemp-roomTemp) * Math.pow(d, 3) / (v * a);
-	
+
 	var Nud = Math.pow(.6 + .387 * Math.pow(Rad, 1/6) / Math.pow(1 + Math.pow(.559/pr, 9/16), 8/27), 2);
-	
+
 	return k / d * Nud;
 }
 
@@ -876,5 +876,10 @@ function displayHelp() {
 		"to cover the pipe and run the simulation. " +
 		"\n\nTo resize the window press ctrl and +/- to zoom in/out for Windows and Linux users. " +
 		"For Mac users press command and +/-");
+	return false;
+}
+
+function displayAboutInfo() {
+	alert("About stuff");
 	return false;
 }
