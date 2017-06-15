@@ -210,7 +210,7 @@ function mixWater() {
 		$("#smallBeakerEntropyChange").val(hotEntropyChange.toExponential(2) + " J/K");
 		$("#totalEntropyChange").val(totalEntropyChange.toExponential(2) + " J/K");
 		$("#otherResult").show();
-		$("#otherResult").val(mixed.toFixed(7) + " °C");
+		$("#otherResult").val(mixed.toFixed(7) + " \xB0C");
 	}
 	else {
 		hotEntropyChange = 4.18 * 100 * Math.log(mixed/hot);
@@ -225,7 +225,7 @@ function mixWater() {
 		$("#totalEntropyChange").val(totalEntropyChange.toFixed(2) + " J/K");
 		mixed = mixed  - 273.15; //convert mixed back to celsius
 		$("#otherResult").show();
-		$("#otherResult").val(mixed + " °C");
+		$("#otherResult").val(mixed + " \xB0C");
 	}
 	
 	$("#bigBeakerEntropyChangeLabel").html("Cold Water<br />Entropy Change:");

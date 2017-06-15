@@ -991,7 +991,7 @@ function showHelp() {
     string += " graph to see the mass of ice melted in each beaker over time. Note that";
     string += " the axes are recalculated every time to ensure a good view of the";
     string += " graph.\n\nThis simulation assumes that all energy transferred goes into";
-    string += " melting ice at 0°C into water at 0°C, and none goes into changing the";
+    string += " melting ice at 0\xB0C into water at 0\xB0C, and none goes into changing the";
     string += " temperature of the water or ice.";
   alert(string);
 }

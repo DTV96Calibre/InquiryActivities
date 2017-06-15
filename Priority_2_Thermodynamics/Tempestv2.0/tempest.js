@@ -199,5 +199,5 @@ function trackHeat() {
 	}
 	
 	//$("#windSpeed").html((Math.round(vWind*10)/10) + " m/s");
-	$("#heatReading").html((Math.round(Tout*10)/10) + " °C");
+	$("#heatReading").html((Math.round(Tout*10)/10) + " \xB0C");
 }

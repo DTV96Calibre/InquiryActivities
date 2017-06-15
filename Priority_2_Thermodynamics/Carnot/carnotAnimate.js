@@ -28,7 +28,7 @@ var componentsFactor;  // Represents the factor by which the engine's efficiency
 						// are "Normal", "Good", "Cutting Edge", or "Ideal". (The calculations assume ideal components, so
 						// if those are selected, don't scale at all--componentsFactor should be 1. The less ideal the
 						// components are, the smaller of a fraction componentsFactor is.)
-						
+
 var tooltipsOn; // Toggles whether "extra info" tooltips should be displayed in response to the mouse hovering over parts of the engine
 
 // Variables to hold cycle data (calculation results)
@@ -63,10 +63,10 @@ function init(){
 	getHotUnits();
 	getColdUnits();
 	getComponents();
-	
+
 	// Clear all GUI fields/labels and variables containing calculated cycle data
 	clearCalculatedData();
-	
+
 	// Hide the "tooltip" displays and register event handlers to trigger their reappearance when
 	// the mouse hovers over the corresponding page elements.
 	$("#hotTempTooltip").hide();
@@ -105,13 +105,13 @@ function init(){
 	$("#compSelect").live('change', getComponents);
 	$("#about").live('click', displayAboutInfo);
 	$("#toggleTooltips").live('click', toggleTooltips);
-	
+
 	toggleTooltips = false;  // Tooltips shouldn't appear in response to hovering unless the user turns them on (reduces page clutter)
-	
+
 	// Reset the animal picture to not display an animal
 	$("#animal").css("background", "url('animals.png') -140px 0");
-	
-	
+
+
 	// Start the animation for the animals (although at this point the animal "picture" itself will be blank)
 	upBelt();
 }
@@ -122,7 +122,7 @@ function init(){
  * Also resets all global variables containing such data to "NaN" to signal to the program that these are "empty" as well.
 */
 function clearCalculatedData(){
-	
+
 	// Clear all calculated values from the graphical display
 	$("#triviaArea").val("");
 	$("#netWk").html("");
@@ -134,10 +134,10 @@ function clearCalculatedData(){
 	$("#pressure3").html("");
 	$("#pressure4").html("");
 	$("#heatOut").html("");
-	
+
 	// Reset the animal "picture" to be blank
 	$("#animal").css("background", "url('animals.png') -140px 0");
-	
+
 	// Clear all of the corresponding variables
 	pressure1 = NaN;
 	pressure2 = NaN;
@@ -194,7 +194,7 @@ function fall(){
 function getHotTemp(){
 	hotTemp = $("#hotTempInput").val();
 	if(hotTemp=="") hotTemp = NaN;  // Ensure a blank text field is read as "no value", not as a value of 0
-	
+
 	if(isNaN(hotTemp)){
 		clearCalculatedData();
 		$("#hotFactArea").val("Please enter a hot temperature.");
@@ -207,11 +207,11 @@ function getHotTemp(){
 	}
 	else{
 		hotTemp = toKelvin(hotTemp, hotUnits);
-		
+
 		if(!isNaN(coldTemp)){
 			calculate();
 		}
-		
+
 		// If calculate() happens, it needs to happen before getHotFact, because getHotFact
 		// sometimes depends on results from calculate()
 		$("#hotFactArea").val(getHotFact());
@@ -242,7 +242,7 @@ function getHotUnits(){
 function getColdTemp(){
 	coldTemp = $("#coldTempInput").val();
 	if(coldTemp=="") coldTemp = NaN;
-	
+
 	if(isNaN(coldTemp)){
 		clearCalculatedData();
 		$("#coldFactArea").val("Please enter a cold temperature.");
@@ -255,11 +255,11 @@ function getColdTemp(){
 	}
 	else{
 		coldTemp = toKelvin(coldTemp, coldUnits)
-		
+
 		if(!isNaN(hotTemp)){
 			calculate();
 		}
-		
+
 		$("#coldFactArea").val(getColdFact());
 	}
 }
@@ -287,7 +287,7 @@ function getColdUnits(){
 */
 function getComponents(){
 	var components = $("#compSelect").val();
-	
+
 	if(components=="normal")
 		componentsFactor = 0.87;
 	else if(components=="good")
@@ -296,7 +296,7 @@ function getComponents(){
 		componentsFactor = 0.955;
 	else if(components=="ideal")
 		componentsFactor = 1;
-		
+
 	if(!isNaN(hotTemp) && !isNaN (coldTemp))
 		calculate();
 }
@@ -354,7 +354,7 @@ function toggleTooltips(){
 		tooltipsOn = true;
 		$("#toggleTooltips").html("More info (on)");
 	}
-	
+
 	return false;
 }
 
@@ -372,13 +372,13 @@ function toggleTooltips(){
 function toKelvin(temp, units){
 	if(units=="c")
 		return (temp*1) + 273.15;
-		
+
 	else if(units=="f")
 		return (temp - 32) * 5/9 + 273.15;
-		
+
 	else if(units=="r")
 		return temp * 5/9;
-		
+
 	// If the temperature is not in Celsius, Farenheit, or Rankine, assume it's already in Kelvin
 	else return temp;
 }
@@ -397,7 +397,7 @@ function toKelvin(temp, units){
  * All but Carnot efficiency are displayed in some way to the user by calling "displayResults" (this function
  * makes that call automatically)
  *
- * This method assumes hotTemp, coldTemp, and componentsFactor all have valid values. 
+ * This method assumes hotTemp, coldTemp, and componentsFactor all have valid values.
 */
 function calculate(){
 	// Before calculating, ensure that hotTemp and coldTemp are not equal, and display a message if they
@@ -408,23 +408,23 @@ function calculate(){
 		$("#triviaArea").val("Please make the hot reservoir temperature higher than the cold reservoir.");
 		return;
 	}
-	
+
 	// Declare variables to hold intermediary work values for pieces of the cycle
 	var work1;
 	var work2;
 	var work3;
 	var work4;
-	
+
 	// Calculate pressures
 	pressure2 = 1;
 	pressure1 = pressure2 * Math.pow((hotTemp/coldTemp), (Cp / (componentsFactor*R)));
-	
+
 	//pressures 3 and 4 depend on work4, so calculate work4 first
 	work4 = -heatIn;
-	
+
 	//pressure4 must be chosen so that the cycle converges, so approximate pressure4
 	//by repeatedly refining a guess
-	
+
 	//initial guess for pressure4
 	var guess = 2.72 * pressure1;
 	// declare temporary variables to support this calculation
@@ -441,29 +441,29 @@ function calculate(){
 	// set pressure4 to the result calculated above, and determine pressure3
 	pressure4 = guess;
 	pressure3 = pressure4 * Math.pow((coldTemp/hotTemp), (Cp * componentsFactor / R));
-	
+
 	//calculate the work for the other 3 parts of the cycle
 	work1 =  componentsFactor * n * Cp * (coldTemp-hotTemp);
 	work2 = -n * R * coldTemp * Math.log(pressure2/pressure3);
 	work3 = (1/componentsFactor) * n * Cp * (hotTemp-coldTemp);
-	
+
 	//calculate workOut, workIn, and netWork
 	workOut = work1 + work4;
 	workIn = work2 + work3;
 	netWork = workOut + workIn;
-	
+
 	// Calculate intermediary heat values for stages 1 and 3 of the cycle; used to compute total for heatOut
 	var Q1 = (1-componentsFactor) * n * Cp * (coldTemp-hotTemp);
 	var Q3 = (1 - 1/componentsFactor) * n * Cp * (hotTemp-coldTemp);
 	heatOut = -work2 + Q1 + Q3;
-	
+
 	// Calculate Carnot efficiency and thermal efficiency
 	Ecarnot = 1 - coldTemp/hotTemp;
 	thermEff = -(work1 + work2 + work3 + work4) / heatIn;
-	
+
 	// Ensure none of the results defy the laws of physics
 	validateResults();
-	
+
 	// Display the validated results on the GUI
 	displayResults();
 }
@@ -481,11 +481,11 @@ function validateResults(){
 	if (thermEff>=0.99999999) {
 		thermEff = 0.99999999;
 	}
-	
+
 	// Limit net work to -999.99999999
 	if(netWork <= -999.99999999)
 		netWork = -999.99999999;
-	
+
 	// Forbid negative efficiency. If negative efficiency is found, display an explanation in the Efficiency Trivia area
 	if (thermEff<0) {
 		thermEff = NaN;
@@ -496,12 +496,12 @@ function validateResults(){
 		// in the program variables and in the display).
 		clearCalculatedData();
 		$("#triviaArea").val("You've created a Heat pump (like a refrigerator).  Please make the Hot Temperature higher than the Cold Temperature.");
-	}	
+	}
 }
 
 /*
  * Method: displayResults
- * Displays all defined values for cycle data in their corresponding GUI labels/fields/etc. 
+ * Displays all defined values for cycle data in their corresponding GUI labels/fields/etc.
  * Anything whose value is NaN will not be displayed, and that field in the GUI will be cleared
  *(providing an easy way to make sure invalid data is not displayed)
 */
@@ -543,7 +543,7 @@ function displayResults(){
 	else {
 		$("#pressure4").html("");
 	}
-	
+
 	// Display work values (netWork is rounded to 1 decimal place unless that rounding would put it at -1000 (which is physically impossible);
 	// the others are rounded to the nearest whole number)
 	if(!isNaN(netWork)) {
@@ -563,7 +563,7 @@ function displayResults(){
 		$("#wkOut").html(workOut.toFixed(0) + " kW");
 	else
 		$("#wkOut").html("");
-		
+
 	// Display heatOut rounded to two decimal places, or in scientific notation if the value is between 0 and -0.1
 	if(!isNaN(heatOut)){
 		if(heatOut < -0.1)
@@ -574,7 +574,7 @@ function displayResults(){
 	else {
 		$("#heatOut").html("");
 	}
-	
+
 	// Display the thermal efficiency, rounded to 8 decimal places.
 	if(!isNaN(thermEff)){
 		$("#thermEff").html(thermEff.toFixed(8));
@@ -583,7 +583,7 @@ function displayResults(){
 	else {
 		$("#thermEff").html("");
 	}
-	
+
 	// call displayAnimal to ensure the animal picture gets updated according to the thermal efficiency value
 	// (or cleared if that value is invalid)
 	displayAnimal();
@@ -596,31 +596,31 @@ function displayResults(){
  * by simply moving the sprite around to line up the correct animal with the image element.
 */
 function displayAnimal(){
-	
+
 	// If there is no valid efficiency, don't display any animal
 	if(isNaN(thermEff) || thermEff <= 0)
 		$("#animal").css("background", "url('animals.png') -140px 0");
-	
+
 	// display whale
 	else if (thermEff>0.95)
 		$("#animal").css("background", "url('animals.png') 0 -51px");
-	
+
 	// display elephant
 	else if (thermEff>0.5)
 		$("#animal").css("background", "url('animals.png') -65px 0");
-		
+
 	// display cow
 	else if (thermEff>0.2)
 		$("#animal").css("background", "url('animals.png')-140px -51px");
-		
+
 	// display chicken
 	else if (thermEff>0.08)
 		$("#animal").css("background", "url('animals.png') 0 0");
-		
+
 	// display feather
 	else if (thermEff>0)
 		$("#animal").css("background", "url('animals.png') -75px -51px");
-		
+
 }
 
 
@@ -641,7 +641,7 @@ function getHotFact(){
 	// temporarily convert the hot temperature to celsius for the comparison
 	var celsius = hotTemp-273.15;
 	var HotBlurb;
-	
+
 	// If the hot temperature is very low, the "hot fact" chosen will also depend on whether
 	// the Carnot efficiency is also very low. This check is more complex, so do it here
 	// and store the result in a local variable, tinyECarnot, to streamline the code below.
@@ -654,7 +654,7 @@ function getHotFact(){
 		tinyECarnot = true;
 	else
 		tinyECarnot = false;
-	
+
 	if (celsius>8000000000) {
 		HotBlurb = "1e16 Kelvin is the hottest temperature ever achieved at Fermilab.";
 	} else if (celsius>100000000) {
@@ -662,59 +662,59 @@ function getHotFact(){
 	} else if (celsius>100000) {
 		HotBlurb = "The core of the Sun is estimated to be 15 million Kelvin.";
 	} else if (celsius>20000) {
-		HotBlurb = "A lightning bolt can reach temperatures of up to 30,000 °C (55,000°F).";
+		HotBlurb = "A lightning bolt can reach temperatures of up to 30,000 \xB0C (55,000\xB0F).";
 	} else if (celsius>10000) {
-		HotBlurb = "An arc welder can reach 20,000 °C (36,000°F) in the arc.";
+		HotBlurb = "An arc welder can reach 20,000 \xB0C (36,000\xB0F) in the arc.";
 	} else if (celsius>6500) {
-		HotBlurb = "The Earth's Core is estimated to be at a temperature of up to 7,000 °C (13,000°F).";
+		HotBlurb = "The Earth's Core is estimated to be at a temperature of up to 7,000 \xB0C (13,000\xB0F).";
 	} else if (celsius>3700) {
-		HotBlurb = "The photsphere (outer layer) of the sun is estimated to be 6,000 °C (11,000 °F).";
+		HotBlurb = "The photsphere (outer layer) of the sun is estimated to be 6,000 \xB0C (11,000 \xB0F).";
 	} else if (celsius>3600) {
-		HotBlurb = "Tungsten is the last element to melt at 3683 °C (6661 °F).";
+		HotBlurb = "Tungsten is the last element to melt at 3683 \xB0C (6661 \xB0F).";
 	} else if (celsius>3200) {
-		HotBlurb = "An oxyacetylene cutting torch will reach temperatures of up to 3480 °C (6290 °F).";
+		HotBlurb = "An oxyacetylene cutting torch will reach temperatures of up to 3480 \xB0C (6290 \xB0F).";
 	} else if (celsius>2900) {
-		HotBlurb = "The hottest a typical hydrocarbon can reach burning in pure oxygen (the adiabatic flame temperature) is 3000 °C (5400 °F).";
+		HotBlurb = "The hottest a typical hydrocarbon can reach burning in pure oxygen (the adiabatic flame temperature) is 3000 \xB0C (5400 \xB0F).";
 	} else if (celsius>2300) {
-		HotBlurb = "Tungsten Carbide, used for very hard tool bits, will melt at 2870 °C (5178 °F).";
+		HotBlurb = "Tungsten Carbide, used for very hard tool bits, will melt at 2870 \xB0C (5178 \xB0F).";
 	} else if (celsius>1800) {
-		HotBlurb = "The hottest a typical hydrocarbon can reach burning in air (adiabatic flame temperature) is 2000 °C (3600 °F).";
+		HotBlurb = "The hottest a typical hydrocarbon can reach burning in air (adiabatic flame temperature) is 2000 \xB0C (3600 \xB0F).";
 	} else if (celsius>1500) {
-		HotBlurb = "A blast furnace, used in iron refining, ranges from 1500-1800 °C (2700-3250 °F).";
+		HotBlurb = "A blast furnace, used in iron refining, ranges from 1500-1800 \xB0C (2700-3250 \xB0F).";
 	} else if (celsius>1400) {
-		HotBlurb = "The outer core of a candle flame (the blue part) will be 1400 °C (2550 °F).";
+		HotBlurb = "The outer core of a candle flame (the blue part) will be 1400 \xB0C (2550 \xB0F).";
 	} else if (celsius>1250) {
-		HotBlurb = "Steel will melt at 1370 °C (2490 °F).";
+		HotBlurb = "Steel will melt at 1370 \xB0C (2490 \xB0F).";
 	} else if (celsius>1100) {
-		HotBlurb = "Fresh lava can reach temperatures of up to 1200 °C (2160 °F).";
+		HotBlurb = "Fresh lava can reach temperatures of up to 1200 \xB0C (2160 \xB0F).";
 	} else if (celsius>799) {
-		HotBlurb = "Typical flame temperatures in gas turbines are around 800 °C (1500 °F).";
+		HotBlurb = "Typical flame temperatures in gas turbines are around 800 \xB0C (1500 \xB0F).";
 	} else if (celsius>700) {
-		HotBlurb = "The red part of a candle flame is 800 °C (1440 °F).";
+		HotBlurb = "The red part of a candle flame is 800 \xB0C (1440 \xB0F).";
 	} else if (celsius>499) {
-		HotBlurb = "The steam temperature of a typical steam turbine ranges from 500-600 °C (900-1100 °F).";
+		HotBlurb = "The steam temperature of a typical steam turbine ranges from 500-600 \xB0C (900-1100 \xB0F).";
 	} else if (celsius>399) {
-		HotBlurb = "The average surface temperature of Venus is 460 °C (850 °F).";
+		HotBlurb = "The average surface temperature of Venus is 460 \xB0C (850 \xB0F).";
 	} else if (celsius>320) {
-		HotBlurb = "Teflon melts at 335 °C (635 °F).";
+		HotBlurb = "Teflon melts at 335 \xB0C (635 \xB0F).";
 	} else if (celsius>160) {
-		HotBlurb = "The average home oven can reach temperatures of 280 °C (500 °F).";
+		HotBlurb = "The average home oven can reach temperatures of 280 \xB0C (500 \xB0F).";
 	} else if (celsius>130) {
-		HotBlurb = "Polyethylene will melt around 130-145 °C (266-293 °F).";
+		HotBlurb = "Polyethylene will melt around 130-145 \xB0C (266-293 \xB0F).";
 	} else if (celsius>80) {
-		HotBlurb = "Water boils at 100 °C (212 °F).";
+		HotBlurb = "Water boils at 100 \xB0C (212 \xB0F).";
 	} else if (celsius>50) {
-		HotBlurb = "The highest recorded temperature on Earth was in Libya on 7/13/1922 when it reached 57.7 °C (135.9 °F).";
+		HotBlurb = "The highest recorded temperature on Earth was in Libya on 7/13/1922 when it reached 57.7 \xB0C (135.9 \xB0F).";
 	} else if (celsius>30) {
-		HotBlurb = "Did you know that Carbon Dioxide is a supercritical fluid at only 31.1 °C (88 °F) and 74 bars?";
+		HotBlurb = "Did you know that Carbon Dioxide is a supercritical fluid at only 31.1 \xB0C (88 \xB0F) and 74 bars?";
 	} else if (celsius>20) {
-		HotBlurb = "Room temperature is around 25 °C (78 °F).";
+		HotBlurb = "Room temperature is around 25 \xB0C (78 \xB0F).";
 	} else if (celsius<20 && tinyECarnot) {
 		HotBlurb = "I wouldn't really call this hot, would you?";
 	} else if (celsius>-1) {
-		HotBlurb = "Water freezes at 0 °C (32 °F).";
+		HotBlurb = "Water freezes at 0 \xB0C (32 \xB0F).";
 	} else if (celsius>-10) {
-		HotBlurb = "The average winter temperature in Northeastern America is -5 °C (23 °F).";
+		HotBlurb = "The average winter temperature in Northeastern America is -5 \xB0C (23 \xB0F).";
 	} else if (celsius>-50) {
 		HotBlurb = "This would only be hot in Antarctica.";
 	} else if (celsius>-210) {
@@ -722,7 +722,7 @@ function getHotFact(){
 	} else if (celsius>-273.15) {
 		HotBlurb = "Not hot.";
 	}
-	
+
 	return HotBlurb;
 }
 
@@ -753,33 +753,33 @@ function getColdFact(){
 	} else if (celsius>50) {
 		ColdBlurb = "Too cold to boil water.";
 	} else if (celsius>20) {
-		ColdBlurb = "Room temperature is 25 °C (78 °F).";
+		ColdBlurb = "Room temperature is 25 \xB0C (78 \xB0F).";
 	} else if (celsius>5) {
-		ColdBlurb = "The average temperature of the earth is 15 °C (59 °F).";
+		ColdBlurb = "The average temperature of the earth is 15 \xB0C (59 \xB0F).";
 	} else if (celsius>-12) {
-		ColdBlurb = "The average winter temperature in Northeastern America is -5 °C (23 °F).";
+		ColdBlurb = "The average winter temperature in Northeastern America is -5 \xB0C (23 \xB0F).";
 	} else if (celsius>-35) {
-		ColdBlurb = "Ammonia (a common industrial refrigerant) is a liquid at -33.6 °C (-28.5 °F).";
+		ColdBlurb = "Ammonia (a common industrial refrigerant) is a liquid at -33.6 \xB0C (-28.5 \xB0F).";
 	} else if (celsius>-39) {
-		ColdBlurb = "Mercury freezes at -39 °C (-38.2 °F).";
+		ColdBlurb = "Mercury freezes at -39 \xB0C (-38.2 \xB0F).";
 	} else if (celsius>-41) {
-		ColdBlurb = "-40 °C and -40 °F are the same temperature.";
+		ColdBlurb = "-40 \xB0C and -40 \xB0F are the same temperature.";
 	} else if (celsius>-60) {
-		ColdBlurb = "The average temperature at the south pole is -48 °C (-54.4 °F).";
+		ColdBlurb = "The average temperature at the south pole is -48 \xB0C (-54.4 \xB0F).";
 	} else if (celsius>-70) {
 		ColdBlurb = "Steel will shatter at these temperatures.";
 	} else if (celsius>-82) {
-		ColdBlurb = "Solid carbon dioxide (dry ice) sublimes at -78.5 °C (-109.3 °F).";
+		ColdBlurb = "Solid carbon dioxide (dry ice) sublimes at -78.5 \xB0C (-109.3 \xB0F).";
 	} else if (celsius>-100) {
-		ColdBlurb = "The coldest recorded temperature on earth was in Vostock II (Antarctica) on 7/21/1983, -89.2 °C (-128.6 °F).";
+		ColdBlurb = "The coldest recorded temperature on earth was in Vostock II (Antarctica) on 7/21/1983, -89.2 \xB0C (-128.6 \xB0F).";
 	} else if (celsius>-143) {
-		ColdBlurb = "Ethanol freezes at -114.1 °C (159 K).";
+		ColdBlurb = "Ethanol freezes at -114.1 \xB0C (159 K).";
 	} else if (celsius>-168) {
-		ColdBlurb = "LNG (Liquified Natural Gas) is 112 K (-161 °C).";
+		ColdBlurb = "LNG (Liquified Natural Gas) is 112 K (-161 \xB0C).";
 	} else if (celsius>-193) {
-		ColdBlurb = "Liquid oxygen boils at 89.98 K (-183 °C).";
+		ColdBlurb = "Liquid oxygen boils at 89.98 K (-183 \xB0C).";
 	} else if (celsius>-223) {
-		ColdBlurb = "Nitrogen is liquid at 77 K (-196 °C).";
+		ColdBlurb = "Nitrogen is liquid at 77 K (-196 \xB0C).";
 	} else if (celsius>-243) {
 		ColdBlurb = "The surface of Pluto ranges from 35-45 K.";
 	} else if (celsius>-263) {
@@ -793,7 +793,7 @@ function getColdFact(){
 	} else if (celsius>-273.15) {
 		ColdBlurb = "The coldest temperature achieved in lab is 2e-9 K, done with four Helium atoms.";
 	}
-	
+
 	return ColdBlurb;
 }
 
@@ -812,7 +812,7 @@ function getEfficiencyTrivia(){
 	} else if (thermEff>0.75) {
 		EffBlurb = "A hydrogen fuel cell can achieve an equivalent efficiency of 80%.  Note that a fuel cell is not a heat engine.";
 	} else if (thermEff>0.55) {
-		EffBlurb = "The most efficient engines today can reach 60% thermal efficiency, which is done by using high temperature materials that can stand temperatures as high as 1450 °C (2650 °F).";
+		EffBlurb = "The most efficient engines today can reach 60% thermal efficiency, which is done by using high temperature materials that can stand temperatures as high as 1450 \xB0C (2650 \xB0F).";
 	} else if (thermEff>0.46) {
 		EffBlurb = "Combined cycle gas turbines in the 1990s allowed thermal efficiencies of 50%.";
 	} else if (thermEff>0.42) {
@@ -832,6 +832,6 @@ function getEfficiencyTrivia(){
 	} else if (thermEff>0) {
 		EffBlurb = "The early steam engine built by Newcomen probably had a thermal efficiency of only 0.5%.";
 	}
-	
+
 	return EffBlurb;
 }
