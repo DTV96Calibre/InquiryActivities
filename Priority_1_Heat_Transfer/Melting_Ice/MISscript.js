@@ -1011,13 +1011,14 @@ function displayGraphInfo() {
 }
 
 function displayAboutInfo(){
-	alert("This program was created under the direction of Dr. Margot Vigeant\
-		and Dr. Michael Prince at Bucknell University. It was first developed\
-		in Flash by Matt Koppenhaver under Dr. Prince, and was adapted to\
-		Javascript by Emily Ehrenberger under Dr. Vigeant in \
-		2011.\n\nThe development of this program was funded by the National Science\
-		Foundation Grant DUE-0442234 (Prince) and DUE-0717536 (Vigeant).\n\nAddress\
-		any questions or comments to prince@bucknell.edu.\n\nCopyright.");
+	alert("This program was created under the direction of Dr. Margot Vigeant " +
+		"and Dr. Michael Prince at Bucknell University. It was first developed " +
+		"in Flash by Matt Koppenhaver under Dr. Prince, and was adapted to " +
+		"Javascript by Emily Ehrenberger under Dr. Vigeant in " +
+		"2011.\n\nThe development of this program was funded by the National Science " +
+		"Foundation Grant DUE-0442234 (Prince) and DUE-0717536 (Vigeant).\n\nAddress " +
+		"any questions or comments to prince@bucknell.edu.\n\n" +
+		"\u00A9 Margot Vigeant 2011");
 	return false;
 }
 

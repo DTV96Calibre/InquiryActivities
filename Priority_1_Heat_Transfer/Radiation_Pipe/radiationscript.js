@@ -48,7 +48,6 @@ var pipeType2;
 var simulationTime; // in milliseconds; used for animation purposes
 var simulationTime2; // in milliseconds; used for animation purposes
 
-
 /*
 *************************************************************************************************************************
 *													Initialization														*
@@ -122,25 +121,24 @@ function init() {
 	$("#customButton").removeAttr("disabled");
 
 	// register event handlers
-	$("#help").live('click', displayHelp);
-	$("#steamTemp").live('change', getSteamTemp);
-	$("#roomTemp").live('change', getRoomTemp);
-	$("#heatTransferCoeff").live('change', getHeatTransferCoeff);
-	$("#emissivity").live('change', getEmissivity);
-	$("#resetButton").live('click', resetSimulation);
-	$("#skipButton").live('click', skip);
-	$("#startButton").live('click', startSimulation);
-	$("#blackButton").live('click', changeToBlack);
-	$("#whiteButton").live('click', changeToWhite);
-	$("#goldButton").live('click', changeToGold);
-	$("#customButton").live('click', changeToCustom);
-	$("#blackButton2").live('click', changeToBlack2);
-	$("#whiteButton2").live('click', changeToWhite2);
-	$("#goldButton2").live('click', changeToGold2);
-	$("#advancedButton").live('click', changeToAdvanced);
-	$("#basicButton").live('click', changeToBasic);
- 	$("#about").live('click', displayAboutInfo);
-
+	$("#help").on('click', displayHelp);
+	$("#steamTemp").on('change', getSteamTemp);
+	$("#roomTemp").on('change', getRoomTemp);
+	$("#heatTransferCoeff").on('change', getHeatTransferCoeff);
+	$("#emissivity").on('change', getEmissivity);
+	$("#resetButton").on('click', resetSimulation);
+	$("#skipButton").on('click', skip);
+	$("#startButton").on('click', startSimulation);
+	$("#blackButton").on('click', changeToBlack);
+	$("#whiteButton").on('click', changeToWhite);
+	$("#goldButton").on('click', changeToGold);
+	$("#customButton").on('click', changeToCustom);
+	$("#blackButton2").on('click', changeToBlack2);
+	$("#whiteButton2").on('click', changeToWhite2);
+	$("#goldButton2").on('click', changeToGold2);
+	$("#advancedButton").on('click', changeToAdvanced);
+	$('#infoButton').on('click', displayAboutInfo);
+	$('#helpButton').on('click', displayHelp);
 }
 
 /*
@@ -571,34 +569,31 @@ function changeToGold2() {
  * Allows the user to customize the constants
 */
 function changeToAdvanced() {
-	$("#advancedButton").hide();
-	$("#basicButton").show();
-	$("#customButton").show();
-	$("#emissivity").show();
-	$("#emissivityLimit").show();
-	advanced = true;
-}
+	// Don't do anything if this button has been disabled
+	if ($('#advancedButton').attr('disabled')) {
+		return;
+	}
 
-/*
- * Event Handler Function: changeToBasic
- * Called when the user clicks the "Hide advanced customization" button
- *
- * Disallows the user to customize the constants
-*/
-function changeToBasic() {
-	$("#basicButton").hide();
-	$("#advancedButton").show();
-	$("#customButton").hide();
-	$("#emissivity").hide();
-	$("#funFactsDiv").hide();
-	$("#funFactTitle").hide();
-	$("#funFact").hide();
-	$("#emissivityLimit").hide();
-	if (pipeType === "custom")
-		changeToBlack();
-	advanced = false;
-}
+	if (!advanced) {
+		$("#customButton").show();
+		$("#emissivity").show();
+		$("#emissivityLimit").show();
+		$("#advancedButton").html("Hide Advanced Customization");
+	}
+	else {
+		$("#customButton").hide();
+		$("#emissivity").hide();
+		$("#funFactsDiv").hide();
+		$("#funFactTitle").hide();
+		$("#funFact").hide();
+		$("#emissivityLimit").hide();
+		$("#advancedButton").html("Show Advanced Customization");
+		if (pipeType === "custom")
+			changeToBlack();
+	}
 
+	advanced = !advanced;
+}
 
 /*
  * Event Handler Function: startSimulation
@@ -637,7 +632,6 @@ function startSimulation() {
 	$("#goldButton2").attr("disabled", "disabled");
 	$("#customButton").attr("disabled", "disabled");
 	$("#advancedButton").attr("disabled", "disabled");
-	$("#basicButton").attr("disabled", "disabled");
 
 	// enable the skip button
 	$("#skipButton").removeAttr("disabled");
@@ -655,8 +649,8 @@ function startSimulation() {
 */
 function resetSimulation() {
 	// return animation components to their initial state
-	$("#fillingWater").css("top", "355px");
-	$("#fillingWater2").css("top", "355px");
+	$("#fillingWater").css("top", "375px");
+	$("#fillingWater2").css("top", "375px");
 	$("#fullSign").hide();
 	$("#fullSign2").hide();
 
@@ -745,13 +739,13 @@ function fillPipes() {
 	if (simulationTime > simulationTime2) {
 		$("#steamGraphic").fadeOut(simulationTime/4);
 		$("#steamGraphic2").fadeOut(simulationTime2/4);
-		$("#fillingWater").animate({top:"135px"}, simulationTime, "easePipe", finishSimulation);
-		$("#fillingWater2").animate({top:"135px"}, simulationTime2, "easePipe", finishFill);
+		$("#fillingWater").animate({top:"155px"}, simulationTime, "easePipe", finishSimulation);
+		$("#fillingWater2").animate({top:"155px"}, simulationTime2, "easePipe", finishFill);
 	} else {
 		$("#steamGraphic").fadeOut(simulationTime/4);
 		$("#steamGraphic2").fadeOut(simulationTime2/4);
-		$("#fillingWater2").animate({top:"135px"}, simulationTime2, "easePipe", finishSimulation);
-		$("#fillingWater").animate({top:"135px"}, simulationTime, "easePipe", finishFill);
+		$("#fillingWater2").animate({top:"155px"}, simulationTime2, "easePipe", finishSimulation);
+		$("#fillingWater").animate({top:"155px"}, simulationTime, "easePipe", finishFill);
 	}
 }
 
@@ -872,14 +866,20 @@ function calculateHeatTransferCoeff() {
 }
 
 function displayHelp() {
-	alert("Change the values of the room temperature and steam temperature. Decide on what material to use " +
-		"to cover the pipe and run the simulation. " +
-		"\n\nTo resize the window press ctrl and +/- to zoom in/out for Windows and Linux users. " +
-		"For Mac users press command and +/-");
+	alert("Change the values of the room temperature and steam temperature. Decide on which material to use " +
+		"for the pipes' coating before running the simulation. " +
+		"\n\nTo resize the window, press ctrl and +/- to zoom in/out for Windows and Linux users. " +
+		"For Mac users, press command and +/-.");
 	return false;
 }
 
 function displayAboutInfo() {
-	alert("About stuff");
+	alert("Produced through the efforts of Daniel Prudente\n\n" + 
+	"Based off of the previous work of Matthew Koppenhaver\n\n" +
+	"Emissivity values referenced from Fundamentals of Heat and Mass Transfer, " +
+	"Third Edition by Frank P. Incropera and David P. De Witt\n\n" + 
+	"Supported by NSF DUE-0717536 and NSF DUE-0442234\n\n" +
+	"Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical Engineering " +
+	"at mvigeant@bucknell.edu.\n\n\u00A9 Margot Vigeant and Michael Prince 2012");
 	return false;
 }
