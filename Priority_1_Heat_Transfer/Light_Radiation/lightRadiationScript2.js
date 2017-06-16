@@ -67,22 +67,22 @@ function init() {
 	$("#promptDiv").hide();
 	$("#startButton").hide();
 	$("#finishButton").hide();
-	
-	$("#slider").slider({ min:0, max: 3, orientation: "vertical", step: 1, 
+
+	$("#slider").slider({ min:0, max: 3, orientation: "vertical", step: 1,
 		change: changeLighting,
     	slide: changeLighting });
-		
+
 	$("#ovenTemp").val("");
 	ovenTemp = NaN;
-	
+
 	generateGraphPoints();
-		
+
 	$("#heatingButton").live('click', changeToHeat);
 	$("#coolingButton").live('click', changeToCool);
 	$("#startButton").live('click', startSimulation);
 	$("#finishButton").live('click', finishSimulation);
 	$("#ovenTemp").live('change', getOvenTemp);
-		
+
 	selectMode();
 }
 
@@ -95,30 +95,30 @@ function generateGraphPoints() {
 	var sit1HTML = "";
 	var sit2HTML = "";
 	var sit3HTML = "";
-	
+
 	for(var i=1; i<=160; i++) {
 		sit1HTML += '<img id="sit1Point' + i + '" class="sit1Point" src="blank_img.png" />';
 		sit2HTML += '<img id="sit2Point' + i + '" class="sit2Point" src="blank_img.png" />';
 		sit3HTML += '<img id="sit3Point' + i + '" class="sit3Point" src="blank_img.png" />';
 	}
-	
+
 	$("#graphBase").after('<div id="graphPointsDiv">' + sit1HTML + sit2HTML + sit3HTML + '</div>');
 }
 
 /*
  * Function: selectMode
- * Asks which part of the activity (heating the pipes or cooling the pipes) they want to do. 
+ * Asks which part of the activity (heating the pipes or cooling the pipes) they want to do.
 */
 function selectMode() {
 	//Hide all the cooling components
 	$("#coolingComponents").hide();
-	
+
 	//Hide proper heating components
 	$("#heatingComponents").hide();
 	$("#lampLightLow").hide();
 	$("#lampLightMed").hide();
 	$("#lampLightHigh").hide();
-	
+
 	//Ask what activity user wants to do
 	$("#promptDiv").show();
 }
@@ -130,15 +130,15 @@ function selectMode() {
 function changeToHeat() {
 	//Removes prompt
 	$("#promptDiv").hide();
-	
+
 	//Sets the slider of the lamp to 0
 	$( "#slider" ).slider( "option", "value", 0);
-	
+
 	//Shows the heating components
 	$("#heatingComponents").fadeIn(1000, function() {
-		$("#startButton").fadeIn(1000);	
+		$("#startButton").fadeIn(1000);
 	});
-	
+
 	light = 0;
 	isHeating = true;
 }
@@ -150,14 +150,14 @@ function changeToHeat() {
 function changeToCool() {
 	//Removes prompt
 	$("#promptDiv").hide();
-	
+
 	//Shows the cooling components
 	$("#coolingComponents").fadeIn(1000, function() {
 		$("#coolingComponents").animate({top:"290px"}, 2000, function () {
 			$("#startButton").fadeIn(1000);
 		});
 	});
-	
+
 	isHeating = false;
 }
 
@@ -170,15 +170,15 @@ function changeToCool() {
 */
 function getOvenTemp() {
 	var input = $("#ovenTemp").val();
-	
+
 	// if the entered value is not a valid number, keep the current steam temperature and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
 	if(isNaN(input) || input == "") {
 		if(!isNaN(ovenTemp)) {
-			$("#ovenTemp").val(ovenTemp);	
+			$("#ovenTemp").val(ovenTemp);
 		}
 		else {
-			$("#ovenTemp").val("");	
+			$("#ovenTemp").val("");
 		}
 	}
 	// if the input is outside the valid range, set the steam temperature to the highest/lowest valid value
@@ -193,7 +193,7 @@ function getOvenTemp() {
 	}
 	// if input is valid, set pumpRate
 	else {
-		ovenTemp = input;	
+		ovenTemp = input;
 	}
 }
 
@@ -210,8 +210,8 @@ function startSimulation(){
 		else {
 			if (light == 1) lampWattage = 25;
 			else if (light == 2) lampWattage = 50;
-			else lampWattage = 100; 
-			
+			else lampWattage = 100;
+
 			$("#startButton").fadeOut(1000);
 			$("#slider").fadeOut(1000);
 			currentStep = 1;
@@ -220,7 +220,7 @@ function startSimulation(){
 	}
 	else {
 		if (isNaN(ovenTemp))
-			alert("The oven must be set to a temperature between 100 and 450 degrees Celsius");
+			alert("The oven must be set to a temperature between 200 and 300 degrees Celsius");
 		else {
 			$("#startButton").fadeOut(1000);
 			$("#coolingComponents").fadeOut(1000);
@@ -229,7 +229,7 @@ function startSimulation(){
 			setTimeout(coolingSetup, 1000);
 		}
 	}
-	
+
 }
 
 /*
@@ -276,7 +276,7 @@ function heatingSetup() {
 	y1Previous = roomTemp;
 	y2Previous = roomTemp;
 	y3Previous = roomTemp;
-	
+
 	measureHeating();
 }
 
@@ -288,30 +288,30 @@ function heatingSetup() {
 function measureHeating() {
 	if (currentStep < 160) {
 		x = currentStep * 2 + "px";
-		
+
 		//alert("Equation Part 1: " + equationPart1);
 		//alert("Equation Part 2: " + equationPart2);
-		
+
 		y1 = ((equationPart1+absorptivityBlackPaint*sigma*lampWattage*timeStep+cp*pipeMass*(y1Previous+274))/equationPart2)-274;
 		y2 = ((equationPart1+absorptivityWhitePaint*sigma*lampWattage*timeStep+cp*pipeMass*(y2Previous+274))/equationPart2)-274;
 		y3 = ((equationPart1+absorptivityCopper*sigma*lampWattage*timeStep+cp*pipeMass*(y3Previous+274))/equationPart2)-274;
-		
+
 		//alert(y1 + "  " + y2 + "  " + y3 + "  ");
-		
+
 		y1Previous = y1;
 		y2Previous = y2;
 		y3Previous = y3;
-		
+
 		y1 = graphHeight - y1*(graphHeight/maxOvenTemp);
 		y2 = graphHeight - y2*(graphHeight/maxOvenTemp);
 		y3 = graphHeight - y3*(graphHeight/maxOvenTemp);
-		
+
 		y1 = y1 + "px";
 		y2 = y2 + "px";
 		y3 = y3 + "px";
-		
+
 		//alert(y1 + "  " + y2 + "  " + y3 + "  ");
-		
+
 		var dot1 = "#sit1Point" + currentStep;
 		var dot2 = "#sit2Point" + currentStep;
 		var dot3 = "#sit3Point" + currentStep;
@@ -321,7 +321,7 @@ function measureHeating() {
 		$(dot1).show();
 		$(dot2).show();
 		$(dot3).show();
-				
+
 		currentStep++;
 		setTimeout(measureHeating, 100);
 	}
@@ -344,7 +344,7 @@ function coolingSetup() {
 	y1Previous = ovenTemp;
 	y2Previous = ovenTemp;
 	y3Previous = ovenTemp;
-	
+
 	measureCooling();
 }
 
@@ -360,27 +360,27 @@ function coolingSetup() {
 function measureCooling() {
 	if (currentStep < 160) {
 		x = currentStep * 2 + "px";
-		
+
 		y1 = y1Previous-(timeStep*emissivityBlackPaint*surfaceArea*(Math.pow(y1Previous+274, 4)-Math.pow(roomTemp+274, 4))+timeStep*hTCoeff*surfaceArea*(y1Previous-roomTemp))/(pipeMass*cp);
 		y2 = y2Previous-(timeStep*emissivityWhitePaint*surfaceArea*(Math.pow(y2Previous+274, 4)-Math.pow(roomTemp+274, 4))+timeStep*hTCoeff*surfaceArea*(y2Previous-roomTemp))/(pipeMass*cp);
 		y3 = y3Previous-(timeStep*emissivityCopper*surfaceArea*(Math.pow(y3Previous+274, 4)-Math.pow(roomTemp+274, 4))+timeStep*hTCoeff*surfaceArea*(y3Previous-roomTemp))/(pipeMass*cp);
-		
+
 		alert(y1 + "  " + y2 + "  " + y3 + "  ");
-		
+
 		y1Previous = y1;
 		y2Previous = y2;
 		y3Previous = y3;
-		
+
 		y1 = graphHeight - y1*(graphHeight/maxOvenTemp);
 		y2 = graphHeight - y2*(graphHeight/maxOvenTemp);
 		y3 = graphHeight - y3*(graphHeight/maxOvenTemp);
-		
+
 		y1 = y1 + "px";
 		y2 = y2 + "px";
 		y3 = y3 + "px";
-		
+
 		//alert(y1 + "  " + y2 + "  " + y3 + "  ");
-		
+
 		var dot1 = "#sit1Point" + currentStep;
 		var dot2 = "#sit2Point" + currentStep;
 		var dot3 = "#sit3Point" + currentStep;
@@ -390,7 +390,7 @@ function measureCooling() {
 		$(dot1).show();
 		$(dot2).show();
 		$(dot3).show();
-				
+
 		currentStep++;
 		setTimeout(measureCooling, 100);
 	}
@@ -408,8 +408,8 @@ function finishSimulation() {
 		$("#slider").show();
 	}
 	else {
-		
+
 	}
-	
+
 	selectMode();
 }
