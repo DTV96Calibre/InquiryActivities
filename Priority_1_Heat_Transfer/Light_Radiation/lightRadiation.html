@@ -3,7 +3,7 @@
 
 <!--
   File: lightRadiation.html
-  Purpose: 
+  Purpose:
   Author: Daniel Prudente (May 2012)
  		  Under the supervision of Margot Vigeant, Bucknell University
   (c) Margot Vigeant 2012
@@ -34,7 +34,7 @@
 <body>
 	<h1 align="center">Heat Lamp Thermal Radiation Activity</h1>
     <div class="container">
-    	
+
         <div id="heatingComponents" name="heatingComponents">
         	<img id="lampHead" name="lampHead" alt="" src="lampHead.png" />
         	<img id="lampLightLow" name="lampLightLow" alt="" src="lampLightLow.png" />
@@ -42,16 +42,16 @@
         	<img id="lampLightMed" name="lampLightMed" alt="" src="lampLightMed.png" />
             <div id="slider" name="slider"></div>
         </div>
-        
+
         <div id="coolingComponents" name="coolingComponents">
         	<label id="ovenTempLabel" name="ovenTempLabel" alt="">Oven Temperature</label>
             <label id="ovenTempRange" name="ovenTempRange" alt="">(200-300)</label>
             <label id="ovenTempUnits" name="ovenTempUnits" alt="">&deg;C</label>
-        	<input id="ovenTemp" name="ovenTemp" type="text" maxLength="6" />
+        	<input id="ovenTemp" name="ovenTemp" type="range" max="300" min="200" defaultValue="250" />
             <img id="oven" name="oven" alt="" src="oven2.png" />
             <img id="ovenBack" name="ovenBack" alt="" src="oven2_back.png" />
         </div>
-        
+
         <img id="blackPipe" name="blackPipe" alt="" src="blackPipe.png" />
     	<img id="whitePipe" name="whitePipe" alt="" src="whitePipe.png" />
         <img id="copperPipe" name="copperPipe" alt="" src="copperPipe.png" />
@@ -69,7 +69,7 @@
         <a href="javascript:" id="finishButton" name="finishButton" class="btn btn-danger btn-lg"">Finish</a>
         <a href="javascript:" id="helpButton" name="helpButton" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
         <a href="javascript:" id="infoButton" name="infoButton" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
-        
+
 		<div id="promptDiv" name="promptDiv">
        	  	<label id="startPrompt" name="startPrompt" alt="">Please choose an activity:</label>
 			<button id="heatingButton" name="heatingButton"><img src="heatingButton.png" /></button>
