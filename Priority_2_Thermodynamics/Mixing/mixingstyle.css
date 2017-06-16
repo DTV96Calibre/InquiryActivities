@@ -20,6 +20,9 @@ h1 {
 	font-weight: bold;
 	font-size: 32px;
 	color: #000000;
+	position: relative;
+	left:160px;
+	width: 600px;
 }
 
 h3 {
@@ -83,10 +86,17 @@ h3 {
 /********** textContainer and contents (contains initial question, instructions, & explanation; top of page)************/
 
 #textContainer {
-	width: 25%;
-	top:0px;
-	height:300px;
+	width: 50%;
+	height:350px;
 	z-index:2;
+}
+
+#startQuestion {
+	position:absolute;
+	top:-20;
+	left:120px;
+	width:520px;
+	height:100px;
 }
 
 #submitP {
@@ -102,19 +112,24 @@ h3 {
 
 #responseText {
 	position:absolute;
-	top: 40px;
+	left: 130px;
+	top: 100px;
+	width:470px;
 }
 
 #tryItTitle {
 	position:absolute;
-	top: 55px;
+	top: 115px;
 	text-align:center;
-	left: 100px;
+	left: 180px;
+	width: 300px;
 }
 
 #instructionsParagraph {
 	position:absolute;
-	top: 110px;
+	top: 170px;
+	left: 130px;
+	width:470px;
 }
 
 /***** demoContainer and contents (contains all of the pictures, as well as experimentParameters and experimentResults)*******/
