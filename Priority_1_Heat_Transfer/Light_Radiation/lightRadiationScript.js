@@ -182,7 +182,7 @@ function changeToCool() {
 function getOvenTemp() {
 	var input = $("#ovenTemp").val();
 
-	// if the entered value is not a valid number, keep the current steam temperature and display that number in the input field.
+	// if the entered value isn't valid, keep the current steam temperature and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
 	if(isNaN(input) || input == "") {
 		if(!isNaN(ovenTemp)) {
@@ -192,20 +192,8 @@ function getOvenTemp() {
 			$("#ovenTemp").val("");
 		}
 	}
-	// if the input is outside the valid range, set the steam temperature to the highest/lowest valid value
-	// and update the display accordingly
-	else if(input > maxOvenTemp) {
-		ovenTemp = maxOvenTemp;
-		$("#ovenTemp").val(maxOvenTemp);
-	}
-	else if(input < minOvenTemp) {
-		ovenTemp = minOvenTemp;
-		$("#ovenTemp").val(minOvenTemp);
-	}
-	// if input is valid, set pumpRate
-	else {
-		ovenTemp = input;
-	}
+
+	ovenTemp = input;	
 }
 
 /*
@@ -215,7 +203,7 @@ function getOvenTemp() {
  * Starts the simulation
 */
 function startSimulation(){
-	if(isHeating) {
+	if (isHeating) {
 		if (light == 0)
 			alert("The light must be on in order to carry out the experiment");
 		else {
@@ -230,7 +218,7 @@ function startSimulation(){
 		}
 	}
 	else {
-		if (isNaN(ovenTemp))
+		if (isNaN(ovenTemp) || ovenTemp > maxOvenTemp || ovenTemp < minOvenTemp)
 			alert("The oven must be set to a temperature between 200 and 300 degrees Celsius");
 		else {
 			$("#startButton").fadeOut(1000);
