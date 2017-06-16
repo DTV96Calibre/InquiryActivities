@@ -39,31 +39,31 @@ h1 {
 #beaker0 {
 	position:absolute;
 	left: -40px;
-	top: 850px;
+	top: 815px;
 	z-index:3;
 }
 #beaker1 {
 	position:absolute;
 	left: 60px;
-	top: 850px;
+	top: 815px;
 	z-index:3;
 }
 #beaker2 {
 	position:absolute;
 	left: 160px;
-	top: 850px;
+	top: 815px;
 	z-index:3;
 }
 #beaker3 {
 	position:absolute;
 	left: 260px;
-	top: 850px;
+	top: 815px;
 	z-index:3;
 }
 #beaker4 {
 	position:absolute;
 	left: 360px;
-	top: 850px;
+	top: 815px;
 	z-index:3;
 }
 #beakerSoln00 {
@@ -230,13 +230,13 @@ h1 {
 }
 #colorScale {
 	position:absolute;
-	top:980px;
+	top:950px;
 	left:0px;
 	padding-bottom:100px;
 }
 #colorScaleLabel {
 	position:absolute;
-	top:976px;
+	top:946px;
 	left:-95px;	
 }
 #coughDrop0 {
@@ -405,13 +405,7 @@ h1 {
 }
 
 /**********Input components************/
-#addDropButton {
-	position:absolute;
-	top:500px;
-	left:20px;
-	width:140px;
-	z-index:4;	
-}
+
 #faucetFlowRate {
 	position:absolute;
 	top:625px;
@@ -437,33 +431,46 @@ h1 {
 	left:640px;
 	font-weight: normal;
 }
+
+/*************** Buttons **************/
+
+#addDropButton {
+	position:absolute;
+	top:240px;
+	left:-180px;
+	width:140px;
+	z-index:4;	
+}
 #getMeasurementButton {
 	position:absolute;
-	top:795px;
-	left:0px;
-	width:160px;
+	top:275px;
+	left:-180px;
+	width:140px;
 	z-index:5;
 }
 #emptyBeakerButton {
 	position:absolute;
-	top:795px;
-	left:165px;
+	top:310px;
+	left:-180px;
 	width:140px;	
 }
 #helpButton {
 	position:absolute;
-	top:795px;
-	left:310px;
+	top:345px;
+	left:-107px;
+	width:66px;
+	z-index:5;
 }
 #infoButton {
 	position:absolute;
-	top:795px;
-	left:355px;
+	top:345px;
+	left:-180px;
+	width:66px;
 }
 /**********Saturated Beaker components************/
 #beakerSaturated {
 	position:absolute;
-	left:-150px;
+	left:-170px;
 	top:677px;
 }
 #saturatedTextDiv{

@@ -274,6 +274,11 @@ function getFlowRate() {
  * Adds a cough drop to the funnel and determines how long it takes for it to dissolve
 */
 function addCoughDrop() {
+	// Don't do anything if this button has been disabled
+	if ($('#addDropButton').attr('disabled')) {
+		return;
+	}
+
 	var coughDrop = -1;
 	
 	// Finds out which cough drop to place into the funnel. The order goes from the middle to the outside
@@ -334,18 +339,24 @@ function addCoughDrop() {
  * Takes an empty beaker and moves it under the funnel, fills it up, and returns it to the original place
 */
 function getMeasurement() {
+	// Don't do anything if this button has been disabled
+	if ($('#getMeasurementButton').attr('disabled')) {
+		return;
+	}
+
 	// Disables any input that can change the outcome
 	$("#getMeasurementButton").attr("disabled", "disabled");
 	$("#emptyBeakerButton").attr("disabled", "disabled");
 	$("#addDropButton").attr("disabled", "disabled");
 	$("#faucetFlowRate").attr("disabled", "disabled");
+
 	// Does not allow any measurement to be made with no water flowing
 	if (flowRate == 0) {
 		$("#getMeasurementButton").removeAttr("disabled");
 		$("#emptyBeakerButton").removeAttr("disabled");
 		$("#addDropButton").removeAttr("disabled");
 		$("#faucetFlowRate").removeAttr("disabled");
-		alert("You can't take a measurement without any solution flowing");
+		alert("You can't take a measurement without any solution flowing.");
 	}
 	// Takes the measurement if there are any empty beakers
 	else if (currentBeaker < 5)
@@ -434,8 +445,8 @@ function returnBeaker() {
 	// Hide the empty beaker and solution by itself and return it to the original spot
 	$("#beaker" + currentBeaker).hide();
 	$("#solution" + currentConc).css({"top" : "760px"});
-	$("#beaker" + currentBeaker).css({"top": "850px", "left": leftPx});
-	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "850px", left: leftPx}, 1000, "linear");
+	$("#beaker" + currentBeaker).css({"top": "815px", "left": leftPx});
+	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "815px", left: leftPx}, 1000, "linear");
 	
 	// Updates beaker counter
 	currentBeaker++;
