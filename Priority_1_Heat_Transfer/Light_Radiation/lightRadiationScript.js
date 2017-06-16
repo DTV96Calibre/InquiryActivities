@@ -80,11 +80,13 @@ function init() {
 
 	generateGraphPoints();
 
-	$("#heatingButton").live('click', changeToHeat);
-	$("#coolingButton").live('click', changeToCool);
-	$("#startButton").live('click', startSimulation);
-	$("#finishButton").live('click', finishSimulation);
-	$("#ovenTemp").live('change', getOvenTemp);
+	$("#heatingButton").on('click', changeToHeat);
+	$("#coolingButton").on('click', changeToCool);
+	$("#startButton").on('click', startSimulation);
+	$("#finishButton").on('click', finishSimulation);
+	$("#helpButton").on('click', displayHelp);
+	$("#infoButton").on('click', displayInfo);
+	$("#ovenTemp").on('change', getOvenTemp);
 
 	selectMode();
 }
@@ -143,7 +145,7 @@ function changeToHeat() {
 	});
 
 	maxGraphTemp = 100;
-	$("#ygraph1").html('50');
+	$("#ygraph1").html('&nbsp;&nbsp;50');
 	$("#ygraph2").html('100');
 	light = 0;
 	isHeating = true;
@@ -416,4 +418,28 @@ function finishSimulation() {
 	}
 
 	selectMode();
+}
+
+/*
+ * Displays a pop-up alert containing information pertaining to the use of this
+ * simulation. Called when the user presses the help button.
+ */
+function displayHelp() {
+	alert("Select either heating or cooling to begin. When heating, drag the slider to select the " +
+		"intensity of the light. When cooling, set the temperature on the oven.\n\nPress start to see " +
+		"how the copper rods heat or cool with respect to their surface characteristics.");
+}
+
+/*
+ * Displays a pop-up alert containing information pertaining to the licensing of 
+ * this simulation. Called when the user presses the info button.
+ */
+function displayInfo() {
+	alert("Produced through the efforts of Daniel Prudente\n\n" + 
+		"Emissivity values referenced from Fundamentals of Heat and Mass Transfer, Third Edition " +
+		"by Frank P. Incropera and David P. De Witt\n\n" + 
+		"Supported by NSF DUE-1225031\n\n" + 
+		"Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical " +
+		"Engineering at mvigeant@bucknell.edu.\n\n" +
+		"\u00A9 Margot Vigeant and Michael Prince 2012");
 }

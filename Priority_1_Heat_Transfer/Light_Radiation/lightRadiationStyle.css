@@ -6,6 +6,13 @@
  * (c) Margot Vigeant 2012
 */
 
+h1 {
+	font-family: "Times New Roman";
+	font-weight: bold;
+	font-size: 32px;
+	color: #000000;
+}
+
 /**********Class selectors************/
 
 .container {
@@ -14,8 +21,14 @@
 	margin-left:auto;
 	margin-right:auto;
 	width:600px;
+	font-family: "Times New Roman";
+	font-weight: normal;
 }
 
+/* The Bootstrap question-mark help button */
+.glyphicon {
+	font-size: 1.8em;
+}
 
 /**********Components of the box for calculation results************/
 
@@ -45,18 +58,36 @@
 
 #startButton {
 	position:absolute;
-	top:650px;
+	top:690px;
 	left:200px;
-	width:130px;
-	height:70px;
+	font-size: 20px;
+	font-family: Helvetica;
 }
 
-#finishButton {
+#startButton {
 	position:absolute;
-	top:650px;
+	top:690px;
 	left:200px;
-	width:130px;
-	height:70px;
+	font-size: 20px;
+	font-family: Helvetica;
+}
+
+#helpButton {
+	position:absolute;
+	top:689px;
+	left:282px;
+	font-size: 20px;
+	height: 48px;
+	font-family: Helvetica;
+}
+
+#infoButton {
+	position:absolute;
+	top:689px;
+	left:346px;
+	font-size: 20px;
+	height: 48px;
+	font-family: Helvetica;
 }
 
 
@@ -79,35 +110,50 @@
 	position:absolute;
 	z-index:1;
 	top:435px;
-	left:375px;
+	left:378px;
+	color: white;
+	font-family: Arial;
+	font-weight: normal;
 }
 
 #ygraph2 {
 	position:absolute;
 	z-index:1;
 	top:305px;
-	left:375px;
+	left:378px;
+	color: white;
+	font-family: Arial;
+	font-weight: normal;
 }
 
 #graph0 {
 	position:absolute;
 	z-index:1;
-	top:585px;
-	left:390px;
+	top:580px;
+	left:398px;
+	color: white;
+	font-family: Arial;
+	font-weight: normal;
 }
 
 #xgraph1 {
 	position:absolute;
 	z-index:1;
-	top:585px;
+	top:580px;
 	left:555px;
+	color: white;
+	font-family: Arial;
+	font-weight: normal;
 }
 
 #xgraph2 {
 	position:absolute;
 	z-index:1;
-	top:585px;
+	top:580px;
 	left:720px;
+	color: white;
+	font-family: Arial;
+	font-weight: normal;
 }
 
 .sit1Point {
@@ -203,7 +249,9 @@
 	top:30px;
 	left:70px;
 	z-index:2;
+	height:20px;
 	width:50px;
+	font-family: Arial;
 }
 
 #ovenTempLabel {
@@ -212,6 +260,8 @@
 	left:90px;
 	z-index:2;
 	color: white;
+	font-weight: normal;
+	font-size: 16px;
 }
 
 #ovenTempRange {
@@ -220,6 +270,8 @@
 	left:160px;
 	z-index:2;
 	color: white;
+	font-weight: normal;
+	font-size: 16px;
 }
 
 #ovenTempUnits {
@@ -228,6 +280,8 @@
 	left:130px;
 	z-index:2;
 	color: white;
+	font-weight: normal;
+	font-size: 16px;
 }
 
 /**********Components of the box for the prompt************/
@@ -235,8 +289,8 @@
 	position:absolute;
 	left:0px;
 	top:135px;
-	height:300px;
-	width:600px;
+	height:330px;
+	width:620px;
 	padding:10px;
 	z-index:1;
 	border-style:solid;
@@ -249,6 +303,8 @@
 	font-size:40px;
 	left:100px;
 	top:70px;
+	font-family: "Times New Roman";
+	font-weight: normal;
 }
 
 #heatingButton{
