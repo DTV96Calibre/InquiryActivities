@@ -64,10 +64,10 @@ h1 {
 	font-family: Helvetica;
 }
 
-#startButton {
+#finishButton {
 	position:absolute;
 	top:690px;
-	left:200px;
+	left:190px;
 	font-size: 20px;
 	font-family: Helvetica;
 }
