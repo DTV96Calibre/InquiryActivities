@@ -250,7 +250,7 @@ h1 {
 	left:70px;
 	z-index:2;
 	height:20px;
-	width:50px;
+	width:100px;
 	font-family: Arial;
 }
 
@@ -267,7 +267,7 @@ h1 {
 #ovenTempValue {
 	position:absolute;
 	top:30px;
-	left:160px;
+	left:180px;
 	z-index:2;
 	color: white;
 	font-weight: normal;
@@ -277,7 +277,7 @@ h1 {
 #ovenTempUnits {
 	position:absolute;
 	top:30px;
-	left:130px;
+	left:210px;
 	z-index:2;
 	color: white;
 	font-weight: normal;

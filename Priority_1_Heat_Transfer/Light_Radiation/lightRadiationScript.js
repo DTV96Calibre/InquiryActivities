@@ -88,6 +88,11 @@ function init() {
 	$("#infoButton").on('click', displayInfo);
 	$("#ovenTemp").on('change', getOvenTemp);
 
+	// Set up an event handler that updates the oven temp value as the user moves the slider
+	$("#ovenTemp").mousemove(function () {
+	    $("#ovenTempValue").text($("#ovenTemp").val())
+	})
+
 	selectMode();
 }
 
@@ -181,7 +186,7 @@ function changeToCool() {
 */
 function getOvenTemp() {
 	var input = $("#ovenTemp").val();
-	$("#ovenTempValue").html(input + "&deg;C");
+	$("#ovenTempValue").html(input);
 
 	// if the entered value isn't valid, keep the current steam temperature and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
