@@ -181,6 +181,7 @@ function changeToCool() {
 */
 function getOvenTemp() {
 	var input = $("#ovenTemp").val();
+	$("#ovenTempValue").html(input + "&deg;C");
 
 	// if the entered value isn't valid, keep the current steam temperature and display that number in the input field.
 	// if no valid pump rate as been entered, clear the input field
@@ -193,7 +194,7 @@ function getOvenTemp() {
 		}
 	}
 
-	ovenTemp = input;	
+	ovenTemp = input;
 }
 
 /*

@@ -264,7 +264,7 @@ h1 {
 	font-size: 16px;
 }
 
-#ovenTempRange {
+#ovenTempValue {
 	position:absolute;
 	top:30px;
 	left:160px;
