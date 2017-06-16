@@ -144,12 +144,8 @@ h1 {
 #skipButton {
   position:absolute;
   top:280px;
-  left:100px
-}
-#about {
-	position:absolute;
-	top:280px;
-	left:205px;
+  left:100px;
+  width:145px;
 }
 
 /**********Picture / animation components************/
@@ -258,8 +254,22 @@ h1 {
 
 /**********Program info displayed at bottom of page************/
 
-#programInfo {
+#about {
 	position:absolute;
 	top:650px;
-	left:-20px;
+	left:55px;
+}
+
+#helpButton {
+	position:absolute;
+	top:650px;
+	left:10px;
+}
+
+#programInfo {
+	position:absolute;
+	top:645px;
+	left:105px;
+	width:570px;
+	text-align: left;
 }

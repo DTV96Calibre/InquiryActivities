@@ -100,6 +100,7 @@ function init() {
 	$("#resetButton").on('click', resetPump);
   	$("#skipButton").on('click', skip);
 	$("#about").on('click', displayAboutInfo);
+	$("#helpButton").on('click', displayHelp);
 }
 
 /*
@@ -199,17 +200,11 @@ function runPump() {
 	pumpWater();
 }
 
-
-/*function displayHelp() {
-	
-	
-}*/
-
 /*
- * Event Handler Function: displayAboutInfo
- * Displays a dialog box containing information about the program when the user clicks the link labeled "About this program"
+ * Event Handler Method: displayAboutInfo
+ * Displays a dialog box containing information about the program when the user clicks the "i" glyphicon button.
 */
-function displayAboutInfo(){
+function displayAboutInfo() {
 	alert("This program was created by Emily Ehrenberger under the direction of Dr. " +
 		  "Margot Vigeant, Bucknell University Department of Chemical Engineering in 2012.\n\n" +
 		  "The development of this program was funded by the National Science " +
@@ -218,6 +213,19 @@ function displayAboutInfo(){
 		  "Address any questions or comments to mvigeant@bucknell.edu.\n\n" +
 		  "\u00A9 Margot Vigeant 2012");
 	return false;
+}
+
+/*
+ * Event Handler Method: displayHelp
+ * Displays a dialog box containing information about how to use the program when the user clicks the "?" glyphicon
+ * button.
+ */
+function displayHelp() {
+	alert("Enter a pump rate within the specified range and hit \"Run Pump\" to begin pumping the water " +
+		"through the chamber.\n\nOnce the topmost tank has been filled, it will begin draining. You may skip the " +
+		"animation during either of these processes by clicking the white button.\n\nOnce the simulation has " +
+		"finished, results will be displayed in the box in the upper left. Click the \"Reset\" button to " +
+		"restart the simulation.");
 }
 
 /*
