@@ -38,6 +38,7 @@ textarea {
 	font-size:0.85em;
 	font-family:sans-serif;
 	overflow:auto; /* Necessary to prevent IE from automatically putting scrollbars everywhere */
+	resize: none;
 }
 
 /* The Bootstrap question-mark help button */
@@ -96,8 +97,6 @@ textarea {
 	width:100px;
 	z-index:4; /* Ensure the (transparent) image that triggers the tooltip remains on top of the tooltip (otherwise the tooltip will cover the image, which the image will interpret as a "mouseout" event and make the tooltip disappear again...and then the image will see the cursor is "on" it again and reopen the tooltip, etc.) */
 }
-
-
 
 /**********ID selectors************/
 
