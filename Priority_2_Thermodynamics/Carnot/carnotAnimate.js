@@ -328,11 +328,10 @@ function displayAboutInfo() {
  * button.
  */
 function displayHelp() {
-	alert("Enter a hot temperature and a cold temperature and select a cycle ideality from the drop-down menu " +
-		"to generate a series of characteristics for your Carnot engine (shown in blue text once both " +
-		"temperatures have been entered).\n\n" +
-		"If the engine has a non-negative and non-zero thermal efficiency, an animal graphic will " +
-		"move along the belt in accordance with the magnitude of the net work (shown in the bottom left corner).");
+	alert("Enter a hot temperature and a cold temperature and select a cycle ideality from the drop-down menu. " +
+		"Characteristics for your Carnot engine will be shown in blue text once both temperatures are entered.\n\n" +
+		"If the engine has a nonnegative and nonzero thermal efficiency, an animal will be lifted by the belt " +
+		"proportional to the magnitude of the net work done by the engine (shown in the bottom left corner).");
 }
 
 /*
