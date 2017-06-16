@@ -307,7 +307,7 @@ function mixWater() {
 		mixed = mixed - 273.15; //convert mixture temperature back to celsius
 		mixed = mixed + totalEntropyChange*298.15/(4.18*200);
 
-		$("#instructionsParagraph").css("top", "10px");
+		$("#instructionsParagraph").css("top", "100px");
 		$("#instructionsParagraph").html("The temperatures were the same, so the entropy does not change.  However, to be " +
 										 "absolutely rigorous, even changing the surface area of the water causes a change " +
 										 "in surface energy, which results in a small change in entropy.");
