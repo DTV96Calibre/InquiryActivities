@@ -70,41 +70,42 @@ function init(){
 	// Hide the "tooltip" displays and register event handlers to trigger their reappearance when
 	// the mouse hovers over the corresponding page elements.
 	$("#hotTempTooltip").hide();
-	$("#hotTempInput").live('mouseover', function() {showTooltip("hotTempTooltip");});
-	$("#hotTempInput").live('mouseout', function() {hideTooltip("hotTempTooltip");});
+	$("#hotTempInput").on('mouseover', function() {showTooltip("hotTempTooltip");});
+	$("#hotTempInput").on('mouseout', function() {hideTooltip("hotTempTooltip");});
 	$("#coldTempTooltip").hide();
-	$("#coldTempInput").live('mouseover', function() {showTooltip("coldTempTooltip");});
-	$("#coldTempInput").live('mouseout', function() {hideTooltip("coldTempTooltip");});
+	$("#coldTempInput").on('mouseover', function() {showTooltip("coldTempTooltip");});
+	$("#coldTempInput").on('mouseout', function() {hideTooltip("coldTempTooltip");});
 	$("#compSelectTooltip").hide();
-	$("#compSelect").live('mouseover', function() {showTooltip("compSelectTooltip");});
-	$("#compSelect").live('mouseout', function() {hideTooltip("compSelectTooltip");});
+	$("#compSelect").on('mouseover', function() {showTooltip("compSelectTooltip");});
+	$("#compSelect").on('mouseout', function() {hideTooltip("compSelectTooltip");});
 	$("#cycleLeftTooltip").hide();
-	$("#cycleLeftHover").live('mouseover', function(){showTooltip("cycleLeftTooltip");});
-	$("#cycleLeftHover").live('mouseout', function(){hideTooltip("cycleLeftTooltip");});
+	$("#cycleLeftHover").on('mouseover', function(){showTooltip("cycleLeftTooltip");});
+	$("#cycleLeftHover").on('mouseout', function(){hideTooltip("cycleLeftTooltip");});
 	$("#cycleTopTooltip").hide();
-	$("#cycleTopHover").live('mouseover', function(){showTooltip("cycleTopTooltip");});
-	$("#cycleTopHover").live('mouseout', function(){hideTooltip("cycleTopTooltip");});
+	$("#cycleTopHover").on('mouseover', function(){showTooltip("cycleTopTooltip");});
+	$("#cycleTopHover").on('mouseout', function(){hideTooltip("cycleTopTooltip");});
 	$("#cycleRightTooltip").hide();
-	$("#cycleRightHover").live('mouseover', function(){showTooltip("cycleRightTooltip");});
-	$("#cycleRightHover").live('mouseout', function(){hideTooltip("cycleRightTooltip");});
+	$("#cycleRightHover").on('mouseover', function(){showTooltip("cycleRightTooltip");});
+	$("#cycleRightHover").on('mouseout', function(){hideTooltip("cycleRightTooltip");});
 	$("#cycleBottomTooltip").hide();
-	$("#cycleBottomHover").live('mouseover', function(){showTooltip("cycleBottomTooltip");});
-	$("#cycleBottomHover").live('mouseout', function(){hideTooltip("cycleBottomTooltip");});
+	$("#cycleBottomHover").on('mouseover', function(){showTooltip("cycleBottomTooltip");});
+	$("#cycleBottomHover").on('mouseout', function(){hideTooltip("cycleBottomTooltip");});
 	$("#engineWindowTooltip").hide();
-	$("#engineWindowHover").live('mouseover', function(){showTooltip("engineWindowTooltip");});
-	$("#engineWindowHover").live('mouseout', function(){hideTooltip("engineWindowTooltip");});
+	$("#engineWindowHover").on('mouseover', function(){showTooltip("engineWindowTooltip");});
+	$("#engineWindowHover").on('mouseout', function(){hideTooltip("engineWindowTooltip");});
 	$("#idealGasTooltip").hide();
-	$("#idealGasHover").live('mouseover', function(){showTooltip("idealGasTooltip");});
-	$("#idealGasHover").live('mouseout', function(){hideTooltip("idealGasTooltip");});
+	$("#idealGasHover").on('mouseover', function(){showTooltip("idealGasTooltip");});
+	$("#idealGasHover").on('mouseout', function(){hideTooltip("idealGasTooltip");});
 
 	// Register event handlers for input fields
-	$("#hotTempInput").live('change', getHotTemp);
-	$("#hotTempUnits").live('change', getHotUnits);
-	$("#coldTempInput").live('change', getColdTemp);
-	$("#coldTempUnits").live('change', getColdUnits);
-	$("#compSelect").live('change', getComponents);
-	$("#about").live('click', displayAboutInfo);
-	$("#toggleTooltips").live('click', toggleTooltips);
+	$("#hotTempInput").on('change', getHotTemp);
+	$("#hotTempUnits").on('change', getHotUnits);
+	$("#coldTempInput").on('change', getColdTemp);
+	$("#coldTempUnits").on('change', getColdUnits);
+	$("#compSelect").on('change', getComponents);
+	$("#about").on('click', displayAboutInfo);
+	$('#helpButton').on('click', displayHelp);
+	$("#toggleTooltips").on('click', toggleTooltips);
 
 	toggleTooltips = false;  // Tooltips shouldn't appear in response to hovering unless the user turns them on (reduces page clutter)
 
@@ -303,9 +304,9 @@ function getComponents(){
 
 /*
  * Event Handler Method: displayAboutInfo
- * Displays a dialog box containing information about the program when the user clicks the link labeled "About this program"
+ * Displays a dialog box containing information about the program when the user clicks the "i" glyphicon button.
 */
-function displayAboutInfo(){
+function displayAboutInfo() {
 	/*alert("This program was created under the direction of Dr. Margot Vigeant at \n" +
 		  "Bucknell University. It was developed in Flash by Gavin MacInnes in\n" +
 		  "2009, and was adapted to Javascript by Emily Ehrenberger in 2011.\n\n" +
@@ -319,6 +320,19 @@ function displayAboutInfo(){
 		"DUE-0442234 (2009) and DUE-0717536 (2011).\n\n Address any questions or comments to mvigeant@bucknell.edu\n\n" +
 		"\u00A9 Margot Vigeant 2011.");
 	return false;
+}
+
+/*
+ * Event Handler Method: displayHelp
+ * Displays a dialog box containing information about how to use the program when the user clicks the "?" glyphicon
+ * button.
+ */
+function displayHelp() {
+	alert("Enter a hot temperature and a cold temperature and select a cycle ideality from the drop-down menu " +
+		"to generate a series of characteristics for your Carnot engine (shown in blue text once both " +
+		"temperatures have been entered).\n\n" +
+		"If the engine has a non-negative and non-zero thermal efficiency, an animal graphic will " +
+		"move along the belt in accordance with the magnitude of the net work (shown in the bottom left corner).");
 }
 
 /*

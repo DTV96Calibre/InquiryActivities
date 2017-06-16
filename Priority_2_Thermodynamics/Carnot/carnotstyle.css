@@ -381,11 +381,16 @@ textarea {
 }
 
 
-
+/* Buttons */
 #about {
 	position:absolute;
 	top:530px;
 	left:120px;
+}
+#helpButton {
+	position:absolute;
+	top:530px;
+	left:167px;
 }
 #toggleTooltips {
 	position:absolute;
