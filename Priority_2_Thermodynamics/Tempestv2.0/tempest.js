@@ -132,6 +132,10 @@ function init() {
 			}
 		});
 	}
+
+	// register event handlers
+	$("#infoButton").on('click', displayInfo);
+	$("#helpButton").on('click', displayHelp);
 }
 /*
  * Event Handler Function: changePower
@@ -200,4 +204,29 @@ function trackHeat() {
 	
 	//$("#windSpeed").html((Math.round(vWind*10)/10) + " m/s");
 	$("#heatReading").html((Math.round(Tout*10)/10) + " \xB0C");
+}
+
+/*
+ * Event Handler Method: displayInfo
+ * Displays a dialog box containing information about the program when the user clicks the "i" glyphicon button.
+*/
+function displayInfo() {
+	alert("Produced through the efforts of Daniel Prudente\n\n" +
+		  "Supported by NSF DUE-1225031\n\n" +
+		  "Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical Engineering " +
+		  "at mvigeant@bucknell.edu.\n\n" +
+		  "\u00A9 Margot Vigeant and Michael Prince 2013");
+	return false;
+}
+
+/*
+ * Event Handler Method: displayHelp
+ * Displays a dialog box containing information about how to use the program when the user clicks the "?" glyphicon
+ * button.
+ */
+function displayHelp() {
+
+	alert("Select a setting on the hairdryer (low or high) by dragging the black switch. Click and hold the " +
+		"anemometer to drag it in front of the hairdryer and get a measurement reading for the wind speed. " +
+		"Repeating this for the thermocouple will give a temperature reading.");
 }

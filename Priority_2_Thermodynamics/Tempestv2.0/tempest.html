@@ -9,13 +9,29 @@
   (c) Margot Vigeant 2012
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Project Tempest</title>
+
+    <!-- jQuery dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+
+    <!-- Bootstrap: Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Bootstrap: Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Bootstrap: Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <link href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script src="jquery.ui.touch-punch.min.js"></script>
+
     <link href="tempest.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript" src="tempest.js"></script>
 </head>
@@ -28,7 +44,7 @@
         	<img id="wattMeter" id="wattMeter" alt="" src="wattMeter.png" />
           	<label align="right" id="powerLabel" name="powerLabel" alt="">0 W</label>
         </div>
-        
+            
         <div id="hairdryerDiv" name="hairdryerDiv">
         	<div id="powerSlide"></div>
             <div id="red"></div>
@@ -37,7 +53,7 @@
             <img id="coolOff" name="coolOff" alt="" src="coolOff.png" />
 		<button id="coolButton" name="coolButton" onclick="changeCool()"></button>
         </div>
-        
+            
         <div id="sensors" name="sensors">
         	<img id="sensorBox" name="sensorBox" alt="" src="sensorBox.png" />
             <label id="heatLabel" name="heatLabel" alt="">Thermocouple Reading</label>
@@ -66,21 +82,17 @@
 		<div class="tempBox"></div>
 
 		<div id="preload">
-        	       <img src="anemometerLow.gif" width="1" height="1" alt="Image 01" />
-            	   <img src="anemometerMed.gif" width="1" height="1" alt="Image 02" />
-                   <img src="anemometerHigh.gif" width="1" height="1" alt="Image 03" />
+	       <img src="anemometerLow.gif" width="1" height="1" alt="Image 01" />
+    	   <img src="anemometerMed.gif" width="1" height="1" alt="Image 02" />
+           <img src="anemometerHigh.gif" width="1" height="1" alt="Image 03" />
         </div>
         
         <label id="numbers" name="numbers" alt=""></label>
+
+        <!-- Bootstrap buttons -->
+        <a href="javascript:" id="infoButton" name="infoButton" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
+        <a href="javascript:" id="helpButton" name="helpButton" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
         
-    	<p align="center" id="programInfo" name="programInfo">
-			(c) Margot Vigeant and Michael Prince 2013
-			<br /><br />
-			Produced through the efforts of Daniel Prudente
-			<br /><br />
-			Supported by NSF DUE-1225031
-			<br /><br />
-		  Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering							        </p>
     </div>
 </body>
 </html>
