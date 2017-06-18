@@ -10,4 +10,4 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
-	self.rotate(.1)
+	self.rotate(delta)
