@@ -6,18 +6,28 @@
  * (c) Margot Vigeant 2017
  */
 
+var onMobile;
+
 var canvas;
 var ctx;
 var fire;
 
 function setup() {
-  canvas = createCanvas(400, 400);
+  canvas = createCanvas(windowWidth, windowHeight);
   ctx = canvas.drawingContext;
 
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    onMobile = 1;
+  } else onMobile = 0;
+
+  alert("onMobile status: " + onMobile);
+
   fire = new Fire();
-  fire.start();
 }
 
 function draw() {
-  // background(255); // Clear the canvas
+  // background(0); // Clear the canvas
+  background("rgba( 15, 5, 2, 1 )");
+  fire.run();
+
 }
