@@ -1,15 +1,23 @@
+/* File: fire.js
+ * Author: Julien Amblard
+ *         Adapted by Brooke Bullek (June 2017)
+ *         Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 var Fire  = function() {
 
-  // Grab global variables
+  // Use global variables
   this.canvas = canvas;
   this.ctx = ctx;
 
   this.aFires     = [];
   this.aSpark     = [];
   this.aSpark2    = [];
-  this.numParticles = 50;
+
+  this.numParticles = 30;
+  this.numSparks = 15;
   if (onMobile) {
-    this.numParticles = 20;
+    this.numParticles = 15;
   }
 
 
@@ -51,7 +59,7 @@ Fire.prototype.update = function(){
     }
   }
 
-  for (var i = 0; i < this.numParticles; i++) {
+  for (var i = 0; i < this.numSparks; i++) {
     if (i < this.aSpark2.length) {
       if( this.aSpark2[i].alive )
         this.aSpark2[i].update();
@@ -74,14 +82,14 @@ Fire.prototype.draw = function(){
 
   this.ctx.globalCompositeOperation = "soft-light";//"soft-light";//"color-dodge";
 
-  for (var i = 0; i < this.numParticles; i++) {
+  for (var i = 0; i < this.numSparks; i++) {
     if ((i % 2) === 0 && i < this.aSpark.length)
       this.aSpark[i].draw(this.ctx);
   }
 
   this.ctx.globalCompositeOperation = "color-dodge";//"soft-light";//"color-dodge";
 
-  for (var i = 0; i < this.numParticles; i++) {
+  for (var i = 0; i < this.numSparks; i++) {
     if (i < this.aSpark2.length)
       this.aSpark2[i].draw(this.ctx);
   }
