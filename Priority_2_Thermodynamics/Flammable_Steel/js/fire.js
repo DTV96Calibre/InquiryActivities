@@ -10,7 +10,7 @@
  */
 var Fire = function() {
   // Constants (more like pseudo-constants)
-  this.MAX_NUM_PARTICLES = 30;
+  this.MAX_NUM_PARTICLES = 50;
   this.MAX_NUM_PARTICLES_MOBILE = 15;
   this.MAX_NUM_SPARKS = 15;
 
@@ -40,8 +40,8 @@ var Fire = function() {
 Fire.prototype.getMaxNumParticles = function() {
   if (/Android | webOS | iPhone | iPad | iPod/i.test(navigator.userAgent)) {
     // on mobile
-    return this.MAX_NUM_PARTICLES;
-  } else return this.MAX_NUM_PARTICLES_MOBILE;
+    return this.MAX_NUM_PARTICLES_MOBILE;
+  } else return this.MAX_NUM_PARTICLES;
 }
 
 /*
@@ -308,8 +308,6 @@ Spark.prototype.draw = function( ctx ){
   ctx.stroke();
   ctx.closePath();
 }
-
-rand = function(min, max){ return Math.random() * ( max - min) + min; };
 
 // onresize = function() { 
 //   fire.canvas.width = window.innerWidth;

@@ -9,6 +9,7 @@
 
 /*
  * Creates and returns a two-dimensional array initialized with zeroes.
+ * (p5.js doesn't have native support for 2D arrays otherwise.)
  */
 function create2DArray(numRows, numCols) {
   array2D = []
@@ -20,4 +21,11 @@ function create2DArray(numRows, numCols) {
     }
   }
   return array2D;
+}
+
+/*
+ * Returns a random number within the specified min/max range.
+ */
+function rand (min, max) { 
+  return Math.random() * (max - min) + min;
 }

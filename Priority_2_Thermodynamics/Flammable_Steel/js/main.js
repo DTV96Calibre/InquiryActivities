@@ -1,5 +1,5 @@
 /* File: steel.js
- * Dependencies: fire.js
+ * Dependencies: fire.js, util.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
