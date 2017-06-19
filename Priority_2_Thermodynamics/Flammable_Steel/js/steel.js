@@ -15,11 +15,9 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   ctx = canvas.drawingContext;
 
-  frameRate(30);
+  frameRate(60);
 
-  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-    onMobile = 1;
-  } else onMobile = 0;
+  
 
   fire = new Fire();
 }
