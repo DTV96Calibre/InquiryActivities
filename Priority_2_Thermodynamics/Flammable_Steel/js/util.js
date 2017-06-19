@@ -22,10 +22,3 @@ function create2DArray(numRows, numCols) {
   }
   return array2D;
 }
-
-/*
- * Returns a random number within the specified min/max range.
- */
-function rand (min, max) { 
-  return Math.random() * (max - min) + min;
-}
