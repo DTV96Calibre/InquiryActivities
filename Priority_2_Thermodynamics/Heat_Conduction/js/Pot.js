@@ -10,21 +10,26 @@ class Pot{
     this.waterColor = WATER_COLOR;
     this.potHeight = 246;
     this.potWidth = 238;
+    this.potThickness = 20;
     this.anchorPointDiameter = 100;
+
+    this.waterLevelFromTop = 100;
     // Calculate position of anchorpoint relative to pot pos
     this.anchorPoint = {x:0, y:0};
-    this.anchorPoint.y = pos.y - this.potHeight / 2 + this.anchorPointDiameter / 2;
-    this.anchorPoint.x = pos.x - this.potWidth / 2;
+    this.anchorPoint.y = pos.y + this.anchorPointDiameter / 2;
+    this.anchorPoint.x = pos.x;
   }
 
   draw(){
   	noStroke();
   	strokeWeight(3);
     fill(this.metalColor);
-  	rect(369,200,238,246); // Pot body
+  	rect(this.pos.x,this.pos.y,this.potWidth,this.potHeight); // Pot body
   	ellipse(this.anchorPoint.x,this.anchorPoint.y, this.anchorPointDiameter); // Handle joints
-    fill(255);
-    rect(375, 216, 206, 214);
+    fill(this.insideColor);
+    rect(this.pos.x+this.potThickness, this.pos.y, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness); // Inside of pot
+    fill(this.waterColor);
+    rect(this.pos.x+this.potThickness, this.pos.y+this.waterLevelFromTop, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness-this.waterLevelFromTop); // Water in pot
   }
 
   getHandleAnchorPoint(){
