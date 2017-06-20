@@ -25,6 +25,7 @@ var steelRight;
 /************************ Simulation variables *****************************/
 
 var mousedOverWool = false;
+var steelInitialized = false
 
 /*
  * Built-in p5.js function; runs once the page loads and initializes the canvas
@@ -41,8 +42,24 @@ function setup() {
   steelLeft = new Steel(false);
   steelRight = new Steel(true);
   steelRight.changeImage("steel1");
-  steelLeft.resize();
-  steelRight.resize();
+  steelInitialized = true;
+
+  windowResized();
+}
+
+/*
+ * Built-in p5 function; called whenever the browser is resized.
+ */
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+
+  /* Update variables that scale with screen size */
+
+  // Don't resize steel objects if they haven't been instantiated yet
+  if (steelInitialized) {
+    steelLeft.resize();
+    steelRight.resize();
+  }
 }
 
 /*
@@ -66,10 +83,12 @@ function draw() {
  * Initializes the image elements that will be rendered on the p5 canvas.
  */
 function initImages() {
+  /* Load each of the images and resize them via a callback function.
+   * (This is necessary because createImg is asynchronous) */
   images = {
-    steel0: createImg(STEEL0_URL),
-    steel1: createImg(STEEL1_URL),
-    steel1_fire: createImg(STEEL1_FIRE_URL)
+    steel0: createImg(STEEL0_URL, windowResized),
+    steel1: createImg(STEEL1_URL, windowResized),
+    steel1_fire: createImg(STEEL1_FIRE_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded

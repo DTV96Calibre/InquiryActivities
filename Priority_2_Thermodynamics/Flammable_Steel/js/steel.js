@@ -26,6 +26,7 @@ function Steel(isMutable) {
     this.width = windowWidth / 5;
     var aspectRatio = this.img.elt.width / this.img.elt.height;
     this.height = this.width / aspectRatio;
+    print( this.img.elt.height);
 
     // Mutable steel is drawn on the right half of the screen
     if (this.isMutable) {
@@ -41,7 +42,6 @@ function Steel(isMutable) {
    * Renders this image onscreen.
    */
   this.draw = function() {
-    this.resize();
     image(this.img, this.xOffset, this.yOffset, this.width, this.height);
   }
 
