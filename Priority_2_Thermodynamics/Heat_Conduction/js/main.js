@@ -1,12 +1,16 @@
 var joints = [];
 var pot;
+var POT_H_OFFSET = 300;
 
 function setup() {
-  createCanvas(700, 1000);
+  createCanvas(displayWidth, displayHeight);
   print("initialized");
   fill(51);
   noStroke();
-  demo1();
+  pot = new Pot({x:displayWidth-POT_H_OFFSET, y:displayHeight/2}, 51);
+  joints.push(new Joint(100, null, pot.anchorPoint));
+  //demo1();
+  print("offset:", 700 - pot.pos.x);
 }
 
 function draw() {
@@ -19,7 +23,7 @@ function draw() {
 }
 
 function mouseClicked() {
-  insertJoint(mouseX, mouseY, 50);
+  insertJoint(mouseX, pot.anchorPoint.y, random(10, 100));
   print(joints);
 }
 
@@ -37,8 +41,7 @@ function insertJoint(x, y, radius) {
 
 
 function demo1() {
-  pot = new Pot({x:700, y:900}, 51);
-  joints.push(new Joint(100, null, {x:700, y:900}));
+
   insertJoint(200, 700, 10);
   insertJoint(200, 100, 50);
   insertJoint(600, 300, 40);
