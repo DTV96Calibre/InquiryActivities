@@ -1,95 +1,106 @@
 /* File: fire.js
- * Dependencies: util.js
- *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
 
+/*
+ * This class encapsulates the behavior of the "fire" particle effects used 
+ * to indicate the burning steel wool / tip of match.
+ */
 function Fire() {
   this.canvas = canvas;
   this.ctx = ctx;
-
   this.width = 200;
   this.height = 200;
   this.particles = [];
-  this.max = 20;
+  this.numParticlesToSpawn = 10; // Particles to spawn per frame
+  this.maxLife = 20; // Higher value => particles disintegrate more slowly
+  this.speed = 2;    // Higher value => particles rise faster
+  this.size = 4;     // Higher value => radius of the particles gets larger
 
-  this.speed = 3;
-  this.size = 4;
+  // Orange-reddish colors to paint flame particles for a "gradient" effect
+  this.colors = ["rgba(232,179,0,", "rgba(232,70,0",
+                 "rgba(173,38,8,", "rgba(117,6,6,"];
 
-  // Three orange-reddish colors
-  this.colors = ["rgba(232, 179, 0,", "rgba(232,70,0", "rgba(173,38,8,", "rgba(117,6,6,"];
-
-
+  /*
+   * Advances the particle effect by one frame. This function should be called
+   * by the main (draw()) loop in main.js as long as this fire is active.
+   */
   this.update = function() {
-    //Adds ten new particles every frame
-    for (var i=0; i<10; i++) {
-      
-      //Adds a particle at the mouse position, with random horizontal and vertical speeds
-      var p = new Particle(mouseX, mouseY, (Math.random()*2*this.speed-this.speed)/2, 0-Math.random()*2*this.speed);
-      this.particles.push(p);
-    }
+    this.spawnParticles();
     
-    //Clear the this.ctx so we can draw the new frame
-    this.ctx.fillStyle = "rgba( 15, 5, 2, 1 )";
-    // this.ctx.clearRect(0, 0, width, height); // TODO: Experiment w this.
-    
-    //Cycle through all the particles to draw them
-    for (i=0; i < this.particles.length; i++) {
-      
-      //Set the file colour to an RGBA value where it starts off red-orange, but progressively gets more grey and transparent the longer the particle has been alive for
-      // var x = (260-(this.particles[i].life*2));
-      // var y = ((this.particles[i].life*2)+50);
-      // var z = (this.particles[i].life*2);
-      // var a = (((this.max-this.particles[i].life)/this.max)*0.4);
-      // this.ctx.fillStyle = "rgba("+x+","+y+","+z+","+a+")";
-
-      // METHOD 1 (Comment out one or the other)
-      var youth = this.max - this.particles[i].life;
-      var a = (((this.max-this.particles[i].life)/this.max)*0.4);
-      // a = 0.05;
-
-      if (youth > this.max * 0.8) {
-        a = 0.09;
-      }
-      // END METHOD 1
-      // METHOD 2
-      var x = Math.floor((this.particles[i].life / this.max) * this.colors.length);
-      this.ctx.fillStyle = this.colors[x] + a + ")";
-      // END METHOD 2
-      
+    // Iterate through the array of flame particles and draw them
+    for (i = 0; i < this.particles.length; i++) {
+      this.ctx.fillStyle = this.getParticleColor(i);
       this.ctx.beginPath();
-      //Draw the particle as a circle, which gets slightly smaller the longer it's been alive for
-      this.ctx.arc(this.particles[i].x,this.particles[i].y,(this.max-this.particles[i].life)/this.max*(this.size/2)+(this.size/2),0,2*Math.PI);
+
+      // Draw the particle as an ellipse that gradually shrinks as it ages
+      this.ctx.arc(this.particles[i].x, this.particles[i].y, 
+        (this.maxLife - this.particles[i].life) / this.maxLife * (this.size / 2) +
+        (this.size / 2), 0, 2 * Math.PI);
       this.ctx.fill();
       
-      //Move the particle based on its horizontal and vertical speeds
-      this.particles[i].x+=this.particles[i].xs;
-      this.particles[i].y+=this.particles[i].ys;
+      // Move the particle based on its horizontal and vertical speeds
+      this.particles[i].x += this.particles[i].xs;
+      this.particles[i].y += this.particles[i].ys;
       
-      this.particles[i].life++;
-      //If the particle has lived longer than we are allowing, remove it from the array.
-      if (this.particles[i].life >= this.max) {
+      this.particles[i].life++; // Particle is now older by 1 frame
+
+      // If the particle has outlived its lifespan, remove it from the array
+      if (this.particles[i].life >= this.maxLife) {
         this.particles.splice(i, 1);
         i--;
       }
     }
   }
 
-  this.getRandomColor = function() {
-     return this.colors[Math.floor(Math.random() * this.colors.length)];
+  /*
+   * Generates a set number of particles that will be added to this flame.
+   */
+  this.spawnParticles = function() {
+    for (i = 0; i < this.numParticlesToSpawn; i++) {
+      // Particles move at randomized speeds
+      var horizontalSpeed = (Math.random() * 2 * this.speed - this.speed) / 2;
+      var verticalSpeed = 0 - Math.random() * 2 * this.speed;
+      // Add a particle at the origin position
+      var p = new Particle(mouseX, mouseY, horizontalSpeed, verticalSpeed);
+      this.particles.push(p);
+    }
   }
 
+  /*
+   * Returns an RGB color value (including an alpha level) for the given
+   * particle -- older particles have traveled further from the center of the
+   * flame and have a more reddish / opaque color.
+   * @param particleIndex: An integer used to index into this.particles array
+   */
+  this.getParticleColor = function(particleIndex) {
+    var particle = this.particles[particleIndex];
 
+    // Alpha (level of opacity) depends on the age of this particle
+    var remainingLife = this.maxLife - particle.life;
+    var alpha = (remainingLife / this.maxLife) * 0.4;
+
+    /* "Younger" particles override this alpha setting and are almost 
+     * transparent (to offset the intensity of the yellow color) */
+    if (remainingLife > this.maxLife * 0.8) {
+      alpha = 0.09;
+    }
+
+    // Grab the color that most closely aligns with the age of this particle
+    var colorIndex = Math.floor((particle.life / this.maxLife) * this.colors.length);
+    return this.colors[colorIndex] + alpha + ")"; // Assemble RGBA string
+  }
 }
 
-//The class we will use to store particles. It includes x and y
-//coordinates, horizontal and vertical speed, and how long it's
-//been "alive" for.
+/*
+ * This class encapsulates the behavior of the individual "fire" particles 
+ * stored in the array of a Fire object.
+ */
 function Particle(x, y, xs, ys) {
-  this.x = x;
-  this.y = y;
-  this.xs = xs;
-  this.ys = ys;
-  this.life = 0;
+  this.x = x;    // Horizontal coordinate
+  this.y = y;    // Vertical coordinate
+  this.xs = xs;  // Horizontal speed
+  this.ys = ys;  // Vertical speed
+  this.life = 0; // Number of frames this particle has been alive for
 }

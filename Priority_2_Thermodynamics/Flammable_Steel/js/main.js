@@ -1,22 +1,27 @@
-/* File: steel.js
- * Dependencies: fire.js, util.js
+/* File: main.js
+ * Dependencies: fire.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
 
-var FRAME_RATE = 45;
+/************************ Graphical properties *****************************/
+var FRAME_RATE = 60;
+var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
 
-var onMobile;
-
+/************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
 var fire;
 
+/************************ Simulation variables *****************************/
+
 var mousedOverWool = false;
 
-var img;
-
+/*
+ * Built-in p5.js function; runs once the page loads and initializes the canvas
+ * and other properties.
+ */
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   ctx = canvas.drawingContext;
@@ -34,9 +39,12 @@ function setup() {
   img2fire.hide();
 }
 
+/*
+ * Built-in p5.js function; runs 60 times per second and draws the onscreen
+ * elements and animations.
+ */
 function draw() {
-  background("blue"); // Clear the canvas
-  background("rgba( 15, 5, 2, 1 )");
+  background(BG_COLOR); // Clear the canvas
 
   if (cursorOverSteelWool()) {
   	mousedOverWool = true;
