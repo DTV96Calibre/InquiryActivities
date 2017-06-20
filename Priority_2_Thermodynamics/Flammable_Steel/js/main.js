@@ -1,5 +1,5 @@
 /* File: main.js
- * Dependencies: fire.js
+ * Dependencies: fire.js, steel.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
@@ -9,10 +9,18 @@
 var FRAME_RATE = 60;
 var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
 
+var STEEL0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel_0.png?raw=true";
+var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool.png?raw=true";
+var STEEL1_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
+
 /************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
+var images; // The set of URLs that map to the steel images
+
 var fire;
+var steelLeft;
+var steelRight;
 
 /************************ Simulation variables *****************************/
 
@@ -25,18 +33,16 @@ var mousedOverWool = false;
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   ctx = canvas.drawingContext;
-
   frameRate(FRAME_RATE); // Cap frame rate
+  initImages();
 
+  // Init fire and steel
   fire = new Fire();
-
-  // Load image from URL
-  img = createImg("https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel_0.png?raw=true");
-  img2 = createImg("https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool.png?raw=true");
-  img2fire = createImg("https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true");
-  img.hide();
-  img2.hide();
-  img2fire.hide();
+  steelLeft = new Steel(false);
+  steelRight = new Steel(true);
+  steelRight.changeImage("steel1");
+  steelLeft.resize();
+  steelRight.resize();
 }
 
 /*
@@ -46,25 +52,28 @@ function setup() {
 function draw() {
   background(BG_COLOR); // Clear the canvas
 
-  if (cursorOverSteelWool()) {
-  	mousedOverWool = true;
-  }
-
-  image(img, windowWidth / 5, 
-  	windowHeight / 3, img.elt.width / 2, img.elt.height / 2);
-
-  if (mousedOverWool) {
-  	image(img2fire, windowWidth / 2, 
-  		windowHeight / 3, img.elt.width / 2, img.elt.height / 2);
-  } else {
-	image(img2, windowWidth / 2, 
-  		windowHeight / 3, img.elt.width / 2, img.elt.height / 2);
+  if (steelRight.cursorIsOver()) {
+    steelRight.setFire();
   }
   
+  // Render onscreen elements
+  steelLeft.draw();
+  steelRight.draw();
   fire.update();
 }
 
-function cursorOverSteelWool() {
-	return (mouseX > windowWidth / 2 && mouseX < windowWidth / 2 + img.elt.width / 2
-		&& mouseY > windowHeight / 3 && mouseY < windowHeight / 3 + img.elt.height / 2);
+/*
+ * Initializes the image elements that will be rendered on the p5 canvas.
+ */
+function initImages() {
+  images = {
+    steel0: createImg(STEEL0_URL),
+    steel1: createImg(STEEL1_URL),
+    steel1_fire: createImg(STEEL1_FIRE_URL)
+  }
+
+  // Hide the images so they don't appear beneath the canvas when loaded
+  for (x in images) {
+    images[x].hide();
+  }
 }
