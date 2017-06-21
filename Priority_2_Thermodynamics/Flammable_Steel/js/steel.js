@@ -35,7 +35,7 @@ function Steel(isMutable) {
       this.xOffset = windowWidth / 6;
     }
 
-    this.yOffset = windowHeight / 3;
+    this.yOffset = windowHeight / 2 - this.height / 2;
   }
 
   /*
