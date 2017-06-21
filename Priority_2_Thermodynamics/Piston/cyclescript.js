@@ -267,7 +267,7 @@ function displayInstructions() {
 		  "add that step to the cycle. Look in the box to the left of the buttons " +
 		  "to see the steps in your cycle so far.\n\n" +
 		  "Once you have completed a cycle and returned the system to its " +
-		  "initial state, click the \"Finish Cycle\" button to calculate the cycle" +
+		  "initial state, click the \"Finish Cycle\" button to calculate the cycle " +
 		  "efficiency. If you click \"Finish Cycle\" when at least one of the " +
 		  "parameters (pressure, entropy, temperature, volume) has returned to its " +
 		  "starting value, the simulation will calculate the last step of the cycle " +
