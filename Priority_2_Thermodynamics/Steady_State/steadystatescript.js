@@ -389,7 +389,28 @@ function emptyBeakers() {
 
 function displayHelpAlert() {
 	alert("The objective of this activity is to measure the same shade of red with all five measuring beakers. " +
-			"However, measuring white five times does not count.");
+			"However, measuring white five times does not count.\n\n" +
+			"Instructions:\nYou may control both the addition of cough drops " +
+			"and the water flow rate in this system. Start by getting a feel " +
+			"for the controls by adding several cough drops and starting the " +
+			"water flow by typing in a flow rate between 1-10 mL/s.\n\n" +
+			"a. Start with at least 2 (but up to 12) cough drops in the funnel.\n" +
+			"b. Allow water to flow into the funnel. Adjust the flow rate to the " +
+			"desired level (note you may change this as the experiement progresses " +
+			"or you may leave it constant).\n" +
+			"c. As needed, add cough drops to the system (note that you do not " +
+			"have to completely dissolve a cough drop before an additional cough " +
+			"drop is needed\u2014think about this).\n" +
+			"d. Collect samples from the outflow using the 'Take a Measurement' " +
+			"button. Examine the resulting shade of pink, and make adjustments " +
+			"as needed. The color bar at the bottom of the screen is there to " +
+			"help you track the concentration (you may use the numbers 1-6 to " +
+			"refer to the deepness of the red color).\n" +
+			"e. Adjust cough drop addition and flow rate until you can achieve " +
+			"your goal of producing a color that is consistent over at " +
+			"least five samples. You can use the blue stopwatch to help your " +
+			"timing."
+		  );
 	return false;
 }
 
