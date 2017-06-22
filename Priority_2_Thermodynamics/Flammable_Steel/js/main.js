@@ -10,13 +10,17 @@ var FRAME_RATE = 60;
 var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
 
 var STEEL0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel0.png?raw=true";
-var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel4.png?raw=true";
-var STEEL1_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
+var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel1.png?raw=true";
+var STEEL2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel2.png?raw=true";
+var STEEL3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel3.png?raw=true";
+var STEEL4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel4.png?raw=true";
+var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
 
 /************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
 var images; // The set of URLs that map to the steel images
+var slider;
 
 var fire;
 var steelLeft;
@@ -25,7 +29,12 @@ var steelRight;
 /************************ Simulation variables *****************************/
 
 var mousedOverWool = false;
-var steelInitialized = false
+var initFinished = false;
+
+/* ==================================================================
+                        Initialization Functions
+   ==================================================================
+*/
 
 /*
  * Built-in p5.js function; runs once the page loads and initializes the canvas
@@ -34,33 +43,47 @@ var steelInitialized = false
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   ctx = canvas.drawingContext;
-  frameRate(FRAME_RATE); // Cap frame rate
+  frameRate(FRAME_RATE);
   initImages();
 
   // Init fire and steel
   fire = new Fire();
   steelLeft = new Steel(false);
   steelRight = new Steel(true);
-  steelRight.changeImage("steel1");
-  steelInitialized = true;
+  initFinished = true;
+
+  // Init slider
+  slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
+  slider.changed(sliderChanged); // Event handler
 
   windowResized();
 }
 
 /*
- * Built-in p5 function; called whenever the browser is resized.
+ * Initializes the image elements that will be rendered on the p5 canvas.
  */
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+function initImages() {
+  /* Load each of the images and resize them via a callback function.
+   * (This is necessary because createImg is asynchronous) */
+  images = {
+    steel0: createImg(STEEL0_URL, windowResized),
+    steel1: createImg(STEEL1_URL, windowResized),
+    steel2: createImg(STEEL2_URL, windowResized),
+    steel3: createImg(STEEL3_URL, windowResized),
+    steel4: createImg(STEEL4_URL, windowResized),
+    steel_fire: createImg(STEEL_FIRE_URL, windowResized)
+  }
 
-  /* Update variables that scale with screen size */
-
-  // Don't resize steel objects if they haven't been instantiated yet
-  if (steelInitialized) {
-    steelLeft.resize();
-    steelRight.resize();
+  // Hide the images so they don't appear beneath the canvas when loaded
+  for (x in images) {
+    images[x].hide();
   }
 }
+
+/* ==================================================================
+                        Rendering/Update Functions
+   ==================================================================
+*/
 
 /*
  * Built-in p5.js function; runs 60 times per second and draws the onscreen
@@ -80,19 +103,28 @@ function draw() {
 }
 
 /*
- * Initializes the image elements that will be rendered on the p5 canvas.
+ * Built-in p5 function; called whenever the browser is resized.
  */
-function initImages() {
-  /* Load each of the images and resize them via a callback function.
-   * (This is necessary because createImg is asynchronous) */
-  images = {
-    steel0: createImg(STEEL0_URL, windowResized),
-    steel1: createImg(STEEL1_URL, windowResized),
-    steel1_fire: createImg(STEEL1_FIRE_URL, windowResized)
-  }
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 
-  // Hide the images so they don't appear beneath the canvas when loaded
-  for (x in images) {
-    images[x].hide();
+  /* Update variables that scale with screen size */
+
+  // Don't resize objects if they haven't been instantiated yet
+  if (initFinished) {
+    steelLeft.resize();
+    steelRight.resize();
+    slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height);
   }
+}
+
+/*
+ * Callback function triggered when the user adjusts the slider. Updates the 
+ * image used to represent the steel on the right.
+ * @param sliderObj: A slider element
+ */
+function sliderChanged() {
+  var intID = slider.value();
+  var imageID = "steel" + intID;
+  steelRight.changeImage(imageID);
 }

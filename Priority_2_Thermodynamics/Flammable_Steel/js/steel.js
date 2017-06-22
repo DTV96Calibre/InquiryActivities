@@ -26,7 +26,6 @@ function Steel(isMutable) {
     this.width = windowWidth / 5;
     var aspectRatio = this.img.elt.width / this.img.elt.height;
     this.height = this.width / aspectRatio;
-    print( this.img.elt.height);
 
     // Mutable steel is drawn on the right half of the screen
     if (this.isMutable) {
@@ -63,7 +62,7 @@ function Steel(isMutable) {
     // Immutable steel can't catch fire
     if (this.isMutable) {
       this.hasCaughtFire = true;
-      this.changeImage('steel1_fire');
+      this.changeImage('steel_fire');
     }
   }
 
