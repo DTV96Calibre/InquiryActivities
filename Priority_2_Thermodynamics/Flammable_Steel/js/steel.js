@@ -52,6 +52,7 @@ function Steel(isMutable) {
     // Immutable steel can't change in appearance
     if (this.isMutable) {
       this.img = images[imageID];
+      this.resize();
     }
   }
 
@@ -59,8 +60,8 @@ function Steel(isMutable) {
    * Sets this steel on fire, which updates its appearance.
    */
   this.setFire = function() {
-    // Immutable steel can't catch fire
-    if (this.isMutable) {
+    // Steel that is too thick can't catch fire
+    if (this.img == images["steel4"]) {
       this.hasCaughtFire = true;
       this.changeImage('steel_fire');
     }

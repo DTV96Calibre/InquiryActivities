@@ -114,7 +114,8 @@ function windowResized() {
   if (initFinished) {
     steelLeft.resize();
     steelRight.resize();
-    slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height);
+    slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height 
+      * 1.5);
   }
 }
 
