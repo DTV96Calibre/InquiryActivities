@@ -16,7 +16,7 @@ function Steel(isMutable) {
   this.width;
   this.height;
   this.xOffset;
-  this.yOffset;  
+  this.yOffset;
 
   /*
    * Sets the graphical properties of this steel piece based on the window
@@ -34,7 +34,7 @@ function Steel(isMutable) {
       this.xOffset = windowWidth / 6;
     }
 
-    this.yOffset = windowHeight / 2 - this.height / 2;
+    this.yOffset = windowHeight / 3 - this.height / 2;
   }
 
   /*
