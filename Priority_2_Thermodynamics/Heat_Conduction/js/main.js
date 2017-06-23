@@ -1,14 +1,22 @@
 var joints = [];
 var pot;
 var POT_H_OFFSET = 300;
+var diameterSlider;
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
+
   print("initialized");
+
+  diameterSlider = createSlider(10, 100, 50);
+
   fill(51);
   noStroke();
-  pot = new Pot({x:displayWidth-POT_H_OFFSET, y:displayHeight/2}, 51);
+  pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
+
   joints.push(new Joint(100, null, pot.anchorPoint));
+
+  windowResized();
   //demo1();
   print("offset:", 700 - pot.pos.x);
 }
@@ -23,7 +31,8 @@ function draw() {
 }
 
 function mouseClicked() {
-  insertJoint(mouseX, pot.anchorPoint.y, random(10, 100));
+  var radius = diameterSlider.value();
+  insertJoint(mouseX, pot.anchorPoint.y, radius);
   print(joints);
 }
 
@@ -52,4 +61,12 @@ function demo1() {
   // j5 = new Joint(80, j4, {x:500, y:600});
   // j6 = new Joint(20, j5, {x:300, y:300});
 
+}
+
+function windowResized() {
+  var HEIGHT_OF_SLIDER = 25;
+  //diameterSlider.style('height', '25');
+  pot.pos.x = windowWidth-POT_H_OFFSET;
+  resizeCanvas(windowWidth, windowHeight-HEIGHT_OF_SLIDER);
+  print("Resized canvas");
 }
