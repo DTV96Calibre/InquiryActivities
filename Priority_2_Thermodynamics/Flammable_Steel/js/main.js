@@ -52,7 +52,7 @@ function setup() {
   ctx = canvas.drawingContext;
   frameRate(FRAME_RATE);
 
-  wideAspectRatio = true;
+  wideAspectRatio = hasWideAspectRatio();
   initConfig();
   initImages();
 
@@ -81,11 +81,11 @@ function initConfig() {
   var w = wideAspectRatio;
   config = {
     steelWidthRatio:        w ? 0.2 : 0.2,     // times windowWidth
-    steelLeftXOffsetRatio:  w ? 0.167 : 0.167, // times windowWidth
+    steelLeftXOffsetRatio:  w ? 0.333 : 0.167, // times windowWidth
     steelRightXOffsetRatio: w ? 0.667 : 0.667, // times windowWidth
     steelYOffsetRatio:      w ? 0.333 : 0.333, // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
-    matchboxPaddingRatio:   w ? 0.025 : 0.025, // times windowWidth
+    matchboxPaddingRatio:   w ? 0.05 : 0.025, // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
   }
 }
@@ -149,6 +149,12 @@ function windowResized() {
   // Don't resize objects if they haven't been instantiated yet
   if (!initFinished) return;
 
+  // Check if folding or unfolding is necessary
+  if (hasWideAspectRatio() != wideAspectRatio) {
+    wideAspectRatio = !wideAspectRatio;
+    initConfig();
+  }
+
   // Update variables that scale with screen size
   steelLeft.resize();
   steelRight.resize();
@@ -167,4 +173,18 @@ function sliderChanged() {
   var intID = slider.value();
   var imageID = "steel" + intID;
   steelRight.changeImage(imageID);
+}
+
+/* ==================================================================
+                            Misc. Functions
+   ==================================================================
+*/
+
+/*
+ * Returns true if the screen is wider than it is tall. Affects the placement
+ * of onscreen elements, which will 'fold' if a tall and narrow mobile 
+ * layout is detected.
+ */
+function hasWideAspectRatio() {
+  return windowWidth > windowHeight;
 }
