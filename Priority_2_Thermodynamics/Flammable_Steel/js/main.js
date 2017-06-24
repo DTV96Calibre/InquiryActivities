@@ -1,5 +1,5 @@
 /* File: main.js
- * Dependencies: fire.js, steel.js, matchstick.js
+ * Dependencies: fire.js, steel.js, matchstick.js, matchbox.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
@@ -17,6 +17,8 @@ var STEEL4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/
 var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
 var MATCH_UP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-up.png?raw=true";
 var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-down.png?raw=true";
+var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
+var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
 
 /************************ Onscreen elements ********************************/
 var canvas;
@@ -26,6 +28,7 @@ var slider;
 
 var fire;
 var matchstick;
+var matchbox;
 var steelLeft;
 var steelRight;
 
@@ -48,18 +51,18 @@ function setup() {
   frameRate(FRAME_RATE);
   initImages();
 
-  // Init fire and steel
+  // Init fire, steel, etc.
   fire = new Fire();
   steelLeft = new Steel(false);
   steelRight = new Steel(true);
-  initFinished = true;
+  matchstick = new Match();
+  matchbox = new Matchbox();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
-  slider.changed(sliderChanged); // Event handler
+  slider.changed(sliderChanged); // Add event handler
 
-  // Init matchstick
-  matchstick = new Match();
+  initFinished = true;
 
   windowResized();
 }
@@ -78,7 +81,9 @@ function initImages() {
     steel4: createImg(STEEL4_URL, windowResized),
     steel_fire: createImg(STEEL_FIRE_URL, windowResized),
     matchstick_up: createImg(MATCH_UP_URL, windowResized),
-    matchstick_down: createImg(MATCH_DOWN_URL, windowResized)
+    matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
+    matchbox: createImg(MATCHBOX_URL, windowResized),
+    matchbox_cover: createImg(MATCHBOX_COVER_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -106,8 +111,10 @@ function draw() {
   // Render onscreen elements
   steelLeft.draw();
   steelRight.draw();
+  matchbox.drawBottom();
   matchstick.draw();
   fire.update();
+  matchbox.drawCover();
 }
 
 /*
@@ -125,6 +132,7 @@ function windowResized() {
     matchstick.resize();
     slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height 
       * 1.5);
+    matchbox.resize();
   }
 }
 
