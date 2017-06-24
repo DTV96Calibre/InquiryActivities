@@ -35,6 +35,8 @@ var steelRight;
 /************************ Simulation variables *****************************/
 
 var initFinished = false;
+var wideAspectRatio; // Often true for desktop layouts and false for mobile
+var config;
 
 /* ==================================================================
                         Initialization Functions
@@ -49,6 +51,9 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   ctx = canvas.drawingContext;
   frameRate(FRAME_RATE);
+
+  wideAspectRatio = true;
+  initConfig();
   initImages();
 
   // Init fire, steel, etc.
@@ -65,6 +70,24 @@ function setup() {
   initFinished = true;
 
   windowResized();
+}
+
+/*
+ * Sets the location of various elements based on the aspect ratio of the
+ * window (e.g. desktop is wide, mobile is thin). Mimics a "folding" technique 
+ * that positions items differently depending on the user's layout.
+ */
+function initConfig() {
+  var w = wideAspectRatio;
+  config = {
+    steelWidthRatio:        w ? 0.2 : 0.2,     // times windowWidth
+    steelLeftXOffsetRatio:  w ? 0.167 : 0.167, // times windowWidth
+    steelRightXOffsetRatio: w ? 0.667 : 0.667, // times windowWidth
+    steelYOffsetRatio:      w ? 0.333 : 0.333, // times windowHeight
+    matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
+    matchboxPaddingRatio:   w ? 0.025 : 0.025, // times windowWidth
+    matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
+  }
 }
 
 /*
@@ -123,17 +146,16 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 
-  /* Update variables that scale with screen size */
-
   // Don't resize objects if they haven't been instantiated yet
-  if (initFinished) {
-    steelLeft.resize();
-    steelRight.resize();
-    matchstick.resize();
-    slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height 
-      * 1.5);
-    matchbox.resize();
-  }
+  if (!initFinished) return;
+
+  // Update variables that scale with screen size
+  steelLeft.resize();
+  steelRight.resize();
+  matchstick.resize();
+  slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height 
+    * 1.5);
+  matchbox.resize();
 }
 
 /*

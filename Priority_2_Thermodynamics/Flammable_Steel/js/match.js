@@ -16,7 +16,7 @@ function Match() {
    * Sets the graphical properties of this match based on the window size.
    */
   this.resize = function() {
-    this.height = windowHeight / 4;
+    this.height = windowHeight * config['matchHeightRatio'];
     var aspectRatio = this.img.elt.width / this.img.elt.height;
     this.width = this.height * aspectRatio;
   }
@@ -25,6 +25,7 @@ function Match() {
    * Renders this image onscreen.
    */
   this.draw = function() {
-    image(this.img, mouseX - this.width / 1.5, mouseY - this.width / 1.5, this.width, this.height);
+    image(this.img, mouseX - this.width / 1.5, mouseY - this.width / 1.5, 
+      this.width, this.height);
   }
 }

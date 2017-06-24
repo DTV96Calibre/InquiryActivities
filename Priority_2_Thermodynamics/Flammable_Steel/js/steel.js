@@ -23,18 +23,18 @@ function Steel(isMutable) {
    * size.
    */
   this.resize = function() {
-    this.width = windowWidth / 5;
+    this.width = windowWidth * config['steelWidthRatio'];
     var aspectRatio = this.img.elt.width / this.img.elt.height;
     this.height = this.width / aspectRatio;
 
-    // Mutable steel is drawn on the right half of the screen
+    // Horizontal offset depends on which steel is being drawn
     if (this.isMutable) {
-      this.xOffset = 2 * windowWidth / 3;
+      this.xOffset = windowWidth * config['steelRightXOffsetRatio'];
     } else {
-      this.xOffset = windowWidth / 6;
+      this.xOffset = windowWidth * config['steelLeftXOffsetRatio'];
     }
 
-    this.yOffset = windowHeight / 3 - this.height / 2;
+    this.yOffset = windowHeight * config['steelYOffsetRatio'] - this.height / 2;
   }
 
   /*

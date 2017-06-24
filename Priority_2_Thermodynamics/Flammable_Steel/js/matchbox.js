@@ -21,10 +21,10 @@ function Matchbox() {
    * Sets the graphical properties of this matchbox based on the window size.
    */
   this.resize = function() {
-    this.height = min(matchstick.height * 1.2, windowWidth / 2);
+    this.height = matchstick.height * config['matchboxHeightRatio'];
     var aspectRatio = this.img_bottom.elt.width / this.img_bottom.elt.height;
-    this.width = min(this.height * aspectRatio, windowWidth / 2.2);
-    this.padding = windowWidth * 0.025;
+    this.width = this.height * aspectRatio;
+    this.padding = windowWidth * config['matchboxPaddingRatio'];
     this.xOffset = this.padding;
     this.yOffset = windowHeight - this.height - this.padding;
   }
