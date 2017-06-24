@@ -1,12 +1,12 @@
 /* File: main.js
- * Dependencies: fire.js, steel.js
+ * Dependencies: fire.js, steel.js, matchstick.js, matchbox.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
 
 /************************ Graphical properties *****************************/
-var FRAME_RATE = 60;
+var FRAME_RATE = 30;
 var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
 
 var STEEL0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel0.png?raw=true";
@@ -15,20 +15,25 @@ var STEEL2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/
 var STEEL3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel3.png?raw=true";
 var STEEL4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel4.png?raw=true";
 var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
+var MATCH_UP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-up.png?raw=true";
+var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-down.png?raw=true";
+var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
+var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
 
 /************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
-var images; // The set of URLs that map to the steel images
+var images; // The set of URLs that map to various images
 var slider;
 
 var fire;
+var matchstick;
+var matchbox;
 var steelLeft;
 var steelRight;
 
 /************************ Simulation variables *****************************/
 
-var mousedOverWool = false;
 var initFinished = false;
 
 /* ==================================================================
@@ -46,15 +51,18 @@ function setup() {
   frameRate(FRAME_RATE);
   initImages();
 
-  // Init fire and steel
+  // Init fire, steel, etc.
   fire = new Fire();
   steelLeft = new Steel(false);
   steelRight = new Steel(true);
-  initFinished = true;
+  matchstick = new Match();
+  matchbox = new Matchbox();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
-  slider.changed(sliderChanged); // Event handler
+  slider.changed(sliderChanged); // Add event handler
+
+  initFinished = true;
 
   windowResized();
 }
@@ -71,7 +79,11 @@ function initImages() {
     steel2: createImg(STEEL2_URL, windowResized),
     steel3: createImg(STEEL3_URL, windowResized),
     steel4: createImg(STEEL4_URL, windowResized),
-    steel_fire: createImg(STEEL_FIRE_URL, windowResized)
+    steel_fire: createImg(STEEL_FIRE_URL, windowResized),
+    matchstick_up: createImg(MATCH_UP_URL, windowResized),
+    matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
+    matchbox: createImg(MATCHBOX_URL, windowResized),
+    matchbox_cover: createImg(MATCHBOX_COVER_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -99,7 +111,10 @@ function draw() {
   // Render onscreen elements
   steelLeft.draw();
   steelRight.draw();
+  matchbox.drawBottom();
+  matchstick.draw();
   fire.update();
+  matchbox.drawCover();
 }
 
 /*
@@ -114,8 +129,10 @@ function windowResized() {
   if (initFinished) {
     steelLeft.resize();
     steelRight.resize();
+    matchstick.resize();
     slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height 
       * 1.5);
+    matchbox.resize();
   }
 }
 
