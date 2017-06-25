@@ -61,7 +61,7 @@ function Steel(isMutable) {
    */
   this.setFire = function() {
     // Steel that is too thick can't catch fire
-    if (this.img == images["steel4"]) {
+    if (this.img == images["steel4"] && holdingMatch) {
       this.hasCaughtFire = true;
       this.changeImage('steel_fire');
     }
