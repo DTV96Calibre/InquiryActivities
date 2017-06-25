@@ -36,6 +36,32 @@ function startstop()
 	}
 }
 
+function forceStart() {
+	var startstop = document.getElementById('startstopbutton');
+	var startdate = new Date();
+	var starttime = startdate.getTime();
+
+	startstop.text = 'Stop';
+	if ($('#startstopbutton').hasClass('btn-success')) {
+		$('#startstopbutton').removeClass('btn-success').addClass('btn-danger');
+	}
+	flagclock = 1;
+	counter(starttime);
+}
+
+function forceStop() {
+	var startstop = document.getElementById('startstopbutton');
+	var startdate = new Date();
+	var starttime = startdate.getTime();
+
+	startstop.text = 'Start';
+	if ($('#startstopbutton').hasClass('btn-danger')) {
+		$('#startstopbutton').removeClass('btn-danger').addClass('btn-success');
+	}
+	flagclock = 0;
+	flagstop = 1;
+}
+
 function counter(starttime)
 	{
 	output = document.getElementById('output');

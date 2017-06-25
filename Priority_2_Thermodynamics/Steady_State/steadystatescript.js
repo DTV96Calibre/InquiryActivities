@@ -49,6 +49,9 @@ var concLimit3 = 50;
 var concLimit4 = 80;
 var k = 120;
 
+// An array that holds the concentrations of all 5 beakers as they're measured
+var concentrations = [];
+
 /*
 *************************************************************************************************************************
 *													Initialization														*
@@ -359,8 +362,11 @@ function getMeasurement() {
 		alert("You can't take a measurement without any solution flowing.");
 	}
 	// Takes the measurement if there are any empty beakers
-	else if (currentBeaker < 5)
+	else if (currentBeaker < 5) {
 		$("#beaker" + currentBeaker).animate({top: "640px", left:"175px"}, 1000, "linear", getConcentration);
+		// Begin timer
+		forceStart();
+	}
 	else {
 		$("#getMeasurementButton").removeAttr("disabled");
 		$("#emptyBeakerButton").removeAttr("disabled");
@@ -377,6 +383,8 @@ function getMeasurement() {
  * Empties out all the beakers
 */
 function emptyBeakers() {
+	concentrations = []; // Reset array of concentrations
+
 	for (var beaker = 0; beaker < 5; beaker ++) {
 		for (var conc = 0; conc < 6; conc ++) {
 			$("#beakerSoln" + conc + beaker).hide();
@@ -388,7 +396,8 @@ function emptyBeakers() {
 }
 
 function displayHelpAlert() {
-	alert("The objective of this activity is to measure the same shade of red with all five measuring beakers. " +
+	alert("The objective of this activity is to achieve steady state by measuring " +
+			" the same shade of red with all five beakers. " +
 			"However, measuring white five times does not count.\n\n" +
 			"Instructions:\nYou may control both the addition of cough drops " +
 			"and the water flow rate in this system. Start by getting a feel " +
@@ -448,6 +457,11 @@ function displaySaturatedText() {
 function returnBeaker() {
 	// Show the image with the beaker and the solution in it
 	$("#beakerSoln" + currentConc + "" + currentBeaker).show();
+	concentrations.push(currentConc);
+
+	// Stop timer and record time elapsed
+	splittime();
+	forceStop();
 	
 	var leftPx;
 	
@@ -816,14 +830,41 @@ function getConcentration() {
  * Tells whether or not the user has completed the task
 */
 function measureWin() {
-	var count;
-	for (var concentration = 1; concentration < 6; concentration++) {
-		count = 0;
-		for (var beaker = 0; beaker < 6; beaker++) {
-			if ($("#beakerSoln" + concentration + "" + beaker).is(":visible"))
-				count++;
-		}
-		if (count == 5)
-			alert("Congratulations! You Win! You can empty the beakers to try again, and perhaps try to do it with a different shade.");
+	var numMatching = findNumMatchingBeakers();
+	if (numMatching == 5) {
+		displayWinMessage();
+	} else {
+		displayLoseMessage(numMatching);
 	}
+}
+
+function displayWinMessage() {
+	alert("Congratulations! You achieved steady state. You can empty the beakers to try again, " +
+	"perhaps with a different shade.");
+}
+
+function displayLoseMessage(numMatching) {
+	alert("You lose! You were unable to achieve steady state and only had " +
+		numMatching + " out of 5 beakers with identical concentrations. You " +
+		"can empty the beakers to try again.");
+}
+
+/*
+ * Returns the largest number of beakers that share a concentration.
+ * Used for alerting the user to how many matching shades they got out of five.
+ */
+function findNumMatchingBeakers() {
+	var maxNum = 1;
+	var currNum = 1;
+	for (var i = 0; i < concentrations.length; i++) {
+		for (var j = i + 1; j < concentrations.length; j++) {
+			if (concentrations[i] == concentrations[j])
+				currNum++;
+		}
+		if (currNum > maxNum)
+			maxNum = currNum;
+		currNum = 1;
+	}
+
+	return maxNum;
 }
