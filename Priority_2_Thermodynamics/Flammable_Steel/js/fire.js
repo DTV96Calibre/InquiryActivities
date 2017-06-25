@@ -17,6 +17,8 @@ function Fire() {
   this.maxLife = 20; // Higher value => particles disintegrate more slowly
   this.speed = 2;    // Higher value => particles rise faster
   this.size = 4;     // Higher value => radius of the particles gets larger
+  this.originX;
+  this.originY;
 
   // Orange-reddish colors to paint flame particles for a "gradient" effect
   this.colors = ["rgba(232,179,0,", "rgba(232,70,0",
@@ -27,6 +29,7 @@ function Fire() {
    * by the main (draw()) loop in main.js as long as this fire is active.
    */
   this.update = function() {
+    this.updateOrigin();
     this.spawnParticles();
     
     // Iterate through the array of flame particles and draw them
@@ -55,6 +58,14 @@ function Fire() {
   }
 
   /*
+   * Updates the origin (spawn position) of this fire.
+   */
+  this.updateOrigin = function() {
+    this.originX = matchstick.xOffset;
+    this.originY = matchstick.yOffset;
+  }
+
+  /*
    * Generates a set number of particles that will be added to this flame.
    */
   this.spawnParticles = function() {
@@ -63,7 +74,8 @@ function Fire() {
       var horizontalSpeed = (Math.random() * 2 * this.speed - this.speed) / 2;
       var verticalSpeed = 0 - Math.random() * 2 * this.speed;
       // Add a particle at the origin position
-      var p = new Particle(mouseX, mouseY, horizontalSpeed, verticalSpeed);
+      var p = new Particle(this.originX, this.originY, horizontalSpeed, 
+        verticalSpeed);
       this.particles.push(p);
     }
   }

@@ -57,11 +57,11 @@ function setup() {
   initImages();
 
   // Init fire, steel, etc.
-  fire = new Fire();
   steelLeft = new Steel(false);
   steelRight = new Steel(true);
   matchbox = new Matchbox();
   matchstick = new Match();
+  fire = new Fire();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
