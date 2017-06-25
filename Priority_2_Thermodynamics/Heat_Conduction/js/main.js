@@ -54,14 +54,23 @@ function demo1() {
   insertJoint(200, 700, 10);
   insertJoint(200, 100, 50);
   insertJoint(600, 300, 40);
-  // j1 = new Joint(100, null, {x:700, y:900});
-  // j2 = new Joint(10, j1, {x:200, y:700});
-  // j3 = new Joint(50, j2, {x:200, y:100});
-  // j4 = new Joint(40, j3, {x:600, y:300});
-  // j5 = new Joint(80, j4, {x:500, y:600});
-  // j6 = new Joint(20, j5, {x:300, y:300});
 
 }
+
+/* Recursively calculates temperature of each node in the pipe chain.
+ * @param currentJoint: A joint whose temperature is already known.
+ */
+function heatTransferTraverse(currentJoint){
+  if (!currentJoint.next){
+    return
+  }
+  var length = getDistance(currentJoint.pos, currentJoint.next.pos);
+  currentJoint.next.temp = getNewTemp(currentJoint.radius*2, currentJoint.next.radius*2, length, currentJoint.temp);
+  heatTransferTraverse(currentJoint.next);
+}
+
+function getNewTemp(d1, d2, length, t1){
+  return t1 - t1/10;
 
 function windowResized() {
   var HEIGHT_OF_SLIDER = 25;
