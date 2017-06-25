@@ -9,8 +9,21 @@
  */
 function Match() {
   this.img = images['matchstick_down'];
+  
+  /* Graphical properties */
   this.width;
   this.height;
+  this.xOffset;
+  this.yOffset = 0;
+
+  /*
+   * Sets the position of this match to the origin so that it's sitting inside
+   * the matchbox.
+   */
+  this.setToOriginPos = function() {
+    this.xOffset = matchbox.xOffset + matchbox.width * 0.70;
+    this.yOffset = matchbox.yOffset - matchbox.height / 10;
+  }
 
   /*
    * Sets the graphical properties of this match based on the window size.
@@ -25,7 +38,25 @@ function Match() {
    * Renders this image onscreen.
    */
   this.draw = function() {
-    image(this.img, mouseX - this.width / 1.5, mouseY - this.width / 1.5, 
-      this.width, this.height);
+    // Horizontal and vertical offsets update every frame when holding match
+    if (holdingMatch) {
+      this.xOffset = mouseX;
+      this.yOffset = mouseY;
+    }
+
+    image(this.img, this.xOffset - this.width / 1.5, 
+      this.yOffset - this.width / 1.5, this.width, this.height);
+  }
+
+  /*
+   * Returns true if the cursor is hovering over this match.
+   */
+  this.cursorIsOver = function() {
+    // Adjust offsets so they correspond with skewed positioning of matchstick
+    var tempXOffset = this.xOffset - this.width / 1.5;
+    var tempYOffset = this.yOffset - this.width / 1.5;
+
+    return (mouseX > tempXOffset && mouseX < tempXOffset + this.width
+         && mouseY > tempYOffset && mouseY < tempYOffset + this.height);
   }
 }

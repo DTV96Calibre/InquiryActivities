@@ -25,7 +25,6 @@ var canvas;
 var ctx;
 var images; // The set of URLs that map to various images
 var slider;
-
 var fire;
 var matchstick;
 var matchbox;
@@ -35,6 +34,7 @@ var steelRight;
 /************************ Simulation variables *****************************/
 
 var initFinished = false;
+var holdingMatch = false;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
 var config;
 
@@ -60,8 +60,8 @@ function setup() {
   fire = new Fire();
   steelLeft = new Steel(false);
   steelRight = new Steel(true);
-  matchstick = new Match();
   matchbox = new Matchbox();
+  matchstick = new Match();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
@@ -85,8 +85,13 @@ function initConfig() {
     steelRightXOffsetRatio: w ? 0.667 : 0.667, // times windowWidth
     steelYOffsetRatio:      w ? 0.333 : 0.333, // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
-    matchboxPaddingRatio:   w ? 0.05 : 0.025, // times windowWidth
+    matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
+    sliderYOffsetRatio:     w ? 1.5 : 1.5,     // times steelRight.height
+
+    // Independent of window aspect ratio
+    panelEdgeRoundness:     20, // degrees
+    panelFillColor:         '#333333',
   }
 }
 
@@ -103,10 +108,10 @@ function initImages() {
     steel3: createImg(STEEL3_URL, windowResized),
     steel4: createImg(STEEL4_URL, windowResized),
     steel_fire: createImg(STEEL_FIRE_URL, windowResized),
-    matchstick_up: createImg(MATCH_UP_URL, windowResized),
-    matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
     matchbox: createImg(MATCHBOX_URL, windowResized),
-    matchbox_cover: createImg(MATCHBOX_COVER_URL, windowResized)
+    matchbox_cover: createImg(MATCHBOX_COVER_URL, windowResized),
+    matchstick_up: createImg(MATCH_UP_URL, windowResized),
+    matchstick_down: createImg(MATCH_DOWN_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -130,6 +135,9 @@ function draw() {
   if (steelRight.cursorIsOver()) {
     steelRight.setFire();
   }
+
+  // Draw grey border around steel panel
+  drawPanel();
   
   // Render onscreen elements
   steelLeft.draw();
@@ -138,6 +146,19 @@ function draw() {
   matchstick.draw();
   fire.update();
   matchbox.drawCover();
+}
+
+/*
+ * Draws the grey panel that surrounds both steel/wood objects.
+ */
+function drawPanel() {
+  fill(config['panelFillColor']);
+  var xPos = steelLeft.xOffset * 0.8;
+  var yPos = steelLeft.yOffset * 0.4;
+  var width = steelRight.xOffset + steelLeft.width - steelLeft.xOffset / 1.5;
+  var height = max(windowHeight * 0.6, steelRight.yOffset + steelLeft.height * config['sliderYOffsetRatio']);
+  var edge = config['panelEdgeRoundness'];
+  rect(xPos, yPos, width, height, edge, edge, edge, edge);
 }
 
 /*
@@ -158,10 +179,11 @@ function windowResized() {
   // Update variables that scale with screen size
   steelLeft.resize();
   steelRight.resize();
-  matchstick.resize();
-  slider.position(steelRight.xOffset, steelRight.yOffset + steelRight.height 
-    * 1.5);
+  slider.position(steelRight.xOffset, steelLeft.yOffset + steelLeft.height 
+    * config['sliderYOffsetRatio']);
   matchbox.resize();
+  matchstick.setToOriginPos();
+  matchstick.resize();
 }
 
 /*
@@ -187,4 +209,23 @@ function sliderChanged() {
  */
 function hasWideAspectRatio() {
   return windowWidth > windowHeight;
+}
+
+/*
+ * Called whenever the user presses the mouse button.
+ */
+function mousePressed() {
+  if (!initFinished) return;
+
+  // Check if user picked up the match
+  if (matchstick.cursorIsOver()) {
+    holdingMatch = true;
+  }
+}
+
+/*
+ * Called whenever the user releases the mouse button.
+ */
+function mouseReleased() {
+  holdingMatch = false;
 }
