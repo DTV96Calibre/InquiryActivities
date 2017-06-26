@@ -1,0 +1,38 @@
+/*
+ * File: steadystatestyle.css
+ * Author: Brooke Bullek (June 2017), Daniel Prudente (June 2012)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ * (c) Margot Vigeant 2017
+*/
+
+body {
+  background-color: #cda26f !important;
+}
+
+h1 {
+  font-family: "Times New Roman";
+  font-weight: bold;
+  font-size: 32px;
+  color: #000000;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+  height: 100%;
+}
+
+/* Set properties of margins (which will collapse when screen resolution becomes small) */
+.sidenav {
+  padding-top: 20px;
+  background-color: red;
+  height: 100%;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+  .row.content {height:auto;} 
+}
