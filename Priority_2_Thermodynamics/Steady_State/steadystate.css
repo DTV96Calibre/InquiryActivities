@@ -37,7 +37,9 @@ h1 {
 
   .experiment {
     min-width: 320px !important;
+    min-height: 0px !important;
     width: 100% !important;
+    height: 100% !important;
     left: 0% !important;
   }
 }
@@ -49,24 +51,24 @@ h1 {
 .experiment {
   position: relative;
   left: 30%;
+  /* These dimensions scale with the resolution of experiment_main.png */
   min-width: 500px;
-  width: 40%;
-  height: 100%;
+  width: 40vw;
+  min-height: 441px;
+  height: 35.27vw;
   border:1px solid black;
 }
 
 #experimentMain {
   position: relative;
-  min-width: 500px;
   width: 100%;
   z-index: 2;
 }
 
 #buchnerFunnelFront {
   position:absolute;
-  min-width: 84.5px;
   width: 15%;
-  top: 57%;
   left: 38%;
+  top: 52%;
   z-index: 1;
 }
