@@ -1,11 +1,10 @@
 /*
  * File: steadystatescript.js
  * Purpose: To provide the animations and interactivity for the Steady State
- * Author: Daniel Prudente (July 2012)
+ * Author: Brooke Bullek (2017), Daniel Prudente (July 2012)
  *		   Under the supervision of Margot Vigeant, Bucknell University
- * (c) Margot Vigeant 2012
+ * (c) Margot Vigeant 2017
 */
-
 
 /*
  * This file makes use of the JQuery libraries (http://jquery.com/)

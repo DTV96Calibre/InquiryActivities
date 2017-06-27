@@ -22,13 +22,13 @@ h1 {
   padding: 0%;
 }
 
-/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+/* Set height of the grid */
 .row.content {
   height: 100%;
   width: 100%;
 }
 
-/* On mobile screens (width < 768px) */
+/* On mobile screens (width < 1024px) */
 @media screen and (max-width: 1023px) and (orientation: portrait) {
   .row.content {height:400px;}
 
@@ -64,6 +64,10 @@ h1 {
   width: 100%;
   z-index: 2;
 }
+
+/* The following images are position:absolute with respect to their parent container
+ * (which is relative). This allows them to shrink and grow in size while still being
+ * positioned proportionately relative to one another. */
 
 #buchnerFunnelFront {
   position:absolute;
