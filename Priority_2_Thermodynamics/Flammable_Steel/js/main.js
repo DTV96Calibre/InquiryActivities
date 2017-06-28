@@ -1,5 +1,5 @@
 /* File: main.js
- * Dependencies: fire.js, steel.js, matchstick.js, matchbox.js
+ * Dependencies: Fire.js, FlammableItem.js, Steel.js, Match.js, Matchbox.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University

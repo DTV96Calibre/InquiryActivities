@@ -1,4 +1,4 @@
-/* File: match.js
+/* File: Match.js
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
