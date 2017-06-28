@@ -42,6 +42,7 @@ var flammableRight;
 var initFinished = false;
 var holdingMatch = false;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
+var currentItem = "wood";
 var config;
 
 /* ==================================================================
@@ -63,8 +64,7 @@ function setup() {
   initImages();
 
   // Init fire, steel/wood, etc.
-  flammableLeft = new Steel(false);
-  flammableRight = new Steel(true);
+  initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
   fire = new Fire();
@@ -93,7 +93,7 @@ function initConfig() {
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
     matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 1.5 : 1.5,     // times steelRight.height
+    sliderYOffsetRatio:     w ? 1.5 : 1.5,     // times flammableRight.height
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -131,6 +131,21 @@ function initImages() {
   }
 }
 
+/*
+ * Sets the items on the left and right (to either steel or wood, depending
+ * on the current setting).
+ */
+function initFlammableItems() {
+  if (currentItem == "steel") {
+    flammableLeft = new Steel(false);
+    flammableRight = new Steel(true);
+  }
+  else if (currentItem == "wood") {
+    flammableLeft = new Wood(false);
+    flammableRight = new Wood(true);
+  }
+}
+
 /* ==================================================================
                         Rendering/Update Functions
    ==================================================================
@@ -147,7 +162,7 @@ function draw() {
     flammableRight.setFire();
   }
 
-  // Draw grey border around steel panel
+  // Draw grey border around flammable objects panel
   drawPanel();
   
   // Render onscreen elements
@@ -200,12 +215,12 @@ function windowResized() {
 
 /*
  * Callback function triggered when the user adjusts the slider. Updates the 
- * image used to represent the steel on the right.
+ * image used to represent the steel/wood on the right.
  * @param sliderObj: A slider element
  */
 function sliderChanged() {
   var intID = slider.value();
-  var imageID = "wood" + intID;
+  var imageID = currentItem + intID;
   flammableRight.changeImage(imageID);
 }
 

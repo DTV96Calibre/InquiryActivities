@@ -9,6 +9,7 @@
 function FlammableItem(isMutable) {
   this.isMutable = isMutable;  // True for the item on the right
   this.hasCaughtFire = false;
+  this.img;
 
   /* Graphical properties */
   this.width;
@@ -38,7 +39,13 @@ function FlammableItem(isMutable) {
    * Renders this image onscreen.
    */
   this.draw = function() {
-    image(this.img, this.xOffset, this.yOffset, this.width, this.height);
+    if (this.img == images['wood1']) { // Draw wood planks img a little smaller
+      image(this.img, this.xOffset + this.width * 0.1, this.yOffset + this.height * 0.1, 
+        this.width * 0.8, this.height * 0.8);
+    }
+    else {
+      image(this.img, this.xOffset, this.yOffset, this.width, this.height);
+    }
   }
 
   /*
