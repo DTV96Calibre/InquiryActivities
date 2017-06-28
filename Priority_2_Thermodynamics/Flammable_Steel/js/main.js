@@ -182,8 +182,12 @@ function drawPanel() {
   var xPos = flammableLeft.xOffset * 0.8;
   var yPos = flammableLeft.yOffset * 0.4;
   var width = flammableRight.xOffset + flammableLeft.width - flammableLeft.xOffset / 1.5;
-  var height = max(windowHeight * 0.6, flammableRight.yOffset + flammableLeft.height 
-    * config['sliderYOffsetRatio']);
+  /* Compute height of the panel as a function of the log or ingot's height -- 
+   * so the height of the panel doesn't change as images are swapped */
+  var imageRef = images[currentItem + '0'];
+  var aspectRatio = imageRef.elt.width / imageRef.elt.height;
+  var height = max(windowHeight * 0.6, flammableLeft.yOffset + windowWidth * 
+    config['itemWidthRatio'] / aspectRatio * config['sliderYOffsetRatio']);
   var edge = config['panelEdgeRoundness'];
   rect(xPos, yPos, width, height, edge, edge, edge, edge);
 }
