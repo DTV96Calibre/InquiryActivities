@@ -120,7 +120,15 @@
           <div class="config_container">
             <div style="position: relative; visibility: hidden; margin-top: 10px; padding-top: 10px"></div> <!-- Filler -->
 
-            <div class="flowRateDiv">
+            <div class="flowRate">
+              <div class="flowRate_helper" style="display: flex;">
+                <label id="faucetFlowRateLabel" name="faucetFlowRateLabel" class="flowRate_item">Flow Rate:</label>
+                <input id="faucetFlowRate" name="faucetFlowRate" class="flowRate_item" type="text" maxLength="5" />
+                <label id="faucetFlowRateUnits" name="faucetFlowRateUnits" class="flowRate_item">cm<sup>2</sup>/s</label>
+              </div>
+              <div class="flowRate_helper" style="height: 40%">
+                <label id="faucetFlowRateRange" name="faucetFlowRateRange" class="flowRate_item">(0-10)</label>
+              </div>
             </div>
 
             <div class="stopwatch">
