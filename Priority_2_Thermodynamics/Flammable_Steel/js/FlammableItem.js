@@ -20,18 +20,18 @@ function FlammableItem(isMutable) {
    * Sets the graphical properties of this object based on the window size.
    */
   this.resize = function() {
-    this.width = windowWidth * config['steelWidthRatio'];
+    this.width = windowWidth * config['itemWidthRatio'];
     var aspectRatio = this.img.elt.width / this.img.elt.height;
     this.height = this.width / aspectRatio;
 
     // Horizontal offset depends on which item (left or right) is being drawn
     if (this.isMutable) {
-      this.xOffset = windowWidth * config['steelRightXOffsetRatio'];
+      this.xOffset = windowWidth * config['itemRightXOffsetRatio'];
     } else {
-      this.xOffset = windowWidth * config['steelLeftXOffsetRatio'];
+      this.xOffset = windowWidth * config['itemLeftXOffsetRatio'];
     }
 
-    this.yOffset = windowHeight * config['steelYOffsetRatio'] - this.height / 2;
+    this.yOffset = windowHeight * config['itemYOffsetRatio'] - this.height / 2;
   }
 
   /*
