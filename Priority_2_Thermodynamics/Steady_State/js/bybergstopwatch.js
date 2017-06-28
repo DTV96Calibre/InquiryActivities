@@ -175,4 +175,6 @@ function splittime()
 		splitdate = clock.value;
 		output.value += (++splitcounter) + '. ' + clock.value + '\n';
 		}
+
+		output.scrollTop = output.scrollHeight;
 	}

@@ -155,6 +155,9 @@ function init() {
 	$("#beakerSaturated").on('click', displaySaturatedText);
 	$("#helpButton").on('click', displayHelpAlert);
 	$("#infoButton").on('click', displayInfoAlert);
+	$("#startstopbutton").on('click', startstop);
+	$("#splitbutton").on('click', splittime);
+	$("#resetbutton").on('click', resetclock);
 }
 
 /*
