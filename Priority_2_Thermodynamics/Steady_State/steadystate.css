@@ -34,7 +34,7 @@ h1 {
   /* Positioning/scaling of images when screen is small enough to be "folded" */
   img {min-width: 0px !important;}
 
-  .experiment, .head, .beaker_container {
+  .experiment, .head, .panel_container {
     min-width: 320px !important;
     min-height: 0px !important;
     width: 100% !important;
@@ -44,10 +44,14 @@ h1 {
 
   .beakers, .colorScale {
     min-width: 0px !important;
-    width: 55% !important;
   }
 
-  .beaker-img {margin: 1px !important;}
+  .button_box2_item {
+    font-size: calc(5px + 0.8vw) !important;
+    margin: 1px !important;
+  }
+
+  #clock {font-size: calc(8px + 0.8vw) !important;}
 
   /*#colorScaleLabel {font-size: calc(8px + 0.1vw) !important;}*/
 }
@@ -56,18 +60,12 @@ h1 {
  *         Default positioning/scaling of images (Laptop/desktop --> 1024px+)
  ********************************************************************************/
 
-.head, .experiment, .beaker_container {
+.head, .experiment, .panel_container {
   position: relative;
   left: 30%;
   min-width: 500px;
-  width: 40vw;
+  width: 40%;
 }
-
-/* For debugging */
-.beaker_container {border:1px solid red;}
-.experiment {border:1px solid black;}
-.beakers {border:1px solid blue;}
-.colorScale {border:1px solid purple;}
 
 .experiment {
   /* These dimensions scale with the resolution of experiment_main.png */
@@ -75,22 +73,98 @@ h1 {
   height: 35.27vw;
 }
 
+.beaker_wrapper {
+  position: relative;
+  padding: 11%;
+  margin-bottom: 5%;
+}
+
 .beakers, .colorScale {
   position: absolute;
-  left: 15%;
-  min-width: 300px;
-  width: 22vw;
-  top: 0%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex; /* Allows for easy positioning of 5 beakers */
 }
 
-/*.colorScale {
-  position: relative;
-  left: 30%;
-  padding-top: 1%;
-  width: 28vw;
-  min-width: 375px;
-}*/
+.config_container {
+  height: 100%;
+  width: 100%;
+}
+
+.stopwatch {
+  position: absolute;
+  margin-left: 3%;
+  display: block;
+  bottom: 25%;
+  /*height: 40%;*/
+  width: 32%;
+  border: 2px solid #4848f2;
+  background-color: #1010a0;
+}
+
+.button_box2 {
+  display: flex;
+  margin: 0 auto;
+  width: 85%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The following images have a parent container with display:flex; which allows them
+ * to act as elements in an array that expand dynamically to fill their container. */
+
+.beaker-img {
+  flex-shrink: 1;
+  margin: 6px; /* Spacing between beakers with display: flex */
+  min-width: 38px;
+}
+
+.button_box2_item {
+  flex-grow: 1;
+  padding-left: 2%;
+  padding-right: 2%;
+  font-size: calc(5px + 0.4vw);
+  margin: 3px;
+  z-index: 3;
+}
+
+.button_box2_item:nth-child(2) {
+  /*order: 1;*/
+}
+
+#startstopbutton {min-width: 0px;}
+#splitbutton {min-width: 0px;}
+#resetbutton {min-width: 0px;}
+
+/* The following images are position:absolute with respect to their parent container
+ * (which is relative). This allows them to shrink and grow in size while still being
+ * positioned proportionately relative to one another. */
+
+#buchnerFunnelFront, #buchnerFunnelBack {
+  position: absolute;
+  width: 15%;
+  left: 38%;
+  top: 52.3%;
+  z-index: 1;
+}
+
+#buchnerFunnelBack {
+  position: absolute;
+  top: 52% !important;
+  z-index: -1 !important;
+}
+
+#faucetHandle {
+  position: absolute;
+  width: 15%;
+  left: 75%;
+  top: 56%;
+  z-index: 2;
+}
+
+/* Misc. properties */
 
 #experimentMain {
   position: relative;
@@ -98,36 +172,27 @@ h1 {
   z-index: 2;
 }
 
-/* The following images have a parent container with display:flex; which allows them
- * to act as elements in an array that expand dynamically to fill their container. */
-
-.beaker-img {
-  margin: 5px; /* Spacing between beakers with display: flex */
-  min-width: 50px;
-  width: 100%;
-  height: 100%;
-}
-
-/* The following images are position:absolute with respect to their parent container
- * (which is relative). This allows them to shrink and grow in size while still being
- * positioned proportionately relative to one another. */
-
-#buchnerFunnelFront {
-  position: absolute;
-  width: 15%;
-  left: 38%;
-  top: 52%;
-  z-index: 1;
-}
-
-/* Misc. properties */
-
 #colorScale {
   position: relative;
-  width: 70%;
+  width: 90%;
   display: block;
   margin: auto;
-  margin-top: 5% !important;
+}
+
+#clock {
+  font-size: 14pt;
+  text-align: center;
+  width: 50%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+#output {
+  height: 40%;
+  width: 85%;
+  margin: auto;
+  margin-top: 3%;
+  margin-bottom: 3%;
 }
 
 /*#colorScaleLabel {
@@ -136,3 +201,10 @@ h1 {
   color: #000000;
   margin-top: 1%;
 }*/
+
+/* For debugging */
+/*.panel_container {border:1px solid red;}*/
+/*.config_container {border:1px solid green;}*/
+/*.experiment {border:1px solid black;}*/
+/*.beakers {border:1px solid blue;}*/
+/*.colorScale {border:1px solid purple;}*/

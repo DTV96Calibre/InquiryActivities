@@ -11,9 +11,12 @@
   <title>Cough Drop Activity</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
   <!-- Local dependencies -->
   <link href="steadystate.css" type="text/css" rel="stylesheet" />
 </head>
@@ -34,87 +37,109 @@
       <div class="experiment">
         <img id="experimentMain" name="experimentMain" src="images/experiment_main.png"/>
         <img id="buchnerFunnelFront" name="buchnerFunnelFront" src="images/buchner_funnel_front.png"/>
+        <img id="buchnerFunnelBack" name="buchnerFunnelBack" src="images/buchner_funnel_back.png"/>
+        <img id="faucetHandle" name="faucetHandle" src="images/faucet_handle_angle.png" />
       </div>
 
-      <!-- Row of beakers underneath faucet -->
-      <div class="beaker_container">
+      <!-- Holds the items underneath the faucet (e.g. beakers, color scale, stopwatch box) -->
+      <div class="panel_container">
 
-        <!-- Include a 'fake' hidden div in order to force the parent container to have a non-zero height -->
-        <div class="beakers" style="visibility: hidden; position: relative !important;">
-          <img class="beaker-img" src="images/beaker.png" />
-          <img class="beaker-img" src="images/beaker.png" />
-          <img class="beaker-img" src="images/beaker.png" />
-          <img class="beaker-img" src="images/beaker.png" />
-          <img class="beaker-img" src="images/beaker.png" />
+        <div style="display: inline-block; width: 10%;"></div>
+
+        <div style="display: inline-block; width: 50%;">
+
+          <!-- Beginning of beaker_wrapper -->
+          <div class="beaker_wrapper">
+            <div class="beakers">
+              <img id="beaker0" name="beaker0" class="beaker-img" src="images/beaker.png" />
+              <img id="beaker1" name="beaker1" class="beaker-img" src="images/beaker.png" />
+              <img id="beaker2" name="beaker2" class="beaker-img" src="images/beaker.png" />
+              <img id="beaker3" name="beaker3" class="beaker-img" src="images/beaker.png" />
+              <img id="beaker4" name="beaker4" class="beaker-img" src="images/beaker.png" />
+            </div>
+
+            <div class="beakers">
+              <img id="beakerSoln00" name="beakerSoln00" class="beaker-img" src="images/beaker_soln0.png" />
+              <img id="beakerSoln01" name="beakerSoln01" class="beaker-img" src="images/beaker_soln0.png" />
+              <img id="beakerSoln02" name="beakerSoln02" class="beaker-img" src="images/beaker_soln0.png" />
+              <img id="beakerSoln03" name="beakerSoln03" class="beaker-img" src="images/beaker_soln0.png" />
+              <img id="beakerSoln04" name="beakerSoln04" class="beaker-img" src="images/beaker_soln0.png" />
+            </div>
+
+            <div class="beakers">
+              <img id="beakerSoln10" name="beakerSoln10" class="beaker-img" src="images/beaker_soln1.png" />
+              <img id="beakerSoln11" name="beakerSoln11" class="beaker-img" src="images/beaker_soln1.png" />
+              <img id="beakerSoln12" name="beakerSoln12" class="beaker-img" src="images/beaker_soln1.png" />
+              <img id="beakerSoln13" name="beakerSoln13" class="beaker-img" src="images/beaker_soln1.png" />
+              <img id="beakerSoln14" name="beakerSoln14" class="beaker-img" src="images/beaker_soln1.png" />
+            </div>
+
+            <div class="beakers">
+              <img id="beakerSoln20" name="beakerSoln20" class="beaker-img" src="images/beaker_soln2.png" />
+              <img id="beakerSoln21" name="beakerSoln21" class="beaker-img" src="images/beaker_soln2.png" />
+              <img id="beakerSoln22" name="beakerSoln22" class="beaker-img" src="images/beaker_soln2.png" />
+              <img id="beakerSoln23" name="beakerSoln23" class="beaker-img" src="images/beaker_soln2.png" />
+              <img id="beakerSoln24" name="beakerSoln24" class="beaker-img" src="images/beaker_soln2.png" />
+            </div>
+
+            <div class="beakers">
+              <img id="beakerSoln30" name="beakerSoln30" class="beaker-img" src="images/beaker_soln3.png" />
+              <img id="beakerSoln31" name="beakerSoln31" class="beaker-img" src="images/beaker_soln3.png" />
+              <img id="beakerSoln32" name="beakerSoln32" class="beaker-img" src="images/beaker_soln3.png" />
+              <img id="beakerSoln33" name="beakerSoln33" class="beaker-img" src="images/beaker_soln3.png" />
+              <img id="beakerSoln34" name="beakerSoln34" class="beaker-img" src="images/beaker_soln3.png" />
+            </div>
+
+            <div class="beakers">
+              <img id="beakerSoln40" name="beakerSoln40" class="beaker-img" src="images/beaker_soln4.png" />
+              <img id="beakerSoln41" name="beakerSoln41" class="beaker-img" src="images/beaker_soln4.png" />
+              <img id="beakerSoln42" name="beakerSoln42" class="beaker-img" src="images/beaker_soln4.png" />
+              <img id="beakerSoln43" name="beakerSoln43" class="beaker-img" src="images/beaker_soln4.png" />
+              <img id="beakerSoln44" name="beakerSoln44" class="beaker-img" src="images/beaker_soln4.png" />
+            </div>
+
+            <div class="beakers">
+              <img id="beakerSoln50" name="beakerSoln50" class="beaker-img" src="images/beaker_soln5.png" />
+              <img id="beakerSoln51" name="beakerSoln51" class="beaker-img" src="images/beaker_soln5.png" />
+              <img id="beakerSoln52" name="beakerSoln52" class="beaker-img" src="images/beaker_soln5.png" />
+              <img id="beakerSoln53" name="beakerSoln53" class="beaker-img" src="images/beaker_soln5.png" />
+              <img id="beakerSoln54" name="beakerSoln54" class="beaker-img" src="images/beaker_soln5.png" />
+            </div>
+          </div>
+          <!-- End of beaker_wrapper -->
+
+          <div class="colorScale" style="position: relative">
+            <!-- <label id="colorScaleLabel" name="colorScaleLabel">Color Scale:</label> -->
+            <img id="colorScale" name="colorScale" src="images/color_scale.png" />
+          </div>
+
         </div>
 
-        <div class="beakers">
-          <img id="beaker0" name="beaker0" class="beaker-img" src="images/beaker.png" />
-          <img id="beaker1" name="beaker1" class="beaker-img" src="images/beaker.png" />
-          <img id="beaker2" name="beaker2" class="beaker-img" src="images/beaker.png" />
-          <img id="beaker3" name="beaker3" class="beaker-img" src="images/beaker.png" />
-          <img id="beaker4" name="beaker4" class="beaker-img" src="images/beaker.png" />
+        <div style="display: inline-block; width: 35%;">
+          <!-- Flowrate input and stopwatch container -->
+          <div class="config_container">
+            <div style="position: relative; visibility: hidden; margin-top: 10px; padding-top: 10px"></div> <!-- Filler -->
+
+            <div class="flowRateDiv">
+            </div>
+
+            <div class="stopwatch">
+              <input id="clock" type="text" value="00:00:0" readonly><br>
+              <!-- Bootstrap buttons -->
+              <div class="button_box2">
+                <a href="javascript:" id="startstopbutton" class="btn btn-success btn-sm button_box2_item" value="Start" onClick="">Start</a>
+                <a href="javascript:" id="splitbutton" class="btn btn-warning btn-sm button_box2_item" value="Split time" onClick="">Split Time</a>
+                <a href="javascript:" id="resetbutton" class="btn btn-danger btn-sm button_box2_item" value="Reset" onClick="">Reset</a>
+              </div>
+              <textarea id="output" style="resize:none"></textarea>
+            </div>
+          </div>
         </div>
 
-        <div class="beakers">
-          <img id="beakerSoln00" name="beakerSoln00" class="beaker-img" src="images/beaker_soln0.png" />
-          <img id="beakerSoln01" name="beakerSoln01" class="beaker-img" src="images/beaker_soln0.png" />
-          <img id="beakerSoln02" name="beakerSoln02" class="beaker-img" src="images/beaker_soln0.png" />
-          <img id="beakerSoln03" name="beakerSoln03" class="beaker-img" src="images/beaker_soln0.png" />
-          <img id="beakerSoln04" name="beakerSoln04" class="beaker-img" src="images/beaker_soln0.png" />
-        </div>
-
-        <div class="beakers">
-          <img id="beakerSoln10" name="beakerSoln10" class="beaker-img" src="images/beaker_soln1.png" />
-          <img id="beakerSoln11" name="beakerSoln11" class="beaker-img" src="images/beaker_soln1.png" />
-          <img id="beakerSoln12" name="beakerSoln12" class="beaker-img" src="images/beaker_soln1.png" />
-          <img id="beakerSoln13" name="beakerSoln13" class="beaker-img" src="images/beaker_soln1.png" />
-          <img id="beakerSoln14" name="beakerSoln14" class="beaker-img" src="images/beaker_soln1.png" />
-        </div>
-
-        <div class="beakers">
-          <img id="beakerSoln20" name="beakerSoln20" class="beaker-img" src="images/beaker_soln2.png" />
-          <img id="beakerSoln21" name="beakerSoln21" class="beaker-img" src="images/beaker_soln2.png" />
-          <img id="beakerSoln22" name="beakerSoln22" class="beaker-img" src="images/beaker_soln2.png" />
-          <img id="beakerSoln23" name="beakerSoln23" class="beaker-img" src="images/beaker_soln2.png" />
-          <img id="beakerSoln24" name="beakerSoln24" class="beaker-img" src="images/beaker_soln2.png" />
-        </div>
-
-        <div class="beakers">
-          <img id="beakerSoln30" name="beakerSoln30" class="beaker-img" src="images/beaker_soln3.png" />
-          <img id="beakerSoln31" name="beakerSoln31" class="beaker-img" src="images/beaker_soln3.png" />
-          <img id="beakerSoln32" name="beakerSoln32" class="beaker-img" src="images/beaker_soln3.png" />
-          <img id="beakerSoln33" name="beakerSoln33" class="beaker-img" src="images/beaker_soln3.png" />
-          <img id="beakerSoln34" name="beakerSoln34" class="beaker-img" src="images/beaker_soln3.png" />
-        </div>
-
-        <div class="beakers">
-          <img id="beakerSoln40" name="beakerSoln40" class="beaker-img" src="images/beaker_soln4.png" />
-          <img id="beakerSoln41" name="beakerSoln41" class="beaker-img" src="images/beaker_soln4.png" />
-          <img id="beakerSoln42" name="beakerSoln42" class="beaker-img" src="images/beaker_soln4.png" />
-          <img id="beakerSoln43" name="beakerSoln43" class="beaker-img" src="images/beaker_soln4.png" />
-          <img id="beakerSoln44" name="beakerSoln44" class="beaker-img" src="images/beaker_soln4.png" />
-        </div>
-
-        <div class="beakers">
-          <img id="beakerSoln50" name="beakerSoln50" class="beaker-img" src="images/beaker_soln5.png" />
-          <img id="beakerSoln51" name="beakerSoln51" class="beaker-img" src="images/beaker_soln5.png" />
-          <img id="beakerSoln52" name="beakerSoln52" class="beaker-img" src="images/beaker_soln5.png" />
-          <img id="beakerSoln53" name="beakerSoln53" class="beaker-img" src="images/beaker_soln5.png" />
-          <img id="beakerSoln54" name="beakerSoln54" class="beaker-img" src="images/beaker_soln5.png" />
-        </div>
-
-         <div class="colorScale" style="position: relative">
-          <!-- <label id="colorScaleLabel" name="colorScaleLabel">Color Scale:</label> -->
-          <img id="colorScale" name="colorScale" src="images/color_scale.png" />
-         </div>
       </div>
-      <!-- End of beaker_container div -->
-
+      <!-- End of panel_container div -->
     </div>
-
   </div>
-</div>
 
 </body>
 </html>
