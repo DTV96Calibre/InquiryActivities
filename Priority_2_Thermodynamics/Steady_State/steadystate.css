@@ -46,9 +46,18 @@ h1 {
     min-width: 0px !important;
   }
 
-  .button_box2_item {
+  .button_box1 {
+    left: 0% !important;
+    min-width: 17vw !important;
+  }
+
+  .button_box_item {
     font-size: calc(5px + 0.8vw) !important;
     margin: 1px !important;
+  }
+
+  #addDropButton, #getMeasurementButton, #emptyBeakerButton {
+    font-size: calc(2.2px + 0.8vw) !important;
   }
 
   .stopwatch {height: 170% !important;}
@@ -120,6 +129,18 @@ h1 {
   background-color: #1010a0;
 }
 
+.button_box1 {
+  position: absolute;
+  top: 30%;
+  left: -6%;
+  width: 8%;
+  min-width: 120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 .button_box2 {
   display: flex;
   margin: 0 auto;
@@ -137,12 +158,12 @@ h1 {
   min-width: 38px;
 }
 
-.button_box2_item {
+.button_box_item {
   flex-grow: 1;
   padding-left: 2%;
   padding-right: 2%;
   font-size: calc(5px + 0.4vw);
-  margin: 3px;
+  margin: 2px;
   z-index: 3;
 }
 

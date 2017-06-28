@@ -39,6 +39,13 @@
         <img id="buchnerFunnelFront" name="buchnerFunnelFront" src="images/buchner_funnel_front.png"/>
         <img id="buchnerFunnelBack" name="buchnerFunnelBack" src="images/buchner_funnel_back.png"/>
         <img id="faucetHandle" name="faucetHandle" src="images/faucet_handle_angle.png" />
+
+        <!-- Flex container for side buttons -->
+        <div class="button_box1" style="border: 2px solid black">
+          <a href="javascript:" id="addDropButton" name="addDropButton" class="btn btn-default btn-sm button_box_item">Add a Cough Drop</a>
+          <a href="javascript:" id="getMeasurementButton" name="getMeasurementButton" class="btn btn-default btn-sm button_box_item">Take a Measurement</a>
+          <a href="javascript:" id="emptyBeakerButton" name="emptyBeakerButton" class="btn btn-danger btn-sm button_box_item">Empty All Beakers</a>
+        </div>
       </div>
 
       <!-- Holds the items underneath the faucet (e.g. beakers, color scale, stopwatch box) -->
@@ -135,17 +142,16 @@
               <input id="clock" type="text" value="00:00:0" readonly><br>
               <!-- Bootstrap buttons -->
               <div class="button_box2">
-                <a href="javascript:" id="startstopbutton" class="btn btn-success btn-sm button_box2_item" value="Start" onClick="">Start</a>
-                <a href="javascript:" id="splitbutton" class="btn btn-warning btn-sm button_box2_item" value="Split time" onClick="">Split Time</a>
-                <a href="javascript:" id="resetbutton" class="btn btn-danger btn-sm button_box2_item" value="Reset" onClick="">Reset</a>
+                <a href="javascript:" id="startstopbutton" class="btn btn-success btn-sm button_box_item" value="Start" onClick="">Start</a>
+                <a href="javascript:" id="splitbutton" class="btn btn-warning btn-sm button_box_item" value="Split time" onClick="">Split Time</a>
+                <a href="javascript:" id="resetbutton" class="btn btn-danger btn-sm button_box_item" value="Reset" onClick="">Reset</a>
               </div>
               <textarea id="output" style="resize:none"></textarea>
             </div>
           </div>
         </div>
 
-      </div>
-      <!-- End of panel_container div -->
+      </div> <!-- End of panel_container div -->
     </div>
   </div>
 
