@@ -42,12 +42,14 @@ h1 {
     left: 0% !important;
   }
 
-  .beakers {
+  .beakers, .colorScale {
     min-width: 0px !important;
     width: 55% !important;
   }
 
   .beaker-img {margin: 1px !important;}
+
+  /*#colorScaleLabel {font-size: calc(8px + 0.1vw) !important;}*/
 }
 
 /*********************************************************************************
@@ -65,6 +67,7 @@ h1 {
 .beaker_container {border:1px solid red;}
 .experiment {border:1px solid black;}
 .beakers {border:1px solid blue;}
+.colorScale {border:1px solid purple;}
 
 .experiment {
   /* These dimensions scale with the resolution of experiment_main.png */
@@ -72,14 +75,22 @@ h1 {
   height: 35.27vw;
 }
 
-.beakers {
-  position: relative;
-  margin-top: 1%;
+.beakers, .colorScale {
+  position: absolute;
   left: 15%;
   min-width: 300px;
-  width: 24vw;
+  width: 22vw;
+  top: 0%;
   display: flex; /* Allows for easy positioning of 5 beakers */
 }
+
+/*.colorScale {
+  position: relative;
+  left: 30%;
+  padding-top: 1%;
+  width: 28vw;
+  min-width: 375px;
+}*/
 
 #experimentMain {
   position: relative;
@@ -102,9 +113,26 @@ h1 {
  * positioned proportionately relative to one another. */
 
 #buchnerFunnelFront {
-  position:absolute;
+  position: absolute;
   width: 15%;
   left: 38%;
   top: 52%;
   z-index: 1;
 }
+
+/* Misc. properties */
+
+#colorScale {
+  position: relative;
+  width: 70%;
+  display: block;
+  margin: auto;
+  margin-top: 5% !important;
+}
+
+/*#colorScaleLabel {
+  position: relative;
+  font-size: calc(12px + 0.1vw);
+  color: #000000;
+  margin-top: 1%;
+}*/
