@@ -27,12 +27,18 @@ h1 {
   width: 100%;
 }
 
+.glyphicon {
+  font-size: calc(1em + 0.3vw);
+}
+
 /* On mobile screens (width < 1024px) */
 @media screen and (max-width: 1023px) and (orientation: portrait) {
   .row.content {height:400px;}
 
   /* Positioning/scaling of images when screen is small enough to be "folded" */
   img {min-width: 0px !important;}
+
+  .glyphicon {top: -50% !important;}
 
   .experiment, .head, .panel_container {
     min-width: 320px !important;
@@ -48,6 +54,7 @@ h1 {
 
   .button_box1 {
     left: 0% !important;
+    top: 22% !important;
     min-width: 17vw !important;
   }
 
@@ -131,7 +138,7 @@ h1 {
 
 .button_box1 {
   position: absolute;
-  top: 30%;
+  top: 29%;
   left: -6%;
   width: 8%;
   min-width: 120px;
@@ -147,6 +154,10 @@ h1 {
   width: 85%;
   justify-content: center;
   align-items: center;
+}
+
+.help_info_box {
+  display: flex;
 }
 
 /* The following images have a parent container with display:flex; which allows them
@@ -175,6 +186,10 @@ h1 {
   font-size: calc(8px + 0.3vw);
   font-weight: normal;
   flex-grow: 1;
+}
+
+#helpButton, #infoButton {
+  max-height: calc(calc(5px + 0.4vw) * 2.5);
 }
 
 #startstopbutton {min-width: 0px;}
