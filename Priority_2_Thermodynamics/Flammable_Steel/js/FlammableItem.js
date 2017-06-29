@@ -81,7 +81,7 @@ function FlammableItem(isMutable) {
     var overlayImageID = this.getBurntImage();
     var width = this.width / windowWidth * 100 + "%";
     var xOffset = this.xOffset / windowWidth * 100 + "%";
-    var yOffset = this.yOffset / windowHeight * 100 + "%";
+    var yOffset = flammableLeft.yOffset / windowHeight * 100 + "%";
     var overlayWidth = this.width / windowWidth;
     $(overlayImageID).css({ opacity: 1 });
     $(overlayImageID).css({ 'width': width });
