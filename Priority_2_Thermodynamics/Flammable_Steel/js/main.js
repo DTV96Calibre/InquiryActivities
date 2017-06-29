@@ -278,7 +278,9 @@ function switchFlammableItem() {
     flammableRight = new Steel(true);
     $("#switchBtn").text('Toggle Wood');
   }
+  
   windowResized();
+  slider.value(0); // Reset slider to default
 }
 
 /*
