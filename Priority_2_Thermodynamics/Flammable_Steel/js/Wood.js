@@ -19,7 +19,6 @@ function Wood(isMutable) {
   this.setFire = function() {
     if (holdingMatch) {
       this.hasCaughtFire = true;
-      this.changeImage('ash');
     }
   }
 }

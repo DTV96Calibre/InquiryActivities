@@ -16,7 +16,6 @@ var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/
 var STEEL2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel2.png?raw=true";
 var STEEL3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel3.png?raw=true";
 var STEEL4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel4.png?raw=true";
-var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
 var WOOD0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood0.png?raw=true";
 var WOOD1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood1.png?raw=true";
 var WOOD2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood2.png?raw=true";
@@ -26,21 +25,19 @@ var MATCH_UP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/maste
 var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-down.png?raw=true";
 var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
 var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
-var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
 
 /************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
-var images; // The set of URLs that map to various images
 var slider;
 var fire;
 var matchstick;
 var matchbox;
 var flammableLeft;
 var flammableRight;
+var images; // The set of p5 image objects
 
 /************************ Simulation variables *****************************/
-
 var initFinished = false;
 var holdingMatch = false;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
@@ -120,12 +117,10 @@ function initImages() {
     wood2: createImg(WOOD2_URL, windowResized),
     wood3: createImg(WOOD3_URL, windowResized),
     wood4: createImg(WOOD4_URL, windowResized),
-    steel_fire: createImg(STEEL_FIRE_URL, windowResized),
     matchbox: createImg(MATCHBOX_URL, windowResized),
     matchbox_cover: createImg(MATCHBOX_COVER_URL, windowResized),
     matchstick_up: createImg(MATCH_UP_URL, windowResized),
-    matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
-    ash: createImg(ASH_URL, windowResized)
+    matchstick_down: createImg(MATCH_DOWN_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -298,3 +293,13 @@ function getSliderVerticalOffset() {
   var itemYOffset = windowHeight * config['itemYOffsetRatio'] - itemHeight / 2;
   return itemYOffset + itemHeight * config['sliderYOffsetRatio'];
 }
+
+/* ==================================================================
+              Interfacing with the DOM / Event Handlers
+   ==================================================================
+*/
+
+$(document).ready(function() {
+  // Register event handlers
+  $("#switchBtn").on('click', switchFlammableItem);
+});

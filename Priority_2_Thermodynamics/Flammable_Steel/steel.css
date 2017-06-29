@@ -4,6 +4,21 @@
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
 
+/* Images */
+
+img {
+  position: absolute;
+  opacity: 0;
+
+  /* Prevent user from dragging images around */
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 /* Buttons */
 
 #switchBtn {
@@ -11,6 +26,7 @@
   top: 20%;
   left: 7%;
   font-size: calc(5px + 0.6vw);
+  z-index: 2;
 }
 
 /* Slider appearance */

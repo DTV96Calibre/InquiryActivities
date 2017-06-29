@@ -10,6 +10,7 @@ function FlammableItem(isMutable) {
   this.img;
   this.isMutable = isMutable;  // True for the item on the right
   this.hasCaughtFire = false;
+  this.isDoneBurning = false;
   this.pctBurned = 0;
 
   /* Graphical properties */
@@ -32,7 +33,35 @@ function FlammableItem(isMutable) {
    * Renders this image onscreen.
    */
   this.draw = function() {
+    this.update();
     image(this.img, this.xOffset, this.yOffset, this.width, this.height);
+
+    // Draw this image with a lower opacity if it's currently burning
+    if (this.hasCaughtFire) {
+      var alpha = this.pctBurned;
+      noStroke();
+      fill(PANEL_COLOR + alpha + ')');
+      rect(this.xOffset, this.yOffset, this.width, this.height);
+
+      // Draw resulting image (i.e. ash or burnt wool) with inverted opacity
+      this.updateBurntImage();
+    }
+  }
+
+  /*
+   * Updates this image by checking whether it's currently on fire. If so, 
+   * advances the animation that shows this object burning (into ash for wood, 
+   * or burnt wool for steel).
+   */
+  this.update = function() {
+    if (this.isDoneBurning) return; // Nothing else to be done
+
+    if (this.hasCaughtFire) {
+      this.pctBurned += 0.01;
+      if (this.pctBurned >= 1) {
+        this.isDoneBurning = true;
+      }
+    }
   }
 
   /*
@@ -42,6 +71,37 @@ function FlammableItem(isMutable) {
   this.changeImage = function(imageID) {
     this.img = images[imageID];
     this.resize();
+  }
+
+  /*
+   * Configures the image from the DOM that will be rendered once this item 
+   * is burning.
+   */
+  this.updateBurntImage = function() {
+    var overlayImageID = this.getBurntImage();
+    var width = this.width / windowWidth * 100 + "%";
+    var xOffset = this.xOffset / windowWidth * 100 + "%";
+    var yOffset = this.yOffset / windowHeight * 100 + "%";
+    var overlayWidth = this.width / windowWidth;
+    $(overlayImageID).css({ opacity: 1 });
+    $(overlayImageID).css({ 'width': width });
+    $(overlayImageID).css({ 'left': xOffset });
+    $(overlayImageID).css({ 'top': yOffset });
+  }
+
+  /*
+   * Returns the image from the DOM that will be rendered once this item
+   * is burning.
+   */
+  this.getBurntImage = function() {
+    if (currentItem == 'steel') {
+      return "#steel_fire";
+    } else if (currentItem == 'wood') {
+      if (this.isMutable) {
+        return "#ash_right";
+      }
+      return "#ash_left";
+    }
   }
 
   /*
@@ -62,10 +122,6 @@ function FlammableItem(isMutable) {
    */
   this.setWidth = function() {
     this.width = windowWidth * config['itemWidthRatio'];
-    // Draw certain images a little smaller
-    if (this.img == images['wood1'] || this.img == images['ash']) {
-      this.width *= 0.8;
-    }
   }
 
   /*
@@ -86,11 +142,6 @@ function FlammableItem(isMutable) {
     } else {
       this.xOffset = windowWidth * config['itemLeftXOffsetRatio'];
     }
-
-    // If an image was drawn to be smaller, it must also have a greater x offset
-    if (this.img == images['wood1'] || this.img == images['ash']) {
-      this.xOffset += this.width * 0.1;
-    }
   }
 
   /*
@@ -100,10 +151,5 @@ function FlammableItem(isMutable) {
     // Use max function to prevent image from disappearing offscreen
     this.yOffset = max(windowHeight * config['itemYOffsetRatio'] - this.height / 2,
      windowHeight * 0.15);
-
-    // If an image was drawn to be smaller, it must also have a greater x offset
-    if (this.img == images['ash']) {
-      this.yOffset += this.height * 0.2;
-    }
   }
 }
