@@ -40,10 +40,16 @@ function FlammableItem(isMutable) {
    * Renders this image onscreen.
    */
   this.draw = function() {
-    if (this.img == images['wood1']) { // Draw wood planks img a little smaller
+    // Draw certain images a little smaller
+    if (this.img == images['wood1']) { 
       image(this.img, this.xOffset + this.width * 0.1, this.yOffset + this.height * 0.1, 
         this.width * 0.8, this.height * 0.8);
     }
+    else if (this.img == images['ash']) {
+      image(this.img, this.xOffset + this.width * 0.1, this.yOffset + this.height * 0.2, 
+        this.width * 0.8, this.height * 0.8);
+    }
+    // Draw all other images normally
     else {
       image(this.img, this.xOffset, this.yOffset, this.width, this.height);
     }
