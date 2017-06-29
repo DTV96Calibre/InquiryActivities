@@ -64,7 +64,7 @@ function FlammableItem(isMutable) {
   /*
    * Updates this image by checking whether it's currently on fire. If so, 
    * advances the animation that shows this object burning (into ash for wood, 
-   * or burnt wool for steel).
+   * or into burnt wool for steel).
    */
   this.update = function() {
     this.pctBurned += this.BURNING_RATE;
@@ -83,7 +83,13 @@ function FlammableItem(isMutable) {
     var opacity = this.pctBurned;
     var width = this.width / windowWidth * 100 + "%";
     var xOffset = this.xOffset / windowWidth * 100 + "%";
-    var yOffset = flammableLeft.yOffset / windowHeight * 100 + "%";
+    if (overlayImageID == "#steel_fire") {
+      var yOffset = this.yOffset / windowHeight * 100 + "%";
+    } else {
+      // Wood ash needs a common reference point from the yOffset to preserve symmetry
+      var yOffset = flammableLeft.yOffset / windowHeight * 100 + "%";
+    }
+    
     $(overlayImageID).css({ 'opacity': opacity });
     $(overlayImageID).css({ 'width': width });
     $(overlayImageID).css({ 'left': xOffset });
