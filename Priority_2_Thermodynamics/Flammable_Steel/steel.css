@@ -10,6 +10,8 @@
   position: absolute;
   top: 20%;
   left: 7%;
+  font-size: calc(5px + 0.6vw);
+
 }
 
 /* Slider appearance */
