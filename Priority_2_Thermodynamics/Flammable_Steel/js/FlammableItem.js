@@ -7,6 +7,10 @@
  * A base class from which the Steel and Wood classes inherit.
  */
 function FlammableItem(isMutable) {
+  /* Constants */
+  this.BURNING_RATE = 0.03; // The change in opacity percentage per frame
+
+  /* Other properties */
   this.img;
   this.isMutable = isMutable;  // True for the item on the right
   this.hasCaughtFire = false;
@@ -57,7 +61,7 @@ function FlammableItem(isMutable) {
     if (this.isDoneBurning) return; // Nothing else to be done
 
     if (this.hasCaughtFire) {
-      this.pctBurned += 0.01;
+      this.pctBurned += this.BURNING_RATE;
       if (this.pctBurned >= 1) {
         this.isDoneBurning = true;
       }
@@ -79,11 +83,11 @@ function FlammableItem(isMutable) {
    */
   this.updateBurntImage = function() {
     var overlayImageID = this.getBurntImage();
+    var opacity = this.pctBurned;
     var width = this.width / windowWidth * 100 + "%";
     var xOffset = this.xOffset / windowWidth * 100 + "%";
     var yOffset = flammableLeft.yOffset / windowHeight * 100 + "%";
-    var overlayWidth = this.width / windowWidth;
-    $(overlayImageID).css({ opacity: 1 });
+    $(overlayImageID).css({ 'opacity': opacity });
     $(overlayImageID).css({ 'width': width });
     $(overlayImageID).css({ 'left': xOffset });
     $(overlayImageID).css({ 'top': yOffset });
