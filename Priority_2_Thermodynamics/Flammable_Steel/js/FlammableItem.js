@@ -32,7 +32,8 @@ function FlammableItem(isMutable) {
       this.xOffset = windowWidth * config['itemLeftXOffsetRatio'];
     }
 
-    this.yOffset = windowHeight * config['itemYOffsetRatio'] - this.height / 2;
+    this.yOffset = max(windowHeight * config['itemYOffsetRatio'] - this.height / 2,
+     windowHeight * 0.15); // Prevent image from disappearing beyond screen
   }
 
   /*

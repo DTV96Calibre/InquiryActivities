@@ -94,6 +94,7 @@ function initConfig() {
     matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
     sliderYOffsetRatio:     w ? 1.5 : 1.5,     // times flammableRight.height
+    panelWidthRatio:        w ? 0.6 : 0.75,     // times windowWidth
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -184,8 +185,8 @@ function drawPanel() {
   fill(config['panelFillColor']);
   // TODO: Put these magic numbers into the config variable
   var xPos = windowWidth * config['itemLeftXOffsetRatio'] * 0.9;
-  var yPos = windowHeight * 0.1;
-  var width = windowWidth * 0.6;
+  var yPos = windowHeight * config['itemYOffsetRatio'] / 3;
+  var width = windowWidth * config['panelWidthRatio'];
   var height = max(windowHeight * 0.6, getSliderVerticalOffset());
   var edge = config['panelEdgeRoundness'];
   rect(xPos, yPos, width, height, edge, edge, edge, edge);
