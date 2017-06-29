@@ -54,11 +54,8 @@ function FlammableItem(isMutable) {
    * @param imageID: A string used to index into the global var of images
    */
   this.changeImage = function(imageID) {
-    // Immutable items can't change in appearance
-    if (this.isMutable) {
-      this.img = images[imageID];
-      this.resize();
-    }
+    this.img = images[imageID];
+    this.resize();
   }
 
   /*

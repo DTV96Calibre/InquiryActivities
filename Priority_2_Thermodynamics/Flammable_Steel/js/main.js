@@ -162,6 +162,9 @@ function draw() {
   if (flammableRight.cursorIsOver()) {
     flammableRight.setFire();
   }
+  else if (currentItem == "wood" && flammableLeft.cursorIsOver()) {
+    flammableLeft.setFire();
+  }
 
   // Draw grey border around flammable objects panel
   drawPanel();
@@ -183,7 +186,6 @@ function draw() {
  */
 function drawPanel() {
   fill(config['panelFillColor']);
-  // TODO: Put these magic numbers into the config variable
   var xPos = windowWidth * config['itemLeftXOffsetRatio'] * 0.9;
   var yPos = windowHeight * config['itemYOffsetRatio'] / 3;
   var width = windowWidth * config['panelWidthRatio'];
