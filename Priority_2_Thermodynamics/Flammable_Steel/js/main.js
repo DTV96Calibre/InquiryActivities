@@ -249,24 +249,6 @@ function mouseReleased() {
 }
 
 /*
- * Called whenever the user clicks the button to switch between wood and steel.
- */
-function switchFlammableItem() {
-  if (currentItem == "steel") {
-    currentItem = "wood";
-    $("#switchBtn").text('Toggle Steel');
-  }
-  else if (currentItem == "wood") {
-    currentItem = "steel";
-    $("#switchBtn").text('Toggle Wood');
-  }
-
-  initFlammableItems();
-  windowResized();
-  slider.value(0); // Reset slider to default
-}
-
-/*
  * Returns the y-offset of the onscreen slider, which strictly uses the
  * steel ingot image's size for positioning (to prevent the slider from
  * jerking up or down as the user changes the images).
@@ -298,6 +280,25 @@ function sliderChanged() {
   var overlayImageID = flammableRight.getBurntImage();
   $(overlayImageID).css({ 'opacity' : 0 });
   flammableRight.reset();
+}
+
+/*
+ * Called whenever the user clicks the button to switch between wood and steel.
+ */
+function switchFlammableItem() {
+  if (currentItem == "steel") {
+    currentItem = "wood";
+    $("#switchBtn").text('Toggle Steel');
+  }
+  else if (currentItem == "wood") {
+    currentItem = "steel";
+    $("#switchBtn").text('Toggle Wood');
+  }
+
+  initFlammableItems();
+  windowResized();
+  hideBurntImages();
+  slider.value(0); // Reset slider to default
 }
 
 /*
