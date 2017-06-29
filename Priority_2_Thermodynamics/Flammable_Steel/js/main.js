@@ -215,17 +215,6 @@ function windowResized() {
   matchstick.resize();
 }
 
-/*
- * Callback function triggered when the user adjusts the slider. Updates the 
- * image used to represent the steel/wood on the right.
- * @param sliderObj: A slider element
- */
-function sliderChanged() {
-  var intID = slider.value();
-  var imageID = currentItem + intID;
-  flammableRight.changeImage(imageID);
-}
-
 /* ==================================================================
                             Misc. Functions
    ==================================================================
@@ -265,17 +254,14 @@ function mouseReleased() {
 function switchFlammableItem() {
   if (currentItem == "steel") {
     currentItem = "wood";
-    flammableLeft = new Wood(false);
-    flammableRight = new Wood(true);
     $("#switchBtn").text('Toggle Steel');
   }
   else if (currentItem == "wood") {
     currentItem = "steel";
-    flammableLeft = new Steel(false);
-    flammableRight = new Steel(true);
     $("#switchBtn").text('Toggle Wood');
   }
 
+  initFlammableItems();
   windowResized();
   slider.value(0); // Reset slider to default
 }
@@ -298,6 +284,30 @@ function getSliderVerticalOffset() {
               Interfacing with the DOM / Event Handlers
    ==================================================================
 */
+
+/*
+ * Callback function triggered when the user adjusts the slider. Updates the 
+ * image used to represent the steel/wood on the right.
+ */
+function sliderChanged() {
+  var intID = slider.value();
+  var imageID = currentItem + intID;
+  flammableRight.changeImage(imageID);
+
+  // The flammable item image and the burnt image will both reset
+  var overlayImageID = flammableRight.getBurntImage();
+  $(overlayImageID).css({ 'opacity' : 0 });
+  flammableRight.reset();
+}
+
+/*
+ * Hide the images embedded in the HTML by setting their opacity to 0.
+ */
+function hideBurntImages() {
+  $("#steel_fire").css({ 'opacity': 0 });
+  $("#ash_right").css({ 'opacity': 0 });
+  $("#ash_left").css({ 'opacity': 0 });
+}
 
 $(document).ready(function() {
   // Register event handlers

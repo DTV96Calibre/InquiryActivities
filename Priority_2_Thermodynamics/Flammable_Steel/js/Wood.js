@@ -17,8 +17,8 @@ function Wood(isMutable) {
    * Sets this wood on fire, which updates its appearance.
    */
   this.setFire = function() {
-    if (holdingMatch) {
-      this.hasCaughtFire = true;
+    if (holdingMatch && !this.isBurning) {
+      this.isBurning = true;
     }
   }
 }

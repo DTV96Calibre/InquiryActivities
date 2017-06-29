@@ -13,8 +13,7 @@ function FlammableItem(isMutable) {
   /* Other properties */
   this.img;
   this.isMutable = isMutable;  // True for the item on the right
-  this.hasCaughtFire = false;
-  this.isDoneBurning = false;
+  this.isBurning = false;
   this.pctBurned = 0;
 
   /* Graphical properties */
@@ -34,21 +33,31 @@ function FlammableItem(isMutable) {
   }
 
   /*
+   * Resets the properties that control the burning crossfade animation to
+   * default.
+   */
+  this.reset = function() {
+    this.isBurning = false;
+    this.pctBurned = 0;
+  }
+
+  /*
    * Renders this image onscreen.
    */
   this.draw = function() {
-    this.update();
-    image(this.img, this.xOffset, this.yOffset, this.width, this.height);
+    if (this.pctBurned < 1) {
+      image(this.img, this.xOffset, this.yOffset, this.width, this.height);
+    }
 
     // Draw this image with a lower opacity if it's currently burning
-    if (this.hasCaughtFire) {
+    if (this.isBurning) {
       var alpha = this.pctBurned;
       noStroke();
       fill(PANEL_COLOR + alpha + ')');
       rect(this.xOffset, this.yOffset, this.width, this.height);
 
       // Draw resulting image (i.e. ash or burnt wool) with inverted opacity
-      this.updateBurntImage();
+      this.update();
     }
   }
 
@@ -58,23 +67,11 @@ function FlammableItem(isMutable) {
    * or burnt wool for steel).
    */
   this.update = function() {
-    if (this.isDoneBurning) return; // Nothing else to be done
-
-    if (this.hasCaughtFire) {
-      this.pctBurned += this.BURNING_RATE;
-      if (this.pctBurned >= 1) {
-        this.isDoneBurning = true;
-      }
+    this.pctBurned += this.BURNING_RATE;
+    if (this.pctBurned >= 1) {
+      this.isBurning = false; // Finished burning
     }
-  }
-
-  /*
-   * Updates the image used to represent this flammable item.
-   * @param imageID: A string used to index into the global var of images
-   */
-  this.changeImage = function(imageID) {
-    this.img = images[imageID];
-    this.resize();
+    this.updateBurntImage();
   }
 
   /*
@@ -106,6 +103,15 @@ function FlammableItem(isMutable) {
       }
       return "#ash_left";
     }
+  }
+
+  /*
+   * Updates the image used to represent this flammable item.
+   * @param imageID: A string used to index into the global var of images
+   */
+  this.changeImage = function(imageID) {
+    this.img = images[imageID];
+    this.resize();
   }
 
   /*
