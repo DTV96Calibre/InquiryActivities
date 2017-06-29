@@ -9,6 +9,7 @@
 /************************ Graphical properties *****************************/
 var FRAME_RATE = 30;
 var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
+var PANEL_COLOR = "rgba(51, 51, 51,"
 
 var STEEL0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel0.png?raw=true";
 var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel1.png?raw=true";
@@ -99,7 +100,6 @@ function initConfig() {
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
-    panelFillColor:         '#333333',
   }
 }
 
@@ -187,7 +187,7 @@ function draw() {
  * Draws the grey panel that surrounds both steel/wood objects.
  */
 function drawPanel() {
-  fill(config['panelFillColor']);
+  fill(PANEL_COLOR + '1)');
   var xPos = windowWidth * config['itemLeftXOffsetRatio'] * 0.9;
   var yPos = windowHeight * config['itemYOffsetRatio'] / 3;
   var width = windowWidth * config['panelWidthRatio'];

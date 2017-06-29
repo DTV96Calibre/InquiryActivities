@@ -7,9 +7,10 @@
  * A base class from which the Steel and Wood classes inherit.
  */
 function FlammableItem(isMutable) {
+  this.img;
   this.isMutable = isMutable;  // True for the item on the right
   this.hasCaughtFire = false;
-  this.img;
+  this.pctBurned = 0;
 
   /* Graphical properties */
   this.width;
@@ -21,38 +22,17 @@ function FlammableItem(isMutable) {
    * Sets the graphical properties of this object based on the window size.
    */
   this.resize = function() {
-    this.width = windowWidth * config['itemWidthRatio'];
-    var aspectRatio = this.img.elt.width / this.img.elt.height;
-    this.height = this.width / aspectRatio;
-
-    // Horizontal offset depends on which item (left or right) is being drawn
-    if (this.isMutable) {
-      this.xOffset = windowWidth * config['itemRightXOffsetRatio'];
-    } else {
-      this.xOffset = windowWidth * config['itemLeftXOffsetRatio'];
-    }
-
-    this.yOffset = max(windowHeight * config['itemYOffsetRatio'] - this.height / 2,
-     windowHeight * 0.15); // Prevent image from disappearing beyond screen
+    this.setWidth();
+    this.setHeight();
+    this.setXOffset();
+    this.setYOffset();
   }
 
   /*
    * Renders this image onscreen.
    */
   this.draw = function() {
-    // Draw certain images a little smaller
-    if (this.img == images['wood1']) { 
-      image(this.img, this.xOffset + this.width * 0.1, this.yOffset + this.height * 0.1, 
-        this.width * 0.8, this.height * 0.8);
-    }
-    else if (this.img == images['ash']) {
-      image(this.img, this.xOffset + this.width * 0.1, this.yOffset + this.height * 0.2, 
-        this.width * 0.8, this.height * 0.8);
-    }
-    // Draw all other images normally
-    else {
-      image(this.img, this.xOffset, this.yOffset, this.width, this.height);
-    }
+    image(this.img, this.xOffset, this.yOffset, this.width, this.height);
   }
 
   /*
@@ -71,5 +51,59 @@ function FlammableItem(isMutable) {
     return (mouseX > this.xOffset && mouseX < this.xOffset + this.width
          && mouseY > this.yOffset && mouseY < this.yOffset + this.height);
   }
-}
 
+  /* ==================================================================
+                             Setter Functions
+     ==================================================================
+  */
+ 
+  /*
+   * Sets the width of this item.
+   */
+  this.setWidth = function() {
+    this.width = windowWidth * config['itemWidthRatio'];
+    // Draw certain images a little smaller
+    if (this.img == images['wood1'] || this.img == images['ash']) {
+      this.width *= 0.8;
+    }
+  }
+
+  /*
+   * Sets the height of this item.
+   */
+  this.setHeight = function() {
+    var aspectRatio = this.img.elt.width / this.img.elt.height;
+    this.height = this.width / aspectRatio;
+  }
+
+  /*
+   * Sets the horizontal offset of this item.
+   */
+  this.setXOffset = function() {
+    // Horizontal offset depends on which item (left or right) is being drawn
+    if (this.isMutable) {
+      this.xOffset = windowWidth * config['itemRightXOffsetRatio'];
+    } else {
+      this.xOffset = windowWidth * config['itemLeftXOffsetRatio'];
+    }
+
+    // If an image was drawn to be smaller, it must also have a greater x offset
+    if (this.img == images['wood1'] || this.img == images['ash']) {
+      this.xOffset += this.width * 0.1;
+    }
+  }
+
+  /*
+   * Sets the vertical offset of this item.
+   */
+  this.setYOffset = function() {
+    // Use max function to prevent image from disappearing offscreen
+    this.yOffset = max(windowHeight * config['itemYOffsetRatio'] - this.height / 2,
+     windowHeight * 0.15);
+
+    // If an image was drawn to be smaller, it must also have a greater x offset
+    if (this.img == images['ash']) {
+      this.yOffset += this.height * 0.2;
+    }
+  }
+}
