@@ -4,6 +4,14 @@
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
 
+/* Buttons */
+
+#switchBtn {
+  position: absolute;
+  top: 20%;
+  left: 7%;
+}
+
 /* Slider appearance */
 
 input[type=range] {

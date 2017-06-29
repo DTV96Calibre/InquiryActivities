@@ -42,7 +42,7 @@ var flammableRight;
 var initFinished = false;
 var holdingMatch = false;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
-var currentItem = "wood";
+var currentItem = "steel";
 var config;
 
 /* ==================================================================
@@ -172,6 +172,9 @@ function draw() {
   matchstick.draw();
   fire.update();
   matchbox.drawCover();
+
+  // Orient the buttons from the html dom onto the canvas
+  
 }
 
 /*
@@ -179,15 +182,11 @@ function draw() {
  */
 function drawPanel() {
   fill(config['panelFillColor']);
-  var xPos = flammableLeft.xOffset * 0.8;
-  var yPos = flammableLeft.yOffset * 0.4;
-  var width = flammableRight.xOffset + flammableLeft.width - flammableLeft.xOffset / 1.5;
-  /* Compute height of the panel as a function of the log or ingot's height -- 
-   * so the height of the panel doesn't change as images are swapped */
-  var imageRef = images[currentItem + '0'];
-  var aspectRatio = imageRef.elt.width / imageRef.elt.height;
-  var height = max(windowHeight * 0.6, flammableLeft.yOffset + windowWidth * 
-    config['itemWidthRatio'] / aspectRatio * config['sliderYOffsetRatio']);
+  // TODO: Put these magic numbers into the config variable
+  var xPos = windowWidth * config['itemLeftXOffsetRatio'] * 0.9;
+  var yPos = windowHeight * 0.1;
+  var width = windowWidth * 0.6;
+  var height = max(windowHeight * 0.6, getSliderVerticalOffset());
   var edge = config['panelEdgeRoundness'];
   rect(xPos, yPos, width, height, edge, edge, edge, edge);
 }
@@ -210,8 +209,7 @@ function windowResized() {
   // Update variables that scale with screen size
   flammableLeft.resize();
   flammableRight.resize();
-  slider.position(flammableRight.xOffset, flammableLeft.yOffset + flammableLeft.height 
-    * config['sliderYOffsetRatio']);
+  slider.position(flammableRight.xOffset, getSliderVerticalOffset());
   matchbox.resize();
   matchstick.setToOriginPos();
   matchstick.resize();
@@ -259,4 +257,37 @@ function mousePressed() {
  */
 function mouseReleased() {
   holdingMatch = false;
+}
+
+/*
+ * Called whenever the user clicks the button to switch between wood and steel.
+ */
+function switchFlammableItem() {
+  if (currentItem == "steel") {
+    currentItem = "wood";
+    flammableLeft = new Wood(false);
+    flammableRight = new Wood(true);
+    $("#switchBtn").text('Toggle Steel');
+  }
+  else if (currentItem == "wood") {
+    currentItem = "steel";
+    flammableLeft = new Steel(false);
+    flammableRight = new Steel(true);
+    $("#switchBtn").text('Toggle Wood');
+  }
+  windowResized();
+}
+
+/*
+ * Returns the y-offset of the onscreen slider, which strictly uses the
+ * steel ingot image's size for positioning (to prevent the slider from
+ * jerking up or down as the user changes the images).
+ */
+function getSliderVerticalOffset() {
+  var itemRef = images['steel0'];
+  var itemWidth = windowWidth * config['itemWidthRatio'];
+  var aspectRatio = itemRef.elt.width / itemRef.elt.height;
+  var itemHeight = itemWidth / aspectRatio;
+  var itemYOffset = windowHeight * config['itemYOffsetRatio'] - itemHeight / 2;
+  return itemYOffset + itemHeight * config['sliderYOffsetRatio'];
 }
