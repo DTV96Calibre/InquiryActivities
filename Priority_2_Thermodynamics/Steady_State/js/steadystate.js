@@ -934,5 +934,12 @@ function setHelpBtnEvent() {
  */
 $(window).resize(function() {
 	enableFolding = $(window).width() < $(window).height();
+	
+	// Hide the help box if it's active and the window has folded
+	if (enableFolding && $("#help_box").hasClass("appear")) {
+		helpBoxPopUp.classList.toggle("appear");
+	}
+
+	// Reassign the function toggled by the help button
 	setHelpBtnEvent();
 });
