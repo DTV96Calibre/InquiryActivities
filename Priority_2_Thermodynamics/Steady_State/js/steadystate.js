@@ -23,6 +23,8 @@ var	flowRate,
 	beakerConc3,
 	beakerConc4,
 	beakerConc5;
+
+var helpBoxPopUp;
 	
 // An array cannot be used since the opacities will not update correctly while the cough drops are dissolving while in an array
 var	opacityDrop0,
@@ -149,6 +151,9 @@ function init() {
 	flowRate = 0;
 	previousFlowRate = 0;
 	numCoughDrops = 0;
+
+	// For enabling web transitions on help tooltip
+  helpBoxPopUp = document.getElementById('help_box');
 	
 	// Adds functionality to the buttons
 	$("#faucetFlowRate").on('change', getFlowRate);
@@ -156,7 +161,7 @@ function init() {
 	$("#getMeasurementButton").on('click', getMeasurement);
 	$("#emptyBeakerButton").on('click', emptyBeakers);
 	$("#beakerSaturated").on('click', displaySaturatedText);
-	$("#helpButton").on('click', displayHelpAlert);
+	$("#helpButton").on('click', displayHelpAlertDesktop);
 	$("#infoButton").on('click', displayInfoAlert);
 	$("#startstopbutton").on('click', startstop);
 	$("#splitbutton").on('click', splittime);
@@ -410,7 +415,19 @@ function placeBeakers() {
 	}
 }
 
-function displayHelpAlert() {
+/*
+ * Displays a help tooltip to the left of the experiment (only possible when
+ * the user isn't on a mobile device).
+ */
+function displayHelpAlertDesktop() {
+	helpBoxPopUp.classList.toggle("appear");
+}
+
+/*
+ * Displays a help alert for mobile (not enough room onscreen to show the
+ * help tooltip).
+ */
+function displayHelpAlertMobile() {
 	alert("The objective of this activity is to achieve steady state by measuring " +
 			" the same shade of red with all five beakers. " +
 			"However, measuring white five times does not count.\n\n" +

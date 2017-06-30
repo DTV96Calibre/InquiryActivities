@@ -366,6 +366,30 @@ img {
   font-size: calc(8px + 0.3vw) !important;
 }
 
+#help_box {
+  position: absolute;
+  width: 20%;
+  top: 5%;
+  left: 3%;
+  font-size: calc(10px + 0.1vw);
+  text-align: left;
+  padding: 10px;
+  visibility: hidden;
+  /* Transition animation when toggling the help box */
+  opacity: 0;
+          transition: 0.6s;
+  -webkit-transition: 0.6s;
+          transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+#help_box.appear {
+  visibility: visible;
+  opacity: 1;
+          transform: translateX(0);
+  -webkit-transform: translateX(0);
+}
+
 /*#colorScaleLabel {
   position: relative;
   font-size: calc(12px + 0.1vw);
