@@ -47,6 +47,7 @@ var concLimit2 = 30;
 var concLimit3 = 50;
 var concLimit4 = 80;
 var k = 120;
+var beakerSpacing = 21;
 
 // An array that holds the concentrations of all 5 beakers as they're measured
 var concentrations = [];
@@ -101,6 +102,8 @@ function init() {
 	$("#beakerSoln34").hide();
 	$("#beakerSoln44").hide();
 	$("#beakerSoln54").hide();
+
+	placeBeakers();
 	
 	// Resets stopwatch and split times on reload
 	startstop();
@@ -356,16 +359,19 @@ function getMeasurement() {
 	$("#faucetFlowRate").attr("disabled", "disabled");
 
 	// Does not allow any measurement to be made with no water flowing
-	if (flowRate == 0) {
-		$("#getMeasurementButton").removeAttr("disabled");
-		$("#emptyBeakerButton").removeAttr("disabled");
-		$("#addDropButton").removeAttr("disabled");
-		$("#faucetFlowRate").removeAttr("disabled");
-		alert("You can't take a measurement without any solution flowing.");
-	}
+	// if (flowRate == 0) {
+	// 	$("#getMeasurementButton").removeAttr("disabled");
+	// 	$("#emptyBeakerButton").removeAttr("disabled");
+	// 	$("#addDropButton").removeAttr("disabled");
+	// 	$("#faucetFlowRate").removeAttr("disabled");
+	// 	alert("You can't take a measurement without any solution flowing.");
+	// }
 	// Takes the measurement if there are any empty beakers
-	else if (currentBeaker < 5) {
-		$("#beaker" + currentBeaker).animate({top: "640px", left:"175px"}, 1000, "linear", getConcentration);
+	/*else*/ if (currentBeaker < 5) {
+		// var topPct = $("#beaker0").height() / $("#experimentMain").height() * 1000 * 2;
+		// alert(topPct);
+		var topPct = "-160%";
+		$("#beaker" + currentBeaker).animate({top: topPct, left:"58%"}, 1000, "linear", getConcentration);
 		// Begin timer
 		forceStart();
 	}
@@ -386,15 +392,24 @@ function getMeasurement() {
 */
 function emptyBeakers() {
 	concentrations = []; // Reset array of concentrations
-
-	for (var beaker = 0; beaker < 5; beaker ++) {
-		for (var conc = 0; conc < 6; conc ++) {
-			$("#beakerSoln" + conc + beaker).hide();
-			$("#beakerSoln" + conc + beaker).css({"left": "175px", "top": "641px"});
-		}
-		$("#beaker" + beaker).show();
-	}
+	placeBeakers();
 	currentBeaker = 0;	
+}
+
+/*
+ * Positions the beakers at their original locations.
+ */
+function placeBeakers() {
+	var leftPct = 0; /* Start at the farthest left corner of the div */
+	for (var beaker = 0; beaker < 5; beaker++) {
+		for (var conc = 0; conc < 6; conc++) {
+			$("beakerSoln" + conc + beaker).hide();
+			$("beakerSoln" + conc + beaker).css({"left": leftPct + "%", "top": "0%"});
+		}
+		$("#beaker" + beaker).css({"left": leftPct + "%", "top": "0%"});
+		$("#beaker" + beaker).show();
+		leftPct += beakerSpacing;
+	}
 }
 
 function displayHelpAlert() {

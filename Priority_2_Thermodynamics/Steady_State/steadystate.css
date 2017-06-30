@@ -77,6 +77,11 @@ img {
     font-size: calc(2.2px + 0.8vw) !important;
   }
 
+  #experimentMain {
+    width: 100% !important;
+    height: auto !important;
+  }
+
   .stopwatch {height: 170% !important;}
   .flowRate {height: 40% !important;}
 
@@ -100,6 +105,7 @@ img {
   /* These dimensions scale with the resolution of experiment_main.png */
   min-height: 441px;
   height: 35.27vw;
+  margin: 0;
 }
 
 .beaker_wrapper {
@@ -114,7 +120,6 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex; /* Allows for easy positioning of 5 beakers */
 }
 
 .config_container {
@@ -189,12 +194,6 @@ img {
 /* The following images have a parent container with display:flex; which allows them
  * to act as elements in an array that expand dynamically to fill their container. */
 
-.beaker-img {
-  flex-shrink: 1;
-  margin: 6px; /* Spacing between beakers with display: flex */
-  min-width: 38px;
-}
-
 .button_box_item {
   flex-grow: 1;
   padding-left: 2%;
@@ -221,12 +220,6 @@ img {
   height: 100%;
 }
 
-.cough_drop_top_row {
-}
-
-.cough_drop_bottom_row {
-}
-
 #helpButton, #infoButton {
   max-height: calc(calc(5px + 0.4vw) * 2.5);
 }
@@ -238,6 +231,22 @@ img {
 /* The following images are position:absolute with respect to their parent container
  * (which is relative). This allows them to shrink and grow in size while still being
  * positioned proportionately relative to one another. */
+
+.beaker-img {
+  position: absolute;
+  min-width: 38px;
+  width: 17.5%;
+  left: 0%;
+}
+
+.faucetFlow {
+  position: absolute;
+  width: 7%;
+  height: 30%;
+  top: 30%;
+  left: 42%;
+  z-index: -1;
+}
 
 #buchnerFunnelFront, #buchnerFunnelBack {
   position: absolute;
@@ -271,33 +280,26 @@ img {
 
 #faucetWaterBox, #faucetWaterBoxBlocker {
   position: absolute;
-  top: 58%;
+  top: 58.6%;
   left: 38%;
   width: 15%;
 }
 
 #faucetWaterBox {
+  height: 5%;
   z-index: -1;
 }
 
 #faucetWaterBoxBlocker {
+  height: 5.2%;
   width: 15.5%;
-}
-
-.faucetFlow {
-  position: absolute;
-  width: 7%;
-  height: 30%;
-  top: 30%;
-  left: 42%;
-  z-index: -1;
 }
 
 /* Misc. properties */
 
 #experimentMain {
   position: relative;
-  width: 100%;
+  height: 100%;
   z-index: 2;
 }
 
@@ -351,7 +353,8 @@ img {
 /* For debugging */
 /*.panel_container {border:1px solid red;}*/
 /*.config_container {border:1px solid green;}*/
-/*.experiment {border:1px solid black;}*/
-/*.beakers {border:1px solid blue;}*/
+.experiment {border:1px solid black;}
+#experimentMain {border:1px solid red;}
+.beakers {border:1px solid blue;}
 /*.colorScale {border:1px solid purple;}*/
 /*.flowRate {border:1px solid purple;}*/
