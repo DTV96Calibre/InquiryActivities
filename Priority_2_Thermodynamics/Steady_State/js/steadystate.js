@@ -478,25 +478,14 @@ function returnBeaker() {
 	splittime();
 	forceStop();
 	
-	var leftPx;
-	
-	if (currentBeaker == 0) {
-		leftPx = "-40px";
-	} else if (currentBeaker == 1) {
-		leftPx = "60px";
-	} else if (currentBeaker == 2) {
-		leftPx = "160px";
-	} else if (currentBeaker == 3) {
-		leftPx = "260px";
-	} else if (currentBeaker == 4) {
-		leftPx = "360px";
-	}
+	// Each beaker is positioned approx. 21% of the div's width apart
+	var leftPct = currentBeaker * 21 + "%";
 	
 	// Hide the empty beaker and solution by itself and return it to the original spot
 	$("#beaker" + currentBeaker).hide();
-	$("#solution" + currentConc).css({"top" : "760px"});
-	$("#beaker" + currentBeaker).css({"top": "815px", "left": leftPx});
-	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "815px", left: leftPx}, 1000, "linear");
+	$("#solution" + currentConc).css({"top" : "0%"});
+	$("#beaker" + currentBeaker).css({"top": "0%", "left": leftPct});
+	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "0%", left: leftPct}, 1000, "linear");
 	
 	// Updates beaker counter
 	currentBeaker++;
@@ -528,7 +517,9 @@ function setFadeTime(coughDropNum) {
 	if (fadeTime == Infinity)
 		fadeTime = Number.NaN;
 		
-	// If a valid time was calculated, set the time of the newly added cough drop to dissolve, along with having each animation update the opacity of the cough drop in case the user changes the flow rate, which will affect the dissolve rate of the remaining cough drop
+	// If a valid time was calculated, set the time of the newly added cough drop to dissolve, 
+	// along with having each animation update the opacity of the cough drop in case the user 
+	// changes the flow rate, which will affect the dissolve rate of the remaining cough drop
 	if (!isNaN(fadeTime)) {
 		if (coughDropNum == 0)
 			$("#coughDrop" + coughDropNum).animate({opacity: 0},

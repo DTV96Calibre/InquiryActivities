@@ -295,6 +295,14 @@ img {
   width: 15.5%;
 }
 
+#beakerSaturated {
+  position: absolute;
+  width: 9%;
+  left: 2%;
+  top: 86%;
+  z-index: 2;
+}
+
 /* Misc. properties */
 
 #experimentMain {
