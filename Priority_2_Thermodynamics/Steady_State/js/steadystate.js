@@ -462,11 +462,11 @@ function displayHelpAlertMobile() {
 }
 
 function displayInfoAlert() {
-	var str = "Produced through the efforts of Daniel Prudente\n\n";
+	var str = "Produced through the efforts of Daniel Prudente (2012). Adapted by Brooke Bullek (2017).\n\n";
 	str += "Supported by NSF DUE-0717536\n\n";
 	str += "Stopwatch JavaScript code created by Kare Byberg \u00A9 01.21.2005\n\n";
 	str += "Questions? Contact Dr. Margot Vigeant, Bucknell University Department of Chemical Engineering\n\n";
-	str += "\u00A9 Margot Vigeant 2012";
+	str += "\u00A9 Margot Vigeant 2017";
 	alert(str);
 	return false;
 }
