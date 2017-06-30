@@ -157,6 +157,7 @@ function init() {
   helpBoxPopUp = document.getElementById('help_box');
 
   enableFolding = $(window).width() < $(window).height();
+  setLeftMargin();
 	
 	// Adds functionality to the buttons
 	$("#faucetFlowRate").on('change', getFlowRate);
@@ -928,13 +929,26 @@ function setHelpBtnEvent() {
 }
 
 /*
+ * Because the experiment's dimensions have a minimum width, it's possible for the 
+ * user to shrink the window enough to make the graphics appear off-center.
+ * This function recalculates the proper left offset of the simulation.
+ */
+function setLeftMargin() {
+	var experimentWidthRatio = $("#experiment").width() / $(window).width() * 100;
+	var leftPct = (100 - experimentWidthRatio) / 2 + "%";
+	$("#experiment").css({ "left" : leftPct });
+	$("#head").css({ "left" : leftPct });
+	$("#panel_container").css({ "left" : leftPct });
+}
+
+/*
  * If the window is resized and its width reaches < 1024 pixels (the
  * threshold for when mobile folding is used), change the event handler
  * for the help button to an alert instead of a tooltip.
  */
 $(window).resize(function() {
 	enableFolding = $(window).width() < $(window).height();
-	
+
 	// Hide the help box if it's active and the window has folded
 	if (enableFolding && $("#help_box").hasClass("appear")) {
 		helpBoxPopUp.classList.toggle("appear");
@@ -942,4 +956,7 @@ $(window).resize(function() {
 
 	// Reassign the function toggled by the help button
 	setHelpBtnEvent();
+
+	// Change the left offset of the experiment
+	setLeftMargin();
 });
