@@ -359,18 +359,16 @@ function getMeasurement() {
 	$("#faucetFlowRate").attr("disabled", "disabled");
 
 	// Does not allow any measurement to be made with no water flowing
-	// if (flowRate == 0) {
-	// 	$("#getMeasurementButton").removeAttr("disabled");
-	// 	$("#emptyBeakerButton").removeAttr("disabled");
-	// 	$("#addDropButton").removeAttr("disabled");
-	// 	$("#faucetFlowRate").removeAttr("disabled");
-	// 	alert("You can't take a measurement without any solution flowing.");
-	// }
+	if (flowRate == 0) {
+		$("#getMeasurementButton").removeAttr("disabled");
+		$("#emptyBeakerButton").removeAttr("disabled");
+		$("#addDropButton").removeAttr("disabled");
+		$("#faucetFlowRate").removeAttr("disabled");
+		alert("You can't take a measurement without any solution flowing.");
+	}
 	// Takes the measurement if there are any empty beakers
-	/*else*/ if (currentBeaker < 5) {
-		// var topPct = $("#beaker0").height() / $("#experimentMain").height() * 1000 * 2;
-		// alert(topPct);
-		var topPct = "-160%";
+	else if (currentBeaker < 5) {
+		var topPct = "-150%";
 		$("#beaker" + currentBeaker).animate({top: topPct, left:"58%"}, 1000, "linear", getConcentration);
 		// Begin timer
 		forceStart();
