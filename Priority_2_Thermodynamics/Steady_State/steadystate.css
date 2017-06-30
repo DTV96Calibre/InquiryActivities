@@ -82,10 +82,11 @@ img {
     height: auto !important;
   }
 
-  .stopwatch {height: 170% !important;}
-  .flowRate {height: 40% !important;}
+  .stopwatch {height: 155% !important;}
+  .flowRate {height: 55% !important;}
 
   #clock {font-size: calc(8px + 0.8vw) !important;}
+  #output {height: 38% !important;}
 
   /*#colorScaleLabel {font-size: calc(8px + 0.1vw) !important;}*/
 }
@@ -111,6 +112,7 @@ img {
 .beaker_wrapper {
   position: relative;
   padding: 11%;
+  margin-top: 5%;
   margin-bottom: 5%;
 }
 
@@ -129,7 +131,7 @@ img {
 
 .flowRate {
   position: absolute;
-  bottom: 180%;
+  bottom: 155%;
   margin-right: 3%;
   width: 32%;
   height: 60%;
@@ -144,8 +146,8 @@ img {
   position: absolute;
   margin-left: 3%;
   display: block;
-  bottom: 0%;
-  height: 180%;
+  bottom: 5%;
+  height: 160%;
   width: 32%;
   border: 2px solid #4848f2;
   background-color: #1010a0;
@@ -327,7 +329,7 @@ img {
 }
 
 #output {
-  height: 42%;
+  height: 45%;
   width: 85%;
   margin: auto;
   margin-top: 3%;

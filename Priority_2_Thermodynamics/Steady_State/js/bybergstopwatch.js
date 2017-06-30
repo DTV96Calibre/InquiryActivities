@@ -148,6 +148,7 @@ function splittime()
 		{
 		if(splitdate != '')
 			{
+			output.value += '\n'
 			var splitold = splitdate.split(':');
 			var splitnow = clock.value.split(':');
 			var numbers = new Array();
@@ -173,7 +174,7 @@ function splittime()
 			output.value += '\t+' + mzeros + (numbers[0][1] - numbers[0][0]) + ':' + szeros + (numbers[1][1] - numbers[1][0]) + ':' + (numbers[2][1] - numbers[2][0]) + '\n';
 			}
 		splitdate = clock.value;
-		output.value += (++splitcounter) + '. ' + clock.value + '\n';
+		output.value += (++splitcounter) + '. ' + clock.value;
 		}
 
 		output.scrollTop = output.scrollHeight;
