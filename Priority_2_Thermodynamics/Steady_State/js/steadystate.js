@@ -885,8 +885,9 @@ function displayDefaultLoseMessage(numMatching) {
 }
 
 function displayAllWhiteLoseMessage() {
-	alert("You lose! You need to add cough drops to the funnel in order to measure " +
-		"a non-zero concentration. You can empty the beakers to try again.");
+	alert("You lose! Although you measured five beakers with the same concentration, this " +
+		"concentration was zero! Add cough drops to the funnel in order to measure a non-zero " +
+		"concentration. You can empty the beakers to try again.");
 }
 
 /*
