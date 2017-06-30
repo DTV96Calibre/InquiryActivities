@@ -211,7 +211,7 @@ h1 {
 #buchnerFunnelBack {
   position: absolute;
   top: 52% !important;
-  z-index: -1 !important;
+  z-index: -2 !important;
 }
 
 #faucetHandle {
@@ -220,6 +220,23 @@ h1 {
   left: 75%;
   top: 56%;
   z-index: 2;
+}
+
+#solutionFlow {
+  position: absolute;
+  width: 1%;
+  top: 58%;
+  left: 45%;
+  z-index: -3;
+}
+
+.faucetFlow {
+  position: absolute;
+  width: 7%;
+  height: 30%;
+  top: 30%;
+  left: 42%;
+  z-index: -1;
 }
 
 /* Misc. properties */
