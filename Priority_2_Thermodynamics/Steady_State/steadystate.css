@@ -16,6 +16,16 @@ h1 {
   color: #000000;
 }
 
+img {
+  /* Prevent user from dragging images around */
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .container-fluid, .row, .content {
   width: 100%;
   padding: 0%;
@@ -257,6 +267,21 @@ h1 {
   top: 58%;
   left: 45%;
   z-index: -3;
+}
+
+#faucetWaterBox, #faucetWaterBoxBlocker {
+  position: absolute;
+  top: 58%;
+  left: 38%;
+  width: 15%;
+}
+
+#faucetWaterBox {
+  z-index: -1;
+}
+
+#faucetWaterBoxBlocker {
+  width: 15.5%;
 }
 
 .faucetFlow {

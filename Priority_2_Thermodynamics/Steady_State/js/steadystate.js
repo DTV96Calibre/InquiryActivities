@@ -252,7 +252,7 @@ function getFlowRate() {
 	}
 	
 	// Find how high the water level should be in the funnel
-	waterHeight = 458 - Math.round(flowRate/20*46);
+	waterHeight = 58 - flowRate / 2.5;
 	
 	// Shows a stream flowing out of the funnel if there is a faucet flow rate greater than 0 and hides it if the flow rate is 0
 	if (flowRate > 0 && !$("#solutionFlow").is(":visible"))
@@ -262,7 +262,7 @@ function getFlowRate() {
 	else {}
 	
 	// Animates the height of the water level
-	$("#faucetWaterBox").animate({top: "" + waterHeight + "px"}, 1000, "linear");
+	$("#faucetWaterBox").animate({top: "" + waterHeight + "%"}, 1000, "linear");
 	
 	// Animates the faucet handle rotation
 	var angle = -1 * Math.round(110 * flowRate / maxFlowRate); 
