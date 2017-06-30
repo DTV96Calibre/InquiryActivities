@@ -148,7 +148,7 @@ function init() {
 	numCoughDrops = 0;
 	
 	// Adds functionality to the buttons
-	$("#faucetFlowRate").on('change',getFlowRate);
+	$("#faucetFlowRate").on('change', getFlowRate);
 	$("#addDropButton").on('click', addCoughDrop);
 	$("#getMeasurementButton").on('click', getMeasurement);
 	$("#emptyBeakerButton").on('click', emptyBeakers);
@@ -287,15 +287,7 @@ function addCoughDrop() {
 	var coughDrop = -1;
 	
 	// Finds out which cough drop to place into the funnel. The order goes from the middle to the outside
-	if (opacityDrop0 == 0){
-			coughDrop = 0;
-			$("#coughDrop0").css({ opacity: 1 });
-			opacityDrop0 = 1;
-	} else if (opacityDrop1 == 0){
-			coughDrop = 1;
-			$("#coughDrop1").css({ opacity: 1 });
-			opacityDrop1 = 1;
-	} else if (opacityDrop2 == 0){
+	if (opacityDrop2 == 0){
 			coughDrop = 2;
 			$("#coughDrop2").css({ opacity: 1 });
 			opacityDrop2 = 1;
@@ -303,22 +295,22 @@ function addCoughDrop() {
 			coughDrop = 3;
 			$("#coughDrop3").css({ opacity: 1 });
 			opacityDrop3 = 1;
+	} else if (opacityDrop1 == 0){
+			coughDrop = 1;
+			$("#coughDrop1").css({ opacity: 1 });
+			opacityDrop1 = 1;
 	} else if (opacityDrop4 == 0){
 			coughDrop = 4;
 			$("#coughDrop4").css({ opacity: 1 });
 			opacityDrop4 = 1;
+	} else if (opacityDrop0 == 0){
+			coughDrop = 0;
+			$("#coughDrop0").css({ opacity: 1 });
+			opacityDrop0 = 1;
 	} else if (opacityDrop5 == 0){
 			coughDrop = 5;
 			$("#coughDrop5").css({ opacity: 1 });
 			opacityDrop5 = 1;
-	} else if (opacityDrop6 == 0){
-			coughDrop = 6;
-			$("#coughDrop6").css({ opacity: 1 });
-			opacityDrop6 = 1;
-	} else if (opacityDrop7 == 0){
-			coughDrop = 7;
-			$("#coughDrop7").css({ opacity: 1 });
-			opacityDrop7 = 1;
 	} else if (opacityDrop8 == 0){
 			coughDrop = 8;
 			$("#coughDrop8").css({ opacity: 1 });
@@ -327,10 +319,18 @@ function addCoughDrop() {
 			coughDrop = 9;
 			$("#coughDrop9").css({ opacity: 1 });
 			opacityDrop9 = 1;
+	} else if (opacityDrop7 == 0){
+			coughDrop = 7;
+			$("#coughDrop7").css({ opacity: 1 });
+			opacityDrop7 = 1;
 	} else if (opacityDrop10 == 0){
 			coughDrop = 10;
 			$("#coughDrop10").css({ opacity: 1 });
 			opacityDrop10 = 1;
+	} else if (opacityDrop6 == 0){
+			coughDrop = 6;
+			$("#coughDrop6").css({ opacity: 1 });
+			opacityDrop6 = 1;
 	}
 	// If a cough drop was added, find out how long it needs for it to dissolve
 	if (coughDrop != -1)
