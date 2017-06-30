@@ -25,6 +25,7 @@ var	flowRate,
 	beakerConc5;
 
 var helpBoxPopUp;
+var enableFolding;
 	
 // An array cannot be used since the opacities will not update correctly while the cough drops are dissolving while in an array
 var	opacityDrop0,
@@ -154,6 +155,8 @@ function init() {
 
 	// For enabling web transitions on help tooltip
   helpBoxPopUp = document.getElementById('help_box');
+
+  enableFolding = $(window).width() < $(window).height();
 	
 	// Adds functionality to the buttons
 	$("#faucetFlowRate").on('change', getFlowRate);
@@ -161,11 +164,11 @@ function init() {
 	$("#getMeasurementButton").on('click', getMeasurement);
 	$("#emptyBeakerButton").on('click', emptyBeakers);
 	$("#beakerSaturated").on('click', displaySaturatedText);
-	$("#helpButton").on('click', displayHelpAlertDesktop);
 	$("#infoButton").on('click', displayInfoAlert);
 	$("#startstopbutton").on('click', startstop);
 	$("#splitbutton").on('click', splittime);
 	$("#resetbutton").on('click', resetclock);
+	setHelpBtnEvent();
 }
 
 /*
@@ -420,6 +423,7 @@ function placeBeakers() {
  * the user isn't on a mobile device).
  */
 function displayHelpAlertDesktop() {
+	if (enableFolding) return;
 	helpBoxPopUp.classList.toggle("appear");
 }
 
@@ -428,6 +432,7 @@ function displayHelpAlertDesktop() {
  * help tooltip).
  */
 function displayHelpAlertMobile() {
+	if (!enableFolding) return;
 	alert("The objective of this activity is to achieve steady state by measuring " +
 			" the same shade of red with all five beakers. " +
 			"However, measuring white five times does not count.\n\n" +
@@ -903,3 +908,30 @@ function findNumMatchingBeakers() {
 
 	return maxNum;
 }
+
+/*
+ * Configures whether a browser pop-up or a tooltip embedded in the HTML appears when
+ * the user clicks the help button. On mobile devices, a screen folding effect occurs
+ * so there's no room for a tooltip.
+ */
+function setHelpBtnEvent() {
+	if (enableFolding) {
+		$("#helpButton").on("click", function(e) {
+	    e.stopImmediatePropagation(); // Prevent multiple inadvertent pop-ups
+	    e.preventDefault();
+	    displayHelpAlertMobile();
+	  });
+	} else {
+		$("#helpButton").on('click', displayHelpAlertDesktop);
+	}
+}
+
+/*
+ * If the window is resized and its width reaches < 1024 pixels (the
+ * threshold for when mobile folding is used), change the event handler
+ * for the help button to an alert instead of a tooltip.
+ */
+$(window).resize(function() {
+	enableFolding = $(window).width() < $(window).height();
+	setHelpBtnEvent();
+});

@@ -371,7 +371,7 @@ img {
   width: 20%;
   top: 5%;
   left: 3%;
-  font-size: calc(10px + 0.1vw);
+  font-size: calc(6px + 0.4vw);
   text-align: left;
   padding: 10px;
   visibility: hidden;
