@@ -840,9 +840,14 @@ function getConcentration() {
 function measureWin() {
 	var numMatching = findNumMatchingBeakers();
 	if (numMatching == 5) {
-		displayWinMessage();
+		// The user doesn't win if their 5 matching shades were all white
+		if (concentrations[0] == 0) {
+			displayAllWhiteLoseMessage();
+		} else {
+			displayWinMessage();
+		}
 	} else {
-		displayLoseMessage(numMatching);
+		displayDefaultLoseMessage(numMatching);
 	}
 }
 
@@ -851,10 +856,15 @@ function displayWinMessage() {
 	"perhaps with a different shade.");
 }
 
-function displayLoseMessage(numMatching) {
+function displayDefaultLoseMessage(numMatching) {
 	alert("You lose! You were unable to achieve steady state, as you only had " +
 		numMatching + " out of 5 beakers with identical concentrations. You " +
 		"can empty the beakers to try again.");
+}
+
+function displayAllWhiteLoseMessage() {
+	alert("You lose! You need to add cough drops to the funnel in order to measure " +
+		"a non-zero concentration. You can empty the beakers to try again.");
 }
 
 /*
