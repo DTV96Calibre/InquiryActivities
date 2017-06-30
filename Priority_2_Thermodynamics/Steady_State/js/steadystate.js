@@ -368,7 +368,7 @@ function getMeasurement() {
 	}
 	// Takes the measurement if there are any empty beakers
 	else if (currentBeaker < 5) {
-		var topPct = "-150%";
+		var topPct = "-172%";
 		$("#beaker" + currentBeaker).animate({top: topPct, left:"58%"}, 1000, "linear", getConcentration);
 		// Begin timer
 		forceStart();
@@ -471,7 +471,9 @@ function displaySaturatedText() {
 */
 function returnBeaker() {
 	// Show the image with the beaker and the solution in it
+	$("#beakerSoln" + currentConc + "" + currentBeaker).css({"top": "-172%", "left": "58%"});
 	$("#beakerSoln" + currentConc + "" + currentBeaker).show();
+
 	concentrations.push(currentConc);
 
 	// Stop timer and record time elapsed
@@ -479,11 +481,11 @@ function returnBeaker() {
 	forceStop();
 	
 	// Each beaker is positioned approx. 21% of the div's width apart
-	var leftPct = currentBeaker * 21 + "%";
+	var leftPct = currentBeaker * beakerSpacing + "%";
 	
 	// Hide the empty beaker and solution by itself and return it to the original spot
 	$("#beaker" + currentBeaker).hide();
-	$("#solution" + currentConc).css({"top" : "0%"});
+	$("#solution" + currentConc).css({"top" : "95%"});
 	$("#beaker" + currentBeaker).css({"top": "0%", "left": leftPct});
 	$("#beakerSoln" + currentConc + "" + currentBeaker).animate({top: "0%", left: leftPct}, 1000, "linear");
 	
@@ -827,7 +829,7 @@ function getConcentration() {
 	else
 		currentConc = 5;
 
-	$("#solution" + currentConc).animate({top: "663px"}, (beakerVol / flowRate) * 1000, "linear", returnBeaker);
+	$("#solution" + currentConc).animate({top: "84.5%"}, (beakerVol / flowRate) * 1000, "linear", returnBeaker);
 	
 }
 
@@ -850,7 +852,7 @@ function displayWinMessage() {
 }
 
 function displayLoseMessage(numMatching) {
-	alert("You lose! You were unable to achieve steady state and only had " +
+	alert("You lose! You were unable to achieve steady state, as you only had " +
 		numMatching + " out of 5 beakers with identical concentrations. You " +
 		"can empty the beakers to try again.");
 }
