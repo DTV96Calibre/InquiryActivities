@@ -9,6 +9,7 @@
  */
 function Match() {
   this.img = images['matchstick_down'];
+  this.fire = new Fire(this, 10, 20, 4);
   
   /* Graphical properties */
   this.width;
@@ -46,6 +47,9 @@ function Match() {
 
     image(this.img, this.xOffset - this.width / 1.5, 
       this.yOffset - this.width / 1.5, this.width, this.height);
+
+    // Draw the flame on the tip of the match
+    this.fire.update();
   }
 
   /*

@@ -6,23 +6,26 @@
 /*
  * This class encapsulates the behavior of the "fire" particle effects used 
  * to indicate the burning steel wool / tip of match.
+ * @param object: The object that this fire is attached to (match/steel/wood)
+ * @param numParticlesToSpawn: Particles to spawn per frame
+ * @param maxLife: The number of frames each particle is active
+ * @param size: The radius of the flame particles
  */
-function Fire() {
+function Fire(object, numParticlesToSpawn, maxLife, size) {
   this.canvas = canvas;
   this.ctx = ctx;
-  this.width = 200;
-  this.height = 200;
   this.particles = [];
-  this.numParticlesToSpawn = 10; // Particles to spawn per frame
-  this.maxLife = 20; // Higher value => particles disintegrate more slowly
-  this.speed = 2;    // Higher value => particles rise faster
-  this.size = 4;     // Higher value => radius of the particles gets larger
+  this.object = object;
+  this.numParticlesToSpawn = numParticlesToSpawn;
+  this.maxLife = maxLife; // Higher value => particles disintegrate more slowly
+  this.speed = 2;         // Higher value => particles rise faster
+  this.size = size;       // Higher value => radius of the particles gets larger
   this.originX;
   this.originY;
 
   // Orange-reddish colors to paint flame particles for a "gradient" effect
   this.colors = ["rgba(232,179,0,", "rgba(232,70,0",
-                 "rgba(173,38,8,", "rgba(117,6,6,"];
+                 "rgba(195,44,9,", "rgba(173,38,8,", "rgba(117,6,6,"];
 
   /*
    * Advances the particle effect by one frame. This function should be called
@@ -31,6 +34,9 @@ function Fire() {
   this.update = function() {
     this.updateOrigin();
     this.spawnParticles();
+
+    // If this fire has an invalid size, it shouldn't be burning any longer
+    if (this.size < 0) return;
     
     // Iterate through the array of flame particles and draw them
     for (i = 0; i < this.particles.length; i++) {
@@ -61,8 +67,8 @@ function Fire() {
    * Updates the origin (spawn position) of this fire.
    */
   this.updateOrigin = function() {
-    this.originX = matchstick.xOffset;
-    this.originY = matchstick.yOffset;
+    this.originX = object.xOffset;
+    this.originY = object.yOffset;
   }
 
   /*
@@ -73,9 +79,20 @@ function Fire() {
       // Particles move at randomized speeds
       var horizontalSpeed = (Math.random() * 2 * this.speed - this.speed) / 2;
       var verticalSpeed = 0 - Math.random() * 2 * this.speed;
-      // Add a particle at the origin position
-      var p = new Particle(this.originX, this.originY, horizontalSpeed, 
-        verticalSpeed);
+
+      var p;
+      // The distance between particles depends on the object that's burning
+      if (this.object == matchstick) {
+        p = new Particle(this.originX, this.originY, horizontalSpeed, 
+          verticalSpeed);
+      }
+      else {
+        var xOffset = (i / this.numParticlesToSpawn) * this.object.width;
+        var yOffset = this.object.height * 0.8 - (i / 10) * (this.object.height / this.numParticlesToSpawn / 2);
+        p = new Particle(this.originX + xOffset, this.originY + yOffset, 
+          horizontalSpeed, verticalSpeed);
+      }
+      
       this.particles.push(p);
     }
   }

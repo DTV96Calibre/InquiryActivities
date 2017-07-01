@@ -66,7 +66,6 @@ function setup() {
   initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
-  fire = new Fire();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
@@ -171,11 +170,7 @@ function draw() {
   flammableRight.draw();
   matchbox.drawBottom();
   matchstick.draw();
-  fire.update();
   matchbox.drawCover();
-
-  // Orient the buttons from the html dom onto the canvas
-  
 }
 
 /*

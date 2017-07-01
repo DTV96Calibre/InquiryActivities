@@ -8,7 +8,7 @@
  */
 function FlammableItem(isMutable) {
   /* Constants */
-  this.BURNING_RATE = 0.03; // The change in opacity percentage per frame
+  this.BURNING_RATE = 0.015; // The change in opacity percentage per frame
 
   /* Other properties */
   this.img;
@@ -33,15 +33,6 @@ function FlammableItem(isMutable) {
   }
 
   /*
-   * Resets the properties that control the burning crossfade animation to
-   * default.
-   */
-  this.reset = function() {
-    this.isBurning = false;
-    this.pctBurned = 0;
-  }
-
-  /*
    * Renders this image onscreen.
    */
   this.draw = function() {
@@ -58,6 +49,11 @@ function FlammableItem(isMutable) {
 
       // Draw resulting image (i.e. ash or burnt wool) with inverted opacity
       this.update();
+
+      // Draw flame
+      this.fire.update();
+      this.fire.size = 12 * (1 - this.pctBurned);
+      this.fire.maxLife = 60 * (1 - this.pctBurned);
     }
   }
 
