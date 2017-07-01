@@ -12,7 +12,10 @@ function Steel(isMutable) {
   Steel.prototype = Object.create(FlammableItem.prototype);
 
   this.img = images['steel0']; // Image is initialized to the solid steel ingot
-  this.fire = new Fire(this, 5, 40, 4);
+
+  this.fireSize = STEEL_FIRE_PARTICLE_SIZE;
+  this.fireMaxLife = STEEL_FIRE_MAX_LIFE;
+  this.fire;
 
   /*
    * Sets this steel on fire, which updates its appearance.
@@ -31,6 +34,6 @@ function Steel(isMutable) {
   this.reset = function() {
     this.isBurning = false;
     this.pctBurned = 0;
-    this.fire = new Fire(this, 5, 40, 4);
+    this.initFire();
   }
 }

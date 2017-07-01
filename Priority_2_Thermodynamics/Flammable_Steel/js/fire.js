@@ -88,7 +88,7 @@ function Fire(object, numParticlesToSpawn, maxLife, size) {
       }
       else {
         var xOffset = (i / this.numParticlesToSpawn) * this.object.width;
-        var yOffset = this.object.height * 0.8 - (i / 10) * (this.object.height / this.numParticlesToSpawn / 2);
+        var yOffset = this.object.height * 0.9 - (i / 10) * (this.object.height / this.numParticlesToSpawn / 2);
         p = new Particle(this.originX + xOffset, this.originY + yOffset, 
           horizontalSpeed, verticalSpeed);
       }

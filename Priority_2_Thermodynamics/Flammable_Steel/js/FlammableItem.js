@@ -52,8 +52,8 @@ function FlammableItem(isMutable) {
 
       // Draw flame
       this.fire.update();
-      this.fire.size = 12 * (1 - this.pctBurned);
-      this.fire.maxLife = 60 * (1 - this.pctBurned);
+      this.fire.size = this.fireSize * (1 - this.pctBurned);
+      this.fire.maxLife = this.fireMaxLife * (1 - this.pctBurned);
     }
   }
 
@@ -114,6 +114,15 @@ function FlammableItem(isMutable) {
   this.changeImage = function(imageID) {
     this.img = images[imageID];
     this.resize();
+  }
+
+  /*
+   * Initializes the fire object that provides a burning 'animation' once this
+   * item has been lit on fire.
+   */
+  this.initFire = function() {
+    this.fire = new Fire(this, NUM_FIRE_PARTICLES, this.fireMaxLife,
+      this.fireSize);
   }
 
   /*

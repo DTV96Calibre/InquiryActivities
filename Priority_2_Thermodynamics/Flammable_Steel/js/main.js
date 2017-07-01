@@ -26,6 +26,13 @@ var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/mas
 var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
 var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
 
+/************************ Fire config **************************************/
+var NUM_FIRE_PARTICLES = 70;
+var STEEL_FIRE_PARTICLE_SIZE = 12;
+var WOOD_FIRE_PARTICLE_SIZE = 12;
+var STEEL_FIRE_MAX_LIFE = 120;
+var WOOD_FIRE_MAX_LIFE = 120;
+
 /************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
@@ -140,7 +147,7 @@ function initFlammableItems() {
   else if (currentItem == "wood") {
     flammableLeft = new Wood(false);
     flammableRight = new Wood(true);
-  }
+  } 
 }
 
 /* ==================================================================
@@ -204,6 +211,8 @@ function windowResized() {
   // Update variables that scale with screen size
   flammableLeft.resize();
   flammableRight.resize();
+  flammableLeft.initFire();
+  flammableRight.initFire();
   slider.position(flammableRight.xOffset, getSliderVerticalOffset());
   matchbox.resize();
   matchstick.setToOriginPos();

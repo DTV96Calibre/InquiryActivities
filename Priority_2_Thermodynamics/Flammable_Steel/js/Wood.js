@@ -12,7 +12,10 @@ function Wood(isMutable) {
   Steel.prototype = Object.create(FlammableItem.prototype);
 
   this.img = images['wood0']; // Image is initialized to the wood log
-  this.fire = new Fire(this, 100, 40, 8);
+
+  this.fireSize = WOOD_FIRE_PARTICLE_SIZE;
+  this.fireMaxLife = WOOD_FIRE_MAX_LIFE;
+  this.fire;
 
   /*
    * Sets this wood on fire, which updates its appearance.
@@ -30,6 +33,6 @@ function Wood(isMutable) {
   this.reset = function() {
     this.isBurning = false;
     this.pctBurned = 0;
-    this.fire = new Fire(this, 100, 40, 8);
+    this.initFire();
   }
 }
