@@ -53,7 +53,9 @@ var ctx;
 var hasChanged; // Cuts down on calculations inside the draw() function
 var mouseIsPressed;
 var simulationTime;
-var simulationPaused = false;
+var simulationPaused;
+var iceBroken = false;
+var tooltipOpacity = 1;
 
 // Pieces of the experiment
 var unbrokenIce;
@@ -160,6 +162,7 @@ function setup() {
 
   mouseIsPressed = false;
   baseWidth = windowWidth / BASE_WIDTH_SCALING;
+  simulationPaused = false;
 
   // Create both ice cubes and initialize them
   brokenIce = new IceCube();
@@ -198,6 +201,10 @@ function draw() {
   background(255, 255, 255);
 
   drawTitle();
+
+  if (tooltipOpacity > 0) {
+    drawBreakableIceTooltip();
+  }
 
   unbrokenExp.display();
   brokenExp.display();
@@ -241,6 +248,25 @@ function drawTitle() {
     fill(0, 102, 153); // blue
     text("Cube Melt Simulation", fontPosX * 2.12, fontPosY);
   }
+}
+
+/*
+ * Writes the tooltip informing the user that they can break the ice cube on 
+ * the right.
+ */
+function drawBreakableIceTooltip() {
+  // Make text fade away by reducing the opacity once user has broken ice
+  if (iceBroken) {
+    tooltipOpacity -= 0.1;
+  }
+
+  textFont("Helvetica");
+  var fontSize = windowWidth / 100;
+  textSize(fontSize);
+  var fontPosX = brokenIce.xOffset - baseWidth / 2.2;
+  var fontPosY = brokenIce.yOffset - baseWidth / 1.4;
+  fill("rgba(32, 32, 32," + tooltipOpacity + ")"); // grey
+  text("Click to break ice!", fontPosX, fontPosY);
 }
 
 /*
@@ -318,6 +344,7 @@ function swingHammer() {
   if (brokenExp.cursorIsOverIce() && brokenExp.ice.canBeBrokenFurther() && !simulationPaused) {
     brokenExp.ice.setDivisions(brokenExp.ice.numDivisions + 1);
     hasChanged = true;
+    iceBroken = true;
   }
 }
 
