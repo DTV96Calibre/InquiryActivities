@@ -200,7 +200,7 @@ img {
   flex-grow: 1;
   padding-left: 2%;
   padding-right: 2%;
-  font-size: calc(5px + 0.4vw);
+  font-size: calc(5px + 0.3vw);
   margin: 2px;
   z-index: 3;
 }
