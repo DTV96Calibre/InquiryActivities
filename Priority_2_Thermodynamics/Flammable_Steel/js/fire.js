@@ -24,7 +24,7 @@ function Fire(object, numParticlesToSpawn, maxLife, size) {
   this.originY;
 
   // Orange-reddish colors to paint flame particles for a "gradient" effect
-  this.colors = ["rgba(232,179,0,", "rgba(232,70,0",
+  this.colors = ["rgba(232,179,0,",
                  "rgba(195,44,9,", "rgba(173,38,8,", "rgba(117,6,6,"];
 
   /*

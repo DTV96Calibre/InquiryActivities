@@ -29,7 +29,7 @@ var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob
 /************************ Fire config **************************************/
 var NUM_FIRE_PARTICLES = 70;
 var STEEL_FIRE_PARTICLE_SIZE = 12;
-var WOOD_FIRE_PARTICLE_SIZE = 12;
+var WOOD_FIRE_PARTICLE_SIZE = 10;
 var STEEL_FIRE_MAX_LIFE = 120;
 var WOOD_FIRE_MAX_LIFE = 120;
 
