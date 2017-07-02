@@ -34,15 +34,15 @@ function Fire(object, numParticlesToSpawn, maxLife, size, width) {
    * by the main (draw()) loop in main.js as long as this fire is active.
    */
   this.update = function() {
+    // If this fire has an invalid size, it shouldn't be burning any longer
+    if (this.size < 0) return;
+    
     // The only flame that needs its location updated is the match
     if (this.object == matchstick) {
       this.updateOrigin();
     }
     
     this.spawnParticles();
-
-    // If this fire has an invalid size, it shouldn't be burning any longer
-    if (this.size < 0) return;
     
     // Iterate through the array of flame particles and draw them
     for (i = 0; i < this.particles.length; i++) {
