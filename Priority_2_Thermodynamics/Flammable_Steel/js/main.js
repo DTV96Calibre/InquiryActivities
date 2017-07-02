@@ -7,7 +7,7 @@
  */
 
 /************************ Graphical properties *****************************/
-var FRAME_RATE = 30;
+var FRAME_RATE = 60;
 var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
 var PANEL_COLOR = "rgba(51, 51, 51,"
 
@@ -27,7 +27,7 @@ var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/maste
 var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
 
 /************************ Fire config **************************************/
-var NUM_FIRE_PARTICLES = 90;
+var NUM_FIRE_PARTICLES = 80;
 var STEEL_FIRE_PARTICLE_SIZE = 12;
 var WOOD_FIRE_PARTICLE_SIZE = 10;
 var STEEL_FIRE_MAX_LIFE = 120;

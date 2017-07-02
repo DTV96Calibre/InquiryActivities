@@ -12,7 +12,7 @@ function FlammableItem(isMutable) {
 
   /* Other properties */
   this.img;
-  this.isMutable = isMutable;  // True for the item on the right
+  this.isMutable = isMutable; // True for the item on the right
   this.isBurning = false;
   this.pctBurned = 0;
 
@@ -54,6 +54,8 @@ function FlammableItem(isMutable) {
       this.fire.update();
       this.fire.size = this.fireSize * (1 - this.pctBurned);
       this.fire.maxLife = this.fireMaxLife * (1 - this.pctBurned);
+      this.fire.width = this.width * (1 - this.pctBurned);
+      this.fire.originX = this.xOffset + this.height * this.pctBurned;
     }
   }
 
@@ -122,7 +124,8 @@ function FlammableItem(isMutable) {
    */
   this.initFire = function() {
     this.fire = new Fire(this, NUM_FIRE_PARTICLES, this.fireMaxLife,
-      this.fireSize);
+      this.fireSize, this.width);
+    this.fire.updateOrigin();
   }
 
   /*

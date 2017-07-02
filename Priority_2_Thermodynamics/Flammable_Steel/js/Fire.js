@@ -10,8 +10,9 @@
  * @param numParticlesToSpawn: Particles to spawn per frame
  * @param maxLife: The number of frames each particle is active
  * @param size: The radius of the flame particles
+ * @param width: The length in pixels along which particles will spawn
  */
-function Fire(object, numParticlesToSpawn, maxLife, size) {
+function Fire(object, numParticlesToSpawn, maxLife, size, width) {
   this.canvas = canvas;
   this.ctx = ctx;
   this.particles = [];
@@ -20,6 +21,7 @@ function Fire(object, numParticlesToSpawn, maxLife, size) {
   this.maxLife = maxLife; // Higher value => particles disintegrate more slowly
   this.speed = 2;         // Higher value => particles rise faster
   this.size = size;       // Higher value => radius of the particles gets larger
+  this.width = width;     // Higher value => particles spawn in larger area
   this.originX;
   this.originY;
 
@@ -32,7 +34,11 @@ function Fire(object, numParticlesToSpawn, maxLife, size) {
    * by the main (draw()) loop in main.js as long as this fire is active.
    */
   this.update = function() {
-    this.updateOrigin();
+    // The only flame that needs its location updated is the match
+    if (this.object == matchstick) {
+      this.updateOrigin();
+    }
+    
     this.spawnParticles();
 
     // If this fire has an invalid size, it shouldn't be burning any longer
@@ -87,8 +93,9 @@ function Fire(object, numParticlesToSpawn, maxLife, size) {
           verticalSpeed);
       }
       else {
-        var xOffset = (i / this.numParticlesToSpawn) * this.object.width;
-        var yOffset = this.object.height * 0.9 - (i / 10) * (this.object.height / this.numParticlesToSpawn / 2);
+        var xOffset = (i / this.numParticlesToSpawn) * this.width;
+        var yOffset = this.object.height * 0.9 - (i / 10) * 
+          (this.object.height / this.numParticlesToSpawn / 2);
         p = new Particle(this.originX + xOffset, this.originY + yOffset, 
           horizontalSpeed, verticalSpeed);
       }
@@ -118,6 +125,14 @@ function Fire(object, numParticlesToSpawn, maxLife, size) {
 
     // Grab the color that most closely aligns with the age of this particle
     var colorIndex = Math.floor((particle.life / this.maxLife) * this.colors.length);
+
+    if (this.object != matchstick) {
+      // Make particles only burn with a yellow at center for first 20% of life
+      if (colorIndex == 0 && remainingLife < this.maxLife * 0.8) {
+        colorIndex = 1;
+      }
+    }
+
     return this.colors[colorIndex] + alpha + ")"; // Assemble RGBA string
   }
 }
