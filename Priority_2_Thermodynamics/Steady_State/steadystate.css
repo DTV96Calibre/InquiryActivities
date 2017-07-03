@@ -66,6 +66,7 @@ img {
     left: 0% !important;
     top: 22% !important;
     min-width: 17vw !important;
+    position: relative;
   }
 
   .button_box_item {
@@ -203,6 +204,7 @@ img {
   font-size: calc(5px + 0.3vw);
   margin: 2px;
   z-index: 3;
+  position: relative;
 }
 
 .flowRate_item {
