@@ -410,8 +410,8 @@ function placeBeakers() {
 	var leftPct = 0; /* Start at the farthest left corner of the div */
 	for (var beaker = 0; beaker < 5; beaker++) {
 		for (var conc = 0; conc < 6; conc++) {
-			$("beakerSoln" + conc + beaker).hide();
-			$("beakerSoln" + conc + beaker).css({"left": leftPct + "%", "top": "0%"});
+			$("#beakerSoln" + conc + beaker).hide();
+			$("#beakerSoln" + conc + beaker).css({"left": leftPct + "%", "top": "0%"});
 		}
 		$("#beaker" + beaker).css({"left": leftPct + "%", "top": "0%"});
 		$("#beaker" + beaker).show();
