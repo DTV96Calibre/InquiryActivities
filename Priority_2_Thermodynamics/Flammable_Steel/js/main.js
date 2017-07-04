@@ -27,6 +27,7 @@ var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/maste
 var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
 var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
 var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
+var WOODCHIPPER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true";
 
 /************************ Fire config **************************************/
 var NUM_FIRE_PARTICLES = 80;
@@ -93,15 +94,16 @@ function setup() {
 function initConfig() {
   var w = wideAspectRatio;
   config = {
-    itemWidthRatio:         w ? 0.2 : 0.2,     // times windowWidth
-    itemLeftXOffsetRatio:   w ? 0.333 : 0.167, // times windowWidth
-    itemRightXOffsetRatio:  w ? 0.667 : 0.667, // times windowWidth
-    itemYOffsetRatio:       w ? 0.333 : 0.333, // times windowHeight
+    itemWidthRatio:         w ? 0.16 : 0.16,   // times windowWidth
+    itemLeftXOffsetRatio:   w ? 0.38 : 0.167,  // times windowWidth
+    itemRightXOffsetRatio:  w ? 0.65 : 0.667,  // times windowWidth
+    itemYOffsetRatio:       w ? 0.4 : 0.333, // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
     matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 1.5 : 1.5,     // times flammableRight.height
-    panelWidthRatio:        w ? 0.6 : 0.75,     // times windowWidth
+    sliderYOffsetRatio:     w ? 1.6 : 1.5,     // times flammableRight.height
+    panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
+    panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -130,7 +132,8 @@ function initImages() {
     matchstick_up: createImg(MATCH_UP_URL, windowResized),
     matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
     steel_fire: createImg(STEEL_FIRE_URL, windowResized),
-    ash: createImg(ASH_URL, windowResized)
+    ash: createImg(ASH_URL, windowResized),
+    woodchipper: createImg(WOODCHIPPER_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -189,7 +192,7 @@ function draw() {
  */
 function drawPanel() {
   fill(PANEL_COLOR + '1)');
-  var xPos = windowWidth * config['itemLeftXOffsetRatio'] * 0.9;
+  var xPos = windowWidth * config['panelXOffsetRatio'] * 0.9;
   var yPos = windowHeight * config['itemYOffsetRatio'] / 3;
   var width = windowWidth * config['panelWidthRatio'];
   var height = max(windowHeight * 0.6, getSliderVerticalOffset());
