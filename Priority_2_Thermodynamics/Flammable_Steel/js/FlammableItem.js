@@ -90,13 +90,7 @@ function FlammableItem(isMutable) {
     var opacity = this.pctBurned;
     var width = this.width / windowWidth * 100 + "%";
     var xOffset = this.xOffset / windowWidth * 100 + "%";
-    
-    if (overlayImageID == "#steel_fire") {
-      var yOffset = this.yOffset / windowHeight * 100 + "%";
-    } else {
-      // Wood ash needs a common reference point from the yOffset to preserve symmetry
-      var yOffset = flammableLeft.yOffset / windowHeight * 100 + "%";
-    }
+    var yOffset = this.getBurntImageYOffset() / windowHeight * 100 + "%";
     
     $(overlayImageID).css({ 'opacity': opacity });
     $(overlayImageID).css({ 'width': width });
@@ -167,7 +161,7 @@ function FlammableItem(isMutable) {
   }
 
   /* ==================================================================
-                             Setter Functions
+                          Getter & Setter Functions
      ==================================================================
   */
  
@@ -204,6 +198,18 @@ function FlammableItem(isMutable) {
   this.setYOffset = function() {
     // Use max function to prevent image from disappearing offscreen
     this.yOffset = max(windowHeight * config['itemYOffsetRatio'] - this.height / 2,
+     windowHeight * 0.15);
+  }
+
+  /*
+   * Get the ideal vertical offset exclusively for this item's burnt image. This
+   * preserves a common yOffset for the html DOM and p5 image elements
+   * regardless of which item was set on fire.
+   */
+  this.getBurntImageYOffset = function() {
+    var aspectRatio = this.burntImage.elt.width / this.burntImage.elt.height;
+    var height = windowWidth * config['itemWidthRatio'] / aspectRatio;
+    return max(windowHeight * config['itemYOffsetRatio'] - height / 2,
      windowHeight * 0.15);
   }
 }
