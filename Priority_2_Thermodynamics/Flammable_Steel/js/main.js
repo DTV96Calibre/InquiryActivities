@@ -25,6 +25,8 @@ var MATCH_UP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/maste
 var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-down.png?raw=true";
 var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
 var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
+var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
+var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
 
 /************************ Fire config **************************************/
 var NUM_FIRE_PARTICLES = 80;
@@ -126,7 +128,9 @@ function initImages() {
     matchbox: createImg(MATCHBOX_URL, windowResized),
     matchbox_cover: createImg(MATCHBOX_COVER_URL, windowResized),
     matchstick_up: createImg(MATCH_UP_URL, windowResized),
-    matchstick_down: createImg(MATCH_DOWN_URL, windowResized)
+    matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
+    steel_fire: createImg(STEEL_FIRE_URL, windowResized),
+    ash: createImg(ASH_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded

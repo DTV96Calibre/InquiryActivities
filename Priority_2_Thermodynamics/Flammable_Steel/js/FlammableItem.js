@@ -9,12 +9,15 @@
 function FlammableItem(isMutable) {
   /* Constants */
   this.BURNING_RATE = 0.015; // The change in opacity percentage per frame
+  this.NUM_FRAMES_TO_STALL = 5;
 
   /* Other properties */
   this.img;
   this.isMutable = isMutable; // True for the item on the right
   this.isBurning = false;
   this.pctBurned = 0;
+  this.isSwappingBurntImage;
+  this.numFramesStalled;
 
   /* Graphical properties */
   this.width;
@@ -36,9 +39,7 @@ function FlammableItem(isMutable) {
    * Renders this image onscreen.
    */
   this.draw = function() {
-    if (this.pctBurned < 1) {
-      image(this.img, this.xOffset, this.yOffset, this.width, this.height);
-    }
+    image(this.img, this.xOffset, this.yOffset, this.width, this.height);
 
     // Draw this image with a lower opacity if it's currently burning
     if (this.isBurning) {
@@ -57,6 +58,10 @@ function FlammableItem(isMutable) {
       this.fire.width = this.width * (1 - this.pctBurned);
       this.fire.originX = this.xOffset + this.height * this.pctBurned;
     }
+    // Else we may be transitioning the burnt image from the DOM to the p5 canvas
+    else if (this.isSwappingBurntImage) {
+      this.swapBurntImage();
+    }
   }
 
   /*
@@ -68,8 +73,12 @@ function FlammableItem(isMutable) {
     this.pctBurned += this.BURNING_RATE;
     if (this.pctBurned >= 1) {
       this.isBurning = false; // Finished burning
+      this.img = this.burntImage;
+      this.resize();
+      this.isSwappingBurntImage = true;
+    } else {
+      this.updateBurntImage();
     }
-    this.updateBurntImage();
   }
 
   /*
@@ -81,6 +90,7 @@ function FlammableItem(isMutable) {
     var opacity = this.pctBurned;
     var width = this.width / windowWidth * 100 + "%";
     var xOffset = this.xOffset / windowWidth * 100 + "%";
+    
     if (overlayImageID == "#steel_fire") {
       var yOffset = this.yOffset / windowHeight * 100 + "%";
     } else {
@@ -92,6 +102,26 @@ function FlammableItem(isMutable) {
     $(overlayImageID).css({ 'width': width });
     $(overlayImageID).css({ 'left': xOffset });
     $(overlayImageID).css({ 'top': yOffset });
+  }
+
+  /*
+   * Handles the switch between the image of this burnt material on the DOM and
+   * the p5 canvas. The DOM element is necessary at first to adjust the opacity 
+   * of the image while the simulation is running, but later the p5 element is
+   * ideal so the cursor may be drawn on top of the image instead of behind it.
+   */
+  this.swapBurntImage = function() {
+    if (this.numFramesStalled < this.NUM_FRAMES_TO_STALL) {
+      /* Stall a small number of frames to prevent blank space as image loads.
+       * Effectively, both images (DOM element and p5 canvas element) are being
+       * drawn simultaneously for a short period. */
+      this.numFramesStalled += 1;
+    } else {
+      // Done swapping; the DOM img element may be removed now
+      this.isSwappingBurntImage = false;
+      var overlayImageID = this.getBurntImage();
+      $(overlayImageID).css({ 'opacity': 0 });
+    }
   }
 
   /*

@@ -12,6 +12,7 @@ function Steel(isMutable) {
   Steel.prototype = Object.create(FlammableItem.prototype);
 
   this.img = images['steel0']; // Image is initialized to the solid steel ingot
+  this.burntImage = images['steel_fire'];
 
   this.fireSize = STEEL_FIRE_PARTICLE_SIZE;
   this.fireMaxLife = STEEL_FIRE_MAX_LIFE;
@@ -22,7 +23,7 @@ function Steel(isMutable) {
    */
   this.setFire = function() {
     // Steel that is too thick can't catch fire
-    if (this.img == images["steel4"] && holdingMatch && !this.isBurning) {
+    if (this.img == images["steel4"] && holdingMatch && this.pctBurned == 0) {
       this.isBurning = true;
     }
   }
