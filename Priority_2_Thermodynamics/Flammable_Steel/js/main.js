@@ -217,7 +217,7 @@ function windowResized() {
   flammableRight.resize();
   flammableLeft.initFire();
   flammableRight.initFire();
-  slider.position(flammableRight.xOffset, getSliderVerticalOffset());
+  slider.position(getSliderHorizontalOffset(), getSliderVerticalOffset());
   matchbox.resize();
   matchstick.setToOriginPos();
   matchstick.resize();
@@ -268,6 +268,13 @@ function getSliderVerticalOffset() {
   var itemHeight = itemWidth / aspectRatio;
   var itemYOffset = windowHeight * config['itemYOffsetRatio'] - itemHeight / 2;
   return itemYOffset + itemHeight * config['sliderYOffsetRatio'];
+}
+
+/*
+ * Returns the x-offset of the onscreen slider.
+ */
+function getSliderHorizontalOffset() {
+  return flammableRight.xOffset + flammableRight.width * 0.1;
 }
 
 /* ==================================================================
