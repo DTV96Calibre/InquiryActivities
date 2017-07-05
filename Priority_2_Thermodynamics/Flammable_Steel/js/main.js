@@ -1,6 +1,6 @@
 /* File: main.js
  * Dependencies: Fire.js, FlammableItem.js, Steel.js, Match.js, Matchbox.js,
- *               Wood.js
+ *               Wood.js, Machine.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
@@ -45,6 +45,7 @@ var matchstick;
 var matchbox;
 var flammableLeft;
 var flammableRight;
+var machine;
 var images; // The set of p5 image objects
 
 /************************ Simulation variables *****************************/
@@ -72,10 +73,12 @@ function setup() {
   initConfig();
   initImages();
 
-  // Init fire, steel/wood, etc.
+  // Init fire, steel/wood, woodchipper/extruder, etc.
   initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
+  machine = new Machine();
+  machine.init();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
@@ -94,14 +97,15 @@ function setup() {
 function initConfig() {
   var w = wideAspectRatio;
   config = {
-    itemWidthRatio:         w ? 0.16 : 0.16,   // times windowWidth
-    itemLeftXOffsetRatio:   w ? 0.38 : 0.167,  // times windowWidth
-    itemRightXOffsetRatio:  w ? 0.65 : 0.667,  // times windowWidth
-    itemYOffsetRatio:       w ? 0.4 : 0.333, // times windowHeight
+    itemWidthRatio:         w ? 0.14 : 0.14,   // times windowWidth
+    machineWidthRatio:      w ? 0.22 : 0.20,   // times windowWidth
+    itemLeftXOffsetRatio:   w ? 0.40 : 0.167,  // times windowWidth
+    itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
+    itemYOffsetRatio:       w ? 0.5 : 0.333,   // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
     matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 1.6 : 1.5,     // times flammableRight.height
+    sliderYOffsetRatio:     w ? 0.7 : 0.5,         // times windowHeight
     panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
     panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
 
@@ -185,6 +189,7 @@ function draw() {
   matchbox.drawBottom();
   matchstick.draw();
   matchbox.drawCover();
+  machine.draw();
 }
 
 /*
@@ -224,6 +229,7 @@ function windowResized() {
   matchbox.resize();
   matchstick.setToOriginPos();
   matchstick.resize();
+  machine.resize();
 }
 
 /* ==================================================================
@@ -270,7 +276,7 @@ function getSliderVerticalOffset() {
   var aspectRatio = itemRef.elt.width / itemRef.elt.height;
   var itemHeight = itemWidth / aspectRatio;
   var itemYOffset = windowHeight * config['itemYOffsetRatio'] - itemHeight / 2;
-  return itemYOffset + itemHeight * config['sliderYOffsetRatio'];
+  return windowHeight * config['sliderYOffsetRatio'];
 }
 
 /*
@@ -290,14 +296,8 @@ function getSliderHorizontalOffset() {
  * image used to represent the steel/wood on the right.
  */
 function sliderChanged() {
-  var intID = slider.value();
-  var imageID = currentItem + intID;
-  flammableRight.changeImage(imageID);
-
-  // The flammable item image and the burnt image will both reset
-  var overlayImageID = flammableRight.getBurntImage();
-  $(overlayImageID).css({ 'opacity' : 0 });
-  flammableRight.reset();
+  // Start the woodchipper or extruder which 'shreds' the item and updates it
+  machine.start();
 }
 
 /*
