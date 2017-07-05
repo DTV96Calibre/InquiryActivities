@@ -14,6 +14,7 @@ function Machine() {
 
   /* Misc. properties */
   this.imgID = "#woodchipper";
+  this.direction = "left";
   this.opacity;
   this.isActive;
   this.isFadingIn;
@@ -77,6 +78,13 @@ function Machine() {
    * slider.
    */
   this.start = function() {
+    // Set direction of movement to either left or right
+    if (lastSliderValue <= slider.value()) {
+      this.direction = "left";
+    } else {
+      this.direction = "right";
+    }
+    
     this.init(); // Reset
     this.isActive = true;
     this.isFadingIn = true;
@@ -110,9 +118,9 @@ function Machine() {
     if (newPctDistanceMoved <= 1) {
       // Change the item's image if the machine is positioned appropriately
       if (this.pctDistanceMoved < 0.5 && newPctDistanceMoved >= 0.5) {
-        print("changed");
         this.shredItem();
       }
+
       this.pctDistanceMoved = newPctDistanceMoved;
       $(this.imgID).css({ 'left': this.getXOffset() });
     } else {
@@ -153,6 +161,8 @@ function Machine() {
     var overlayImageID = flammableRight.getBurntImage();
     $(overlayImageID).css({ 'opacity' : 0 });
     flammableRight.reset();
+
+    lastSliderValue = intID;
   }
 
   /* ==================================================================
@@ -173,8 +183,16 @@ function Machine() {
    * Gets the horizontal offset of this item.
    */
   this.getXOffset = function() {
-    var raw = windowWidth * config['itemRightXOffsetRatio'] - 
-      this.distanceToMove * this.pctDistanceMoved;
+    var distanceMoved = this.distanceToMove * this.pctDistanceMoved;
+    var raw;
+
+    if (this.direction == "left") {
+      raw = windowWidth * config['itemRightXOffsetRatio'] - distanceMoved;
+    } else {
+      raw = windowWidth * config['itemRightXOffsetRatio'] - flammableRight.width 
+        + distanceMoved;
+    }
+
     var pct = raw / windowWidth * 100;
     return pct + "%";
   }

@@ -51,6 +51,7 @@ var images; // The set of p5 image objects
 /************************ Simulation variables *****************************/
 var initFinished = false;
 var holdingMatch = false;
+var lastSliderValue = 0;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
 var currentItem = "steel";
 var config;
@@ -98,7 +99,7 @@ function initConfig() {
   var w = wideAspectRatio;
   config = {
     itemWidthRatio:         w ? 0.14 : 0.14,   // times windowWidth
-    machineWidthRatio:      w ? 0.22 : 0.20,   // times windowWidth
+    machineWidthRatio:      w ? 0.20 : 0.20,   // times windowWidth
     itemLeftXOffsetRatio:   w ? 0.40 : 0.167,  // times windowWidth
     itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
     itemYOffsetRatio:       w ? 0.5 : 0.333,   // times windowHeight
