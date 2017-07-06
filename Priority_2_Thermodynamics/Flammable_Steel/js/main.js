@@ -94,10 +94,6 @@ function setup() {
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
   slider.changed(sliderChanged); // Add event handler
 
-  // Init info boxes
-  flammableLeft.updateTableData();
-  flammableRight.updateTableData();
-
   initFinished = true;
 
   windowResized();
@@ -175,6 +171,10 @@ function initFlammableItems() {
     flammableLeft = new Wood(false);
     flammableRight = new Wood(true);
   } 
+
+  // Init info boxes
+  flammableLeft.updateTableData();
+  flammableRight.updateTableData();
 }
 
 /* ==================================================================
