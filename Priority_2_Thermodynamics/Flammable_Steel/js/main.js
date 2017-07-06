@@ -34,8 +34,8 @@ var STEEL_DENSITY = 7.8; // Units: g / cm^3
 var WOOD_DENSITY = 0.85; // Units: g / cm^3
 var STEEL_MASS = 100; // Units: g
 var WOOD_MASS = 100; // Units: g
-var STEEL_DIAMETERS = [10, 5, 1, 0.5, 0.25]; // Units: cm
-var NUM_WOOD_PIECES = [1, 4, 16, 64, 512]; // Units: cm
+var STEEL_DIAMETERS = [3, 1.5, 1, 0.5, 0.25]; // Units: cm
+var NUM_WOOD_PIECES = [1, 4, 16, 64, 256]; // Units: cm
 var WOOD_BASE_PIECE_EDGE_LENGTH = 3; // Units: cm
 
 /************************ Fire config **************************************/
