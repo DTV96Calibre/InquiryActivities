@@ -19,6 +19,14 @@ img {
   -ms-user-select: none;
 }
 
+/* Make text unselectable to stop accidental highlighting when dragging match */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /* Buttons */
 
 #switchBtn {
