@@ -226,7 +226,7 @@ function FlammableItem(isMutable) {
 
     // Fill in the data accordingly
     $(idPrefix + "Density").html(this.density);
-    $(idPrefix + "Mass").html(this.mass);
+    $(idPrefix + "Mass").html(this.mass.toFixed(1));
     $(idPrefix + "Volume").html(volume.toFixed(2));
     $(idPrefix + "SurfArea").html(surfArea.toFixed(2));
   }
