@@ -54,6 +54,9 @@ function Steel(isMutable) {
     // Update the image and resize appropriately
     this.img = images[imageID];
     this.resize();
+
+    // Update the table of info since the nature of the material has changed
+    this.updateTableData(); // From FlammableItem parent class
   }
 
   /*
