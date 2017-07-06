@@ -229,5 +229,8 @@ function FlammableItem(isMutable) {
     $(idPrefix + "Mass").html(this.mass.toFixed(1));
     $(idPrefix + "Volume").html(volume.toFixed(2));
     $(idPrefix + "SurfArea").html(surfArea.toFixed(2));
+
+    // Set the title
+    $(idPrefix + "TableTitle").html(this.getDescriptor());
   }
 }

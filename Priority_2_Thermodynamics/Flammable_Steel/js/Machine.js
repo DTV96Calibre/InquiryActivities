@@ -9,10 +9,8 @@
  */
 function Machine() {
   /* Constants */
-  // this.FADE_IN_PCT = 0.02; // 0.01 = 1% opacity per frame
-  // this.MOVE_PCT = 0.01;
-  this.FADE_IN_PCT = 0.5; // 0.01 = 1% opacity per frame
-  this.MOVE_PCT = 0.5;
+  this.FADE_IN_PCT = 0.02; // 0.01 = 1% opacity per frame
+  this.MOVE_PCT = 0.01;
 
   /* Misc. properties */
   this.imgID = "#woodchipper";

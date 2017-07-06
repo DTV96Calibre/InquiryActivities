@@ -16,6 +16,7 @@ function Steel(isMutable) {
   this.radius = STEEL_DIAMETERS[0] / 2; // Units: cm
 
   this.img = images['steel0']; // Image is initialized to the solid steel ingot
+  this.num = 0;
   this.burntImage = images['steel_fire'];
 
   this.fireSize = STEEL_FIRE_PARTICLE_SIZE;
@@ -47,9 +48,8 @@ function Steel(isMutable) {
    * @param imageID: A string used to index into the global var of images
    */
   this.changeImage = function(imageID) {
-    // Update the radius of this steel to be used in calculations
-    var num = imageID.charAt(imageID.length - 1);
-    this.setRadius(int(num));
+    this.num = int(imageID.charAt(imageID.length - 1));
+    this.setRadius();
 
     // Update the image and resize appropriately
     this.img = images[imageID];
@@ -60,12 +60,11 @@ function Steel(isMutable) {
   }
 
   /*
-   * Sets the radius of the steel according to the given index (e.g. 0 is the
+   * Sets the radius of the steel according to the this.num (e.g. 0 is the
    * thickest steel, 4 is the finest).
-   * @param index: An int
    */
-  this.setRadius = function(index) {
-    this.radius = STEEL_DIAMETERS[index] / 2;
+  this.setRadius = function() {
+    this.radius = STEEL_DIAMETERS[this.num] / 2;
   }
 
   /*
@@ -94,5 +93,32 @@ function Steel(isMutable) {
     var height = this.calculateHeight();
     var surfArea = (2 * Math.PI * this.radius) * (height + this.radius);
     return surfArea;
+  }
+
+  /*
+   * Returns a string describing this material (to be displayed as a title
+   * of the table holding mathematical properties for this steel).
+   */
+  this.getDescriptor = function() {
+    var temp;
+    switch(this.num) {
+      case 0:
+        temp = "Ingot";
+        break;
+      case 1:
+        temp = "Beam";
+        break;
+      case 2:
+        temp = "Wool -- Extra Coarse (Grade 4)";
+        break;
+      case 3:
+        temp = "Wool -- Fine (Grade 0)";
+        break;
+      case 4:
+        temp = "Wool -- Super Fine (Grade 0000)";
+        break;
+    }
+
+    return "(Steel) " + temp;
   }
 }

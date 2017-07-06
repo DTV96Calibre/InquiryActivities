@@ -16,6 +16,7 @@ function Wood(isMutable) {
   this.numPieces = NUM_WOOD_PIECES[0];
 
   this.img = images['wood0']; // Image is initialized to the wood log
+  this.num = 0;
   this.burntImage = images['ash'];
 
   this.fireSize = WOOD_FIRE_PARTICLE_SIZE;
@@ -46,9 +47,8 @@ function Wood(isMutable) {
    * @param imageID: A string used to index into the global var of images
    */
   this.changeImage = function(imageID) {
-    // Update the number of pieces of wood to be used in calculations
-    var num = imageID.charAt(imageID.length - 1);
-    this.setNumPieces(int(num));
+    this.num = int(imageID.charAt(imageID.length - 1));
+    this.setNumPieces();
 
     // Update the image and resize appropriately
     this.img = images[imageID];
@@ -61,10 +61,9 @@ function Wood(isMutable) {
   /*
    * Sets the number of pieces of wood according to the given index (e.g. 0
    * corresponds to the log, 4 corresponds to the sawdust).
-   * @param index: An int
    */
-  this.setNumPieces = function(index) {
-    this.numPieces = NUM_WOOD_PIECES[index];
+  this.setNumPieces = function() {
+    this.numPieces = NUM_WOOD_PIECES[this.num];
   }
 
   /*
@@ -105,5 +104,32 @@ function Wood(isMutable) {
    */
   this.calculateSurfArea = function() {
     return this.calculateSurfAreaOne() * this.numPieces;
+  }
+
+  /*
+   * Returns a string describing this material (to be displayed as a title
+   * of the table holding mathematical properties for this wood).
+   */
+  this.getDescriptor = function() {
+    var temp;
+    switch(this.num) {
+      case 0:
+        temp = "Log";
+        break;
+      case 1:
+        temp = "Planks";
+        break;
+      case 2:
+        temp = "Kindling";
+        break;
+      case 3:
+        temp = "Woodchips";
+        break;
+      case 4:
+        temp = "Sawdust";
+        break;
+    }
+
+    return "(Wood) " + temp;
   }
 }
