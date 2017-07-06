@@ -11,6 +11,10 @@ function Steel(isMutable) {
   FlammableItem.call(this, isMutable); // Inherit from FlammableItem parent class
   Steel.prototype = Object.create(FlammableItem.prototype);
 
+  this.mass = STEEL_MASS; // Units: g
+  this.density = STEEL_DENSITY; // Units: g / cm^3
+  this.radius = STEEL_DIAMETERS[0] / 2; // Units: cm
+
   this.img = images['steel0']; // Image is initialized to the solid steel ingot
   this.burntImage = images['steel_fire'];
 
@@ -36,5 +40,56 @@ function Steel(isMutable) {
     this.isBurning = false;
     this.pctBurned = 0;
     this.initFire();
+  }
+
+  /*
+   * Updates the image used to represent this steel.
+   * @param imageID: A string used to index into the global var of images
+   */
+  this.changeImage = function(imageID) {
+    // Update the radius of this steel to be used in calculations
+    var num = imageID.charAt(imageID.length - 1);
+    this.setRadius(int(num));
+
+    // Update the image and resize appropriately
+    this.img = images[imageID];
+    this.resize();
+  }
+
+  /*
+   * Sets the radius of the steel according to the given index (e.g. 0 is the
+   * thickest steel, 4 is the finest).
+   * @param index: An int
+   */
+  this.setRadius = function(index) {
+    this.radius = STEEL_DIAMETERS[index] / 2;
+  }
+
+  /*
+   * Computes and returns the volume of this steel based on its density and 
+   * mass.
+   */
+  this.calculateVolume = function() {
+    return this.mass / this.density;
+  }
+
+  /*
+   * Computes and returns the 'height' of this piece, which is needed for
+   * computing the surface area.
+   */
+  this.calculateHeight = function() {
+    var volume = this.calculateVolume();
+    // Each piece of steel is treated as a cylinder, so use cylinder volume eq.
+    var height = volume / (Math.PI * Math.pow(this.radius, 2));
+    return height;
+  }
+
+  /*
+   * Computes and returns the surface area of this steel.
+   */
+  this.calculateSurfArea = function() {
+    var height = this.calculateHeight();
+    var surfArea = (2 * Math.PI * this.radius) * (height + this.radius);
+    return surfArea;
   }
 }

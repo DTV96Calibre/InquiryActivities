@@ -134,15 +134,6 @@ function FlammableItem(isMutable) {
   }
 
   /*
-   * Updates the image used to represent this flammable item.
-   * @param imageID: A string used to index into the global var of images
-   */
-  this.changeImage = function(imageID) {
-    this.img = images[imageID];
-    this.resize();
-  }
-
-  /*
    * Initializes the fire object that provides a burning 'animation' once this
    * item has been lit on fire.
    */

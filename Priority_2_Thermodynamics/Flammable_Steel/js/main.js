@@ -29,6 +29,15 @@ var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/mas
 var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
 var WOODCHIPPER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true";
 
+/************************ Math constants ***********************************/
+var STEEL_DENSITY = 7.8; // Units: g / cm^3
+var WOOD_DENSITY = 0.85; // Units: g / cm^3
+var STEEL_MASS = 100; // Units: g
+var WOOD_MASS = 100; // Units: g
+var STEEL_DIAMETERS = [10, 5, 1, 0.5, 0.25]; // Units: cm
+var NUM_WOOD_PIECES = [1, 4, 16, 64, 512]; // Units: cm
+var WOOD_BASE_PIECE_EDGE_LENGTH = 3; // Units: cm
+
 /************************ Fire config **************************************/
 var NUM_FIRE_PARTICLES = 80;
 var STEEL_FIRE_PARTICLE_SIZE = 12;
@@ -102,13 +111,15 @@ function initConfig() {
     machineWidthRatio:      w ? 0.20 : 0.20,   // times windowWidth
     itemLeftXOffsetRatio:   w ? 0.40 : 0.167,  // times windowWidth
     itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
-    itemYOffsetRatio:       w ? 0.5 : 0.333,   // times windowHeight
+    itemYOffsetRatio:       w ? 0.37 : 0.333,  // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
     matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 0.7 : 0.5,         // times windowHeight
+    sliderYOffsetRatio:     w ? 0.55 : 0.55,   // times windowHeight
+    panelHeightRatio:       w ? 1.1 : 1.1,     // times sliderYPos
     panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
     panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
+    panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -199,11 +210,32 @@ function draw() {
 function drawPanel() {
   fill(PANEL_COLOR + '1)');
   var xPos = windowWidth * config['panelXOffsetRatio'] * 0.9;
-  var yPos = windowHeight * config['itemYOffsetRatio'] / 3;
+  var yPos = windowHeight * config['panelYOffsetRatio'];
   var width = windowWidth * config['panelWidthRatio'];
-  var height = max(windowHeight * 0.6, getSliderVerticalOffset());
+  var height = getSliderVerticalOffset() * config['panelHeightRatio'];
   var edge = config['panelEdgeRoundness'];
   rect(xPos, yPos, width, height, edge, edge, edge, edge);
+}
+
+/*
+ * Adjusts the position and CSS attributes of the info panels that hold
+ * information about surface area, volume, etc.
+ */
+function resizeInfoBoxes() {
+  var width = config['panelWidthRatio'] * windowWidth / 2;
+  var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
+  var top = (windowHeight * config['panelYOffsetRatio'] + 
+    getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
+  var height = (windowHeight - top) * 0.85;
+
+  $("#leftInfoBox").css({ 'width': width + "px" });
+  $("#rightInfoBox").css({ 'width': width + "px" });
+  $("#leftInfoBox").css({ 'left': left + "px" });
+  $("#rightInfoBox").css({ 'left': left + width + "px" });
+  $("#leftInfoBox").css({ 'top': top + "px" });
+  $("#rightInfoBox").css({ 'top': top + "px" });
+  $("#leftInfoBox").css({ 'height': height + "px" });
+  $("#rightInfoBox").css({ 'height': height + "px" });
 }
 
 /*
@@ -211,6 +243,7 @@ function drawPanel() {
  */
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  resizeInfoBoxes();
 
   // Don't resize objects if they haven't been instantiated yet
   if (!initFinished) return;
@@ -267,16 +300,9 @@ function mouseReleased() {
 }
 
 /*
- * Returns the y-offset of the onscreen slider, which strictly uses the
- * steel ingot image's size for positioning (to prevent the slider from
- * jerking up or down as the user changes the images).
+ * Returns the y-offset of the onscreen slider.
  */
 function getSliderVerticalOffset() {
-  var itemRef = images['steel0'];
-  var itemWidth = windowWidth * config['itemWidthRatio'];
-  var aspectRatio = itemRef.elt.width / itemRef.elt.height;
-  var itemHeight = itemWidth / aspectRatio;
-  var itemYOffset = windowHeight * config['itemYOffsetRatio'] - itemHeight / 2;
   return windowHeight * config['sliderYOffsetRatio'];
 }
 
