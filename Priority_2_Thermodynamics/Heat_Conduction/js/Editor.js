@@ -18,7 +18,7 @@ function Editor()
 
       joints.push(new Joint(100, null, pot.anchorPoint));
 
-      windowResized();
+      //this.windowResized(); TODO: This causes stack call overflow
       //demo1();
       print("offset:", 700 - pot.pos.x);
     }
@@ -32,10 +32,6 @@ function Editor()
       //print(cos(0.7853981633974483 + HALF_PI));
     }
 
-    this.keyPressed = function() {
-        // switch the scene
-        this.sceneManager.showScene( Game );
-    }
     this.mouseClicked = function() {
       var radius = diameterSlider.value();
       insertJoint(mouseX, pot.anchorPoint.y, radius);

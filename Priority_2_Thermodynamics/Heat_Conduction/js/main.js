@@ -14,3 +14,18 @@ function setup() {
 function draw() {
   mgr.draw();
 }
+
+function mousePressed(){
+  mgr.mousePressed();
+}
+
+/* TODO: Functionality needs library implementation
+*/
+function mouseClicked(){
+  mgr.scene.oScene.mouseClicked();
+}
+/* TODO: Functionality needs library implementation
+*/
+function windowResized(){
+  mgr.scene.oScene.windowResized();
+}
