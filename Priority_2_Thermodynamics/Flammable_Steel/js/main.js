@@ -1,6 +1,6 @@
 /* File: main.js
  * Dependencies: Fire.js, FlammableItem.js, Steel.js, Match.js, Matchbox.js,
- *               Wood.js
+ *               Wood.js, Machine.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
@@ -27,6 +27,16 @@ var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/maste
 var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
 var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
 var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
+var WOODCHIPPER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true";
+
+/************************ Math constants ***********************************/
+var STEEL_DENSITY = 7.8; // Units: g / cm^3
+var WOOD_DENSITY = 0.85; // Units: g / cm^3
+var STEEL_MASS = 100; // Units: g
+var WOOD_MASS = 100; // Units: g
+var STEEL_DIAMETERS = [3, 1.5, 1, 0.5, 0.25]; // Units: cm
+var NUM_WOOD_PIECES = [1, 4, 16, 64, 256]; // Units: cm
+var WOOD_BASE_PIECE_EDGE_LENGTH = 3; // Units: cm
 
 /************************ Fire config **************************************/
 var NUM_FIRE_PARTICLES = 80;
@@ -44,11 +54,13 @@ var matchstick;
 var matchbox;
 var flammableLeft;
 var flammableRight;
+var machine;
 var images; // The set of p5 image objects
 
 /************************ Simulation variables *****************************/
 var initFinished = false;
 var holdingMatch = false;
+var lastSliderValue = 0;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
 var currentItem = "steel";
 var config;
@@ -71,10 +83,12 @@ function setup() {
   initConfig();
   initImages();
 
-  // Init fire, steel/wood, etc.
+  // Init fire, steel/wood, woodchipper/extruder, etc.
   initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
+  machine = new Machine();
+  machine.init();
 
   // Init slider
   slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
@@ -93,15 +107,19 @@ function setup() {
 function initConfig() {
   var w = wideAspectRatio;
   config = {
-    itemWidthRatio:         w ? 0.2 : 0.2,     // times windowWidth
-    itemLeftXOffsetRatio:   w ? 0.333 : 0.167, // times windowWidth
-    itemRightXOffsetRatio:  w ? 0.667 : 0.667, // times windowWidth
-    itemYOffsetRatio:       w ? 0.333 : 0.333, // times windowHeight
+    itemWidthRatio:         w ? 0.14 : 0.14,   // times windowWidth
+    machineWidthRatio:      w ? 0.20 : 0.20,   // times windowWidth
+    itemLeftXOffsetRatio:   w ? 0.40 : 0.167,  // times windowWidth
+    itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
+    itemYOffsetRatio:       w ? 0.37 : 0.333,  // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
     matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 1.5 : 1.5,     // times flammableRight.height
-    panelWidthRatio:        w ? 0.6 : 0.75,     // times windowWidth
+    sliderYOffsetRatio:     w ? 0.55 : 0.55,   // times windowHeight
+    panelHeightRatio:       w ? 1.1 : 1.1,     // times sliderYPos
+    panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
+    panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
+    panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -130,7 +148,8 @@ function initImages() {
     matchstick_up: createImg(MATCH_UP_URL, windowResized),
     matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
     steel_fire: createImg(STEEL_FIRE_URL, windowResized),
-    ash: createImg(ASH_URL, windowResized)
+    ash: createImg(ASH_URL, windowResized),
+    woodchipper: createImg(WOODCHIPPER_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -152,6 +171,10 @@ function initFlammableItems() {
     flammableLeft = new Wood(false);
     flammableRight = new Wood(true);
   } 
+
+  // Init info boxes
+  flammableLeft.updateTableData();
+  flammableRight.updateTableData();
 }
 
 /* ==================================================================
@@ -182,6 +205,7 @@ function draw() {
   matchbox.drawBottom();
   matchstick.draw();
   matchbox.drawCover();
+  machine.draw();
 }
 
 /*
@@ -189,12 +213,33 @@ function draw() {
  */
 function drawPanel() {
   fill(PANEL_COLOR + '1)');
-  var xPos = windowWidth * config['itemLeftXOffsetRatio'] * 0.9;
-  var yPos = windowHeight * config['itemYOffsetRatio'] / 3;
+  var xPos = windowWidth * config['panelXOffsetRatio'] * 0.9;
+  var yPos = windowHeight * config['panelYOffsetRatio'];
   var width = windowWidth * config['panelWidthRatio'];
-  var height = max(windowHeight * 0.6, getSliderVerticalOffset());
+  var height = getSliderVerticalOffset() * config['panelHeightRatio'];
   var edge = config['panelEdgeRoundness'];
   rect(xPos, yPos, width, height, edge, edge, edge, edge);
+}
+
+/*
+ * Adjusts the position and CSS attributes of the info panels that hold
+ * information about surface area, volume, etc.
+ */
+function resizeInfoBoxes() {
+  var width = config['panelWidthRatio'] * windowWidth / 2;
+  var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
+  var top = (windowHeight * config['panelYOffsetRatio'] + 
+    getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
+  var height = (windowHeight - top) * 0.85;
+
+  $("#leftInfoBox").css({ 'width': width + "px" });
+  $("#rightInfoBox").css({ 'width': width + "px" });
+  $("#leftInfoBox").css({ 'left': left + "px" });
+  $("#rightInfoBox").css({ 'left': left + width + "px" });
+  $("#leftInfoBox").css({ 'top': top + "px" });
+  $("#rightInfoBox").css({ 'top': top + "px" });
+  $("#leftInfoBox").css({ 'height': height + "px" });
+  $("#rightInfoBox").css({ 'height': height + "px" });
 }
 
 /*
@@ -202,6 +247,7 @@ function drawPanel() {
  */
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  resizeInfoBoxes();
 
   // Don't resize objects if they haven't been instantiated yet
   if (!initFinished) return;
@@ -221,6 +267,7 @@ function windowResized() {
   matchbox.resize();
   matchstick.setToOriginPos();
   matchstick.resize();
+  machine.resize();
 }
 
 /* ==================================================================
@@ -257,17 +304,10 @@ function mouseReleased() {
 }
 
 /*
- * Returns the y-offset of the onscreen slider, which strictly uses the
- * steel ingot image's size for positioning (to prevent the slider from
- * jerking up or down as the user changes the images).
+ * Returns the y-offset of the onscreen slider.
  */
 function getSliderVerticalOffset() {
-  var itemRef = images['steel0'];
-  var itemWidth = windowWidth * config['itemWidthRatio'];
-  var aspectRatio = itemRef.elt.width / itemRef.elt.height;
-  var itemHeight = itemWidth / aspectRatio;
-  var itemYOffset = windowHeight * config['itemYOffsetRatio'] - itemHeight / 2;
-  return itemYOffset + itemHeight * config['sliderYOffsetRatio'];
+  return windowHeight * config['sliderYOffsetRatio'];
 }
 
 /*
@@ -287,14 +327,8 @@ function getSliderHorizontalOffset() {
  * image used to represent the steel/wood on the right.
  */
 function sliderChanged() {
-  var intID = slider.value();
-  var imageID = currentItem + intID;
-  flammableRight.changeImage(imageID);
-
-  // The flammable item image and the burnt image will both reset
-  var overlayImageID = flammableRight.getBurntImage();
-  $(overlayImageID).css({ 'opacity' : 0 });
-  flammableRight.reset();
+  // Start the woodchipper or extruder which 'shreds' the item and updates it
+  machine.start();
 }
 
 /*

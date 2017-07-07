@@ -19,6 +19,14 @@ img {
   -ms-user-select: none;
 }
 
+/* Make text unselectable to stop accidental highlighting when dragging match */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /* Buttons */
 
 #switchBtn {
@@ -33,7 +41,7 @@ img {
 
 input[type=range] {
   -webkit-appearance: none;
-  width: 16%;
+  width: 13%;
   margin: 13.8px 0;
 }
 
@@ -61,4 +69,24 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -14px;
+}
+
+/* Info panel */
+
+.info {
+  position: absolute;
+}
+
+.panel-default > .panel-heading-custom {
+  background-image: none;
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.table-custom > tbody > tr > td, .table-custom > tbody > tr > th {
+    padding: 1%;
+}
+
+.col-md-3 {
+  position: absolute;
 }

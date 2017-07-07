@@ -82,43 +82,6 @@ function FlammableItem(isMutable) {
   }
 
   /*
-   * Configures the image from the DOM that will be rendered once this item 
-   * is burning.
-   */
-  this.updateBurntImage = function() {
-    var overlayImageID = this.getBurntImage();
-    var opacity = this.pctBurned;
-    var width = this.width / windowWidth * 100 + "%";
-    var xOffset = this.xOffset / windowWidth * 100 + "%";
-    var yOffset = this.getBurntImageYOffset() / windowHeight * 100 + "%";
-    
-    $(overlayImageID).css({ 'opacity': opacity });
-    $(overlayImageID).css({ 'width': width });
-    $(overlayImageID).css({ 'left': xOffset });
-    $(overlayImageID).css({ 'top': yOffset });
-  }
-
-  /*
-   * Handles the switch between the image of this burnt material on the DOM and
-   * the p5 canvas. The DOM element is necessary at first to adjust the opacity 
-   * of the image while the simulation is running, but later the p5 element is
-   * ideal so the cursor may be drawn on top of the image instead of behind it.
-   */
-  this.swapBurntImage = function() {
-    if (this.numFramesStalled < this.NUM_FRAMES_TO_STALL) {
-      /* Stall a small number of frames to prevent blank space as image loads.
-       * Effectively, both images (DOM element and p5 canvas element) are being
-       * drawn simultaneously for a short period. */
-      this.numFramesStalled += 1;
-    } else {
-      // Done swapping; the DOM img element may be removed now
-      this.isSwappingBurntImage = false;
-      var overlayImageID = this.getBurntImage();
-      $(overlayImageID).css({ 'opacity': 0 });
-    }
-  }
-
-  /*
    * Returns the image from the DOM that will be rendered once this item
    * is burning.
    */
@@ -131,15 +94,6 @@ function FlammableItem(isMutable) {
       }
       return "#ash_left";
     }
-  }
-
-  /*
-   * Updates the image used to represent this flammable item.
-   * @param imageID: A string used to index into the global var of images
-   */
-  this.changeImage = function(imageID) {
-    this.img = images[imageID];
-    this.resize();
   }
 
   /*
@@ -211,5 +165,72 @@ function FlammableItem(isMutable) {
     var height = windowWidth * config['itemWidthRatio'] / aspectRatio;
     return max(windowHeight * config['itemYOffsetRatio'] - height / 2,
      windowHeight * 0.15);
+  }
+
+  /* ==================================================================
+                         Interacting with the DOM
+     ==================================================================
+  */
+ 
+  /*
+   * Configures the image from the DOM that will be rendered once this item 
+   * is burning.
+   */
+  this.updateBurntImage = function() {
+    var overlayImageID = this.getBurntImage();
+    var opacity = this.pctBurned;
+    var width = this.width / windowWidth * 100 + "%";
+    var xOffset = this.xOffset / windowWidth * 100 + "%";
+    var yOffset = this.getBurntImageYOffset() / windowHeight * 100 + "%";
+    
+    $(overlayImageID).css({ 'opacity': opacity });
+    $(overlayImageID).css({ 'width': width });
+    $(overlayImageID).css({ 'left': xOffset });
+    $(overlayImageID).css({ 'top': yOffset });
+  }
+
+  /*
+   * Handles the switch between the image of this burnt material on the DOM and
+   * the p5 canvas. The DOM element is necessary at first to adjust the opacity 
+   * of the image while the simulation is running, but later the p5 element is
+   * ideal so the cursor may be drawn on top of the image instead of behind it.
+   */
+  this.swapBurntImage = function() {
+    if (this.numFramesStalled < this.NUM_FRAMES_TO_STALL) {
+      /* Stall a small number of frames to prevent blank space as image loads.
+       * Effectively, both images (DOM element and p5 canvas element) are being
+       * drawn simultaneously for a short period. */
+      this.numFramesStalled += 1;
+    } else {
+      // Done swapping; the DOM img element may be removed now
+      this.isSwappingBurntImage = false;
+      var overlayImageID = this.getBurntImage();
+      $(overlayImageID).css({ 'opacity': 0 });
+    }
+  }
+
+  /*
+   * Fills the table data with the properties of this material.
+   */
+  this.updateTableData = function() {
+    // Retrieve the prefix to the ID of the element
+    var idPrefix;
+    if (this.isMutable) {
+      idPrefix = "#right";
+    } else {
+      idPrefix = "#left";
+    }
+
+    var volume = this.calculateVolume();
+    var surfArea = this.calculateSurfArea();
+
+    // Fill in the data accordingly
+    $(idPrefix + "Density").html(this.density);
+    $(idPrefix + "Mass").html(this.mass.toFixed(1));
+    $(idPrefix + "Volume").html(volume.toFixed(2));
+    $(idPrefix + "SurfArea").html(surfArea.toFixed(2));
+
+    // Set the title
+    $(idPrefix + "TableTitle").html(this.getDescriptor());
   }
 }

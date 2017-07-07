@@ -33,13 +33,13 @@
 
     <!-- Local dependencies -->
     <link href="steel.css" type="text/css" rel="stylesheet" />
-    <script src="js/util.js"></script>
     <script src="js/Fire.js"></script>
     <script src="js/Matchbox.js"></script>
     <script src="js/Match.js"></script>
     <script src="js/FlammableItem.js"></script>
     <script src="js/Steel.js"></script>
     <script src="js/Wood.js"></script>
+    <script src="js/Machine.js"></script>
     <script src="js/main.js"></script>
   </head>
 
@@ -47,6 +47,109 @@
     <img id="ash_left" src="https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true">
     <img id="ash_right" src="https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true">
     <img id="steel_fire" src="https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true">
+    <img id="woodchipper" src="https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true">
+
+    <!-- Table of info about immutable material -->
+    <div class="col-md-3">
+      <div id="leftInfoBox" class="panel panel-default info">
+        <div class="panel-heading panel-heading-custom">
+          <h3 id="leftTableTitle" class="panel-title">(Steel) Ingot</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-custom">
+            <tbody>
+              <tr>
+                <!-- Entry -->
+                <td>Density</td>
+                <td>
+                  <span id="leftDensity">?</span>
+                </td>
+                <!-- Units -->
+                <td>g/cm<sup>3</sup></td>
+              </tr> 
+              <tr>
+                <!-- Entry -->
+                <td>Mass</td>
+                <td>
+                  <span id="leftMass">?</span>
+                </td>
+                <!-- Units -->
+                <td>g</td>
+              </tr> 
+              <tr>
+                <!-- Entry -->
+                <td>Volume</td>
+                <td>
+                  <span id="leftVolume">?</span>
+                </td>
+                <!-- Units -->
+                <td>cm<sup>3</sup></td>
+              </tr>
+              <tr>
+                <!-- Entry -->
+                <td>Surface Area</td>
+                <td>
+                  <span id="leftSurfArea">?</span>
+                </td>
+                <!-- Units -->
+                <td>cm<sup>2</sup></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of info about mutable material -->
+    <div class="col-md-3">
+      <div id="rightInfoBox" class="panel panel-default info">
+        <div class="panel-heading panel-heading-custom">
+          <h3 id="rightTableTitle" class="panel-title">(Steel) Ingot</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-custom">
+            <tbody>
+              <tr>
+                <!-- Entry -->
+                <td>Density</td>
+                <td>
+                  <span id="rightDensity">?</span>
+                </td>
+                <!-- Units -->
+                <td>g/cm<sup>3</sup></td>
+              </tr> 
+              <tr>
+                <!-- Entry -->
+                <td>Mass</td>
+                <td>
+                  <span id="rightMass">?</span>
+                </td>
+                <!-- Units -->
+                <td>g</td>
+              </tr> 
+              <tr>
+                <!-- Entry -->
+                <td>Volume</td>
+                <td>
+                  <span id="rightVolume">?</span>
+                </td>
+                <!-- Units -->
+                <td>cm<sup>3</sup></td>
+              </tr>
+              <tr>
+                <!-- Entry -->
+                <td>Surface Area</td>
+                <td>
+                  <span id="rightSurfArea">?</span>
+                </td>
+                <!-- Units -->
+                <td>cm<sup>2</sup></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
     <!-- Button to switch between wood and steel -->
     <a href="javascript:" id="switchBtn" class="btn btn-default btn-lg">Toggle Wood</a>
