@@ -348,6 +348,7 @@ function switchFlammableItem() {
   windowResized();
   hideBurntImages();
   slider.value(0); // Reset slider to default
+  lastSliderValue = 0;
 }
 
 /*
