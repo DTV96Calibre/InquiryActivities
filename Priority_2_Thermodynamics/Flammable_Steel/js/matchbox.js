@@ -15,7 +15,6 @@ function Matchbox() {
   this.height;
   this.xOffset;
   this.yOffset;
-  this.padding; // Length of margin to draw away from the lefthand corner
 
 	/*
    * Sets the graphical properties of this matchbox based on the window size.
@@ -25,9 +24,8 @@ function Matchbox() {
      * config['matchboxHeightRatio'];
     var aspectRatio = this.img_bottom.elt.width / this.img_bottom.elt.height;
     this.width = this.height * aspectRatio;
-    this.padding = windowWidth * config['matchboxPaddingRatio'];
-    this.xOffset = this.padding;
-    this.yOffset = windowHeight - this.height - this.padding;
+    this.xOffset = windowWidth * config['panelXOffsetRatio'] / 2 - 3 * this.width / 4;
+    this.yOffset = windowHeight * (1 - config['matchboxYPaddingRatio']) - this.height;
   }
 
   /*

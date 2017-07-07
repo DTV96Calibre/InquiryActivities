@@ -65,6 +65,14 @@ var wideAspectRatio; // Often true for desktop layouts and false for mobile
 var currentItem = "wood";
 var config;
 
+// For enabling web transitions on pop-up help tooltip
+var helpBoxPopUp;
+var helpBtn;
+var infoBoxPopUp;
+var infoBtn;
+var helpBtnActive = false;
+var infoBtnActive = false;
+
 /* ==================================================================
                         Initialization Functions
    ==================================================================
@@ -113,13 +121,14 @@ function initConfig() {
     itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
     itemYOffsetRatio:       w ? 0.37 : 0.333,  // times windowHeight
     matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
-    matchboxPaddingRatio:   w ? 0.05 : 0.05,   // times windowWidth
+    matchboxYPaddingRatio:  w ? 0.04 : 0.04,   // times windowWidth
     matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
     sliderYOffsetRatio:     w ? 0.55 : 0.55,   // times windowHeight
     panelHeightRatio:       w ? 1.1 : 1.1,     // times sliderYPos
     panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
     panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
     panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
+    buttonPadding:          w ? 0.002 : 0.002, // times windowWidth
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -379,16 +388,61 @@ function resizeInfoBoxes() {
  * Adjust the buttons embedded in the HTML so they align with the matchbox.
  */
 function resizeButtons() {
+  var padding = windowWidth * config['buttonPadding'];
   var width = matchbox.width;
   var xOffset = matchbox.xOffset;
   $("#switchBtn").css({ 'left': xOffset + "px" });
-  $("#switchBtn").css({ 'width': width + "px" });
+  $("#switchBtn").css({ 'width': width + 2 * padding + "px" });
   $("#resetBtn").css({ 'left': xOffset + "px" });
-  $("#resetBtn").css({ 'width': width / 2 + "px" });
+  $("#resetBtn").css({ 'width': width / 3 + "px" });
+  $("#helpBtn").css({ 'left': xOffset + width / 3 + padding + "px" });
+  $("#helpBtn").css({ 'width': width / 3 + "px" });
+  $("#infoBtn").css({ 'left': xOffset + 2 * width / 3 + 2 * padding + "px" });
+  $("#infoBtn").css({ 'width': width / 3 + "px" });
+}
+
+/*
+ * Called when the user presses the help button.
+ */
+function toggleHelp() {
+  if (infoBtnActive) {
+    // Make info box disappear to make room for help box
+    infoBoxPopUp.classList.toggle("appear");
+    infoBtnActive = false;
+  }
+  helpBoxPopUp.classList.toggle("appear");
+  helpBtnActive = !helpBtnActive;
+}
+
+/*
+ * Called when the user presses the info button.
+ */
+function toggleInfo() {
+  if (helpBtnActive) {
+    // Make help box disappear to make room for info box
+    helpBoxPopUp.classList.toggle("appear");
+    helpBtnActive = false;
+  }
+  infoBoxPopUp.classList.toggle("appear");
+  infoBtnActive = !infoBtnActive;
 }
 
 $(document).ready(function() {
-  // Register event handlers
+  // Register event listeners
   $("#switchBtn").on('click', switchFlammableItem);
   $("#resetBtn").on('click', initFlammableItems);
+
+  // For enabling web transitions on pop-up help tooltip
+  helpBoxPopUp = document.getElementById('help-box');
+  helpBtn = document.getElementById('helpBtn');
+  helpBtn.addEventListener("click", function(){
+    toggleHelp();
+  }, false);
+
+  // For enabling web transitions on pop-up info tooltip
+  infoBoxPopUp = document.getElementById('info-box');
+  infoBtn = document.getElementById('infoBtn');
+  infoBtn.addEventListener("click", function(){
+    toggleInfo();
+  }, false);
 });

@@ -31,16 +31,20 @@ body {
 
 .btn {
   position: absolute;
-  font-size: calc(5px + 0.6vw);
+  font-size: calc(5px + 0.5vw);
   z-index: 2;
 }
 
-#switchBtn {
-  top: 20%;
+.glyphicon {
+  font-size: 1.5em;
 }
 
-#resetBtn {
-  top: 25%;
+#switchBtn {
+  top: 6.5%;
+}
+
+#resetBtn, #helpBtn, #infoBtn {
+  top: 11.5%;
 }
 
 /* Slider appearance */
@@ -95,4 +99,33 @@ input[type=range]::-webkit-slider-thumb {
 
 .col-md-3 {
   position: absolute;
+}
+
+/* Transition animations when toggling the help and info boxes */
+
+#help-box, #info-box {
+  position: absolute;
+  padding: 10px;
+  left: 2%;
+  width: 25%;
+  top: 20%;
+  visibility: hidden;
+  font-size: calc(5px + 0.5vw);
+  z-index: 2;
+  opacity: 0;
+          transition: 0.6s;
+  -webkit-transition: 0.6s;
+          transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+#help-box.appear, #info-box.appear{
+  visibility: visible;
+  opacity: 0.9;
+          transform: translateX(0);
+  -webkit-transform: translateX(0);
+}
+
+.padding {
+  line-height: 8px;
 }
