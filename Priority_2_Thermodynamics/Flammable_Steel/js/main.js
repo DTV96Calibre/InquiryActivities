@@ -62,7 +62,7 @@ var initFinished = false;
 var holdingMatch = false;
 var lastSliderValue = 0;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
-var currentItem = "steel";
+var currentItem = "wood";
 var config;
 
 /* ==================================================================
