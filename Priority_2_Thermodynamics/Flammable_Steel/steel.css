@@ -29,12 +29,18 @@ body {
 
 /* Buttons */
 
-#switchBtn {
+.btn {
   position: absolute;
-  top: 20%;
-  left: 7%;
   font-size: calc(5px + 0.6vw);
   z-index: 2;
+}
+
+#switchBtn {
+  top: 20%;
+}
+
+#resetBtn {
+  top: 25%;
 }
 
 /* Slider appearance */

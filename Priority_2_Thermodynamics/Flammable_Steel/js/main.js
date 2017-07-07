@@ -83,16 +83,16 @@ function setup() {
   initConfig();
   initImages();
 
+  // Init slider
+  slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
+  slider.changed(sliderChanged); // Add event handler
+
   // Init fire, steel/wood, woodchipper/extruder, etc.
   initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
   machine = new Machine();
   machine.init();
-
-  // Init slider
-  slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
-  slider.changed(sliderChanged); // Add event handler
 
   initFinished = true;
 
@@ -170,11 +170,17 @@ function initFlammableItems() {
   else if (currentItem == "wood") {
     flammableLeft = new Wood(false);
     flammableRight = new Wood(true);
-  } 
+  }
+
+  // Set graphical properties
+  flammableLeft.resize();
+  flammableRight.resize();
 
   // Init info boxes
   flammableLeft.updateTableData();
   flammableRight.updateTableData();
+
+  resetSlider();
 }
 
 /* ==================================================================
@@ -222,32 +228,10 @@ function drawPanel() {
 }
 
 /*
- * Adjusts the position and CSS attributes of the info panels that hold
- * information about surface area, volume, etc.
- */
-function resizeInfoBoxes() {
-  var width = config['panelWidthRatio'] * windowWidth / 2;
-  var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
-  var top = (windowHeight * config['panelYOffsetRatio'] + 
-    getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
-  var height = (windowHeight - top) * 0.85;
-
-  $("#leftInfoBox").css({ 'width': width + "px" });
-  $("#rightInfoBox").css({ 'width': width + "px" });
-  $("#leftInfoBox").css({ 'left': left + "px" });
-  $("#rightInfoBox").css({ 'left': left + width + "px" });
-  $("#leftInfoBox").css({ 'top': top + "px" });
-  $("#rightInfoBox").css({ 'top': top + "px" });
-  $("#leftInfoBox").css({ 'height': height + "px" });
-  $("#rightInfoBox").css({ 'height': height + "px" });
-}
-
-/*
  * Built-in p5 function; called whenever the browser is resized.
  */
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  resizeInfoBoxes();
 
   // Don't resize objects if they haven't been instantiated yet
   if (!initFinished) return;
@@ -268,6 +252,10 @@ function windowResized() {
   matchstick.setToOriginPos();
   matchstick.resize();
   machine.resize();
+
+  // Update elements from the DOM
+  resizeInfoBoxes();
+  resizeButtons();
 }
 
 /* ==================================================================
@@ -347,7 +335,13 @@ function switchFlammableItem() {
   initFlammableItems();
   windowResized();
   hideBurntImages();
-  slider.value(0); // Reset slider to default
+}
+
+/*
+ * Resets the slider to its default value.
+ */
+function resetSlider() {
+  slider.value(0);
   lastSliderValue = 0;
 }
 
@@ -360,7 +354,41 @@ function hideBurntImages() {
   $("#ash_left").css({ 'opacity': 0 });
 }
 
+/*
+ * Adjusts the position and CSS attributes of the info panels that hold
+ * information about surface area, volume, etc.
+ */
+function resizeInfoBoxes() {
+  var width = config['panelWidthRatio'] * windowWidth / 2;
+  var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
+  var top = (windowHeight * config['panelYOffsetRatio'] + 
+    getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
+  var height = (windowHeight - top) * 0.85;
+
+  $("#leftInfoBox").css({ 'width': width + "px" });
+  $("#rightInfoBox").css({ 'width': width + "px" });
+  $("#leftInfoBox").css({ 'left': left + "px" });
+  $("#rightInfoBox").css({ 'left': left + width + "px" });
+  $("#leftInfoBox").css({ 'top': top + "px" });
+  $("#rightInfoBox").css({ 'top': top + "px" });
+  $("#leftInfoBox").css({ 'height': height + "px" });
+  $("#rightInfoBox").css({ 'height': height + "px" });
+}
+
+/*
+ * Adjust the buttons embedded in the HTML so they align with the matchbox.
+ */
+function resizeButtons() {
+  var width = matchbox.width;
+  var xOffset = matchbox.xOffset;
+  $("#switchBtn").css({ 'left': xOffset + "px" });
+  $("#switchBtn").css({ 'width': width + "px" });
+  $("#resetBtn").css({ 'left': xOffset + "px" });
+  $("#resetBtn").css({ 'width': width / 2 + "px" });
+}
+
 $(document).ready(function() {
   // Register event handlers
   $("#switchBtn").on('click', switchFlammableItem);
+  $("#resetBtn").on('click', initFlammableItems);
 });
