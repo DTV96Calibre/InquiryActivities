@@ -315,6 +315,18 @@ function getSliderHorizontalOffset() {
  * image used to represent the steel/wood on the right.
  */
 function sliderChanged() {
+  // Prevent the material from changing if it's been burnt
+  if (flammableRight.img == flammableRight.burntImage) {
+    var machineType = (currentItem == "wood") ? "woodchipper" : "extruder";
+    var burntItemType = (currentItem == "wood") ? "ash" : "burnt steel wool";
+    var msg = "Cannot send " + burntItemType + " through the " + machineType +
+     ". Please press the Reset button to revert the " + currentItem + 
+      " back to its original state first."
+    alert(msg);
+    $("#slider").val(lastSliderValue);
+    return;
+  }
+
   currSliderValue = $("#slider").val();
 
   // Start the woodchipper or extruder which 'shreds' the item and updates it
