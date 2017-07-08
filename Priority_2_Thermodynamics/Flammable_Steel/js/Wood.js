@@ -19,16 +19,15 @@ function Wood(isMutable) {
   this.num = 0;
   this.burntImage = images['ash'];
 
-  this.fireSize = WOOD_FIRE_PARTICLE_SIZE;
-  this.fireMaxLife = WOOD_FIRE_MAX_LIFE;
-  this.fire;
-
   /*
    * Sets this wood on fire, which updates its appearance.
    */
   this.setFire = function() {
     if (holdingMatch && this.pctBurned == 0) {
       this.isBurning = true;
+      this.burningRate = this.getBurningRate();
+      this.setFireProperties();
+      this.initFire();
     }
   }
 

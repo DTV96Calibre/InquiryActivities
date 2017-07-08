@@ -19,10 +19,6 @@ function Steel(isMutable) {
   this.num = 0;
   this.burntImage = images['steel_fire'];
 
-  this.fireSize = STEEL_FIRE_PARTICLE_SIZE;
-  this.fireMaxLife = STEEL_FIRE_MAX_LIFE;
-  this.fire;
-
   /*
    * Sets this steel on fire, which updates its appearance.
    */
@@ -30,6 +26,8 @@ function Steel(isMutable) {
     // Steel that is too thick can't catch fire
     if (this.img == images["steel4"] && holdingMatch && this.pctBurned == 0) {
       this.isBurning = true;
+      this.burningRate = this.getBurningRate();
+      this.setFireProperties();
     }
   }
 

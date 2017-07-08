@@ -8,7 +8,6 @@
  */
 function FlammableItem(isMutable) {
   /* Constants */
-  this.BURNING_RATE = 0.015; // The change in opacity percentage per frame
   this.NUM_FRAMES_TO_STALL = 5;
 
   /* Other properties */
@@ -18,6 +17,12 @@ function FlammableItem(isMutable) {
   this.pctBurned = 0;
   this.isSwappingBurntImage;
   this.numFramesStalled;
+
+  this.burningRate; // The change in opacity percentage per frame
+  this.numFireParticles;
+  this.fireSize;
+  this.fireMaxLife;
+  this.fire;
 
   /* Graphical properties */
   this.width;
@@ -56,7 +61,7 @@ function FlammableItem(isMutable) {
       this.fire.size = this.fireSize * (1 - this.pctBurned);
       this.fire.maxLife = this.fireMaxLife * (1 - this.pctBurned);
       this.fire.width = this.width * (1 - this.pctBurned);
-      this.fire.originX = this.xOffset + this.height * this.pctBurned;
+      this.fire.originX = this.xOffset + this.width / 2 - this.fire.width / 2;
     }
     // Else we may be transitioning the burnt image from the DOM to the p5 canvas
     else if (this.isSwappingBurntImage) {
@@ -70,7 +75,16 @@ function FlammableItem(isMutable) {
    * or into burnt wool for steel).
    */
   this.update = function() {
-    this.pctBurned += this.BURNING_RATE;
+    this.pctBurned += this.burningRate;
+
+    // Stop burning animation of log prematurely
+    if (this.img == images['wood0']) {
+      if (this.pctBurned > 0.005 && !(holdingMatch && this.cursorIsOver())) {
+        this.pctBurned = 0;
+        this.isBurning = false;
+      }
+    }
+
     if (this.pctBurned >= 1) {
       this.isBurning = false; // Finished burning
       this.img = this.burntImage;
@@ -101,7 +115,7 @@ function FlammableItem(isMutable) {
    * item has been lit on fire.
    */
   this.initFire = function() {
-    this.fire = new Fire(this, NUM_FIRE_PARTICLES, this.fireMaxLife,
+    this.fire = new Fire(this, this.numFireParticles, this.fireMaxLife,
       this.fireSize, this.width);
     this.fire.updateOrigin();
   }
@@ -113,6 +127,47 @@ function FlammableItem(isMutable) {
     return (mouseX > this.xOffset && mouseX < this.xOffset + this.width
          && mouseY > this.yOffset && mouseY < this.yOffset + this.height);
   }
+
+  /* ==================================================================
+                         Mathematical Functions
+     ==================================================================
+  */
+
+  /*
+   * Returns the rate at which this item will burn. Note that this returns a
+   * non-negative and non-zero number regardless of whether the item can
+   * actually burn (e.g. a steel ingot won't burn but will still have a 
+   * burning rate).
+   */
+  this.getBurningRate = function() {
+    var totalBurnTime = BURNING_RATE_COEFFICIENT / this.calculateSurfArea();
+    var numFramesToBurn = totalBurnTime * FRAME_RATE;
+    return 1 / numFramesToBurn;
+  }
+
+  /* Sets the properties of this item's flame (only active while the item 
+   * is burning) according to the speed at which this item will burn. Slower
+   * burning times will yield fewer, smaller flame particles and faster
+   * burning times will yield a more explosive flame.
+   */
+  this.setFireProperties = function() {
+    if (this.img == images['wood0']) {
+      this.numFireParticles = 8;
+      this.fireSize = 3;
+      this.fireMaxLife = 40;
+    }
+    else if (this.img == images['wood1']) {
+      this.numFireParticles = 24;
+      this.fireSize = 5;
+      this.fireMaxLife = 60;
+    }
+    else if (this.img == images['wood2']) {
+      this.numFireParticles = 30;
+      this.fireSize = 5;
+      this.fireMaxLife = 80;
+    }
+  }
+
 
   /* ==================================================================
                           Getter & Setter Functions
@@ -221,13 +276,11 @@ function FlammableItem(isMutable) {
       idPrefix = "#left";
     }
 
-    var volume = this.calculateVolume();
     var surfArea = this.calculateSurfArea();
 
     // Fill in the data accordingly
     $(idPrefix + "Density").html(this.density);
     $(idPrefix + "Mass").html(this.mass.toFixed(1));
-    $(idPrefix + "Volume").html(volume.toFixed(2));
     $(idPrefix + "SurfArea").html(surfArea.toFixed(2));
 
     // Set the title
