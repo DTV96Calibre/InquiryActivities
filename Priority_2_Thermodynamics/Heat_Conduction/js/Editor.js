@@ -19,8 +19,6 @@ function Editor()
 
       joints.push(new Joint(100, null, pot.anchorPoint));
 
-      debugger;
-
       // Tell sceneManager setup is finished before resizing canvas
       this.sceneManager.scene.setupExecuted = true;
       this.windowResized(); //NOTE: Requires setupExecuted override above to prevent infinite recursion

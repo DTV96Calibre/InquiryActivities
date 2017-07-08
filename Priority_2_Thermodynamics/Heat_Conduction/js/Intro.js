@@ -11,8 +11,8 @@ function Intro()
       fill(50);
       text(s, 10, 10, 400, 600); // Text wraps within text box
     }
-    this.mousePressed = function() {
-        print("mouse pressed");
+    this.mouseClicked = function() {
+        print("mouse clicked");
         this.sceneManager.showNextScene();
     }
 }
