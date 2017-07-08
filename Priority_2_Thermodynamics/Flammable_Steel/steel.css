@@ -27,6 +27,14 @@ body {
   user-select: none;
 }
 
+/* Prevent dragging the screen around on mobile */
+.lock-screen {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+}
+
 /* Buttons */
 
 .btn {
