@@ -20,19 +20,6 @@ function Steel(isMutable) {
   this.burntImage = images['steel_fire'];
 
   /*
-   * Sets this steel on fire, which updates its appearance.
-   */
-  this.setFire = function() {
-    // Steel that is too thick can't catch fire
-    if (this.img == images["steel4"] && holdingMatch && this.pctBurned == 0) {
-      this.isBurning = true;
-      this.burningRate = this.getBurningRate();
-      this.setFireProperties();
-      this.initFire();
-    }
-  }
-
-  /*
    * Resets the properties that control the burning crossfade animation to
    * default.
    */

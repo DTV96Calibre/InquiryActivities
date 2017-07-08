@@ -201,7 +201,7 @@ function draw() {
   if (flammableRight.cursorIsOver()) {
     flammableRight.setFire();
   }
-  else if (currentItem == "wood" && flammableLeft.cursorIsOver()) {
+  else if (flammableLeft.cursorIsOver()) {
     flammableLeft.setFire();
   }
 

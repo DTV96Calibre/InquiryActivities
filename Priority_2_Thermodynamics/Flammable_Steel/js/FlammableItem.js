@@ -48,7 +48,7 @@ function FlammableItem(isMutable) {
 
     // Draw this image with a lower opacity if it's currently burning
     if (this.isBurning) {
-      var alpha = this.pctBurned;
+      var alpha = this.getAlphaLevel();
       noStroke();
       fill(PANEL_COLOR + alpha + ')');
       rect(this.xOffset, this.yOffset, this.width, this.height);
@@ -77,9 +77,9 @@ function FlammableItem(isMutable) {
   this.update = function() {
     this.pctBurned += this.burningRate;
 
-    // Stop burning animation of log prematurely
-    if (this.img == images['wood0']) {
-      if (this.pctBurned > 0.005 && !(holdingMatch && this.cursorIsOver())) {
+    // Stop burning animation of log or steel prematurely
+    if (this.img == images['wood0'] || (currentItem == "steel" && this.img != images['steel4'])) {
+      if (!(holdingMatch && this.cursorIsOver())) {
         this.pctBurned = 0;
         this.isBurning = false;
       }
@@ -128,6 +128,20 @@ function FlammableItem(isMutable) {
          && mouseY > this.yOffset && mouseY < this.yOffset + this.height);
   }
 
+  /*
+   * Sets this material on fire, which updates its appearance. Note that some
+   * materials (most steel and the wooden log) won't sustain a flame from the
+   * match.
+   */
+  this.setFire = function() {
+    if (holdingMatch && this.pctBurned == 0) {
+      this.isBurning = true;
+      this.burningRate = this.getBurningRate();
+      this.setFireProperties();
+      this.initFire();
+    }
+  }
+
   /* ==================================================================
                          Mathematical Functions
      ==================================================================
@@ -157,14 +171,14 @@ function FlammableItem(isMutable) {
       this.fireMaxLife = 40;
     }
     else if (this.img == images['wood1']) { // Planks
-      this.numFireParticles = 20;
+      this.numFireParticles = 25;
       this.fireSize = 5;
       this.fireMaxLife = 30;
     }
     else if (this.img == images['wood2']) { // Kindling
       this.numFireParticles = 35;
-      this.fireSize = 6;
-      this.fireMaxLife = 50;
+      this.fireSize = 5;
+      this.fireMaxLife = 45;
     }
     else if (this.img == images['wood3']) { // Woodchips
       this.numFireParticles = 40;
@@ -173,13 +187,18 @@ function FlammableItem(isMutable) {
     }
     else if (this.img == images['wood4']) { // Sawdust
       this.numFireParticles = 65;
-      this.fireSize = 12;
+      this.fireSize = 10;
       this.fireMaxLife = 120;
     }
     else if (this.img == images['steel4']) { // Grade 0000 wool
       this.numFireParticles = 50;
       this.fireSize = 8;
-      this.fireMaxLife = 60;
+      this.fireMaxLife = 50;
+    }
+    else {
+      this.numFireParticles = 0;
+      this.fireSize = 0;
+      this.fireMaxLife = 0;
     }
   }
 
@@ -237,6 +256,21 @@ function FlammableItem(isMutable) {
      windowHeight * 0.15);
   }
 
+  /*
+   * Get the alpha level for the opaque layer to be drawn over the image of
+   * this item to provide a 'fading out' effect. Some items aren't burnable
+   * and therefore should never fade, so the alpha level for the overlay of
+   * these items is always 0.
+   */
+  this.getAlphaLevel = function() {
+    if (this.img == images['wood0'] ||
+        (currentItem == "steel" && this.img != images['steel4'])) 
+      return 0;
+
+    // Otherwise, alpha level is proportional to the percent that has burned away
+    return this.pctBurned;
+  }
+
   /* ==================================================================
                          Interacting with the DOM
      ==================================================================
@@ -247,6 +281,10 @@ function FlammableItem(isMutable) {
    * is burning.
    */
   this.updateBurntImage = function() {
+    // Don't fade in the burnt image if this material isn't burnable by the match
+    if (this.img == images['wood0'] || (currentItem == "steel" && 
+      this.img != images['steel4'])) return;
+
     var overlayImageID = this.getBurntImage();
     var opacity = this.pctBurned;
     var width = this.width / windowWidth * 100 + "%";
