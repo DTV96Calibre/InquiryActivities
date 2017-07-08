@@ -35,8 +35,7 @@ function Machine() {
     this.pctDistanceMoved = 0;
     this.resize();
 
-    // Re-enable button to toggle between wood/steel
-    $("#switchBtn").removeAttr('disabled');
+    enableInput(); // Make sure all onscreen elements are clickable
   }
 
   /*
@@ -82,7 +81,7 @@ function Machine() {
    */
   this.start = function() {
     // Set direction of movement to either left or right
-    if (lastSliderValue <= slider.value()) {
+    if (lastSliderValue <= currSliderValue) {
       this.direction = "left";
     } else {
       this.direction = "right";
@@ -154,7 +153,7 @@ function Machine() {
    */
   this.shredItem = function() {
     // Change the image
-    var intID = slider.value();
+    var intID = currSliderValue;
     var imageID = currentItem + intID;
     flammableRight.changeImage(imageID);
 

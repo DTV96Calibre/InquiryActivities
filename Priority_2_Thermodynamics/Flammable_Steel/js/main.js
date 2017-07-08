@@ -42,7 +42,6 @@ var BURNING_RATE_COEFFICIENT = 40000;
 /************************ Onscreen elements ********************************/
 var canvas;
 var ctx;
-var slider;
 var fire;
 var matchstick;
 var matchbox;
@@ -54,6 +53,7 @@ var images; // The set of p5 image objects
 /************************ Simulation variables *****************************/
 var initFinished = false;
 var holdingMatch = false;
+var currSliderValue = 0;
 var lastSliderValue = 0;
 var wideAspectRatio; // Often true for desktop layouts and false for mobile
 var currentItem = "wood";
@@ -84,10 +84,6 @@ function setup() {
   wideAspectRatio = hasWideAspectRatio();
   initConfig();
   initImages();
-
-  // Init slider
-  slider = createSlider(0, 4, 0); // Range: 0 to 4, default value is 0
-  slider.changed(sliderChanged); // Add event handler
 
   // Init fire, steel/wood, woodchipper/extruder, etc.
   machine = new Machine();
@@ -251,13 +247,13 @@ function windowResized() {
   flammableRight.resize();
   flammableLeft.initFire();
   flammableRight.initFire();
-  slider.position(getSliderHorizontalOffset(), getSliderVerticalOffset());
   matchbox.resize();
   matchstick.setToOriginPos();
   matchstick.resize();
   machine.resize();
 
   // Update elements from the DOM
+  resizeSlider();
   resizeInfoBoxes();
   resizeButtons();
 }
@@ -319,10 +315,13 @@ function getSliderHorizontalOffset() {
  * image used to represent the steel/wood on the right.
  */
 function sliderChanged() {
+  currSliderValue = $("#slider").val();
+
   // Start the woodchipper or extruder which 'shreds' the item and updates it
   machine.start();
-  // Prevent user from toggling wood/steel while machine is active
-  $('#switchBtn').attr('disabled','disabled');
+
+  // Prevent the user from clicking certain elements until animation finishes
+  disableInput();
 }
 
 /*
@@ -347,8 +346,9 @@ function switchFlammableItem() {
  * Resets the slider to its default value.
  */
 function resetSlider() {
-  slider.value(0);
+  $('#slider').val(0);
   lastSliderValue = 0;
+  currSliderValue = 0;
 }
 
 /*
@@ -358,6 +358,16 @@ function hideBurntImages() {
   $("#steel_fire").css({ 'opacity': 0 });
   $("#ash_right").css({ 'opacity': 0 });
   $("#ash_left").css({ 'opacity': 0 });
+}
+
+/*
+ * Adjusts the position of the slider.
+ */
+function resizeSlider() {
+  var left = getSliderHorizontalOffset();
+  var top = getSliderVerticalOffset();
+  $("#slider").css({ 'left': left + "px" });
+  $("#slider").css({ 'top': top + "px" });
 }
 
 /*
@@ -424,10 +434,28 @@ function toggleInfo() {
   infoBtnActive = !infoBtnActive;
 }
 
+/*
+ * Disables the toggle wood/steel button and the slider in order to force
+ * the user to wait until an event has finished.
+ */
+function disableInput() {
+  $('#switchBtn').attr('disabled','disabled');
+  document.getElementById("slider").disabled = true;
+}
+
+/*
+ * Re-enables the toggle wood/steel button and the slider.
+ */
+function enableInput() {
+  $("#switchBtn").removeAttr('disabled');
+  document.getElementById("slider").disabled = false;
+}
+
 $(document).ready(function() {
   // Register event listeners
   $("#switchBtn").on('click', switchFlammableItem);
   $("#resetBtn").on('click', initFlammableItems);
+  $("#slider").on('change', sliderChanged);
 
   // For enabling web transitions on pop-up help tooltip
   helpBoxPopUp = document.getElementById('help-box');

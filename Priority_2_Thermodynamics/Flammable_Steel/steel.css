@@ -52,6 +52,10 @@ a[disabled] { pointer-events: none; }
 
 /* Slider appearance */
 
+#slider {
+  position: absolute;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   width: 13%;
