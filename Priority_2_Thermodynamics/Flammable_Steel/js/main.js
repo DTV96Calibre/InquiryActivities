@@ -180,6 +180,7 @@ function initFlammableItems() {
   flammableLeft.updateTableData();
   flammableRight.updateTableData();
 
+  hideImages();
   machine.init();
   resetSlider();
 }
@@ -356,7 +357,6 @@ function switchFlammableItem() {
 
   initFlammableItems();
   windowResized();
-  hideBurntImages();
 }
 
 /*
@@ -423,6 +423,15 @@ function resizeButtons() {
   $("#helpBtn").css({ 'width': width / 3 + "px" });
   $("#infoBtn").css({ 'left': xOffset + 2 * width / 3 + 2 * padding + "px" });
   $("#infoBtn").css({ 'width': width / 3 + "px" });
+}
+
+/*
+ * Makes sure that all of the images in the DOM have an opacity of 0.
+ */
+function hideImages() {
+  $('#ash_left').css({'opacity' : 0});
+  $('#ash_right').css({'opacity' : 0});
+  $('#steel_fire').css({'opacity' : 0});
 }
 
 /*
