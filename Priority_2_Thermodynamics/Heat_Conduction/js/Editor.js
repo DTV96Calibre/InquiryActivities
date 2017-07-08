@@ -9,6 +9,7 @@ function Editor()
     this.enter = function() {
       print("Entered editor");
     }
+
     this.setup = function() {
       diameterSlider = createSlider(10, 100, 50);
 
@@ -18,7 +19,11 @@ function Editor()
 
       joints.push(new Joint(100, null, pot.anchorPoint));
 
-      //this.windowResized(); TODO: This causes stack call overflow
+      debugger;
+
+      // Tell sceneManager setup is finished before resizing canvas
+      this.sceneManager.scene.setupExecuted = true;
+      this.windowResized(); //NOTE: Requires setupExecuted override above to prevent infinite recursion
       //demo1();
       print("offset:", 700 - pot.pos.x);
     }
@@ -32,11 +37,6 @@ function Editor()
       //print(cos(0.7853981633974483 + HALF_PI));
     }
 
-    this.mouseClicked = function() {
-      var radius = diameterSlider.value();
-      insertJoint(mouseX, pot.anchorPoint.y, radius);
-      print(joints);
-    }
     this.windowResized = function() {
       var HEIGHT_OF_SLIDER = 25;
       //diameterSlider.style('height', '25');
@@ -44,6 +44,13 @@ function Editor()
       resizeCanvas(windowWidth, windowHeight-HEIGHT_OF_SLIDER);
       print("Resized canvas");
     }
+
+    this.mouseClicked = function() {
+      var radius = diameterSlider.value();
+      insertJoint(mouseX, pot.anchorPoint.y, radius);
+      print(joints);
+    }
+
 }
 
 function demo1() {
