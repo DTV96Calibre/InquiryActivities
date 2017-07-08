@@ -34,6 +34,9 @@ function Machine() {
     this.isFadingOut = false;
     this.pctDistanceMoved = 0;
     this.resize();
+
+    // Re-enable button to toggle between wood/steel
+    $("#switchBtn").removeAttr('disabled');
   }
 
   /*
@@ -140,10 +143,8 @@ function Machine() {
       this.opacity = newOpacity;
       $(this.imgID).css({ 'opacity': this.opacity });
     } else {
-      this.opacity = 0;
       $(this.imgID).css({ 'opacity': 0 });
-      this.isFadingOut = false;
-      this.isActive = false;
+      this.init();
     }
   }
 

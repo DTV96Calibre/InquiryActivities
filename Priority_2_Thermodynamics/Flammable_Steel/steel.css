@@ -47,6 +47,9 @@ body {
   top: 11.5%;
 }
 
+/* Prevent clicking on buttons while they're disabled */
+a[disabled] { pointer-events: none; }
+
 /* Slider appearance */
 
 input[type=range] {

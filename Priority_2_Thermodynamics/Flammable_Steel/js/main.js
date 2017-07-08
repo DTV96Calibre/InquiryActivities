@@ -90,10 +90,10 @@ function setup() {
   slider.changed(sliderChanged); // Add event handler
 
   // Init fire, steel/wood, woodchipper/extruder, etc.
+  machine = new Machine();
   initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
-  machine = new Machine();
   machine.init();
 
   initFinished = true;
@@ -183,6 +183,7 @@ function initFlammableItems() {
   flammableLeft.updateTableData();
   flammableRight.updateTableData();
 
+  machine.init();
   resetSlider();
 }
 
@@ -320,6 +321,8 @@ function getSliderHorizontalOffset() {
 function sliderChanged() {
   // Start the woodchipper or extruder which 'shreds' the item and updates it
   machine.start();
+  // Prevent user from toggling wood/steel while machine is active
+  $('#switchBtn').attr('disabled','disabled');
 }
 
 /*
