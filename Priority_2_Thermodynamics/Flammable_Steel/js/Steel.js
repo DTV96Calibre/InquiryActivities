@@ -28,6 +28,7 @@ function Steel(isMutable) {
       this.isBurning = true;
       this.burningRate = this.getBurningRate();
       this.setFireProperties();
+      this.initFire();
     }
   }
 

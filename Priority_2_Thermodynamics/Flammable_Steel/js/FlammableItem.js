@@ -151,20 +151,35 @@ function FlammableItem(isMutable) {
    * burning times will yield a more explosive flame.
    */
   this.setFireProperties = function() {
-    if (this.img == images['wood0']) {
+    if (this.img == images['wood0']) { // Log
       this.numFireParticles = 8;
       this.fireSize = 3;
       this.fireMaxLife = 40;
     }
-    else if (this.img == images['wood1']) {
-      this.numFireParticles = 24;
+    else if (this.img == images['wood1']) { // Planks
+      this.numFireParticles = 20;
       this.fireSize = 5;
+      this.fireMaxLife = 30;
+    }
+    else if (this.img == images['wood2']) { // Kindling
+      this.numFireParticles = 35;
+      this.fireSize = 6;
+      this.fireMaxLife = 50;
+    }
+    else if (this.img == images['wood3']) { // Woodchips
+      this.numFireParticles = 40;
+      this.fireSize = 6;
       this.fireMaxLife = 60;
     }
-    else if (this.img == images['wood2']) {
-      this.numFireParticles = 30;
-      this.fireSize = 5;
-      this.fireMaxLife = 80;
+    else if (this.img == images['wood4']) { // Sawdust
+      this.numFireParticles = 65;
+      this.fireSize = 12;
+      this.fireMaxLife = 120;
+    }
+    else if (this.img == images['steel4']) { // Grade 0000 wool
+      this.numFireParticles = 50;
+      this.fireSize = 8;
+      this.fireMaxLife = 60;
     }
   }
 
