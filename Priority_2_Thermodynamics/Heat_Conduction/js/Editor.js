@@ -24,8 +24,8 @@ function Editor()
     }
 
     this.draw = function() {
+      //background(86, 47, 14);
       clear();
-      //print("drawing");
       fill(51);
       joints[0].draw();
       pot.draw();
