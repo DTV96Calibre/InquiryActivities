@@ -49,10 +49,17 @@ function Fire(object, numParticlesToSpawn, maxLife, size, width) {
       this.ctx.fillStyle = this.getParticleColor(i);
       this.ctx.beginPath();
 
+      // Properties for drawing an arc
+      var xPos = this.particles[i].x;
+      var yPos = this.particles[i].y;
+      var radius = (this.maxLife - this.particles[i].life) / this.maxLife * 
+        (this.size / 2) + (this.size / 2);
+
+      // Prevent crashes when fed negative values
+      if (radius < 0) return;
+
       // Draw the particle as an ellipse that gradually shrinks as it ages
-      this.ctx.arc(this.particles[i].x, this.particles[i].y, 
-        (this.maxLife - this.particles[i].life) / this.maxLife * (this.size / 2) +
-        (this.size / 2), 0, 2 * Math.PI);
+      this.ctx.arc(xPos, yPos, radius, 0, 2 * Math.PI);
       this.ctx.fill();
       
       // Move the particle based on its horizontal and vertical speeds

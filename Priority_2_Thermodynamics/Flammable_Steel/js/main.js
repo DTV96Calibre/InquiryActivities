@@ -37,7 +37,8 @@ var WOOD_MASS = 100; // Units: g
 var STEEL_DIAMETERS = [1, 0.5, 0.01, 0.005, 0.0025]; // Units: cm
 var NUM_WOOD_PIECES = [1, 4, 16, 64, 256]; // Units: cm
 var WOOD_BASE_PIECE_EDGE_LENGTH = 3; // Units: cm
-var BURNING_RATE_COEFFICIENT = 40000;
+var BURNING_RATE_COEFFICIENT = 20000;
+var BURN_TIME_SCALE_FACTOR = 31.57; // To scale simulation time with 'real' time
 
 /************************ Onscreen elements ********************************/
 var canvas;
@@ -340,6 +341,7 @@ function sliderChanged() {
  * Called whenever the user clicks the button to switch between wood and steel.
  */
 function switchFlammableItem() {
+  // Swap out one item for another
   if (currentItem == "steel") {
     currentItem = "wood";
     $("#switchBtn").text('Toggle Steel');
@@ -348,6 +350,9 @@ function switchFlammableItem() {
     currentItem = "steel";
     $("#switchBtn").text('Toggle Wood');
   }
+
+  // The burn time for the steel ingot and wooden log aren't equivalent
+  flammableLeft.resetBurnTime();
 
   initFlammableItems();
   windowResized();

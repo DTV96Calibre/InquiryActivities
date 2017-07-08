@@ -13,6 +13,7 @@ function FlammableItem(isMutable) {
   /* Other properties */
   this.img;
   this.isMutable = isMutable; // True for the item on the right
+  this.position = isMutable ? "right" : "left";
   this.isBurning = false;
   this.pctBurned = 0;
   this.isSwappingBurntImage;
@@ -82,11 +83,13 @@ function FlammableItem(isMutable) {
       if (!(holdingMatch && this.cursorIsOver())) {
         this.pctBurned = 0;
         this.isBurning = false;
+        this.setBurnTime();
       }
     }
 
     if (this.pctBurned >= 1) {
       this.isBurning = false; // Finished burning
+      this.setBurnTime();
       this.img = this.burntImage;
       this.resize();
       this.isSwappingBurntImage = true;
@@ -146,6 +149,13 @@ function FlammableItem(isMutable) {
                          Mathematical Functions
      ==================================================================
   */
+ 
+  /*
+   * Returns the total time this item will take to burn (in seconds).
+   */
+  this.getTotalBurnTime = function() {
+    return BURNING_RATE_COEFFICIENT / this.calculateSurfArea();
+  }
 
   /*
    * Returns the rate at which this item will burn. Note that this returns a
@@ -154,7 +164,7 @@ function FlammableItem(isMutable) {
    * burning rate).
    */
   this.getBurningRate = function() {
-    var totalBurnTime = BURNING_RATE_COEFFICIENT / this.calculateSurfArea();
+    var totalBurnTime = this.getTotalBurnTime();
     var numFramesToBurn = totalBurnTime * FRAME_RATE;
     return 1 / numFramesToBurn;
   }
@@ -201,7 +211,6 @@ function FlammableItem(isMutable) {
       this.fireMaxLife = 0;
     }
   }
-
 
   /* ==================================================================
                           Getter & Setter Functions
@@ -322,12 +331,7 @@ function FlammableItem(isMutable) {
    */
   this.updateTableData = function() {
     // Retrieve the prefix to the ID of the element
-    var idPrefix;
-    if (this.isMutable) {
-      idPrefix = "#right";
-    } else {
-      idPrefix = "#left";
-    }
+    var idPrefix = "#" + this.position;
 
     var surfArea = this.calculateSurfArea();
 
@@ -336,7 +340,52 @@ function FlammableItem(isMutable) {
     $(idPrefix + "Mass").html(this.mass.toFixed(1));
     $(idPrefix + "SurfArea").html(surfArea.toFixed(2));
 
+    // Don't reset the burn time on the left item
+    if (this.isMutable) {
+      this.resetBurnTime();
+    }
+
     // Set the title
     $(idPrefix + "TableTitle").html(this.getDescriptor());
+  }
+
+  /*
+   * Sets the table data for this item's time taken to burn to a question mark.
+   */
+  this.resetBurnTime = function() {
+    var idPrefix = "#" + this.position;
+    $(idPrefix + "BurnTime").html('?');
+    $(idPrefix + "BurnTimeUnits").html('');
+  }
+
+  /*
+   * Fills in the total burn time of this material.
+   * @param totalBurnTime: A string to display in the table entry
+   */
+  this.setBurnTime = function() {
+    // Retrieve the prefix to the ID of the element
+    var idPrefix = "#" + this.position;
+
+    // If this item isn't flammable, don't set a value for its burn time
+    if (currentItem == "steel" && this.img != images['steel4']) {
+      $(idPrefix + "BurnTime").html("N/A");
+      return;
+    }
+
+    var totalBurnTime = this.getTotalBurnTime() * BURN_TIME_SCALE_FACTOR;
+    var units = "seconds";
+
+    // Update the units if necessary
+    if (totalBurnTime > 3600) {
+      totalBurnTime /= 3600;
+      units = "hours";
+    }
+    else if (totalBurnTime > 60) {
+      totalBurnTime /= 60;
+      units = "minutes";
+    }
+
+    $(idPrefix + "BurnTime").html(totalBurnTime.toFixed(2));
+    $(idPrefix + "BurnTimeUnits").html(units);
   }
 }
