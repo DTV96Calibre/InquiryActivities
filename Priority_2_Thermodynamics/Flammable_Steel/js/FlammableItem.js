@@ -99,21 +99,6 @@ function FlammableItem(isMutable) {
   }
 
   /*
-   * Returns the image from the DOM that will be rendered once this item
-   * is burning.
-   */
-  this.getBurntImage = function() {
-    if (currentItem == 'steel') {
-      return "#steel_fire";
-    } else if (currentItem == 'wood') {
-      if (this.isMutable) {
-        return "#ash_right";
-      }
-      return "#ash_left";
-    }
-  }
-
-  /*
    * Initializes the fire object that provides a burning 'animation' once this
    * item has been lit on fire.
    */
@@ -284,6 +269,21 @@ function FlammableItem(isMutable) {
                          Interacting with the DOM
      ==================================================================
   */
+ 
+  /*
+   * Returns the image from the DOM that will be rendered once this item
+   * is burning.
+   */
+  this.getBurntImage = function() {
+    if (currentItem == 'steel') {
+      return "#steel_fire";
+    } else if (currentItem == 'wood') {
+      if (this.isMutable) {
+        return "#ash_right";
+      }
+      return "#ash_left";
+    }
+  }
  
   /*
    * Configures the image from the DOM that will be rendered once this item 
