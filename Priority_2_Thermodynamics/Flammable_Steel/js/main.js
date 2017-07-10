@@ -243,6 +243,10 @@ function windowResized() {
   if (hasWideAspectRatio() != wideAspectRatio) {
     wideAspectRatio = !wideAspectRatio;
     initConfig();
+
+    if (!wideAspectRatio) {
+      hideTooltips();
+    }
   }
 
   // Update variables that scale with screen size
@@ -553,6 +557,21 @@ function toggleInfoMobile() {
     "Bucknell University Department of Chemical Engineering at " +
     "mvigeant@bucknell.edu.";
   alert(text);
+}
+
+/*
+ * Ensures that the help/info tooltips are both hidden. Prevents issues when the
+ * user toggles a tooltip and resizes the window to take on the mobile layout.
+ */
+function hideTooltips() {
+  if (helpBtnActive) {
+    helpBoxPopUp.classList.toggle("appear");
+    helpBtnActive = false;
+  }
+  else if (infoBtnActive) {
+    infoBoxPopUp.classList.toggle("appear");
+    infoBtnActive = false;
+  }
 }
 
 /*
