@@ -111,13 +111,14 @@ function initConfig() {
     itemLeftXOffsetRatio:   w ? 0.400 : 0.120, // times windowWidth
     itemRightXOffsetRatio:  w ? 0.670 : 0.570, // times windowWidth
     itemYOffsetRatio:       w ? 0.370 : 0.150, // times windowHeight
-    matchboxHeightRatio:    w ? 1.200 : 1.200, // times matchstick.height
+    matchHeightRatio:       w ? 0.800 : 0.800, // times matchbox.height
+    matchboxXOffsetRatio:   w ? 1.000 : 0.050, // times windowWidth
     matchboxYPaddingRatio:  w ? 0.040 : 0.040, // times windowWidth
-    matchHeightRatio:       w ? 0.250 : 0.150, // times windowHeight
+    matchboxHeightRatio:    w ? 0.250 : 0.150, // times windowHeight
     sliderYOffsetRatio:     w ? 0.550 : 0.350, // times windowHeight
     panelHeightRatio:       w ? 1.100 : 1.100, // times sliderYPos
     panelWidthRatio:        w ? 0.600 : 0.900, // times windowWidth
-    panelXOffsetRatio:      w ? 0.333 : 0.050, // times windowWidth
+    panelXOffsetRatio:      w ? 0.300 : 0.050, // times windowWidth
     panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
     infoBoxHeightRatio:     w ? 0.850 : 0.500, // times windowHeight - panelHeight
     buttonPadding:          w ? 0.002 : 0.002, // times windowWidth
@@ -222,7 +223,7 @@ function draw() {
  */
 function drawPanel() {
   fill(PANEL_COLOR + '1)');
-  var xPos = windowWidth * config['panelXOffsetRatio'] * 0.9;
+  var xPos = windowWidth * config['panelXOffsetRatio'];
   var yPos = windowHeight * config['panelYOffsetRatio'];
   var width = windowWidth * config['panelWidthRatio'];
   var height = getSliderVerticalOffset() * config['panelHeightRatio'];
@@ -313,6 +314,17 @@ function getSliderHorizontalOffset() {
   return flammableRight.xOffset + flammableRight.width * 0.1;
 }
 
+/*
+ * Returns the distance in pixels from the top of the window to the lower
+ * boundary of the table containing the objects' properties.
+ */
+function getTableLowerBoundary() {
+  var tableTopYPos = (windowHeight * config['panelYOffsetRatio'] + 
+    getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
+  var tableHeight = $("#leftInfoBox").height();
+  return tableTopYPos + tableHeight;
+}
+
 /* ==================================================================
               Interfacing with the DOM / Event Handlers
    ==================================================================
@@ -401,7 +413,7 @@ function resizeSlider() {
  */
 function resizeInfoBoxes() {
   var width = config['panelWidthRatio'] * windowWidth / 2;
-  var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
+  var left = config['panelXOffsetRatio'] * windowWidth;
   var top = (windowHeight * config['panelYOffsetRatio'] + 
     getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
 
