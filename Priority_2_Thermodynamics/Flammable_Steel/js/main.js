@@ -114,14 +114,13 @@ function initConfig() {
     matchHeightRatio:       w ? 0.800 : 0.800, // times matchbox.height
     matchboxXOffsetRatio:   w ? 1.000 : 0.050, // times windowWidth
     matchboxYPaddingRatio:  w ? 0.040 : 0.040, // times windowWidth
-    matchboxHeightRatio:    w ? 0.250 : 0.150, // times windowHeight
+    matchboxHeightRatio:    w ? 0.270 : 0.150, // times windowHeight
     sliderYOffsetRatio:     w ? 0.550 : 0.350, // times windowHeight
     panelHeightRatio:       w ? 1.100 : 1.100, // times sliderYPos
     panelWidthRatio:        w ? 0.600 : 0.900, // times windowWidth
     panelXOffsetRatio:      w ? 0.300 : 0.050, // times windowWidth
     panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
     infoBoxHeightRatio:     w ? 0.850 : 0.500, // times windowHeight - panelHeight
-    buttonPadding:          w ? 0.002 : 0.002, // times windowWidth
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -325,6 +324,15 @@ function getTableLowerBoundary() {
   return tableTopYPos + tableHeight;
 }
 
+/*
+ * Returns the distance in pixels from the left of the window to the 
+ * rightmost boundary of the div holding the buttons.
+ */
+function getButtonRightBoundary() {
+  var buttonXOffset = windowWidth * config['panelXOffsetRatio'];
+  return buttonXOffset + $('#switchBtn').width();
+}
+
 /* ==================================================================
               Interfacing with the DOM / Event Handlers
    ==================================================================
@@ -429,17 +437,19 @@ function resizeInfoBoxes() {
  * Adjust the buttons embedded in the HTML so they align with the matchbox.
  */
 function resizeButtons() {
-  var padding = windowWidth * config['buttonPadding'];
-  var width = matchbox.width;
-  var xOffset = matchbox.xOffset;
-  $("#switchBtn").css({ 'left': xOffset + "px" });
-  $("#switchBtn").css({ 'width': width + 2 * padding + "px" });
-  $("#resetBtn").css({ 'left': xOffset + "px" });
-  $("#resetBtn").css({ 'width': width / 3 + "px" });
-  $("#helpBtn").css({ 'left': xOffset + width / 3 + padding + "px" });
-  $("#helpBtn").css({ 'width': width / 3 + "px" });
-  $("#infoBtn").css({ 'left': xOffset + 2 * width / 3 + 2 * padding + "px" });
-  $("#infoBtn").css({ 'width': width / 3 + "px" });
+  if (wideAspectRatio) {
+    var width = matchbox.width;
+    var xOffset = matchbox.xOffset;
+    var yOffset = windowHeight * config['panelYOffsetRatio'];
+  } else {
+    var width = windowWidth / 4;
+    var xOffset = windowWidth * config['panelXOffsetRatio'];
+    var yOffset = getTableLowerBoundary() + matchbox.padding;
+  }
+
+  $(".main_button_box").css({ 'left': xOffset + "px" });
+  $(".main_button_box").css({ 'top': yOffset + "px" });
+  $(".main_button_box").css({ 'width': width + "px" });
 }
 
 /*
@@ -500,14 +510,14 @@ $(document).ready(function() {
   $("#resetBtn").on('click', initFlammableItems);
   $("#slider").on('change', sliderChanged);
 
-  // For enabling web transitions on pop-up help tooltip
+  // Enable web transitions on pop-up help tooltip
   helpBoxPopUp = document.getElementById('help-box');
   helpBtn = document.getElementById('helpBtn');
   helpBtn.addEventListener("click", function(){
     toggleHelp();
   }, false);
 
-  // For enabling web transitions on pop-up info tooltip
+  // Enable web transitions on pop-up info tooltip
   infoBoxPopUp = document.getElementById('info-box');
   infoBtn = document.getElementById('infoBtn');
   infoBtn.addEventListener("click", function(){
