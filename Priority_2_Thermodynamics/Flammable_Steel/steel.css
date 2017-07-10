@@ -96,7 +96,7 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -14px;
 }
 
-/* Info panel */
+/* Info panel holding density, surface area, time to burn, etc. */
 
 .info {
   position: absolute;
@@ -106,14 +106,24 @@ input[type=range]::-webkit-slider-thumb {
   background-image: none;
   background-color: #333333;
   color: #ffffff;
+
 }
 
 .table-custom > tbody > tr > td, .table-custom > tbody > tr > th {
-    padding: 1%;
+  padding: 1%;
+  font-size: calc(5px + 0.6vw);
+}
+
+.panel-title {
+  font-size: calc(6px + 0.7vw);
 }
 
 .col-md-3 {
   position: absolute;
+}
+
+.panel-body {
+  padding-bottom: 0px;
 }
 
 /* Transition animations when toggling the help and info boxes */
@@ -143,4 +153,17 @@ input[type=range]::-webkit-slider-thumb {
 
 .padding {
   line-height: 8px;
+}
+
+/* On mobile screens (width < 1024px) */
+
+@media screen and (max-width: 1023px) and (orientation: portrait) {
+  /* Increase font size when on a smaller screen */
+  .table-custom > tbody > tr > td, .table-custom > tbody > tr > th {
+    font-size: calc(5px + 1.5vw) !important;
+  }
+
+  .panel-title {
+    font-size: calc(6px + 1.7vw);
+  }
 }

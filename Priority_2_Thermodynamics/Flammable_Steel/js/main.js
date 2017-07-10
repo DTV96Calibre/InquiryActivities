@@ -106,19 +106,20 @@ function setup() {
 function initConfig() {
   var w = wideAspectRatio;
   config = {
-    itemWidthRatio:         w ? 0.14 : 0.14,   // times windowWidth
-    machineWidthRatio:      w ? 0.20 : 0.20,   // times windowWidth
-    itemLeftXOffsetRatio:   w ? 0.40 : 0.167,  // times windowWidth
-    itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
-    itemYOffsetRatio:       w ? 0.37 : 0.333,  // times windowHeight
-    matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
-    matchboxYPaddingRatio:  w ? 0.04 : 0.04,   // times windowWidth
-    matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 0.55 : 0.55,   // times windowHeight
-    panelHeightRatio:       w ? 1.1 : 1.1,     // times sliderYPos
-    panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
-    panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
+    itemWidthRatio:         w ? 0.140 : 0.300, // times windowWidth
+    machineWidthRatio:      w ? 0.200 : 0.400, // times windowWidth
+    itemLeftXOffsetRatio:   w ? 0.400 : 0.120, // times windowWidth
+    itemRightXOffsetRatio:  w ? 0.670 : 0.570, // times windowWidth
+    itemYOffsetRatio:       w ? 0.370 : 0.150, // times windowHeight
+    matchboxHeightRatio:    w ? 1.200 : 1.200, // times matchstick.height
+    matchboxYPaddingRatio:  w ? 0.040 : 0.040, // times windowWidth
+    matchHeightRatio:       w ? 0.250 : 0.150, // times windowHeight
+    sliderYOffsetRatio:     w ? 0.550 : 0.350, // times windowHeight
+    panelHeightRatio:       w ? 1.100 : 1.100, // times sliderYPos
+    panelWidthRatio:        w ? 0.600 : 0.900, // times windowWidth
+    panelXOffsetRatio:      w ? 0.333 : 0.050, // times windowWidth
     panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
+    infoBoxHeightRatio:     w ? 0.850 : 0.500, // times windowHeight - panelHeight
     buttonPadding:          w ? 0.002 : 0.002, // times windowWidth
 
     // Independent of window aspect ratio
@@ -297,7 +298,12 @@ function mouseReleased() {
  * Returns the y-offset of the onscreen slider.
  */
 function getSliderVerticalOffset() {
-  return windowHeight * config['sliderYOffsetRatio'];
+  if (wideAspectRatio) {
+    return windowHeight * config['sliderYOffsetRatio'];
+  } else {
+    // On mobile screens, take extra precautions to position the slider
+    return windowHeight * config['itemYOffsetRatio'] + flammableRight.width;
+  }
 }
 
 /*
@@ -383,8 +389,10 @@ function hideBurntImages() {
 function resizeSlider() {
   var left = getSliderHorizontalOffset();
   var top = getSliderVerticalOffset();
+  var width = config['itemWidthRatio'] * windowWidth * 0.95;
   $("#slider").css({ 'left': left + "px" });
   $("#slider").css({ 'top': top + "px" });
+  $("#slider").css({ 'width': width + "px" });
 }
 
 /*
@@ -396,7 +404,6 @@ function resizeInfoBoxes() {
   var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
   var top = (windowHeight * config['panelYOffsetRatio'] + 
     getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
-  var height = (windowHeight - top) * 0.85;
 
   $("#leftInfoBox").css({ 'width': width + "px" });
   $("#rightInfoBox").css({ 'width': width + "px" });
@@ -404,8 +411,6 @@ function resizeInfoBoxes() {
   $("#rightInfoBox").css({ 'left': left + width + "px" });
   $("#leftInfoBox").css({ 'top': top + "px" });
   $("#rightInfoBox").css({ 'top': top + "px" });
-  $("#leftInfoBox").css({ 'height': height + "px" });
-  $("#rightInfoBox").css({ 'height': height + "px" });
 }
 
 /*
