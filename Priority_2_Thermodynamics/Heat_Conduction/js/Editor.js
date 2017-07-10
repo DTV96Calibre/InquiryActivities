@@ -1,11 +1,14 @@
 var joints = [];
 var pot;
+var arm;
 var POT_H_OFFSET = 300;
 var diameterSlider;
 
 // Intro scene constructor function
-function Editor()
-{
+function Editor(){
+    // Member variables
+    this.crosshair_pos = [0, 0];
+
     this.enter = function() {
       print("Entered editor");
     }
@@ -16,6 +19,7 @@ function Editor()
       fill(51);
       noStroke();
       pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
+      arm = new Arm([100, 100]);
 
       joints.push(new Joint(100, null, pot.anchorPoint));
 
@@ -32,6 +36,12 @@ function Editor()
       fill(51);
       joints[0].draw();
       pot.draw();
+      fill(51, 51, 51, 127);
+      this.crosshair_pos = [mouseX, mouseY];
+      ellipse(this.crosshair_pos[0], pot.anchorPoint.y, diameterSlider.value());
+
+      arm.setPos([mouseX, mouseY]);
+      arm.draw();
       //print(cos(0.7853981633974483 + HALF_PI));
     }
 
@@ -44,9 +54,11 @@ function Editor()
     }
 
     this.mouseClicked = function() {
-      var radius = diameterSlider.value();
-      insertJoint(mouseX, pot.anchorPoint.y, radius);
-      print(joints);
+      if (mouseY < 200) {
+        var radius = diameterSlider.value();
+        insertJoint(mouseX, pot.anchorPoint.y, radius);
+        print(joints);
+      }
     }
 
 }

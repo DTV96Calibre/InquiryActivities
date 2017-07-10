@@ -2,7 +2,7 @@ class Joint{
   constructor(radius, prev, pos){
     this.radius = radius;
     this.prev = prev;
-    this.pos = pos;
+    this.pos = pos; //TODO: Make this relative to anchor point
     this.next = null;
   }
   draw(){
