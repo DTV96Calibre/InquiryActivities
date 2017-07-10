@@ -326,11 +326,22 @@ function getTableLowerBoundary() {
 
 /*
  * Returns the distance in pixels from the left of the window to the 
- * rightmost boundary of the div holding the buttons.
+ * rightmost boundary of the table containing the objects' properties.
+ */
+function getTableRightBoundary() {
+  var tableLeftXPos = windowHeight * config['panelXOffsetRatio'];
+  var tableWidth = $("#leftInfoBox").width();
+  return tableLeftXPos + tableWidth * 2;
+}
+
+/*
+ * Returns the distance in pixels from the left of the window to the
+ * rightmost boundary of the div containing the buttons.
  */
 function getButtonRightBoundary() {
-  var buttonXOffset = windowWidth * config['panelXOffsetRatio'];
-  return buttonXOffset + $('#switchBtn').width();
+  var buttonLeftXPos = windowHeight * config['panelXOffsetRatio'];
+  var buttonWidth = $('#switchBtn').width();
+  return buttonLeftXPos + buttonWidth;
 }
 
 /* ==================================================================

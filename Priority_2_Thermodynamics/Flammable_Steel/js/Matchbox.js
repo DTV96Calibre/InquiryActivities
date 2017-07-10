@@ -38,7 +38,8 @@ function Matchbox() {
       this.xOffset = windowWidth * config['panelXOffsetRatio'] / 2 - this.width / 2;
       this.yOffset = getTableLowerBoundary() - this.height;
     } else {
-      this.xOffset = getButtonRightBoundary() + this.padding * 2;
+      this.xOffset = (getTableRightBoundary() + getButtonRightBoundary()) / 2
+       - this.height / 2;
       this.yOffset = getTableLowerBoundary() + this.padding * 2;
     }    
   }
