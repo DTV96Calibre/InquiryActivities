@@ -262,37 +262,9 @@ function windowResized() {
 }
 
 /* ==================================================================
-                            Misc. Functions
+                            Getters and Setters
    ==================================================================
 */
-
-/*
- * Returns true if the screen is wider than it is tall. Affects the placement
- * of onscreen elements, which will 'fold' if a tall and narrow mobile 
- * layout is detected.
- */
-function hasWideAspectRatio() {
-  return windowWidth > windowHeight;
-}
-
-/*
- * Called whenever the user presses the mouse button.
- */
-function mousePressed() {
-  if (!initFinished) return;
-
-  // Check if user picked up the match
-  if (matchstick.cursorIsOver()) {
-    holdingMatch = true;
-  }
-}
-
-/*
- * Called whenever the user releases the mouse button.
- */
-function mouseReleased() {
-  holdingMatch = false;
-}
 
 /*
  * Returns the y-offset of the onscreen slider.
@@ -348,6 +320,34 @@ function getButtonRightBoundary() {
               Interfacing with the DOM / Event Handlers
    ==================================================================
 */
+
+/*
+ * Returns true if the screen is wider than it is tall. Affects the placement
+ * of onscreen elements, which will 'fold' if a tall and narrow mobile 
+ * layout is detected.
+ */
+function hasWideAspectRatio() {
+  return windowWidth > windowHeight;
+}
+
+/*
+ * Called whenever the user presses the mouse button.
+ */
+function mousePressed() {
+  if (!initFinished) return;
+
+  // Check if user picked up the match
+  if (matchstick.cursorIsOver()) {
+    holdingMatch = true;
+  }
+}
+
+/*
+ * Called whenever the user releases the mouse button.
+ */
+function mouseReleased() {
+  holdingMatch = false;
+}
 
 /*
  * Callback function triggered when the user adjusts the slider. Updates the 
@@ -476,6 +476,18 @@ function hideImages() {
  * Called when the user presses the help button.
  */
 function toggleHelp() {
+  if (wideAspectRatio) {
+    toggleHelpDesktop();
+  } else {
+    toggleHelpMobile();
+  }
+}
+
+/*
+ * Called when the user presses the help button and is viewing the simulation
+ * on a screen that is wider than it is tall.
+ */
+function toggleHelpDesktop() {
   if (infoBtnActive) {
     // Make info box disappear to make room for help box
     infoBoxPopUp.classList.toggle("appear");
@@ -486,9 +498,40 @@ function toggleHelp() {
 }
 
 /*
+ * Called when the user presses the help button and is viewing the simulation
+ * on a screen that is taller than it is wide.
+ */
+function toggleHelpMobile() {
+  // Display text in an alert box since the static tooltip won't fit onscreen
+  var text = "Click to pick up the match and drag it across the material " +
+    "(wood or steel) to observe whether it's flammable and the relative rate " +
+    "at which it burns.\n\nThe object on the left is a reference, but the " +
+    "object on the right can be adjusted by changing the slider underneath " + 
+    "it. Dragging the slider will result in sending the object through either " +
+    "a woodchipper or steel extruder.\n\nRefer to the tables underneath the " +
+    "objects for information including their density, mass, and surface area." +
+    "\n\nNote: The time taken to burn in the simulation differs from the " +
+    "estimated time that would be taken in reality. (The \"real life\" time " +
+    "can be found in the table.)";
+  alert(text);
+}
+
+/*
  * Called when the user presses the info button.
  */
 function toggleInfo() {
+  if (wideAspectRatio) {
+    toggleInfoDesktop();
+  } else {
+    toggleInfoMobile();
+  }
+}
+
+/*
+ * Called when the user presses the info button and is viewing the simulation
+ * on a screen that is wider than it is tall.
+ */
+function toggleInfoDesktop() {
   if (helpBtnActive) {
     // Make help box disappear to make room for info box
     helpBoxPopUp.classList.toggle("appear");
@@ -496,6 +539,20 @@ function toggleInfo() {
   }
   infoBoxPopUp.classList.toggle("appear");
   infoBtnActive = !infoBtnActive;
+}
+
+/*
+ * Called when the user presses the info button and is viewing the simulation
+ * on a screen that is taller than it is wide.
+ */
+function toggleInfoMobile() {
+  // Display text in an alert box since the static tooltip won't fit onscreen
+  var text = "This work is licensed under a Creative Commons Attribution-" +
+    "ShareAlike 4.0 International License.\n\nProduced through the efforts of " +
+    "Brooke Bullek in June 2017.\n\nAddress any questions to Dr. Margot Vigeant, " +
+    "Bucknell University Department of Chemical Engineering at " +
+    "mvigeant@bucknell.edu.";
+  alert(text);
 }
 
 /*
