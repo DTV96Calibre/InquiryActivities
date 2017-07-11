@@ -107,7 +107,8 @@ function initConfig() {
   var w = wideAspectRatio;
   config = {
     itemWidthRatio:         w ? 0.140 : 0.300, // times windowWidth
-    machineWidthRatio:      w ? 0.200 : 0.400, // times windowWidth
+    machineWidthRatio:      w ? 0.200 : 0.360, // times windowWidth
+    machineYOffsetRatio:    w ? 2.500 : 3.200, // times img.height
     itemLeftXOffsetRatio:   w ? 0.400 : 0.120, // times windowWidth
     itemRightXOffsetRatio:  w ? 0.670 : 0.570, // times windowWidth
     itemYOffsetRatio:       w ? 0.370 : 0.150, // times windowHeight
