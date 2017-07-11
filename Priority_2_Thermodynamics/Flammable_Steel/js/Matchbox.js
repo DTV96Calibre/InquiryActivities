@@ -79,3 +79,4 @@ function Matchbox() {
     image(this.img_cover, this.xOffset, this.yOffset, this.width, this.height);
   }
 }
+
