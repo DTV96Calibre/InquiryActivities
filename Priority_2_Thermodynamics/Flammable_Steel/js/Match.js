@@ -27,10 +27,11 @@ function Match() {
   }
 
   /*
-   * Sets the graphical properties of this match based on the window size.
+   * Sets the graphical properties of this match based on the size of the
+   * matchbox.
    */
   this.resize = function() {
-    this.height = windowHeight * config['matchHeightRatio'];
+    this.height = matchbox.height * config['matchHeightRatio'];
     var aspectRatio = this.img.elt.width / this.img.elt.height;
     this.width = this.height * aspectRatio;
   }

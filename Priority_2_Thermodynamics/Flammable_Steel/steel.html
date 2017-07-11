@@ -53,7 +53,7 @@
     <div class="col-md-3">
       <div id="leftInfoBox" class="panel panel-default info">
         <div class="panel-heading panel-heading-custom">
-          <h3 id="leftTableTitle" class="panel-title">(Steel) Ingot</h3>
+          <h3 id="leftTableTitle" class="panel-title">?</h3>
         </div>
         <div class="panel-body">
           <table class="table table-custom">
@@ -106,7 +106,7 @@
     <div class="col-md-3">
       <div id="rightInfoBox" class="panel panel-default info">
         <div class="panel-heading panel-heading-custom">
-          <h3 id="rightTableTitle" class="panel-title">(Steel) Ingot</h3>
+          <h3 id="rightTableTitle" class="panel-title">?</h3>
         </div>
         <div class="panel-body">
           <table class="table table-custom">
@@ -155,12 +155,17 @@
       </div>
     </div>
 
-    <!-- Bootstrap buttons -->
-    <a href="javascript:" id="switchBtn" class="btn btn-default btn-md">Toggle Steel</a>
-    <a href="javascript:" id="resetBtn" class="btn btn-danger btn-md">Reset</a>
-    <!-- Glyphicons (help/info buttons) -->
-    <a href="javascript:" id="helpBtn" class="btn btn-default btn-md"><span class="glyphicon glyphicon-question-sign"></span></a>
-    <a href="javascript:" id="infoBtn" class="btn btn-default btn-md"><span class="glyphicon glyphicon-info-sign"></span></a>
+    <!-- Flex container for Bootstrap buttons -->
+    <div class="main_button_box">
+      <a href="javascript:" id="switchBtn" class="btn btn-default btn-md">Toggle Steel</a>
+      <div class="secondary_button_box">
+        <a href="javascript:" id="resetBtn" class="btn btn-danger btn-md">Reset</a>
+        <div class="glyph_button_box">
+          <a href="javascript:" id="helpBtn" class="btn btn-default btn-md"><span class="glyphicon glyphicon-question-sign"></span></a>
+          <a href="javascript:" id="infoBtn" class="btn btn-default btn-md"><span class="glyphicon glyphicon-info-sign"></span></a>
+        </div>
+      </div>
+    </div>
 
     <!-- Slider to adjust the type of material -->
     <input type="range" id="slider" value="0" min="0" max="4" step="1">
@@ -177,7 +182,7 @@
       Refer to the tables underneath the objects for information including their density, mass, and surface area.
       <div class="padding"<br><br></div>
       <b>Note</b>: The time taken to burn in the simulation differs from the estimated time that would be taken in reality. (The "real life" 
-      time can be found in the table).
+      time can be found in the table.)
     </div>
 
     <div class="alert alert-warning" id="info-box">
@@ -187,7 +192,7 @@
       <div class="padding"<br><br></div>
       Produced through the efforts of Brooke Bullek in June 2017.
       <div class="padding"><br><br></div>
-      Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
+      Address any questions to <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
     </div>
 
   </body>

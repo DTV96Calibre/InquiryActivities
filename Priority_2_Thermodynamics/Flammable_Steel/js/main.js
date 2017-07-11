@@ -106,20 +106,21 @@ function setup() {
 function initConfig() {
   var w = wideAspectRatio;
   config = {
-    itemWidthRatio:         w ? 0.14 : 0.14,   // times windowWidth
-    machineWidthRatio:      w ? 0.20 : 0.20,   // times windowWidth
-    itemLeftXOffsetRatio:   w ? 0.40 : 0.167,  // times windowWidth
-    itemRightXOffsetRatio:  w ? 0.67 : 0.667,  // times windowWidth
-    itemYOffsetRatio:       w ? 0.37 : 0.333,  // times windowHeight
-    matchboxHeightRatio:    w ? 1.2 : 1.2,     // times matchstick.height
-    matchboxYPaddingRatio:  w ? 0.04 : 0.04,   // times windowWidth
-    matchHeightRatio:       w ? 0.25 : 0.25,   // times windowHeight
-    sliderYOffsetRatio:     w ? 0.55 : 0.55,   // times windowHeight
-    panelHeightRatio:       w ? 1.1 : 1.1,     // times sliderYPos
-    panelWidthRatio:        w ? 0.6 : 0.75,    // times windowWidth
-    panelXOffsetRatio:      w ? 0.333 : 0.167, // times windowWidth
+    itemWidthRatio:         w ? 0.140 : 0.300, // times windowWidth
+    machineWidthRatio:      w ? 0.200 : 0.400, // times windowWidth
+    itemLeftXOffsetRatio:   w ? 0.400 : 0.120, // times windowWidth
+    itemRightXOffsetRatio:  w ? 0.670 : 0.570, // times windowWidth
+    itemYOffsetRatio:       w ? 0.370 : 0.150, // times windowHeight
+    matchHeightRatio:       w ? 0.800 : 0.800, // times matchbox.height
+    matchboxXOffsetRatio:   w ? 1.000 : 0.050, // times windowWidth
+    matchboxYPaddingRatio:  w ? 0.040 : 0.040, // times windowWidth
+    matchboxHeightRatio:    w ? 0.270 : 0.150, // times windowHeight
+    sliderYOffsetRatio:     w ? 0.550 : 0.350, // times windowHeight
+    panelHeightRatio:       w ? 1.100 : 1.100, // times sliderYPos
+    panelWidthRatio:        w ? 0.600 : 0.900, // times windowWidth
+    panelXOffsetRatio:      w ? 0.300 : 0.050, // times windowWidth
     panelYOffsetRatio:      w ? 0.065 : 0.065, // times windowHeight
-    buttonPadding:          w ? 0.002 : 0.002, // times windowWidth
+    infoBoxHeightRatio:     w ? 0.850 : 0.500, // times windowHeight - panelHeight
 
     // Independent of window aspect ratio
     panelEdgeRoundness:     20, // degrees
@@ -221,7 +222,7 @@ function draw() {
  */
 function drawPanel() {
   fill(PANEL_COLOR + '1)');
-  var xPos = windowWidth * config['panelXOffsetRatio'] * 0.9;
+  var xPos = windowWidth * config['panelXOffsetRatio'];
   var yPos = windowHeight * config['panelYOffsetRatio'];
   var width = windowWidth * config['panelWidthRatio'];
   var height = getSliderVerticalOffset() * config['panelHeightRatio'];
@@ -242,6 +243,10 @@ function windowResized() {
   if (hasWideAspectRatio() != wideAspectRatio) {
     wideAspectRatio = !wideAspectRatio;
     initConfig();
+
+    if (!wideAspectRatio) {
+      hideTooltips();
+    }
   }
 
   // Update variables that scale with screen size
@@ -261,7 +266,62 @@ function windowResized() {
 }
 
 /* ==================================================================
-                            Misc. Functions
+                            Getters and Setters
+   ==================================================================
+*/
+
+/*
+ * Returns the y-offset of the onscreen slider.
+ */
+function getSliderVerticalOffset() {
+  if (wideAspectRatio) {
+    return windowHeight * config['sliderYOffsetRatio'];
+  } else {
+    // On mobile screens, take extra precautions to position the slider
+    return windowHeight * config['itemYOffsetRatio'] + flammableRight.width;
+  }
+}
+
+/*
+ * Returns the x-offset of the onscreen slider.
+ */
+function getSliderHorizontalOffset() {
+  return flammableRight.xOffset + flammableRight.width * 0.1;
+}
+
+/*
+ * Returns the distance in pixels from the top of the window to the lower
+ * boundary of the table containing the objects' properties.
+ */
+function getTableLowerBoundary() {
+  var tableTopYPos = (windowHeight * config['panelYOffsetRatio'] + 
+    getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
+  var tableHeight = $("#leftInfoBox").height();
+  return tableTopYPos + tableHeight;
+}
+
+/*
+ * Returns the distance in pixels from the left of the window to the 
+ * rightmost boundary of the table containing the objects' properties.
+ */
+function getTableRightBoundary() {
+  var tableLeftXPos = windowHeight * config['panelXOffsetRatio'];
+  var tableWidth = $("#leftInfoBox").width();
+  return tableLeftXPos + tableWidth * 2;
+}
+
+/*
+ * Returns the distance in pixels from the left of the window to the
+ * rightmost boundary of the div containing the buttons.
+ */
+function getButtonRightBoundary() {
+  var buttonLeftXPos = windowHeight * config['panelXOffsetRatio'];
+  var buttonWidth = $('#switchBtn').width();
+  return buttonLeftXPos + buttonWidth;
+}
+
+/* ==================================================================
+              Interfacing with the DOM / Event Handlers
    ==================================================================
 */
 
@@ -292,25 +352,6 @@ function mousePressed() {
 function mouseReleased() {
   holdingMatch = false;
 }
-
-/*
- * Returns the y-offset of the onscreen slider.
- */
-function getSliderVerticalOffset() {
-  return windowHeight * config['sliderYOffsetRatio'];
-}
-
-/*
- * Returns the x-offset of the onscreen slider.
- */
-function getSliderHorizontalOffset() {
-  return flammableRight.xOffset + flammableRight.width * 0.1;
-}
-
-/* ==================================================================
-              Interfacing with the DOM / Event Handlers
-   ==================================================================
-*/
 
 /*
  * Callback function triggered when the user adjusts the slider. Updates the 
@@ -383,8 +424,10 @@ function hideBurntImages() {
 function resizeSlider() {
   var left = getSliderHorizontalOffset();
   var top = getSliderVerticalOffset();
+  var width = config['itemWidthRatio'] * windowWidth * 0.95;
   $("#slider").css({ 'left': left + "px" });
   $("#slider").css({ 'top': top + "px" });
+  $("#slider").css({ 'width': width + "px" });
 }
 
 /*
@@ -393,10 +436,9 @@ function resizeSlider() {
  */
 function resizeInfoBoxes() {
   var width = config['panelWidthRatio'] * windowWidth / 2;
-  var left = config['panelXOffsetRatio'] * 0.9 * windowWidth;
+  var left = config['panelXOffsetRatio'] * windowWidth;
   var top = (windowHeight * config['panelYOffsetRatio'] + 
     getSliderVerticalOffset() * config['panelHeightRatio']) * 1.05;
-  var height = (windowHeight - top) * 0.85;
 
   $("#leftInfoBox").css({ 'width': width + "px" });
   $("#rightInfoBox").css({ 'width': width + "px" });
@@ -404,25 +446,25 @@ function resizeInfoBoxes() {
   $("#rightInfoBox").css({ 'left': left + width + "px" });
   $("#leftInfoBox").css({ 'top': top + "px" });
   $("#rightInfoBox").css({ 'top': top + "px" });
-  $("#leftInfoBox").css({ 'height': height + "px" });
-  $("#rightInfoBox").css({ 'height': height + "px" });
 }
 
 /*
  * Adjust the buttons embedded in the HTML so they align with the matchbox.
  */
 function resizeButtons() {
-  var padding = windowWidth * config['buttonPadding'];
-  var width = matchbox.width;
-  var xOffset = matchbox.xOffset;
-  $("#switchBtn").css({ 'left': xOffset + "px" });
-  $("#switchBtn").css({ 'width': width + 2 * padding + "px" });
-  $("#resetBtn").css({ 'left': xOffset + "px" });
-  $("#resetBtn").css({ 'width': width / 3 + "px" });
-  $("#helpBtn").css({ 'left': xOffset + width / 3 + padding + "px" });
-  $("#helpBtn").css({ 'width': width / 3 + "px" });
-  $("#infoBtn").css({ 'left': xOffset + 2 * width / 3 + 2 * padding + "px" });
-  $("#infoBtn").css({ 'width': width / 3 + "px" });
+  if (wideAspectRatio) {
+    var width = matchbox.width;
+    var xOffset = matchbox.xOffset;
+    var yOffset = windowHeight * config['panelYOffsetRatio'];
+  } else {
+    var width = windowWidth / 4;
+    var xOffset = windowWidth * config['panelXOffsetRatio'];
+    var yOffset = getTableLowerBoundary() + matchbox.padding;
+  }
+
+  $(".main_button_box").css({ 'left': xOffset + "px" });
+  $(".main_button_box").css({ 'top': yOffset + "px" });
+  $(".main_button_box").css({ 'width': width + "px" });
 }
 
 /*
@@ -438,6 +480,18 @@ function hideImages() {
  * Called when the user presses the help button.
  */
 function toggleHelp() {
+  if (wideAspectRatio) {
+    toggleHelpDesktop();
+  } else {
+    toggleHelpMobile();
+  }
+}
+
+/*
+ * Called when the user presses the help button and is viewing the simulation
+ * on a screen that is wider than it is tall.
+ */
+function toggleHelpDesktop() {
   if (infoBtnActive) {
     // Make info box disappear to make room for help box
     infoBoxPopUp.classList.toggle("appear");
@@ -448,9 +502,40 @@ function toggleHelp() {
 }
 
 /*
+ * Called when the user presses the help button and is viewing the simulation
+ * on a screen that is taller than it is wide.
+ */
+function toggleHelpMobile() {
+  // Display text in an alert box since the static tooltip won't fit onscreen
+  var text = "Click to pick up the match and drag it across the material " +
+    "(wood or steel) to observe whether it's flammable and the relative rate " +
+    "at which it burns.\n\nThe object on the left is a reference, but the " +
+    "object on the right can be adjusted by changing the slider underneath " + 
+    "it. Dragging the slider will result in sending the object through either " +
+    "a woodchipper or steel extruder.\n\nRefer to the tables underneath the " +
+    "objects for information including their density, mass, and surface area." +
+    "\n\nNote: The time taken to burn in the simulation differs from the " +
+    "estimated time that would be taken in reality. (The \"real life\" time " +
+    "can be found in the table.)";
+  alert(text);
+}
+
+/*
  * Called when the user presses the info button.
  */
 function toggleInfo() {
+  if (wideAspectRatio) {
+    toggleInfoDesktop();
+  } else {
+    toggleInfoMobile();
+  }
+}
+
+/*
+ * Called when the user presses the info button and is viewing the simulation
+ * on a screen that is wider than it is tall.
+ */
+function toggleInfoDesktop() {
   if (helpBtnActive) {
     // Make help box disappear to make room for info box
     helpBoxPopUp.classList.toggle("appear");
@@ -458,6 +543,35 @@ function toggleInfo() {
   }
   infoBoxPopUp.classList.toggle("appear");
   infoBtnActive = !infoBtnActive;
+}
+
+/*
+ * Called when the user presses the info button and is viewing the simulation
+ * on a screen that is taller than it is wide.
+ */
+function toggleInfoMobile() {
+  // Display text in an alert box since the static tooltip won't fit onscreen
+  var text = "This work is licensed under a Creative Commons Attribution-" +
+    "ShareAlike 4.0 International License.\n\nProduced through the efforts of " +
+    "Brooke Bullek in June 2017.\n\nAddress any questions to Dr. Margot Vigeant, " +
+    "Bucknell University Department of Chemical Engineering at " +
+    "mvigeant@bucknell.edu.";
+  alert(text);
+}
+
+/*
+ * Ensures that the help/info tooltips are both hidden. Prevents issues when the
+ * user toggles a tooltip and resizes the window to take on the mobile layout.
+ */
+function hideTooltips() {
+  if (helpBtnActive) {
+    helpBoxPopUp.classList.toggle("appear");
+    helpBtnActive = false;
+  }
+  else if (infoBtnActive) {
+    infoBoxPopUp.classList.toggle("appear");
+    infoBtnActive = false;
+  }
 }
 
 /*
@@ -483,14 +597,14 @@ $(document).ready(function() {
   $("#resetBtn").on('click', initFlammableItems);
   $("#slider").on('change', sliderChanged);
 
-  // For enabling web transitions on pop-up help tooltip
+  // Enable web transitions on pop-up help tooltip
   helpBoxPopUp = document.getElementById('help-box');
   helpBtn = document.getElementById('helpBtn');
   helpBtn.addEventListener("click", function(){
     toggleHelp();
   }, false);
 
-  // For enabling web transitions on pop-up info tooltip
+  // Enable web transitions on pop-up info tooltip
   infoBoxPopUp = document.getElementById('info-box');
   infoBtn = document.getElementById('infoBtn');
   infoBtn.addEventListener("click", function(){

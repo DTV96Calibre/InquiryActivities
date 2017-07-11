@@ -38,7 +38,6 @@ body {
 /* Buttons */
 
 .btn {
-  position: absolute;
   font-size: calc(5px + 0.5vw);
   z-index: 2;
 }
@@ -47,12 +46,29 @@ body {
   font-size: 1.5em;
 }
 
-#switchBtn {
-  top: 6.5%;
+/* Div that holds the buttons */
+
+.main_button_box {
+  position: absolute;
+  min-width: 120px;
+  margin: 0 auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
-#resetBtn, #helpBtn, #infoBtn {
-  top: 11.5%;
+.secondary_button_box {
+  display: flex;
+  flex: 1;
+  margin-top: 3px;
+}
+
+#resetBtn {
+  flex-grow: 2;
+}
+
+#resetBtn {
+  margin-right: 3px;
 }
 
 /* Prevent clicking on buttons while they're disabled */
@@ -96,7 +112,7 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -14px;
 }
 
-/* Info panel */
+/* Info panel holding density, surface area, time to burn, etc. */
 
 .info {
   position: absolute;
@@ -106,14 +122,24 @@ input[type=range]::-webkit-slider-thumb {
   background-image: none;
   background-color: #333333;
   color: #ffffff;
+
 }
 
 .table-custom > tbody > tr > td, .table-custom > tbody > tr > th {
-    padding: 1%;
+  padding: 1%;
+  font-size: calc(5px + 0.6vw);
+}
+
+.panel-title {
+  font-size: calc(6px + 0.7vw);
 }
 
 .col-md-3 {
   position: absolute;
+}
+
+.panel-body {
+  padding-bottom: 0px;
 }
 
 /* Transition animations when toggling the help and info boxes */
@@ -136,11 +162,56 @@ input[type=range]::-webkit-slider-thumb {
 
 #help-box.appear, #info-box.appear{
   visibility: visible;
-  opacity: 0.9;
+  opacity: 0.8;
           transform: translateX(0);
   -webkit-transform: translateX(0);
 }
 
 .padding {
   line-height: 8px;
+}
+
+/* On mobile screens (width < 1024px) */
+
+@media screen and (max-width: 1023px) and (orientation: portrait) {
+  /* Increase font size when on a smaller screen */
+  .table-custom > tbody > tr > td, .table-custom > tbody > tr > th {
+    font-size: calc(5px + 1.5vw) !important;
+  }
+
+  .panel-title {
+    font-size: calc(6px + 1.7vw);
+  }
+
+  .btn {
+    font-size: calc(5px + 1vw) !important;
+  }
+
+  /* Stack buttons vertically on top of one another */
+  .secondary_button_box {
+    flex-direction: column;
+    margin: 0px;
+  }
+
+  .glyph_button_box {
+    margin-right: 0px;
+    flex-direction: row;
+    flex-grow: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #resetBtn, #helpBtn, #infoBtn {
+    margin-right: 0px;
+    margin-top: 3px;
+  }
+
+  #helpBtn {
+    margin-right: 3px;
+  }
+
+  #helpBtn, #infoBtn {
+    width: 49%;
+  }
 }
