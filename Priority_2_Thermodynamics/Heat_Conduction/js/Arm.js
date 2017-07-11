@@ -26,6 +26,5 @@ class Arm{
   }
   setPos(pos){
     this.pos = pos;
-    print(pos);
   }
 }
