@@ -16,8 +16,7 @@ class Pot{
     this.waterLevelFromTop = 100;
     // Calculate position of anchorpoint relative to pot pos
     this.anchorPoint = {x:0, y:0};
-    this.anchorPoint.y = pos.y + this.anchorPointDiameter / 2;
-    this.anchorPoint.x = pos.x;
+    this.locateAnchorPoint();
   }
 
   draw(){
@@ -33,7 +32,12 @@ class Pot{
   }
 
   getHandleAnchorPoint(){
-    return this.handleAnchorPoint;
+    return this.anchorPoint;
+  }
+
+  locateAnchorPoint(){
+    this.anchorPoint.y = this.pos.y + this.anchorPointDiameter / 2;
+    this.anchorPoint.x = this.pos.x;
   }
   setPosRelativeToHandle(pos){
   }
