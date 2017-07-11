@@ -187,9 +187,10 @@ function Machine() {
     var raw;
 
     if (this.direction == "left") {
-      raw = windowWidth * config['itemRightXOffsetRatio'] - distanceMoved;
+      raw = windowWidth * config['itemRightXOffsetRatio'] + flammableRight.width / 6 
+      -webkit- distanceMoved;
     } else {
-      raw = windowWidth * config['itemRightXOffsetRatio'] - flammableRight.width 
+      raw = windowWidth * config['itemRightXOffsetRatio'] - flammableRight.width / 1.5 
         + distanceMoved;
     }
 
