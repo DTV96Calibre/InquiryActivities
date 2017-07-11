@@ -62,12 +62,7 @@ function Woodchipper() {
    * Gets the width of this item.
    */
   this.getWidth = function() {
-    if (wideAspectRatio) {
-      var raw = windowWidth * config['woodchipperWidthRatio'];
-    } else {
-      var raw = windowWidth * config['woodchipperWidthRatio'];
-    }
-    
+    var raw = windowWidth * config['woodchipperWidthRatio'];
     var pct = raw / windowWidth * 100;
     return pct + "%";
   }

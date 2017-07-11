@@ -171,6 +171,7 @@ function initFlammableItems() {
   if (currentItem == "steel") {
     flammableLeft = new Steel(false);
     flammableRight = new Steel(true);
+    machine = new Extruder();
   }
   else if (currentItem == "wood") {
     flammableLeft = new Wood(false);
