@@ -37,8 +37,11 @@ function Editor(){
       joints[0].draw();
       pot.draw();
       fill(51, 51, 51, 127);
+      stroke(255);
+      strokeWeight(1);
       this.crosshair_pos = [mouseX, mouseY];
       ellipse(this.crosshair_pos[0], pot.anchorPoint.y, diameterSlider.value());
+      noStroke();
 
       arm.setPos([mouseX, mouseY]);
       arm.draw();
@@ -78,9 +81,20 @@ function insertJoint(x, y, radius) {
   var jointXOffset = x - pot.anchorPoint.x;
   var jointYOffset = y - pot.anchorPoint.y;
 
-  // Limit new joints to only be created to the left of the previous joints
-  if (jointXOffset >= joints[joints.length-1].pos.x) {
-    return; //TODO: Here we should try removing nodes until valid
+  // // Limit new joints to only be created to the left of the previous joints
+  // if (jointXOffset >= joints[joints.length-1].pos.x) {
+  //   return; //TODO: Here we should try removing nodes until valid
+  // }
+
+  while(jointXOffset >= joints[joints.length-1].pos.x) {
+    if (joints.length - 1 <= 0) {
+      return;
+    }
+    else {
+      joints.pop();
+      print("popped");
+      joints[joints.length-1].next = null;
+    }
   }
 
   joints.push(new Joint(radius, joints[joints.length-1], {x:jointXOffset, y:jointYOffset}));
@@ -121,16 +135,12 @@ function getNearestJoint(pos) {
   var distance = getDistance(joints[nearest].pos, relativePos);
   var nextDistance;
   for (current = 1; current < length; current += 1){
-    print("loop");
     nextDistance = getDistance(joints[current].pos, relativePos);
     if (distance > nextDistance) {
       nearest = current;
       distance = nextDistance;
     }
   }
-  print("mousePos: " + pos);
-  print("relativePos: " + relativePos);
-  print("nearestDistance: " + distance);
   return joints[nearest];
 }
 
