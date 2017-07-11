@@ -1,6 +1,6 @@
 /* File: main.js
  * Dependencies: Fire.js, FlammableItem.js, Steel.js, Match.js, Matchbox.js,
- *               Wood.js, Machine.js
+ *               Wood.js, Machine.js, Woodchipper.js, Extruder.js
  *
  * Author: Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
@@ -28,6 +28,7 @@ var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob
 var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
 var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
 var WOODCHIPPER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true";
+var EXTRUDER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/extruder.png?raw=true";
 
 /************************ Math constants ***********************************/
 var STEEL_DENSITY = 7.8; // Units: g / cm^3
@@ -87,7 +88,7 @@ function setup() {
   initImages();
 
   // Init fire, steel/wood, woodchipper/extruder, etc.
-  machine = new Machine();
+  machine = new Woodchipper();
   initFlammableItems();
   matchbox = new Matchbox();
   matchstick = new Match();
@@ -107,8 +108,6 @@ function initConfig() {
   var w = wideAspectRatio;
   config = {
     itemWidthRatio:         w ? 0.140 : 0.300, // times windowWidth
-    machineWidthRatio:      w ? 0.200 : 0.360, // times windowWidth
-    machineYOffsetRatio:    w ? 2.500 : 3.200, // times img.height
     itemLeftXOffsetRatio:   w ? 0.400 : 0.120, // times windowWidth
     itemRightXOffsetRatio:  w ? 0.670 : 0.570, // times windowWidth
     itemYOffsetRatio:       w ? 0.370 : 0.150, // times windowHeight
@@ -116,6 +115,9 @@ function initConfig() {
     matchboxXOffsetRatio:   w ? 1.000 : 0.050, // times windowWidth
     matchboxYPaddingRatio:  w ? 0.040 : 0.040, // times windowWidth
     matchboxHeightRatio:    w ? 0.270 : 0.150, // times windowHeight
+    woodchipperWidthRatio:  w ? 0.200 : 0.360, // times windowWidth
+    extruderWidthRatio:     w ? 0.100 : 0.160, // times windowWidth
+    machineYOffsetRatio:    w ? 2.500 : 3.200, // times img.height
     sliderYOffsetRatio:     w ? 0.550 : 0.350, // times windowHeight
     panelHeightRatio:       w ? 1.100 : 1.100, // times sliderYPos
     panelWidthRatio:        w ? 0.600 : 0.900, // times windowWidth
@@ -151,7 +153,8 @@ function initImages() {
     matchstick_down: createImg(MATCH_DOWN_URL, windowResized),
     steel_fire: createImg(STEEL_FIRE_URL, windowResized),
     ash: createImg(ASH_URL, windowResized),
-    woodchipper: createImg(WOODCHIPPER_URL, windowResized)
+    woodchipper: createImg(WOODCHIPPER_URL, windowResized),
+    extruder: createImg(EXTRUDER_URL, windowResized)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
@@ -172,6 +175,7 @@ function initFlammableItems() {
   else if (currentItem == "wood") {
     flammableLeft = new Wood(false);
     flammableRight = new Wood(true);
+    machine = new Woodchipper();
   }
 
   // Set graphical properties
@@ -365,7 +369,7 @@ function sliderChanged() {
     var burntItemType = (currentItem == "wood") ? "ash" : "burnt steel wool";
     var msg = "Cannot send " + burntItemType + " through the " + machineType +
      ". Please press the Reset button to revert the " + currentItem + 
-      " back to its original state first."
+      " back to its original state first.";
     alert(msg);
     $("#slider").val(lastSliderValue);
     return;
