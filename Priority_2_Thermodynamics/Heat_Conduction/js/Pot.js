@@ -11,7 +11,7 @@ class Pot{
     this.potHeight = 246;
     this.potWidth = 238;
     this.potThickness = 20;
-    this.anchorPointDiameter = 100;
+    this.anchorPointDiameter = 75;
 
     this.waterLevelFromTop = 100;
     // Calculate position of anchorpoint relative to pot pos

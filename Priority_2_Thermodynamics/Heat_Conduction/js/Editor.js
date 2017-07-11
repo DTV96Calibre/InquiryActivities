@@ -4,6 +4,10 @@ var arm;
 var POT_H_OFFSET = 300;
 var diameterSlider;
 
+// A box in which joints can be placed
+// x1 must be less than x2, y1 must be less than y2
+var validZone = {x1:100, x2:200, y1:100, y2:200};
+
 // Intro scene constructor function
 function Editor(){
     // Member variables
@@ -21,7 +25,7 @@ function Editor(){
       pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
       arm = new Arm([100, 100]);
 
-      joints.push(new Joint(100, null, {x:0, y:0}));
+      joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
 
       // Tell sceneManager setup is finished before resizing canvas
       this.sceneManager.scene.setupExecuted = true;
@@ -33,17 +37,20 @@ function Editor(){
     this.draw = function() {
       //background(86, 47, 14);
       clear();
+
+      // draw valid zone
+      fill(63, 191, 108, 127);
+      quad(validZone.x1, validZone.y1, validZone.x1, validZone.y2, validZone.x2, validZone.y2, validZone.x2, validZone.y1);
       fill(51);
+
       joints[0].draw();
       pot.draw();
-      fill(51, 51, 51, 127);
-      stroke(255);
-      strokeWeight(1);
-      this.crosshair_pos = [mouseX, mouseY];
-      ellipse(this.crosshair_pos[0], pot.anchorPoint.y, diameterSlider.value());
-      noStroke();
 
-      arm.setPos([mouseX, mouseY]);
+      if (inValidZone(mouseX, mouseY)){
+        drawCrosshair()
+      }
+
+      //arm.setPos([mouseX, mouseY]);
       arm.draw();
       //print(cos(0.7853981633974483 + HALF_PI));
       highlightNearestJoint();
@@ -52,101 +59,27 @@ function Editor(){
     this.windowResized = function() {
       var HEIGHT_OF_SLIDER = 25;
       //diameterSlider.style('height', '25');
-      pot.pos.x = windowWidth-POT_H_OFFSET;
+      pot.pos.x = windowWidth/2;
+      //pot.pos.x = windowWidth-POT_H_OFFSET;
       pot.locateAnchorPoint();
+
+      // define the valid zone
+      validZone.x2 = pot.anchorPoint.x;
+      validZone.x1 = validZone.x2 - pot.potWidth;
+      validZone.y2 = pot.anchorPoint.y + pot.anchorPointDiameter/2;
+      validZone.y1 = validZone.y2 - pot.anchorPointDiameter;
+
       resizeCanvas(windowWidth, windowHeight-HEIGHT_OF_SLIDER);
       print("Resized canvas");
     }
 
     this.mouseClicked = function() {
-      if (mouseY < 200) {
+      if (inValidZone(mouseX, mouseY)) {
         print("placing");
         var radius = diameterSlider.value();
-        insertJoint(mouseX, pot.anchorPoint.y, radius);
+        insertJoint(mouseX, mouseY, radius);
         print(joints);
       }
     }
 
-}
-
-/* Given a tap location and radius of new joint, creates and links
- * a new joint to the pipe. Assumes pipe is already populated with
- * at least one joint!
- * @param x: x coordinate of new joint
- * @param y: y coordinate of new joint
- * @param radius: radius of new joint
- */
-function insertJoint(x, y, radius) {
-  // Joints are drawn relative to the anchorpoint so calculate offset
-  var jointXOffset = x - pot.anchorPoint.x;
-  var jointYOffset = y - pot.anchorPoint.y;
-
-  // // Limit new joints to only be created to the left of the previous joints
-  // if (jointXOffset >= joints[joints.length-1].pos.x) {
-  //   return; //TODO: Here we should try removing nodes until valid
-  // }
-
-  while(jointXOffset >= joints[joints.length-1].pos.x) {
-    if (joints.length - 1 <= 0) {
-      return;
-    }
-    else {
-      joints.pop();
-      print("popped");
-      joints[joints.length-1].next = null;
-    }
-  }
-
-  joints.push(new Joint(radius, joints[joints.length-1], {x:jointXOffset, y:jointYOffset}));
-  joints[joints.length-2].next = joints[joints.length-1];
-}
-
-function getDistance(pos1, pos2){
-  var x1 = pos1.x;
-  var y1 = pos1.y;
-  var x2 = pos2.x;
-  var y2 = pos2.y;
-  return abs(sqrt(sq(x2-x1) + sq(y2-y1)));
-}
-
-/* Recursively calculates temperature of each node in the pipe chain.
- * @param currentJoint: A joint whose temperature is already known.
- */
-function heatTransferTraverse(currentJoint){
-  if (!currentJoint.next){
-    return
-  }
-  var length = getDistance(currentJoint.pos, currentJoint.next.pos);
-  currentJoint.next.temp = getNewTemp(currentJoint.radius*2, currentJoint.next.radius*2, length, currentJoint.temp);
-  heatTransferTraverse(currentJoint.next);
-}
-
-function getNewTemp(d1, d2, length, t1){
-  return t1 - t1/10;
-}
-
-/* Returns the joint that is closest to a given position pos.
- */
-function getNearestJoint(pos) {
-  var relativePos = {x:pos.x - pot.anchorPoint.x, y:pos.y - pot.anchorPoint.y};
-  var nearest = 0; //index of nearest
-  var current = 0;
-  var length = joints.length; // length of the list of joints
-  var distance = getDistance(joints[nearest].pos, relativePos);
-  var nextDistance;
-  for (current = 1; current < length; current += 1){
-    nextDistance = getDistance(joints[current].pos, relativePos);
-    if (distance > nextDistance) {
-      nearest = current;
-      distance = nextDistance;
-    }
-  }
-  return joints[nearest];
-}
-
-function highlightNearestJoint(){
-  var nearest = getNearestJoint({x:mouseX, y:mouseY});
-  stroke(255);
-  ellipse(nearest.pos.x + pot.anchorPoint.x, nearest.pos.y + pot.anchorPoint.y, nearest.radius);
-  noStroke();
 }
