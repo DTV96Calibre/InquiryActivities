@@ -10,7 +10,7 @@
 function Machine() {
   /* Constants */
   this.FADE_IN_PCT = 0.02; // 0.01 = 1% opacity per frame
-  this.MOVE_PCT = 0.01;
+  this.MOVE_PCT = 0.02;
 
   /* Misc. properties */
   this.imgID = "#woodchipper";
@@ -42,7 +42,7 @@ function Machine() {
    * Sets the graphical properties of this machine based on the window size.
    */
   this.resize = function() {
-    this.distanceToMove = flammableRight.width;
+    this.distanceToMove = flammableRight.width * 0.8;
     $(this.imgID).css({ 'opacity': this.opacity });
     $(this.imgID).css({ 'width': this.getWidth() });
     $(this.imgID).css({ 'left': this.getXOffset() });
@@ -76,7 +76,7 @@ function Machine() {
 
   /*
    * Begins the machine's animation of moving across the screen and updating
-   * the image of the material displayed according to the user-controlled \
+   * the image of the material displayed according to the user-controlled
    * slider.
    */
   this.start = function() {
@@ -187,9 +187,10 @@ function Machine() {
     var raw;
 
     if (this.direction == "left") {
-      raw = windowWidth * config['itemRightXOffsetRatio'] - distanceMoved;
+      raw = windowWidth * config['itemRightXOffsetRatio'] + flammableRight.width / 6 
+      -webkit- distanceMoved;
     } else {
-      raw = windowWidth * config['itemRightXOffsetRatio'] - flammableRight.width 
+      raw = windowWidth * config['itemRightXOffsetRatio'] - flammableRight.width / 1.5 
         + distanceMoved;
     }
 
@@ -201,7 +202,8 @@ function Machine() {
    * Gets the vertical offset of this item.
    */
   this.getYOffset = function() {
-    var raw = flammableRight.getBurntImageYOffset() - $(this.imgID).height() / 2;
+    var raw = flammableRight.getBurntImageYOffset() - $(this.imgID).height() / 
+      config['machineYOffsetRatio'];
     var pct = raw / windowHeight * 100;
     return pct + "%";
   }
