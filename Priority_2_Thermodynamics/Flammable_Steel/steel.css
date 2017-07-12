@@ -59,15 +59,24 @@ body {
 
 .secondary_button_box {
   display: flex;
-  flex: 1;
+  flex-shrink: 1;
   margin-top: 3px;
+}
+
+.glyph_button_box {
+  margin-right: 0px;
+  flex-direction: row;
+  flex-grow: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #resetBtn {
   flex-grow: 2;
 }
 
-#resetBtn {
+#helpBtn, #resetBtn {
   margin-right: 3px;
 }
 
@@ -191,15 +200,6 @@ input[type=range]::-webkit-slider-thumb {
   .secondary_button_box {
     flex-direction: column;
     margin: 0px;
-  }
-
-  .glyph_button_box {
-    margin-right: 0px;
-    flex-direction: row;
-    flex-grow: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
 
   #resetBtn, #helpBtn, #infoBtn {
