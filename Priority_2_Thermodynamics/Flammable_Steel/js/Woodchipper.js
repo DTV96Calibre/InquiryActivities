@@ -11,8 +11,35 @@ function Woodchipper() {
   Machine.call(this); // Inherit from Machine parent class
   Woodchipper.prototype = Object.create(Machine.prototype);
 
+  this.MOVE_PCT = 0.02;
   this.imgID = "#woodchipper";
   this.direction = "left";
+
+  /*
+   * Initializes this Woodchipper object.
+   */
+  this.init = function() {
+    this.opacity = 0;
+    this.isActive = false;
+    this.isFadingIn = false;
+    this.isMoving = false;
+    this.isFadingOut = false;
+    this.pctDistanceMoved = 0;
+    this.resize();
+
+    enableInput(); // Make sure all onscreen elements are clickable
+  }
+
+  /*
+   * Sets the graphical properties of this machine based on the window size.
+   */
+  this.resize = function() {
+    this.distanceToMove = flammableRight.width * 0.8;
+    $(this.imgID).css({ 'opacity': this.opacity });
+    $(this.imgID).css({ 'width': this.getWidth() });
+    $(this.imgID).css({ 'left': this.getXOffset() });
+    $(this.imgID).css({ 'top': this.getYOffset() });
+  }
 
   /*
    * Begins the machine's animation of moving across the screen and updating

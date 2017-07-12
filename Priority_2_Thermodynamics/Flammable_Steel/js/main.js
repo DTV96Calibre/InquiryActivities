@@ -116,7 +116,7 @@ function initConfig() {
     matchboxYPaddingRatio:  w ? 0.040 : 0.040, // times windowWidth
     matchboxHeightRatio:    w ? 0.270 : 0.150, // times windowHeight
     woodchipperWidthRatio:  w ? 0.200 : 0.360, // times windowWidth
-    extruderWidthRatio:     w ? 0.100 : 0.160, // times windowWidth
+    extruderWidthRatio:     w ? 0.070 : 0.160, // times windowWidth
     machineYOffsetRatio:    w ? 2.500 : 3.200, // times img.height
     sliderYOffsetRatio:     w ? 0.550 : 0.350, // times windowHeight
     panelHeightRatio:       w ? 1.100 : 1.100, // times sliderYPos

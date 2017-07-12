@@ -46,6 +46,19 @@ function Steel(isMutable) {
   }
 
   /*
+   * Sets the horizontal offset of this steel.
+   */
+  this.setXOffset = function() {
+    // Horizontal offset depends on which item (left or right) is being drawn
+    if (this.isMutable) {
+      var moved = machine.pctDistanceMoved * machine.distanceToMove;
+      this.xOffset = windowWidth * config['itemRightXOffsetRatio'] - moved;
+    } else {
+      this.xOffset = windowWidth * config['itemLeftXOffsetRatio'];
+    }
+  }
+
+  /*
    * Sets the radius of the steel according to the this.num (e.g. 0 is the
    * thickest steel, 4 is the finest).
    */

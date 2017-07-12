@@ -9,7 +9,6 @@
 function Machine() {
   /* Constants */
   this.FADE_IN_PCT = 0.02; // 0.01 = 1% opacity per frame
-  this.MOVE_PCT = 0.02;
 
   /* Misc. properties */
   this.opacity;
@@ -19,32 +18,6 @@ function Machine() {
   this.isFadingOut;
   this.distanceToMove;
   this.pctDistanceMoved;
-
-  /*
-   * Initializes this Machine object.
-   */
-  this.init = function() {
-    this.opacity = 0;
-    this.isActive = false;
-    this.isFadingIn = false;
-    this.isMoving = false;
-    this.isFadingOut = false;
-    this.pctDistanceMoved = 0;
-    this.resize();
-
-    enableInput(); // Make sure all onscreen elements are clickable
-  }
-
-  /*
-   * Sets the graphical properties of this machine based on the window size.
-   */
-  this.resize = function() {
-    this.distanceToMove = flammableRight.width * 0.8;
-    $(this.imgID).css({ 'opacity': this.opacity });
-    $(this.imgID).css({ 'width': this.getWidth() });
-    $(this.imgID).css({ 'left': this.getXOffset() });
-    $(this.imgID).css({ 'top': this.getYOffset() });
-  }
 
   /*
    * Renders this image onscreen.
