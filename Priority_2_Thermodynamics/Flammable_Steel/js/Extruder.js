@@ -103,6 +103,7 @@ function Extruder() {
       this.isMovingIn = false;
       this.isMovingOut = true;
       this.shredItem(); // Change the item's image
+      resizeInfoBoxes(); // Size of table header may have changed
     }
   }
 

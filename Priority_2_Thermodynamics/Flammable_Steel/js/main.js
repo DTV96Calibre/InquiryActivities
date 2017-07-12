@@ -452,6 +452,13 @@ function resizeInfoBoxes() {
   $("#rightInfoBox").css({ 'left': left + width + "px" });
   $("#leftInfoBox").css({ 'top': top + "px" });
   $("#rightInfoBox").css({ 'top': top + "px" });
+
+  // Force boxes to be the same size
+  var heightLeft = $("#leftInfoBox").height();
+  var heightRight = $("#rightInfoBox").height();
+  if (heightLeft != heightRight) {
+    $("#leftInfoBox").css({ 'height': heightRight + "px" });
+  }
 }
 
 /*
