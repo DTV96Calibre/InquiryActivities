@@ -119,7 +119,7 @@ function resetExperiment() {
 
 	// Reset beaker pictures to show unmixed liquids
 	$("#eyedropper").hide();
-	$("#bigLiquid").css("background", "url('bigLiquid.png') 0 0");
+	$("#bigLiquid").css("background", "url('images/bigLiquid.png') 0 0");
 	$("#smallLiquid").show();
 
 	// Show instructions
@@ -168,7 +168,7 @@ function getSmallSubstance() {
 	if(smallSubstance=="water") {
 		$("#smallBeakerTempSelect").removeAttr("disabled");
 		getSmallTemp();
-		$("#smallLiquid").css("background", "url('smallLiquid.png') 0 0");
+		$("#smallLiquid").css("background", "url('images/smallLiquid.png') 0 0");
 	}
 	else {
 		$("#defaultSmallTemp").attr("selected", "selected");
@@ -182,7 +182,7 @@ function getSmallSubstance() {
 		$("#smallBeakerConcentration").show();
 		$("#smallBeakerVolume").html("1 mL");
 		smallVolume = 1;
-		$("#smallLiquid").css("background", "url('smallLiquid.png') 0 -59px");
+		$("#smallLiquid").css("background", "url('images/smallLiquid.png') 0 -59px");
 	}
 	else {
 		$("#smallBeakerConcentration").hide();
@@ -193,7 +193,7 @@ function getSmallSubstance() {
 	// Oil doesn't have any special conditions to set, but you still have to make sure it shows up in the
 	// picture of the small beaker
 	if(smallSubstance=="oil") {
-		$("#smallLiquid").css("background", "url('smallLiquid.png') -60px 0");
+		$("#smallLiquid").css("background", "url('images/smallLiquid.png') -60px 0");
 	}
 }
 
@@ -248,7 +248,7 @@ function mix() {
 				animateWater(); // no need to call mixWater if animations are on, because the animations will call it when they finish
 			else {
 				$("#smallLiquid").hide();
-				$("#bigLiquid").css("background", "url('bigLiquid.png') 0 -65px");
+				$("#bigLiquid").css("background", "url('images/bigLiquid.png') 0 -65px");
 				mixWater();
 			}
 		}
@@ -257,7 +257,7 @@ function mix() {
 				animateOil();
 			else {
 				$("#smallLiquid").hide();
-				$("#bigLiquid").css("background", "url('bigLiquid.png') -91px 0");
+				$("#bigLiquid").css("background", "url('images/bigLiquid.png') -91px 0");
 				mixOil();
 			}
 		}
@@ -266,7 +266,7 @@ function mix() {
 				animateDye();
 			else {
 				$("#smallLiquid").hide();
-				$("#bigLiquid").css("background", "url('bigLiquid.png') -91px -65px");
+				$("#bigLiquid").css("background", "url('images/bigLiquid.png') -91px -65px");
 				mixDye();
 			}
 		}
@@ -445,10 +445,10 @@ function pourWater() {
 
 	// The gif must be added and removed from the page, rather than just shown and hidden, to ensure
 	// that the animation always starts from the beginning.
-	$("#smallLiquid").after('<img id="smallBeakerPour" src="blank_img.png" />');
+	$("#smallLiquid").after('<img id="smallBeakerPour" src="images/blank_img.png" />');
 
 	// Align the gif so that the "water pouring" animation shows (as opposed to the "oil pouring" animation)
-	$("#smallBeakerPour").css("background", "url('smallBeakerPour2.gif') -150px 0");
+	$("#smallBeakerPour").css("background", "url('images/smallBeakerPour2.gif') -150px 0");
 
 	// "Animate" the "motion" of the gif to the location where it already is for 500 milliseconds (essentially,
 	// do nothing for 500 milliseconds)--this is just to give the gif's internal animation time to run
@@ -464,7 +464,7 @@ function pourWater() {
 */
 function changeBigBeakerWater() {
 	// Align the bigLiquid picture so that the picture representing "mixed water" shows
-	$("#bigLiquid").css("background", "url('bigLiquid.png') 0 -65px");
+	$("#bigLiquid").css("background", "url('images/bigLiquid.png') 0 -65px");
 
 	// "Move" the gif to where it already is; essentially, do nothing for 1 second while the gif's
 	// internal animation completes
@@ -511,13 +511,13 @@ function moveOilBeaker() {
 function pourOil() {
 	$("#smallBeaker").hide();
 	$("#smallLiquid").hide();
-	$("#smallLiquid").after('<img id="smallBeakerPour" src="blank_img.png" />');
-	$("#smallBeakerPour").css("background", "url('smallBeakerPour2.gif') 0 0");
+	$("#smallLiquid").after('<img id="smallBeakerPour" src="images/blank_img.png" />');
+	$("#smallBeakerPour").css("background", "url('images/smallBeakerPour2.gif') 0 0");
 	$("#smallBeakerPour").animate({top:"-99px"}, 500, "linear", changeBigBeakerOil);
 }
 
 function changeBigBeakerOil() {
-	$("#bigLiquid").css("background", "url('bigLiquid.png') -91px 0");
+	$("#bigLiquid").css("background", "url('images/bigLiquid.png') -91px 0");
 	$("#smallBeakerPour").animate({top:"-99px"}, 1000, "linear", finishAnimateOil);
 }
 
@@ -573,7 +573,7 @@ function releaseDye() {
  * finished.
 */
 function changeBigBeakerDye() {
-	$("#bigLiquid").css("background", "url('bigLiquid.png') -91px -65px");
+	$("#bigLiquid").css("background", "url('images/bigLiquid.png') -91px -65px");
 	$("#dyeDrops").animate({top:"100px", left:"263px"}, 200, "linear", moveEyedropperRight);
 }
 
@@ -618,14 +618,14 @@ function generateZoomDots() {
 	// to the div is the center of the "magnification circle", rather than the center being something arbitrary
 	// determined by the circle's own alignment on the page)
 	var zoomHTML = '<div id="zoomDiv">';
-	var coldHTML = '<img id="cold1" class="coldDot" src="blank_img.png" />';
-	var hotHTML = '<img id="hot1" class="hotDot" src="blank_img.png" />';
+	var coldHTML = '<img id="cold1" class="coldDot" src="images/blank_img.png" />';
+	var hotHTML = '<img id="hot1" class="hotDot" src="images/blank_img.png" />';
 
 	// The source image is blank_img.png so that the color of the dots can be manipulated by
 	// simply changing the background color via CSS
 	for(var i=2; i<=100; i++) {
-		coldHTML += '<img id="' + "cold" + i + '" class="coldDot" src="blank_img.png" />';
-		hotHTML += '<img id="' + "hot" + i + '" class="hotDot" src="blank_img.png" />';
+		coldHTML += '<img id="' + "cold" + i + '" class="coldDot" src="images/blank_img.png" />';
+		hotHTML += '<img id="' + "hot" + i + '" class="hotDot" src="images/blank_img.png" />';
 	}
 
 	zoomHTML += coldHTML + hotHTML + '</div>';
