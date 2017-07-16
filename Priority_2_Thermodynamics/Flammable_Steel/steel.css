@@ -64,6 +64,7 @@ body {
 }
 
 .glyph_button_box {
+  margin-left: 3px;
   margin-right: 0px;
   flex-direction: row;
   flex-grow: 1;
@@ -76,8 +77,13 @@ body {
   flex-grow: 2;
 }
 
-#helpBtn, #resetBtn {
+#helpBtn {
   margin-right: 3px;
+}
+
+#helpBtn, #infoBtn {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 /* Prevent clicking on buttons while they're disabled */
@@ -199,6 +205,10 @@ input[type=range]::-webkit-slider-thumb {
   /* Stack buttons vertically on top of one another */
   .secondary_button_box {
     flex-direction: column;
+    margin: 0px;
+  }
+
+  .glyph_button_box {
     margin: 0px;
   }
 

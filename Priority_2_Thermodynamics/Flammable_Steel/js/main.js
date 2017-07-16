@@ -469,7 +469,14 @@ function resizeButtons() {
     var width = matchbox.width;
     var xOffset = matchbox.xOffset;
     var yOffset = windowHeight * config['panelYOffsetRatio'];
-  } else {
+
+    // Make top button line up with lower buttons even if they overflow
+    var btnWidth = $('#resetBtn').outerWidth() + $('#infoBtn').outerWidth() +
+      $('#helpBtn').outerWidth();
+    btnWidth += 6;
+    $('#switchBtn').css({ 'width' : btnWidth + "px"}); 
+  } 
+  else {
     var width = windowWidth / 4;
     var xOffset = windowWidth * config['panelXOffsetRatio'];
     var yOffset = getTableLowerBoundary() + matchbox.padding;
@@ -478,6 +485,8 @@ function resizeButtons() {
   $(".main_button_box").css({ 'left': xOffset + "px" });
   $(".main_button_box").css({ 'top': yOffset + "px" });
   $(".main_button_box").css({ 'width': width + "px" });
+
+
 }
 
 /*

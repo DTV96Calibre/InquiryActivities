@@ -167,7 +167,7 @@ h3 {
 	filter:alpha(opacity=75);
 	height:65px;
 	width:91px;
-	background:url('bigLiquid.png') 0 0;
+	background:url('images/bigLiquid.png') 0 0;
 	z-index:0;
 }
 #smallLiquid {
@@ -180,7 +180,7 @@ h3 {
 	filter:alpha(opacity=75);
 	height:59px;
 	width:60px;
-	background:url('smallLiquid.png') 0 0;
+	background:url('images/smallLiquid.png') 0 0;
 	z-index:0;
 }
 #smallBeakerPour {
@@ -189,7 +189,7 @@ h3 {
 	left:248px;
 	height:240px;
 	width:150px;
-	background:url('smallBeakerPour.gif') 0 0;
+	background:url('images/smallBeakerPour.gif') 0 0;
 	z-index:-1;
 }
 #eyedropper {
