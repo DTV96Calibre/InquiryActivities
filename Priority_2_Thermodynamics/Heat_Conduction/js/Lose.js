@@ -1,5 +1,5 @@
 // Intro scene constructor function
-function Intro()
+function Lose()
 {
     this.s;
     this.setup = function() {

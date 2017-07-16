@@ -1,5 +1,5 @@
 // Intro scene constructor function
-function Intro()
+function Win()
 {
     this.s;
     this.setup = function() {
