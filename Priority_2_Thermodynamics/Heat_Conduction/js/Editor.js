@@ -18,8 +18,14 @@ function Editor(){
     }
 
     this.setup = function() {
+      // Setup DOM input elements
       diameterSlider = createSlider(10, 100, 50);
+      finishButton = createButton('Finalize');
+      finishButton.mousePressed(this.finishHandle);
+      resetButton = createButton('Reset Handle');
+      resetButton.mousePressed(this.resetHandle);
 
+      // Initialize scene elements
       fill(51);
       noStroke();
       pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
@@ -60,6 +66,8 @@ function Editor(){
       var HEIGHT_OF_SLIDER = 25;
       //diameterSlider.style('height', '25');
       pot.pos.x = windowWidth/2;
+      finishButton.position(pot.pos.x, pot.pos.y);
+      resetButton.position(pot.pos.x, pot.pos.y + 50);
       //pot.pos.x = windowWidth-POT_H_OFFSET;
       pot.locateAnchorPoint();
 
@@ -81,5 +89,19 @@ function Editor(){
         print(joints);
       }
     }
+    this.finishHandle = function() {
+      var randB = random([true, false]);
+      if (randB) {
+        this.sceneManager.showScene(Win);
+      }
+      else {
+        this.sceneManager.showScene(Lose);
+      }
+      return;
+    }
 
+    this.resetHandle = function(){
+      joints = [];
+      joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
+    }
 }
