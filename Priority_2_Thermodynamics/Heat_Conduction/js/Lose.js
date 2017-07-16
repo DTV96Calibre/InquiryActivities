@@ -20,10 +20,10 @@ function Lose()
       print("Resized canvas");
     }
 
-    this.mouseClicked = function() {
-        print("mouse clicked");
-        this.sceneManager.showNextScene();
-    }
+    // this.mouseClicked = function() {
+    //     print("mouse clicked");
+    //     this.sceneManager.showNextScene();
+    // }
 
     this.drawText = function() {
       fill(50);
