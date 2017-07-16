@@ -21,9 +21,10 @@ function Editor(){
       // Setup DOM input elements
       diameterSlider = createSlider(10, 100, 50);
       finishButton = createButton('Finalize');
-      finishButton.mousePressed(this.finishHandle);
+      // this is not bound to finishHandle here so manually bind it
+      finishButton.mousePressed(this.finishHandle.bind(this));
       resetButton = createButton('Reset Handle');
-      resetButton.mousePressed(this.resetHandle);
+      resetButton.mousePressed(this.resetHandle, this);
 
       // Initialize scene elements
       fill(51);
