@@ -11,8 +11,8 @@ body {
 #liquidFun {
 	position: absolute;
 	top: 20%;
-	left: 20%;
+	left: 35%;
 	width: 50%;
 	height: 70%;
-	border: 2px solid green;
+	/*border: 2px solid green;*/
 }

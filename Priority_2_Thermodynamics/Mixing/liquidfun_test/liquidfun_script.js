@@ -132,17 +132,6 @@ function init() {
   var particles = world.particleSystems[0].GetPositionBuffer();
   animateParticles(particles);
 
-  geometry.colors = colors;
-  var material = new THREE.PointCloudMaterial({
-    size : 5,
-    transparent : true,
-    opacity : 0.9,
-    vertexColors : true
-  });
-  scene.remove(pc);
-  pc = new THREE.PointCloud(geometry, material);
-  scene.add(pc);
-
   tick();
 }
 
@@ -167,6 +156,18 @@ function animateParticles(particles) {
     geometry.vertices.push(vertex);
     colors.push(color);
   }
+
+  geometry.colors = colors;
+  var material = new THREE.PointCloudMaterial({
+    size : 5,
+    transparent : true,
+    opacity : 0.9,
+    vertexColors : true
+  });
+
+  scene.remove(pc);
+  pc = new THREE.PointCloud(geometry, material);
+  scene.add(pc);
 }
 
 function testSwitch(testName) {
