@@ -12,6 +12,9 @@ class Joint{
       this.next.draw();
     }
   }
+  getGlobalPos(){
+    return {x:this.pos.x + pot.anchorPoint.x, y:this.pos.y + pot.anchorPoint.y};
+  }
   static pointFromCircle(radius, angle) {
     var x = cos(angle)*radius/2;
     //print("x:"+x);

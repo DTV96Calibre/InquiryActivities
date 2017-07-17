@@ -1,9 +1,9 @@
 // Intro scene constructor function
-function Intro()
+function Lose()
 {
     this.s;
     this.setup = function() {
-      this.s = "The cook on the SS Salty Kitty has lived a dangerous life cooking for the most eccentric pirates on these seven seas. After his most recent accident involving a poorly designed pot, he's hired you to design a handle that won't burn him to death. He's entrusted his last 3 lives to you...";
+      this.s = "The cat died a gruesome death";
       this.sceneManager.scene.setupExecuted = true;
       this.windowResized();
     }
@@ -20,10 +20,10 @@ function Intro()
       print("Resized canvas");
     }
 
-    this.mouseClicked = function() {
-        print("mouse clicked");
-        this.sceneManager.showNextScene();
-    }
+    // this.mouseClicked = function() {
+    //     print("mouse clicked");
+    //     this.sceneManager.showNextScene();
+    // }
 
     this.drawText = function() {
       fill(50);

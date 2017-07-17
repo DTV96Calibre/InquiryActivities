@@ -1,6 +1,6 @@
 class Arm{
   constructor(pos){
-    this.pos = []; // array should be faster than object
+    this.pos = {x:0, y:0}; // array should be faster than object
     this.pos = pos;
     this.shoulderOffset = [-100, -100];
     this.handDiameter = 100;
@@ -14,14 +14,14 @@ class Arm{
     //draw arm
     stroke(this.armColor);
     strokeWeight(this.armThickness);
-    line(this.pos[0], this.pos[1], this.pos[0]+this.shoulderOffset[0], this.pos[1]+this.shoulderOffset[1]);
+    line(this.pos.x, this.pos.y, this.pos.x+this.shoulderOffset[0], this.pos.y+this.shoulderOffset[1]);
     strokeWeight(1); //restore strokeWeight to default
     // the rest of the sketch uses no stroke so disable stroke before finishing
     noStroke();
 
     // draw hand
     fill(this.handColor);
-    ellipse(this.pos[0], this.pos[1], this.handDiameter);
+    ellipse(this.pos.x, this.pos.y, this.handDiameter);
 
   }
   setPos(pos){

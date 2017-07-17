@@ -12,18 +12,27 @@ var validZone = {x1:100, x2:200, y1:100, y2:200};
 function Editor(){
     // Member variables
     this.crosshair_pos = [0, 0];
+    // Keep track of whether or not user can place joints or select joints
+    this.mode = 'placing'; // modes: placing, selecting
 
     this.enter = function() {
       print("Entered editor");
     }
 
     this.setup = function() {
+      // Setup DOM input elements
       diameterSlider = createSlider(10, 100, 50);
+      finishButton = createButton('Finalize');
+      // this is not bound to finishHandle here so manually bind it
+      finishButton.mouseClicked(this.finishHandle.bind(this));
+      resetButton = createButton('Reset Handle');
+      resetButton.mouseClicked(this.resetHandle);
 
+      // Initialize scene elements
       fill(51);
       noStroke();
       pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
-      arm = new Arm([100, 100]);
+      arm = new Arm({x:100, y:100});
 
       joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
 
@@ -60,6 +69,8 @@ function Editor(){
       var HEIGHT_OF_SLIDER = 25;
       //diameterSlider.style('height', '25');
       pot.pos.x = windowWidth/2;
+      finishButton.position(pot.pos.x, pot.pos.y);
+      resetButton.position(pot.pos.x, pot.pos.y + 50);
       //pot.pos.x = windowWidth-POT_H_OFFSET;
       pot.locateAnchorPoint();
 
@@ -74,12 +85,45 @@ function Editor(){
     }
 
     this.mouseClicked = function() {
-      if (inValidZone(mouseX, mouseY)) {
+      if (inValidZone(mouseX, mouseY) && this.mode == 'placing') {
         print("placing");
         var radius = diameterSlider.value();
         insertJoint(mouseX, mouseY, radius);
         print(joints);
       }
+      if (inValidZone(mouseX, mouseY) && this.mode == 'selecting') {
+        print("selecting");
+        print(getNearestJoint({x:mouseX, y:mouseY}));
+        this.selectNearestJoint();
+      }
     }
 
+    this.selectNearestJoint = function() {
+      var joint = getNearestJoint({x:mouseX, y:mouseY});
+      var jointPos = joint.getGlobalPos();
+      arm.pos.x = jointPos.x;
+      arm.pos.y = jointPos.y - 100;
+      print("arm is now at " + arm.pos);
+    }
+
+    this.grabPot = function() {
+      var randB = random([true, false]);
+      if (randB) {
+        this.sceneManager.showScene(Win);
+      }
+      else {
+        this.sceneManager.showScene(Lose);
+      }
+      return;
+    }
+
+    this.finishHandle = function() {
+      this.mode = 'selecting';
+      print("handle finished");
+    }
+
+    this.resetHandle = function(){
+      joints = [];
+      joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
+    }
 }
