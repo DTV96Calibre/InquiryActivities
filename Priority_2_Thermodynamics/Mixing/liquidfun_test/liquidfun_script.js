@@ -51,6 +51,8 @@ function tick() {
 function WaveMachine() {
   var bdDef = new b2BodyDef();
   var body = world.CreateBody(bdDef);
+
+  // Floor
   var wg = new b2PolygonShape();
   wg.SetAsBoxXYCenterAngle(
     windowWidth / METER / 2,
@@ -59,6 +61,8 @@ function WaveMachine() {
     0
   );
   body.CreateFixtureFromShape(wg, 5);
+
+  // Left wall
   var wgl = new b2PolygonShape(); 
   wgl.SetAsBoxXYCenterAngle(
     0.05,
@@ -67,6 +71,8 @@ function WaveMachine() {
     0
   );
   body.CreateFixtureFromShape(wgl, 5);
+
+  // Right wall
   var wgr = new b2PolygonShape();
   wgr.SetAsBoxXYCenterAngle(
     0.05,
@@ -76,6 +82,7 @@ function WaveMachine() {
     0
   );
   body.CreateFixtureFromShape(wgr, 5);
+
   var psd = new b2ParticleSystemDef();
   psd.radius = 0.025;
   psd.dampingStrength = 0.2;
@@ -123,6 +130,23 @@ function init() {
   testSwitch("WaveMachine");
 
   var particles = world.particleSystems[0].GetPositionBuffer();
+  animateParticles(particles);
+
+  geometry.colors = colors;
+  var material = new THREE.PointCloudMaterial({
+    size : 5,
+    transparent : true,
+    opacity : 0.9,
+    vertexColors : true
+  });
+  scene.remove(pc);
+  pc = new THREE.PointCloud(geometry, material);
+  scene.add(pc);
+
+  tick();
+}
+
+function animateParticles(particles) {
   var geometry = new THREE.Geometry();
   var colors = [];
   for (var i = 0; i < particles.length / 2; i++) {       
@@ -143,19 +167,6 @@ function init() {
     geometry.vertices.push(vertex);
     colors.push(color);
   }
-
-  geometry.colors = colors;
-  var material = new THREE.PointCloudMaterial({
-    size : 5,
-    transparent : true,
-    opacity : 0.9,
-    vertexColors : true
-  });
-  scene.remove(pc);
-  pc = new THREE.PointCloud(geometry, material);
-  scene.add(pc);
-
-  tick();
 }
 
 function testSwitch(testName) {
