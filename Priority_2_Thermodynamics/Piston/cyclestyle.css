@@ -1,3 +1,11 @@
+/*
+ * File: cyclestyle.js
+ * Author: Emily Ehrenberger (August 2011), Modified by Brooke Bullek (July 2017)
+ *		   Under the supervision of Margot Vigeant, Bucknell University
+ *		   Based on Flash simulation by Gavin MacInnes
+ * (c) Margot Vigeant 2017
+*/
+
 body {
 	font-family: "Times New Roman";
 	font-size: 16px;
@@ -73,15 +81,15 @@ textarea {
 	width:-31px;
 }
 #heatInLabel {
-	left:445px;
+	left:446px;
 	top:80px;
 }
 #heatOutLabel {
-	left:445px;
-	top:115px;
+	left:446px;
+	top:117px;
 }
 #netWorkLabel {
-	left:540px;
+	left:527px;
 	top:115px;
 }
 #heatSourceLabel {
@@ -359,6 +367,11 @@ textarea {
 	position:absolute;
 	top:650px;
 	left:275px;
+}
+
+#heatInLabel, #heatOutLabel, #netWorkLabel, #heatSourceLabel, #heatSinkLabel {
+	font-weight: normal;
+	font-size: 11px;
 }
 
 /* Custom Bootstrap button class */
