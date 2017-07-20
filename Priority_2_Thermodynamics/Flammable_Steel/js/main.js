@@ -465,6 +465,7 @@ function resizeInfoBoxes() {
  * Adjust the buttons embedded in the HTML so they align with the matchbox.
  */
 function resizeButtons() {
+  /* Desktop screens */
   if (wideAspectRatio) {
     var width = matchbox.width;
     var xOffset = matchbox.xOffset;
@@ -476,17 +477,20 @@ function resizeButtons() {
     btnWidth += 6;
     $('#switchBtn').css({ 'width' : btnWidth + "px"}); 
   } 
+  /* Mobile screens */
   else {
     var width = windowWidth / 4;
     var xOffset = windowWidth * config['panelXOffsetRatio'];
     var yOffset = getTableLowerBoundary() + matchbox.padding;
+
+    // Make toggle wood/steel button line up with reset button
+    var btnWidth = $('#resetBtn').outerWidth();
+    $('#switchBtn').css({ 'width' : btnWidth + "px"}); 
   }
 
   $(".main_button_box").css({ 'left': xOffset + "px" });
   $(".main_button_box").css({ 'top': yOffset + "px" });
   $(".main_button_box").css({ 'width': width + "px" });
-
-
 }
 
 /*
