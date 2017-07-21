@@ -18,12 +18,15 @@ function insertJoint(x, y, radius) {
   // Joints are drawn relative to the anchorpoint so calculate offset
   var jointXOffset = x - pot.anchorPoint.x;
   var jointYOffset = y - pot.anchorPoint.y;
+  
+  // check if too close to last joint
+  var xDiff = joints[joints.length-1].pos.x - jointXOffset;
+  if (xDiff < 50 && xDiff > 0) {
+    return;
+  }
 
-  // // Limit new joints to only be created to the left of the previous joints
-  // if (jointXOffset >= joints[joints.length-1].pos.x) {
-  //   return; //TODO: Here we should try removing nodes until valid
-  // }
-
+  // Limit new joints to only be created to the left of the previous joints
+  // Erase nodes until new joint is in valid location
   while(jointXOffset >= joints[joints.length-1].pos.x) {
     if (joints.length - 1 <= 0) {
       return;
