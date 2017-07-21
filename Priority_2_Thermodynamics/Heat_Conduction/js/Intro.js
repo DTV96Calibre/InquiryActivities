@@ -9,6 +9,10 @@ function Intro()
     }
 
     this.draw = function() {
+      if (!this.sceneManager){
+	      print("SceneManager is gone");
+	      stop();
+      }
       clear();
       this.drawText();
       this.drawCat();

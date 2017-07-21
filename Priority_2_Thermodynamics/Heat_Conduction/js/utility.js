@@ -23,6 +23,12 @@ function insertJoint(x, y, radius) {
   // if (jointXOffset >= joints[joints.length-1].pos.x) {
   //   return; //TODO: Here we should try removing nodes until valid
   // }
+  
+  // check if too close to last joint
+  var xDiff = joints[joints.length-1].pos.x - jointXOffset;
+  if (xDiff < 50 && xDiff > 0) {
+    return;
+  }
 
   while(jointXOffset >= joints[joints.length-1].pos.x) {
     if (joints.length - 1 <= 0) {
