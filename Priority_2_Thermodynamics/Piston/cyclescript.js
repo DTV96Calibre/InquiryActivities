@@ -667,7 +667,7 @@ function graph() {
 }
 
 function graphPreviewDot() {
-  /*if(dotPreviewed) {
+  if (dotPreviewed) {
     Vpoints[Vpoints.length - 1] = volume;
     Ppoints[Ppoints.length - 1] = pressure;
     Tpoints[Tpoints.length - 1] = temp;
@@ -678,8 +678,7 @@ function graphPreviewDot() {
     Ppoints.push(pressure);
     Tpoints.push(temp);
     Spoints.push(entropy);
-  }*/
-  
+  }
   
   var points = generateGraphPoints();
 
