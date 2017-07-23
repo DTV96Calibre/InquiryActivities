@@ -761,6 +761,9 @@ function graphPreviewDot() {
   //alert("Spoints = " + Spoints);
 }
 
+/*
+ * Simulates the collection of points needed to graph the latest endpoint, which may be a curved line.
+ */
 function generateGraphPoints() {
 
   // Create an empty object to act as an associative array containing the sets of point values for P, V, T, and S
@@ -771,7 +774,7 @@ function generateGraphPoints() {
   points["S"] = new Array();
   
   // if the step is adiabatic, must simulate a curve (rather than a straight line) for the PV graph
-  if(stepType=="Adiabatic") {
+  if (stepType=="Adiabatic") {
     // The coordinate arrays for pressure and volume already contain the endpoint because it was previewed for
     // the user. Remove the endpoint so we can easily push intermediate coordinates on the array
     //Ppoints.pop();
@@ -785,7 +788,7 @@ function generateGraphPoints() {
     var Vstep = (volume - oldVolume) / 50;
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for(var i=1; i<=50; i++) {
+    for (var i = 1; i <= 50; i++) {
       oldV = V;
       oldP = P;
       V += Vstep;
@@ -811,7 +814,7 @@ function generateGraphPoints() {
   
   
   // If the step is isobaric or isochoric, must simulate a curve for the TS graph
-  else if(stepType=="Isobaric") {
+  else if (stepType == "Isobaric") {
     //Tpoints.pop();
     //Spoints.pop();
     
@@ -823,7 +826,7 @@ function generateGraphPoints() {
     var Sstep = (entropy - oldEntropy) / 50;
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for(var i=1; i<=50; i++) {
+    for (var i=1; i<=50; i++) {
       oldS = S;
       oldT = T;
       S += Sstep;
@@ -842,7 +845,7 @@ function generateGraphPoints() {
     //TSgraphBase.clear();
     //TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
   }
-  else if(stepType=="Isochoric") {
+  else if (stepType=="Isochoric") {
     Tpoints.pop();
     Spoints.pop();
     
@@ -892,6 +895,10 @@ function generateGraphPoints() {
 *************************************************************************************************************************
 */
 
+/*
+ * Attempts to close the cycle by checking whether one of the variables (pressure, volume, temperature, or entropy)
+ * 'closes' by returning to its original value.
+ */
 function closeCycle() {
   var percent;
   var pressCloses;
@@ -935,14 +942,13 @@ function closeCycle() {
     
     var success = saveStep();
     
-    if(success) {
+    if (success) {
       return true;
     }
     else {
       $("#cycleInfo").val("Attempting to close cycle with an isobaric step...\n\n" + $("#cycleInfo").val());
       return false;
     }
-
   }
   else if (volCloses) {
     stepType = "Isochoric";
@@ -956,14 +962,13 @@ function closeCycle() {
     
     var success = saveStep();
     
-    if(success) {
+    if (success) {
       return true;
     }
     else {
       $("#cycleInfo").val("Attempting to close cycle with an isochoric step...\n\n" + $("#cycleInfo").val());
       return false;
     }
-
   }
   else if (tempCloses) {
     stepType = "Isothermal";
@@ -1016,6 +1021,9 @@ function closeCycle() {
   } 
 }
 
+/*
+ * Computes and saves various mathematical properties of this cycle, including net work done, heat in, and heat out.
+ */
 function calculateCycleStats() {
   var efficiencyString;
   var engineType;
@@ -1030,34 +1038,34 @@ function calculateCycleStats() {
   var maxTemp = NaN;
   var minTemp = NaN;
   
-  for (var i=0; i<savedSteps.length; i++) {
+  for (var i=0; i < savedSteps.length; i++) {
     netWork += savedSteps[i]["W"];
     
-    if(savedSteps[i]["Q"] > 0) {
+    if (savedSteps[i]["Q"] > 0) {
       heatIn += savedSteps[i]["Q"];
     }
     else {
       heatOut += savedSteps[i]["Q"];
     }
       
-    if(isNaN(maxTemp)) {
+    if (isNaN(maxTemp)) {
       maxTemp = savedSteps[i]["T"];
     }
-    else if(maxTemp < savedSteps[i]["T"]) {
+    else if (maxTemp < savedSteps[i]["T"]) {
       maxTemp = savedSteps[i]["T"];
     }
     
-    if(isNaN(minTemp)) {
+    if (isNaN(minTemp)) {
       minTemp = savedSteps[i]["T"];
     }
-    else if(minTemp > savedSteps[i]["T"]) {
+    else if (minTemp > savedSteps[i]["T"]) {
       minTemp = savedSteps[i]["T"];
     }
   }
   efficiency = -netWork / heatIn;
   
   // if the cycle requires work to be done on it to run
-  if(netWork > 0.001) {
+  if (netWork > 0.001) {
     engineType = "heat pump";
 
     var COP = heatIn / netWork;
@@ -1074,7 +1082,7 @@ function calculateCycleStats() {
     
     cycleType = determineHeatPumpType();
   }
-  else if(netWork < -0.001) {
+  else if (netWork < -0.001) {
     engineType = "engine";
     var CarnotEfficiency = 1 - minTemp/maxTemp;
     efficiencyString = "Cycle Efficiency: " + efficiency.toFixed(4) + "\nCarnot Efficiency: " + CarnotEfficiency.toFixed(4);
@@ -1102,7 +1110,7 @@ function calculateCycleStats() {
     $("#cycleInfo").val($("#cycleInfo").val() + "You've created a new " + engineType + "!\nNet work = " + toKiloJoules(netWork).toFixed(1) + " kJ\n" + efficiencyString);
   }
   else {
-    if(engineType=="heat pump") {
+    if (engineType == "heat pump") {
       engineType = "a heat pump";
     }
     else {
@@ -1113,14 +1121,16 @@ function calculateCycleStats() {
   }
 }
 
+/*
+ * If the cycle has closed and consists of alternating adiabatic and isothermal processes, returns the heat pump type as a Carnot engine.
+ */
 function determineHeatPumpType() {
-  //alert("determineHeatPumpType");
-  if(savedSteps.length == 4) {
-    if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isothermal" && savedSteps[2]["stepType"] == "Adiabatic" &&
+  if (savedSteps.length == 4) {
+    if (savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isothermal" && savedSteps[2]["stepType"] == "Adiabatic" &&
         savedSteps[3]["stepType"] == "Isothermal") {
       return "Carnot";
     }
-    else if(savedSteps[0]["stepType"] == "Isothermal" && savedSteps[1]["stepType"] == "Adiabatic" && savedSteps[2]["stepType"] == "Isothermal" &&
+    else if (savedSteps[0]["stepType"] == "Isothermal" && savedSteps[1]["stepType"] == "Adiabatic" && savedSteps[2]["stepType"] == "Isothermal" &&
         savedSteps[3]["stepType"] == "Adiabatic") {
       return "Carnot";
     }
@@ -1129,9 +1139,11 @@ function determineHeatPumpType() {
   return "other";
 }
 
+/*
+ * Returns a string denoting the type of the engine (Carnot, Otto, Rankine, Diesel, or Stirling) depending on the processes of the steps.
+ */
 function determineEngineType() {
-  //alert("determineEngineType");
-  if(savedSteps.length == 4) {
+  if (savedSteps.length == 4) {
     
     // Check for Carnot cycle
     if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isothermal" && savedSteps[2]["stepType"] == "Adiabatic" &&
@@ -1142,8 +1154,7 @@ function determineEngineType() {
           savedSteps[3]["stepType"] == "Adiabatic") {
       return "Carnot";
     }
-    
-    
+
     // Check for Otto cyle
     else if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isochoric" && savedSteps[2]["stepType"] == "Adiabatic" &&
           savedSteps[3]["stepType"] == "Isochoric") {
@@ -1154,7 +1165,6 @@ function determineEngineType() {
       return "Otto";
     }
     
-    
     // Check for Rankine cycle
     else if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isobaric" && savedSteps[2]["stepType"] == "Adiabatic" &&
           savedSteps[3]["stepType"] == "Isobaric") {
@@ -1164,7 +1174,6 @@ function determineEngineType() {
           savedSteps[3]["stepType"] == "Adiabatic") {
       return "Rankine";
     }
-    
     
     // Check for Diesel cycle
     else if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isobaric" && savedSteps[2]["stepType"] == "Adiabatic" &&
@@ -1184,7 +1193,6 @@ function determineEngineType() {
       return "Diesel";
     }
     
-    
     // Check for Stirling cycle
     else if(savedSteps[0]["stepType"] == "Isothermal" && savedSteps[1]["stepType"] == "Isochoric" && savedSteps[2]["stepType"] == "Isothermal" &&
           savedSteps[3]["stepType"] == "Isochoric") {
@@ -1198,7 +1206,6 @@ function determineEngineType() {
   
   return "other";
 }
-
 
 /*
 *************************************************************************************************************************
@@ -1249,17 +1256,14 @@ function scaleWorkArrow(percent) {
 }
 
 function pistonPosToVolume(pistonPos) {
-  //alert("pistonPosToVolume");
   return pistonPos * CrossSection;
 }
 
 function volumeToPistonPos(vol) {
-  //alert("volumeToPistonPos");
   return vol / CrossSection;
 }
 
 function pistonPosToPixels(pos) {
-  //alert("pistonPosToPixels");
   var pixels = 200 - (2 * pos);
   // truncate decimal places because not all browsers can process a fractional value for number of pixels
   pixels = Math.floor(pixels);
@@ -1268,21 +1272,19 @@ function pistonPosToPixels(pos) {
 }
 
 function pixelsToPistonPos(pixels) {
-  
   // Ensure Javascript sees pixels as a string; otherwise the code to remove "px" will break
   pixels = pixels + "";
   
   // Remove "px" from the end of the "pixels" value in case "pixels" contains a raw CSS value, to ensure it contains just a number
   var ind = pixels.indexOf('p');
-  if(ind > -1)
+  if (ind > -1)
     pixels = pixels.substring(0, ind);
     
   return (200 - pixels) / 2;
 }
 
 /*
- * Function: toKiloJoules
- * Purpose: Converts energy values, like work and heat, from our units of (cm^3 * bar) to kJ
+ * Converts energy values, like work and heat, from our units of (cm^3 * bar) to kJ
  * The conversion is the following:
  *
  * (1cm)^3 * (1 bar) = ( (1/100) m)^3 * (100,000 Pa)
