@@ -27,6 +27,11 @@
         <!-- Bootstrap: Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+        <!-- Highchart library for 3D graphs -->
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
 		<link href="cyclestyle.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="lib/webkitdragdrop.js"></script><!-- Plugin downloaded from gotProject http://www.gotproject.com/blog/post2.html-->
 		<script type="text/javascript" src="lib/raphael-min.js"></script><!-- Plugin downloaded from raphaeljs.com -->
@@ -102,7 +107,8 @@
 			<label id="gasTempLabel">Gas Temperature:</label>
 			<label id="gasTemp"></label>
 			<label id="gasTempUnits">K</label>
-			
+
+			<div id="PVTGraphDiv"></div>
 			
 			<label id="cycleStepsLabel">Cycle Steps</label>
 			<textarea id="cycleSteps" cols="25" rows="10" readonly="readonly"></textarea>

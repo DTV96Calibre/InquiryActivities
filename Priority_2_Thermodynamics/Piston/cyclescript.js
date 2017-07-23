@@ -45,6 +45,7 @@ var oldEntropy;
 
 var savedSteps;
 
+var PVTGraph3D;
 var PVgraphBase;
 var PVgraph;
 var Ppoints;
@@ -119,6 +120,7 @@ function openSim() {
 function initializeGraphs() {
   PVgraphBase = Raphael('PVgraphDiv');
   TSgraphBase = Raphael('TSgraphDiv');
+  init3DGraph();
 }
 
 /*
@@ -1295,4 +1297,130 @@ function pixelsToPistonPos(pixels) {
  */
 function toKiloJoules(energy) {
   return 10*energy/1000;
+}
+
+/*
+*************************************************************************************************************************
+*                                              3D Graph Functionality                                                   *
+*************************************************************************************************************************
+*/
+
+// Give the points a 3D feel by adding a radial gradient
+Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
+    return {
+        radialGradient: {
+            cx: 0.4,
+            cy: 0.3,
+            r: 0.5
+        },
+        stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
+        ]
+    };
+});
+
+function init3DGraph() {
+  PVTGraph3D = new Highcharts.Chart({
+    chart: {
+      renderTo: 'PVTGraphDiv',
+      margin: 50,
+      type: 'scatter',
+      options3d: {
+        enabled: true,
+        alpha: 20,
+        beta: 30,
+        depth: 200,
+        frame: {
+          bottom: {
+            size: 1,
+            color: '#C0C0C0'
+          }
+        }
+      }
+    },
+
+    title: {
+      text: ''
+    },
+
+    yAxis: {
+      min: 0,
+      title: {
+          text: 'Temperature'
+      }
+    },
+
+    xAxis: {
+      min: 0,
+      gridLineWidth: 1,
+      title: {
+          text: 'Pressure'
+      }
+    },
+
+    zAxis: {
+      min: 0,
+      title: {
+          text: 'Volume'
+      }
+    },
+
+    plotOptions: {
+      series: {
+        lineWidth: 1
+      }
+    },
+
+    legend: {
+      enabled: false
+    },
+
+    series: [{
+      data: [
+        // [X, Y, Z]
+        [1, 1, 1],
+        [1, 1, 2],
+        [1, 1, 5],
+        [2, 3, 2],
+        [2, 6, 4],
+        [4, 5, 7],
+        [4, 2, 8],
+        [7, 1, 3],
+        [7, 1, 5],
+        [8, 1, 5]
+      ]
+    }]
+  });
+
+  // Add mouse events for rotation
+  $(PVTGraph3D.container).on('mousedown.hc touchstart.hc', function (eStart) {
+      eStart = PVTGraph3D.pointer.normalize(eStart);
+
+      var posX = eStart.chartX,
+          posY = eStart.chartY,
+          alpha = PVTGraph3D.options.chart.options3d.alpha,
+          beta = PVTGraph3D.options.chart.options3d.beta,
+          newAlpha,
+          newBeta,
+          sensitivity = 5; // lower is more sensitive
+
+      $(document).on({
+          'mousemove.hc touchmove.hc': function (e) {
+              // Run beta
+              e = PVTGraph3D.pointer.normalize(e);
+              newBeta = beta + (posX - e.chartX) / sensitivity;
+              PVTGraph3D.options.chart.options3d.beta = newBeta;
+
+              // Run alpha
+              newAlpha = alpha + (e.chartY - posY) / sensitivity;
+              PVTGraph3D.options.chart.options3d.alpha = newAlpha;
+
+              PVTGraph3D.redraw(false);
+          },
+          'mouseup touchend': function () {
+              $(document).off('.hc');
+          }
+      });
+  });
 }

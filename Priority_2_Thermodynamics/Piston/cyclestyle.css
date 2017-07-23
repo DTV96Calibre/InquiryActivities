@@ -126,9 +126,6 @@ textarea {
 	font-size:1.10em;
 	font-family:sans-serif;
 }
-
-
-
 #pistonTube {
 	position:absolute;
 	left:15px;
@@ -259,8 +256,14 @@ textarea {
 	font-weight:bold;
 }
 
-
-
+/* The 3D Temperature/Pressure/Volume graph */
+#PVTGraphDiv {
+	position:absolute;
+	left:825px;
+	top:-20px;
+	height:370px;
+	width:400px;
+}
 
 #gasPressureLabel {
 	position:absolute;
