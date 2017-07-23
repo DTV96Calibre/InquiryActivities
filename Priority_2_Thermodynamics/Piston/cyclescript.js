@@ -1,8 +1,8 @@
 /*
  * File: cyclescript.js
  * Author: Emily Ehrenberger (August 2011), Modified by Brooke Bullek (July 2017)
- *       Under the supervision of Margot Vigeant, Bucknell University
- *       Based on Flash simulation by Gavin MacInnes
+ *         Under the supervision of Margot Vigeant, Bucknell University
+ *         Based on Flash simulation by Gavin MacInnes
  * (c) Margot Vigeant 2017
 */
 
@@ -16,15 +16,20 @@
 
 $(document).ready(init);
 
-var R = 83.143; // (cm^3 * bar) / (mol * K)
-var Cp = (7/2)*R; // (cm^3 * bar) / (mol * K)
-var Cv = (5/2)*R; // (cm^3 * bar) / (mol * K)
-var CrossSection = 609.334; // cm^2
+/* Constants */
+
 var INITIAL_TEMP = 293; // K
 var INITIAL_PISTON = 40; // cm
 var INITIAL_PRESSURE = 1; // bar
 var INITIAL_ENTROPY = 0;
 var ARROW_MAX_WIDTH = 30;
+
+/* Globals */
+
+var R = 83.143; // (cm^3 * bar) / (mol * K)
+var Cp = (7/2)*R; // (cm^3 * bar) / (mol * K)
+var Cv = (5/2)*R; // (cm^3 * bar) / (mol * K)
+var CrossSection = 609.334; // cm^2
 
 var temp;
 var pressure;
@@ -58,6 +63,10 @@ var slidingPistoniPad;
 *************************************************************************************************************************
 */
 
+/*
+ * The very first function called once the page is loaded. Shows the intro screen with a continue button and
+ * registers event handlers with the buttons.
+ */
 function init() {
   $("#simulationDiv").hide();
   
@@ -67,12 +76,6 @@ function init() {
   $("#pistonPosition").on('change', positionTextFieldChanged);
   // Set up drag-and-drop for normal browsers. If the user is on an iPad this will not detect anything (but won't break anything either)
   $("#slidingPiston").draggable( {containment:'parent', drag:pistonDragged, stop:pistonDragged} );
-  
-  if(isiPad) {
-    // Set up drag-and-drop for iPad browsers. If the user is on a computer this will not detect anything (but won't break anything either)
-    slidingPistoniPad = new webkit_draggable('slidingPiston', {onMove:pistonDraggediPad, onEnd:pistonDraggediPad});
-  }
-  
   $("#heatSourceTemp").on('change', getHeatSourceTemp);
   $(".stepType").on('click', getStepType);
   $("#saveStepButton").on('click', saveStep);
@@ -80,18 +83,25 @@ function init() {
   $("#finishCycleButton").on('click', closeCyclePressed);
   $("#about").on('click', displayAboutInfo);
   $("#instructions").on('click', displayInstructions);
-  $("#toggleTooltips").on('click', toggleTooltips);
 }
 
+/*
+ * Checks whether the platform index for "iPad" is undefined (equal to -1). If so, this is NOT an iPad. 
+ * If this device is an iPad, accommodates the smaller window and sets up a webkit_draggable object.
+ */
 function detectiPad() {
-  // Check whether the platform index for "iPad" is undefined (equal to -1). If so, this is NOT an iPad.
   isiPad = !(navigator.platform.indexOf("iPad") == -1);
   
   if(isiPad){
     $(".container").css("width", "95%");
+    // Set up drag-and-drop for iPad browsers. If the user is on a computer this will not detect anything (but won't break anything either)
+    slidingPistoniPad = new webkit_draggable('slidingPiston', {onMove:pistonDraggediPad, onEnd:pistonDraggediPad});
   }
 }
 
+/*
+ * Hides the intro scene once the user presses the 'continue' button and shows the actual piston simulation.
+ */
 function openSim() {
   $("#introDiv").hide();
   $("#simulationDiv").show();
@@ -102,11 +112,18 @@ function openSim() {
   return false;
 }
 
+/*
+ * Initializes the Raphael (2D vector library for JS) objects by passing in the HTML divs meant to store the 
+ * pressure/volume and temperature/entropy graphs.
+ */
 function initializeGraphs() {
   PVgraphBase = Raphael('PVgraphDiv');
   TSgraphBase = Raphael('TSgraphDiv');
 }
 
+/*
+ * Reverts the simulation's progress to its original state.
+ */
 function resetAll() {
   // Reset internal variables
   temp = INITIAL_TEMP;
@@ -128,8 +145,10 @@ function resetAll() {
   $("#gasPressure").html(pressure);
   $("#pistonPosition").val(pistonPosition);
   movePistonTo(pistonPosition);
+
+  // Process type starts as adiabatic by default
   $(".stepType").attr("checked", false);
-  $("#stepType[value=Adiabatic]").attr("checked", true);
+  document.getElementById("stepTypeAdiabatic").checked = true;
   
   // Reset the piston insulation in the picture (shows the gray insulation)
   $("#jacket").show();
@@ -140,19 +159,22 @@ function resetAll() {
   $("#cycleSteps").val("Initial State: " + pressure + " bar, " + temp + " K, " + pistonPosition + " cm extension");
   $("#cycleInfo").val("");
   
-  // Reset the graphs
+  // Reset the PV (pressure vs. volume) graph
   Ppoints = new Array();
   Ppoints[0] = INITIAL_PRESSURE;
   Vpoints = new Array();
   Vpoints[0] = pistonPosToVolume(INITIAL_PISTON);
   PVgraphBase.clear();
   PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
+
+  // Reset the TS (temperature vs. entropy) graph
   Tpoints = new Array();
   Tpoints[0] = INITIAL_TEMP;
   Spoints = new Array();
   Spoints[0] = INITIAL_ENTROPY;
   TSgraphBase.clear();
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
+
   dotPreviewed = false;
   
   scaleHeatInArrow(66);
@@ -172,25 +194,31 @@ function resetAll() {
 *************************************************************************************************************************
 */
 
+/*
+ * Called when the user clicks and drags the piston.
+ */
 function pistonDragged(event, ui) {
   pistonPosition = pixelsToPistonPos(ui.position.top);
   processNewPosition();
 }
 
+/*
+ * Called when the user clicks and drags the piston on the iPad.
+ */
 function pistonDraggediPad() {
-  // stop the piston from being dragged sideways (the gotProject library doesn't have a way to do this automatically)
+  // Stop the piston from being dragged sideways (the gotProject library doesn't have a way to do this automatically)
   $("#slidingPiston").css("left", "0px");
   
-  // read in the piston's new position
+  // Read in the piston's new position
   pistonPosition = pixelsToPistonPos($("#slidingPiston").css("top"));
   
-  // make sure piston is not out of range vertically (again, the jqueryui library for ordinary browswers does this
-  // automatically, but the gotProject library for the iPad does not)
+  /* Make sure piston is not out of range vertically (again, the jqueryui library for ordinary browswers does this
+   * automatically, but the gotProject library for the iPad does not) */
   if (pistonPosition > 100) {
     pistonPosition = 100;
     movePistonTo(100);
   }
-  else if(pistonPosition < 10) {
+  else if (pistonPosition < 10) {
     pistonPosition = 10;
     movePistonTo(10);
   }
@@ -198,61 +226,72 @@ function pistonDraggediPad() {
   processNewPosition();
 }
 
+/*
+ * Updates the position when the textbox (and hence the piston's position) have changed.
+ */
 function positionTextFieldChanged() {
-  //alert("positionTextFieldChanged");
   var newPos = $("#pistonPosition").val();
-  if(newPos=="") newPos = NaN;
+  if (newPos == "") newPos = NaN;
   
-  // make sure the value entered is actually a number within range before processing
+  // Make sure the value entered is actually a number within range before processing
   if(isNaN(newPos)) {
     $("#pistonPosition").val(pistonPosition);
   }
   else {
-    if(newPos < 10) {
+    if (newPos < 10) {
       newPos = 10;
-      $("#pistonPosition").val(newPos);
     }
-    else if(newPos > 100) {
+    else if (newPos > 100) {
       newPos = 100;
-      $("#pistonPosition").val(newPos);
     }
-    
-    pistonPosition = newPos*1; // make sure Javascript knows it's  a number, not a string
+
+    $("#pistonPosition").val(newPos);
+    pistonPosition = newPos * 1; // make sure Javascript knows it's a number, not a string
     processNewPosition();
   }
 }
 
+/*
+ * Updates the temperature when the textbox has changed.
+ */
 function getHeatSourceTemp() {
-  //alert("getHeatSourceTemp");
   var newTemp = $("#heatSourceTemp").val();
-  if(newTemp=="") newTemp = NaN;
+  if (newTemp == "") newTemp = NaN;
   
-  if(isNaN(newTemp)) {
+  if (isNaN(newTemp)) {
     $("#heatSourceTemp").val(temp);
   }
   else {
-    if(newTemp < 1) {
+    if (newTemp < 1) {
       newTemp = 1;
       $("#heatSourceTemp").val(newTemp);
     }
-    temp = newTemp*1; // make sure Javascript knows it's  a number, not a string
+    temp = newTemp * 1; // make sure Javascript knows it's a number, not a string
     processNewTemp();
   }
 }
 
+/*
+ * Updates the process type (adiabatic, isothermal, etc.) once the selected radio button has changed.
+ */
 function getStepType() {
-  //alert("getStepType");
-  stepType = $("input[name='stepType']:checked").val(); // read in the selected value from the radio buttons
+  stepType = $("input[name='stepType']:checked").val();
   processNewStepType();
 }
 
+/*
+ * Checks whether the cycle may be closed when the 'Finish Cycle' button is pressed.
+ */
 function closeCyclePressed() {
   var cycleCloses = closeCycle();
-  if(cycleCloses) {
+  if (cycleCloses) {
     calculateCycleStats();
   }
 }
 
+/*
+ * Shows a pop-up alert box when the user presses the help button.
+ */
 function displayInstructions() {
   alert("Instructions:\n\n" +
       "Try to create an engine (or heat pump) step by step. See how " +
@@ -274,15 +313,9 @@ function displayInstructions() {
   return false;
 }
 
-
-function toggleTooltips() {
-  return false; 
-}
-
 /*
- * Event Handler Function: displayAboutInfo
- * Displays a dialog box containing information about the program when the user clicks the link labeled "About this program"
-*/
+ * Shows a pop-up alert box when the user presses the info button.
+ */
 function displayAboutInfo(){
   alert("This program was created under the direction of Dr. Margot Vigeant at " +
       "Bucknell University. It was initially developed in Flash by Gavin " +
@@ -294,29 +327,31 @@ function displayAboutInfo(){
   return false;
 }
 
-
 /*
 *************************************************************************************************************************
 *                                                    Updating Display                                                   *
 *************************************************************************************************************************
 */
 
+/*
+ * Takes an updated numeric position from the textbox and moves the drawing of the piston appropriately.
+ */
 function movePistonTo(newPos) {
-  //alert("movePistonTo");
   var newPosFromTop = 200 - (2 * newPos);
-  newPosFromTop = Math.floor(newPosFromTop); // truncate decimal places because not all browsers can process a
-                        // fractional value for number of pixels
-  newPosFromTop = newPosFromTop + "px";
+  // Truncate decimal places because not all browsers can process a fractional value for number of pixels
+  newPosFromTop = Math.floor(newPosFromTop) + "px";
   $("#slidingPiston").css("top", newPosFromTop);
 }
 
-
+/*
+ * Updates the colored border surrounding the piston. Aside from adiabatic processes
+ * (which give no border around the chamber), the level of blue or red is a function
+ * of the heat source temperature.
+ */
 function changeInsulationType() {
-  //alert("changeInsulationType");
-  if(stepType=="")
-    return;
+  if (stepType == "") return;
   
-  if(stepType == "Adiabatic") {
+  if (stepType == "Adiabatic") {
     $("#jacket").show();
     $("#red").hide();
     $("#blue").hide();
@@ -327,21 +362,24 @@ function changeInsulationType() {
     $("#blue").show();
     
     var redOpacity = temp / 6;
-    $("#red").css("opacity", (redOpacity/100));
+    $("#red").css("opacity", (redOpacity / 100));
     $("#red").css("filter", "alpha(opacity=" + Math.floor(redOpacity) + ")");
     
-    var blueOpacity = (600-temp) / 6;
-    $("#blue").css("opacity", blueOpacity/100);
+    var blueOpacity = (600 - temp) / 6;
+    $("#blue").css("opacity", blueOpacity / 100);
     $("#blue").css("filter", "alpha(opacity=" + Math.floor(blueOpacity) + ")");
   }
 }
 
+/*
+ * Takes the currently stored pressure and displays it as a text label.
+ */
 function displayPressure() {
   var pString;
-  if(pressure >= 100) {
+  if (pressure >= 100) {
     pString = Math.round(pressure) + "";
   }
-  else if(pressure >= 10) {
+  else if (pressure >= 10) {
     pString = pressure.toFixed(1);
   }
   else {
@@ -351,6 +389,9 @@ function displayPressure() {
   $("#gasPressure").html(pString);
 }
 
+/*
+ * Takes the currently stored temperature and displays it as a text label.
+ */
 function displayTemp() {
   var tString;
   if(temp >= 10) {
@@ -363,10 +404,13 @@ function displayTemp() {
   $("#gasTemp").html(tString);
 }
 
+/*
+ * Updates the text in the piston position textbox.
+ */
 function displayPistonPos() {
   movePistonTo(pistonPosition);
   var pistonString;
-  if(pistonPosition >= 100) {
+  if (pistonPosition >= 100) {
     pistonString = Math.round(pistonPosition) + "";
   }
   else {
@@ -376,6 +420,9 @@ function displayPistonPos() {
   $("#pistonPosition").val(pistonString);
 }
 
+/*
+ * Updates the radio buttons to check the one corresponding to the current step type.
+ */
 function displayStepType() {
   var stepTypeSelector = "#stepType[value=" + stepType + "]";
   
@@ -389,58 +436,64 @@ function displayStepType() {
 *************************************************************************************************************************
 */
 
+/*
+ * Called when the piston's position changes (which affects the volume and subsequently the temperature
+ * and pressure).
+ */
 function processNewPosition() {
   switch(stepType) {
-  case "Adiabatic":
+    case "Adiabatic":
       volume = pistonPosToVolume(pistonPosition);
-      pressure = oldPressure * Math.pow((oldVolume / volume), (Cp/Cv));
-      temp = oldTemp * (volume/oldVolume) * (pressure/oldPressure);
+      pressure = oldPressure * Math.pow((oldVolume / volume), (Cp / Cv));
+      temp = oldTemp * (volume / oldVolume) * (pressure / oldPressure);
       entropy = oldEntropy;
       displayPressure();
       displayTemp();
       break;
-  case "Isothermal":
+    case "Isothermal":
       volume = pistonPosToVolume(pistonPosition);
       pressure = R * temp / volume;
-      entropy = oldEntropy + R * Math.log(volume/oldVolume); // Math.log actually means ln (natural log)
+      entropy = oldEntropy + R * Math.log(volume / oldVolume); // Math.log actually means ln (natural log)
       displayPressure();
       break;
-  case "Isobaric":
+    case "Isobaric":
       volume = pistonPosToVolume(pistonPosition);
       temp = volume * pressure / R;
       entropy  = oldEntropy + Cp * Math.log(temp/oldTemp); // Math.log actually means ln (natural log)
       displayTemp();
       break;
-  case "Isochoric": // the piston isn't allowed to move if it's isochoric, so undo the move
+    case "Isochoric": // the piston isn't allowed to move if it's isochoric, so undo the move
       volume = oldVolume;
       pistonPosition = volumeToPistonPos(volume);
       break;
-  default: volume = pistonPosToVolume(pistonPosition);
+    default: volume = pistonPosToVolume(pistonPosition);
       break;
   }
   
   // Make sure both the displayed number and the visual position of the piston are consistent with the current value of pistonPosition
   displayPistonPos();
+
   // Clear the "cycle info" text area
   $("#cycleInfo").val("");
   graphPreviewDot();
   changeInsulationType();
 }
 
+/*
+ * Called when the temperature of the heat source changes.
+ */
 function processNewTemp() {
-  //alert("processNewTemp");
-  
-  switch(stepType) {
-  case "Adiabatic":
-      pressure = oldPressure * Math.pow((temp/oldTemp), (Cp/R));
+  switch (stepType) {
+    case "Adiabatic":
+      pressure = oldPressure * Math.pow((temp / oldTemp), (Cp / R));
       volume = temp * R / pressure;
       pistonPosition = volumeToPistonPos(volume);
       entropy - oldEntropy;
-      if(pistonPosition > 100) {
+      if (pistonPosition > 100) {
         pistonPosition = 100;
         processNewPosition();
       }
-      else if(pistonPosition < 10) {
+      else if (pistonPosition < 10) {
         pistonPosition = 10;
         processNewPosition();
       }
@@ -450,15 +503,15 @@ function processNewTemp() {
         displayTemp();
       }
       break;
-  case "Isothermal": // the temperature is not allowed to change if it's isothermal, so undo the change
+    case "Isothermal": // the temperature is not allowed to change if it's isothermal, so undo the change
       temp = oldTemp;
       displayTemp();
       break;
-  case "Isobaric":
+    case "Isobaric":
       volume = R * temp / pressure;
       pistonPosition = volumeToPistonPos(volume);
       entropy = oldEntropy + Cp * Math.log(temp/oldTemp); // Math.log actually means ln (natural log)
-      if(pistonPosition > 100) {
+      if (pistonPosition > 100) {
         pistonPosition = 100;
         processNewPosition();
       }
@@ -471,13 +524,13 @@ function processNewTemp() {
         displayTemp();
       }
       break;
-  case "Isochoric":
+    case "Isochoric":
       pressure = R * temp / volume;
       entropy = oldEntropy + Cv * Math.log(temp/oldTemp); // Math.log actually means ln (natural log)
       displayPressure();
       displayTemp();
       break;
-  default:
+    default:
       displayTemp();
       break;
   }
@@ -488,29 +541,32 @@ function processNewTemp() {
   changeInsulationType();
 }
 
+/*
+ * Called when the step type changes.
+ */
 function processNewStepType() {
   switch(stepType) {
-  case "Adiabatic":
-     if(entropy != oldEntropy) {
-       if(volume != oldVolume) {
-        processNewPosition();
-       }
-       else {
-        processNewTemp();
-       }
-     }
-     break;
-  case "Isothermal":
-      if(temp != oldTemp) {
+    case "Adiabatic":
+      if (entropy != oldEntropy) {
+        if (volume != oldVolume) {
+          processNewPosition();
+        }
+        else {
+          processNewTemp();
+        }
+      }
+      break;
+    case "Isothermal":
+      if (temp != oldTemp) {
         temp = oldTemp;
         displayTemp();
         processNewPosition();
       }
       break;
-  case "Isobaric":
-      if(pressure != oldPressure) {
+    case "Isobaric":
+      if (pressure != oldPressure) {
         pressure = oldPressure;
-        if(volume != oldVolume) {
+        if (volume != oldVolume) {
         processNewPosition();
         }
        else {
@@ -519,7 +575,7 @@ function processNewStepType() {
        displayPressure();
       }
       break;
-  case "Isochoric":
+    case "Isochoric":
       if(volume != oldVolume) {
         volume = oldVolume;
         pistonPosition = volumeToPistonPos(volume);
@@ -541,6 +597,9 @@ function processNewStepType() {
 *************************************************************************************************************************
 */
 
+/*
+ * Called when the user presses the 'Save Step' button.
+ */
 function saveStep() {
   var W; // work done
   var Q; // heat transfer
@@ -548,60 +607,60 @@ function saveStep() {
   var changeType; // whether the step represents an expansion, a compression, heating, or cooling
 
   switch(stepType) {
-  case "Adiabatic":
+    case "Adiabatic":
       deltaU = Cv * (temp-oldTemp);
       Q = 0;
       W = deltaU - Q;
-      if(volume > oldVolume) {
+      if (volume > oldVolume) {
         changeType = "expansion";
       }
       else {
         changeType = "compression";
       }
       break;
-  case "Isothermal":
+    case "Isothermal":
       deltaU = 0;
       W = -R * temp * Math.log(volume/oldVolume); // Math.log actually means ln (natural log)
       Q = deltaU - W;
-      if(volume > oldVolume) {
+      if (volume > oldVolume) {
         changeType = "expansion";
       }
       else {
         changeType = "compression";
       }
       break;
-  case "Isobaric":
+    case "Isobaric":
       deltaU = Cv * (temp-oldTemp);
       W = pressure * (volume - oldVolume);
       Q = deltaU - W;
-      if(volume > oldVolume) {
+      if (volume > oldVolume) {
         changeType = "expansion";
       }
       else {
         changeType = "compression";
       }
       break;
-  case "Isochoric":
+    case "Isochoric":
       deltaU = Cv * (temp-oldTemp);
       W = 0;
       Q = deltaU - W;
-      if(temp > oldTemp) {
+      if (temp > oldTemp) {
         changeType = "heating";
       }
       else {
         changeType = "cooling";
       }
       break;
-  default:
-    $("#cycleInfo").val("Please choose a thermodynamic process type.");
-    return;
-  }
+    default:
+      $("#cycleInfo").val("Please choose a thermodynamic process type.");
+      return;
+    }
   
-  if(stepType != "Adiabatic") {
+  if (stepType != "Adiabatic") {
     var deltaS = entropy - oldEntropy;
-    var stuff = deltaS - Q/temp;
+    var stuff = deltaS - Q / temp;
     
-    if(stepType == "Isobaric" && (deltaS - Q/temp) < 0) {
+    if (stepType == "Isobaric" && (deltaS - Q / temp) < 0) {
       $("#cycleInfo").val("Step is invalid. Steps must obey the thermodynamic law that deltaS - Q/T >= 0.\n\ndeltaS = " + deltaS.toFixed(4) + 
                 "\nQ = " + Q.toFixed(4) + " cm^3 * bar\nT = " + temp.toFixed(4) + " K\n\ndeltaS - Q/T = " + (deltaS - Q/temp).toFixed(4));
       alert("Step not saved.");
@@ -620,6 +679,7 @@ function saveStep() {
   
   // create an empty object to act as an associative array containing the properties of this step
   var step = {};
+
   // store the thermodynamic properties in the step object
   step["stepType"] = stepType;
   step["W"] = W;
@@ -646,8 +706,12 @@ function saveStep() {
 *************************************************************************************************************************
 */
 
+/*
+ * Graph the points on both the PV and TS graphs.
+ */
 function graph() {
   var points = generateGraphPoints();
+
   //Ppoints.pop();
   Ppoints = Ppoints.concat(points["P"]);
   
@@ -666,6 +730,10 @@ function graph() {
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
 }
 
+/*
+ * Graph the points on both the PV and TS graphs while taking into consideration that the "preview" point
+ * may need to be overwritten.
+ */
 function graphPreviewDot() {
   if (dotPreviewed) {
     Vpoints[Vpoints.length - 1] = volume;
