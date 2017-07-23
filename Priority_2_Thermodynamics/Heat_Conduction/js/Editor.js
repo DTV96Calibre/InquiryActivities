@@ -22,8 +22,8 @@ function Editor(){
     this.setup = function() {
       // Setup DOM input elements
       diameterSlider = createSlider(10, 100, 50);
-      finishButton = createButton('Finalize');
-      // this is not bound to finishHandle here so manually bind it
+      finishButton = createButton('Finalize Handle');
+      // 'this' is not bound to finishHandle here so manually bind it
       finishButton.mouseClicked(this.finishHandle.bind(this));
       resetButton = createButton('Reset Handle');
       resetButton.mouseClicked(this.resetHandle);
@@ -43,6 +43,16 @@ function Editor(){
       print("offset:", 700 - pot.pos.x);
     }
 
+    // Remove all DOM elements created in this scene
+    this.tearDown = function(){
+	diameterSlider.remove();
+	finishButton.remove();
+	/* resetButton is removed by another function so only remove
+	 * if resetButton still exists
+	 */
+	if(resetButton){resetButton.remove();}
+    }
+
     this.draw = function() {
       //background(86, 47, 14);
       clear();
@@ -59,9 +69,7 @@ function Editor(){
         drawCrosshair()
       }
 
-      //arm.setPos([mouseX, mouseY]);
       arm.draw();
-      //print(cos(0.7853981633974483 + HALF_PI));
       highlightNearestJoint();
     }
 
@@ -101,13 +109,18 @@ function Editor(){
     this.selectNearestJoint = function() {
       var joint = getNearestJoint({x:mouseX, y:mouseY});
       var jointPos = joint.getGlobalPos();
-      arm.pos.x = jointPos.x;
-      arm.pos.y = jointPos.y - 100;
-      print("arm is now at " + arm.pos);
+      arm.destPos.x = jointPos.x;
+      arm.destPos.y = jointPos.y - 100;
+      print("arm is currently at " + arm.pos);
+      print("arm destination now at " + arm.destPos);
     }
 
+    /* Evaluates the handle and switches to appropriate end scene
+     * Runs clean up functions before switching scenes
+     */
     this.grabPot = function() {
       var randB = random([true, false]);
+      this.tearDown();
       if (randB) {
         this.sceneManager.showScene(Win);
       }
@@ -116,10 +129,17 @@ function Editor(){
       }
       return;
     }
-
+    /* Finalizes the handle by switching modes and changing buttons
+     * so that the user can no longer edit joints and must now
+     * select a joint for grabbing.
+     */
     this.finishHandle = function() {
       this.mode = 'selecting';
       print("handle finished");
+      finishButton.mouseClicked(this.grabPot.bind(this));
+      finishButton.elt.outterText = "Grab Pot";
+      finishButton.elt.textContent = "Grab Pot";
+      resetButton.remove();
     }
 
     this.resetHandle = function(){
