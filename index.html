@@ -1,131 +1,131 @@
 <!DOCTYPE html>
 <!-- Template by html.am -->
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-	  	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-		<title>Inquiry Activities Preview</title>
-		<style type="text/css">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <title>Inquiry Activities Preview</title>
+    <style type="text/css">
 
-		body{
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			height: 100%;
-			max-height: 100%;
-			font-family:Sans-serif;
-			line-height: 1.5em;
-		}
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      max-height: 100%;
+      font-family:Sans-serif;
+      line-height: 1.5em;
+    }
 
-		#nav{
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			width: 230px; /* Width of navigation frame */
-			height: 100%;
-			overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
-			background: #eee;
-		}
+    #nav {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 230px; /* Width of navigation frame */
+      height: 100%;
+      overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+      background: #eee;
+    }
 
-		main{
-			position: fixed;
-			top: 0;
-			left: 230px; /* Set this to the width of the navigation frame */
-			right: 0;
-			bottom: 0;
-			overflow: auto;
-			background: #fff;
-		}
+    main {
+      position: fixed;
+      top: 0;
+      left: 230px; /* Set this to the width of the navigation frame */
+      right: 0;
+      bottom: 0;
+      overflow: auto;
+      background: #fff;
+    }
 
-		.innertube{
-			margin: 15px; /* Provides padding for the content */
-		}
+    .innertube {
+      margin: 15px; /* Provides padding for the content */
+    }
 
-		p {
-			color: #555;
-		}
+    p {
+      color: #555;
+    }
 
-		nav ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
 
-		nav ul a {
-			color: darkgreen;
-			text-decoration: none;
-		}
+    nav ul a {
+      color: darkgreen;
+      text-decoration: none;
+    }
 
-		/*IE6 fix*/
-		* html body{
-			padding: 0 0 0 230px; /* Set the last value to the width of the navigation frame */
-		}
+    /*IE6 fix*/
+    * html body {
+      padding: 0 0 0 230px; /* Set the last value to the width of the navigation frame */
+    }
 
-		* html main{
-			height: 100%;
-			width: 100%;
-		}
+    * html main {
+      height: 100%;
+      width: 100%;
+    }
 
-		</style>
+    </style>
 
-		<script type="text/javascript">
-			/* =============================
-			This script generates sample text for the body content.
-			You can remove this script and any reference to it.
-			 ============================= */
-			var bodyText=["GitHub caches these pages and may not serve the latest versions.", "If you expect to see these pages look different, refresh at a later time."]
-			function generateText(sentenceCount){
-				for (var i=0; i<sentenceCount; i++)
-				document.write(bodyText[Math.floor(Math.random()*2)]+"</p><p>")
-			}
-		</script>
+    <script type="text/javascript">
+      /* =============================
+      This script generates sample text for the body content.
+      You can remove this script and any reference to it.
+       ============================= */
+      var bodyText=["GitHub caches these pages and may not serve the latest versions.", "If you expect to see these pages look different, refresh at a later time."]
+      function generateText(sentenceCount){
+        for (var i=0; i<sentenceCount; i++)
+        document.write(bodyText[Math.floor(Math.random()*2)]+"</p><p>")
+      }
+    </script>
 
-	</head>
+  </head>
 
-	<body>
+  <body>
 
-		<main>
-			<innertube>
+    <main>
+      <innertube>
 
-				<h1>Here's a JavaScript test</h1>
-				<p><script>generateText(10)</script></p>
+        <h1>Here's a JavaScript test</h1>
+        <p><script>generateText(10)</script></p>
 
-				<h1>License</h1>
-				<p id="license"></p>
-				<script>jQuery.get('LICENSE.html.txt', function(data) {
-					$("#license").html(data);
-				});</script>
+        <h1>License</h1>
+        <p id="license"></p>
+        <script>jQuery.get('LICENSE.html.txt', function(data) {
+          $("#license").html(data);
+        });</script>
 
-			</innertube>
-		</main>
+      </innertube>
+    </main>
 
-		<nav id="nav">
-			<innertube>
+    <nav id="nav">
+      <innertube>
 
-			<h3>Priority 1 &mdash; Heat Transfer</h3>
-			<ul>
-				<li><a href="Priority_1_Heat_Transfer/Cube_Melt/snowMelt.html">Cube Melt</a></li>
-				<li><a href="Priority_1_Heat_Transfer/Melting_Ice/melting-ice.html">Melting Ice</a></li>
-				<li><a href="Priority_1_Heat_Transfer/Radiation_Pipe/radiation.html">Radiation Pipe</a></li>
-				<li><a href="Priority_1_Heat_Transfer/Light_Radiation/lightRadiation.html">Light Radiation</a></li>
-			</ul>
-			<h3>Priority 2 &mdash; Thermodynamics</h3>
-			<ul>
-				<li><a href="Priority_2_Thermodynamics/Carnot/Carnot-Engine.html">Carnot</a></li>
-				<li><a href="Priority_2_Thermodynamics/Mixing/Mixing.html">Mixing</a></li>
-				<li><a href="Priority_2_Thermodynamics/Piston/cycle-modeler.html">Piston</a></li>
-				<li><a href="Priority_2_Thermodynamics/Pump_Reversibility_edit/pump-reversibility.html">Pump Reversibility</a></li>
-				<li><a href="Priority_2_Thermodynamics/Steady_State/steadyState.html">Steady State</a></li>
-		        <li><a href="Priority_2_Thermodynamics/Tempestv2.0/tempest.html">Tempest</a><li>
-		        <li><a href="Priority_2_Thermodynamics/Flammable_Steel/steel.html">Flammable Steel</a></li>
-				<li><a href="Priority_2_Thermodynamics/Heat_Conduction/main.html">Heat Conduction</a></li>
-				<li><a href="Priority_2_Thermodynamics/Mixing/liquidfun_test/index.html">LiquidFun Test</a></li>
-			</ul>
-		</innertube>
-		</nav>
+      <h3>Priority 1 &mdash; Heat Transfer</h3>
+      <ul>
+        <li><a href="Priority_1_Heat_Transfer/Cube_Melt/snowMelt.html">Cube Melt</a></li>
+        <li><a href="Priority_1_Heat_Transfer/Melting_Ice/melting-ice.html">Melting Ice</a></li>
+        <li><a href="Priority_1_Heat_Transfer/Radiation_Pipe/radiation.html">Radiation Pipe</a></li>
+        <li><a href="Priority_1_Heat_Transfer/Light_Radiation/lightRadiation.html">Light Radiation</a></li>
+      </ul>
+      <h3>Priority 2 &mdash; Thermodynamics</h3>
+      <ul>
+        <li><a href="Priority_2_Thermodynamics/Carnot/Carnot-Engine.html">Carnot</a></li>
+        <li><a href="Priority_2_Thermodynamics/Mixing/Mixing.html">Mixing</a></li>
+        <li><a href="Priority_2_Thermodynamics/Piston/cycle-modeler.html">Piston</a></li>
+        <li><a href="Priority_2_Thermodynamics/Pump_Reversibility_edit/pump-reversibility.html">Pump Reversibility</a></li>
+        <li><a href="Priority_2_Thermodynamics/Steady_State/steadyState.html">Steady State</a></li>
+        <li><a href="Priority_2_Thermodynamics/Tempestv2.0/tempest.html">Tempest</a><li>
+        <li><a href="Priority_2_Thermodynamics/Flammable_Steel/steel.html">Flammable Steel</a></li>
+        <li><a href="Priority_2_Thermodynamics/Heat_Conduction/main.html">Heat Conduction</a></li>
+        <li><a href="Priority_2_Thermodynamics/Mixing/liquidfun_test/index.html">LiquidFun Test</a></li>
+      </ul>
+    </innertube>
+    </nav>
 
-	</body>
+  </body>
 </html>
