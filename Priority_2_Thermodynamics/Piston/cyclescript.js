@@ -29,24 +29,17 @@ var pistonPosition;
 var volume;
 var entropy;
 var stepType;
+var cycleClosed;
 
 var oldTemp;
 var oldPressure;
 var oldVolume;
 var oldEntropy;
 
+// The number of points that the user has saved on this cycle
+var numSavedSteps;
 var savedSteps;
 
-var PVTGraph3D;
-var PVgraphBase;
-var PVgraph;
-var Ppoints;
-var Vpoints;
-var TSgraphBase;
-var TSgraph;
-var Tpoints;
-var Spoints;
-var dotPreviewed;
 var isiPad = false;
 var slidingPistoniPad;
 
@@ -106,16 +99,6 @@ function openSim() {
 }
 
 /*
- * Initializes the Raphael (2D vector library for JS) objects by passing in the HTML divs meant to store the 
- * pressure/volume and temperature/entropy graphs.
- */
-function initializeGraphs() {
-  PVgraphBase = Raphael('PVgraphDiv');
-  TSgraphBase = Raphael('TSgraphDiv');
-  init3DGraph();
-}
-
-/*
  * Reverts the simulation's progress to its original state.
  */
 function resetAll() {
@@ -132,6 +115,8 @@ function resetAll() {
   oldVolume = volume;
   oldEntropy = entropy;
   savedSteps = new Array();
+  numSavedSteps = 0;
+  cycleClosed = false;
   
   // Reset input fields / gas displays
   $("#heatSourceTemp").val(temp);
@@ -168,6 +153,9 @@ function resetAll() {
   Spoints[0] = INITIAL_ENTROPY;
   TSgraphBase.clear();
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
+
+  // Reset the 3D graph
+  PVTGraph3D.series[0].setData(null);
 
   dotPreviewed = false;
   
@@ -279,6 +267,7 @@ function getStepType() {
 function closeCyclePressed() {
   var cycleCloses = closeCycle();
   if (cycleCloses) {
+    cycleClosed = true;
     calculateCycleStats();
   }
 }
@@ -682,207 +671,32 @@ function saveStep() {
   
   // save the step object by adding it to an array of all the steps
   savedSteps.push(step);
+  numSavedSteps++;
   
   // save the current state so it may be used for calculations/comparisons as the user creates the next step
   oldTemp = temp;
   oldPressure = pressure;
   oldVolume = volume;
   oldEntropy = entropy;
-  dotPreviewed = false;
+  dotPreviewed = false;  
   
   // If nothing went wrong
   return true;
 }
 
 /*
-*************************************************************************************************************************
-*                                                      Graphing                                                         *
-*************************************************************************************************************************
-*/
-
-/*
- * Graph the points on both the PV and TS graphs.
+ * 'Permanently' (i.e. until the user hits reset) saves the current values for pressure,
+ * volume, temperature, and entropy because the user has decided to save the most recent
+ * step. These points will not be erased from the graph as the user continues to adjust
+ * the independent variables of the simulation.
  */
-function graph() {
-  var points = generateGraphPoints();
+function storePoints() {
+  if (numSavedSteps < 1) return;
 
-  //Ppoints.pop();
-  Ppoints = Ppoints.concat(points["P"]);
-  
-  //Vpoints.pop();
-  Vpoints = Vpoints.concat(points["V"]);
-  
-  //Tpoints.pop();
-  Tpoints = Tpoints.concat(points["T"]);
-  
-  //Spoints.pop();
-  Spoints = Spoints.concat(points["S"]);
-  
-  PVgraphBase.clear();
-  PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
-  TSgraphBase.clear();
-  TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
-
-  set3DGraphData();
-}
-
-/*
- * Graph the points on both the PV and TS graphs while taking into consideration that the "preview" point
- * may need to be overwritten.
- */
-function graphPreviewDot() {
-  if (dotPreviewed) {
-    Vpoints[Vpoints.length - 1] = volume;
-    Ppoints[Ppoints.length - 1] = pressure;
-    Tpoints[Tpoints.length - 1] = temp;
-    Spoints[Spoints.length - 1] = entropy;
-  }
-  else {
-    Vpoints.push(volume);
-    Ppoints.push(pressure);
-    Tpoints.push(temp);
-    Spoints.push(entropy);
-  }
-  
-  var points = generateGraphPoints();
-
-  PVgraphBase.clear();
-  PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints.concat(points["V"]), Ppoints.concat(points["P"]), {"axis":"0 0 0 0"});
-  
-  TSgraphBase.clear();
-  TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints.concat(points["S"]), Tpoints.concat(points["T"]), {"axis":"0 0 0 0"});
-
-
-
-  dotPreviewed = true;
-}
-
-/*
- * Simulates the collection of points needed to graph the latest endpoint, which may be a curved line.
- */
-function generateGraphPoints() {
-
-  // Create an empty object to act as an associative array containing the sets of point values for P, V, T, and S
-  var points = {};
-  points["P"] = new Array();
-  points["V"] = new Array();
-  points["T"] = new Array();
-  points["S"] = new Array();
-  
-  // if the step is adiabatic, must simulate a curve (rather than a straight line) for the PV graph
-  if (stepType == "Adiabatic") {
-    // The coordinate arrays for pressure and volume already contain the endpoint because it was previewed for
-    // the user. Remove the endpoint so we can easily push intermediate coordinates on the array
-    //Ppoints.pop();
-    //Vpoints.pop();
-    
-    var P = oldPressure;
-    var V = oldVolume;
-    var oldP = oldPressure;
-    var oldV = oldVolume;
-    
-    var Vstep = (volume - oldVolume) / 50;
-    
-    // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for (var i = 1; i <= 50; i++) {
-      oldV = V;
-      oldP = P;
-      V += Vstep;
-      
-      P = oldP * Math.pow((oldV / V), (Cp / Cv));
-      
-      //Ppoints.push(P);
-      //Vpoints.push(V);
-      points["P"].push(P);
-      points["V"].push(V);
-    }
-    
-    points["T"].push(temp);
-    points["S"].push(entropy);
-    
-    // refresh the PV graph with the new points
-    // PVgraphBase.clear();
-    // PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
-  }
-  
-  // If the step is not adiabatic, then there is no need to simulate a curve for the PV graph,
-  // because that graph should be a straight line, which graphael does automatically
-  
-  
-  // If the step is isobaric or isochoric, must simulate a curve for the TS graph
-  else if (stepType == "Isobaric") {
-    //Tpoints.pop();
-    //Spoints.pop();
-    
-    var T = oldTemp;
-    var S = oldEntropy;
-    var oldT = oldTemp;
-    var oldS = oldEntropy;
-    
-    var Sstep = (entropy - oldEntropy) / 50;
-    
-    // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for (var i = 1; i <= 50; i++) {
-      oldS = S;
-      oldT = T;
-      S += Sstep;
-      
-      T = oldT * Math.exp((S - oldS)/Cp);
-      
-      //Tpoints.push(T);
-      //Spoints.push(S);
-      points["T"].push(T);
-      points["S"].push(S);
-    }
-    
-    points["P"].push(pressure);
-    points["V"].push(volume);
-    // refresh the TS graph with the new points
-    // TSgraphBase.clear();
-    // TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
-  }
-  else if (stepType == "Isochoric") {
-    Tpoints.pop();
-    Spoints.pop();
-    
-    var T = oldTemp;
-    var S = oldEntropy;
-    var oldT = oldTemp;
-    var oldS = oldEntropy;
-    
-    var Sstep = (entropy - oldEntropy) / 50;
-    
-    // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for (var i = 1; i <= 50; i++) {
-      oldS = S;
-      oldT = T;
-      S += Sstep;
-      
-      T = oldT * Math.exp((S - oldS)/Cv);
-      
-      //Tpoints.push(T);
-      //Spoints.push(S);
-      points["T"].push(T);
-      points["S"].push(S);
-    }
-    
-    points["P"].push(pressure);
-    points["V"].push(volume);
-    
-    // refresh the TS graph with the new points
-    // TSgraphBase.clear();
-    // TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
-  }
-  
-  // If the step is isothermal, there is no need to interpolate because both graphs will be straight lines
-  else {
-    points["P"].push(pressure);
-    points["V"].push(volume);
-    points["T"].push(temp);
-    points["S"].push(entropy);
-  }
-  
-  return points;
+  Ppoints[numSavedSteps - 1] = pressure;
+  Vpoints[numSavedSteps - 1] = volume;
+  Tpoints[numSavedSteps - 1] = temp;
+  Spoints[numSavedSteps - 1] = entropy;
 }
 
 /*
@@ -1271,8 +1085,7 @@ function pixelsToPistonPos(pixels) {
 }
 
 /*
- * Function: toKiloJoules
- * Purpose: Converts energy values, like work and heat, from our units of (cm^3 * bar) to kJ
+ * Converts energy values, like work and heat, from our units of (cm^3 * bar) to kJ
  * The conversion is the following:
  *
  * (1cm)^3 * (1 bar) = ( (1/100) m)^3 * (100,000 Pa)
