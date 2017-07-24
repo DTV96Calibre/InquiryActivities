@@ -154,6 +154,19 @@ function resetAll() {
   TSgraphBase.clear();
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
 
+  permPointsP = new Array();
+  permPointsV = new Array();
+  permPointsT = new Array();
+  permPointsS = new Array();
+  tempPointsP = new Array();
+  tempPointsV = new Array();
+  tempPointsT = new Array();
+  tempPointsS = new Array();
+  permPointsP[0] = INITIAL_PRESSURE;
+  permPointsV[0] = pistonPosToVolume(INITIAL_PISTON);
+  permPointsT[0] = INITIAL_TEMP;
+  permPointsS[0] = INITIAL_ENTROPY;
+
   // Reset the 3D graph
   PVTGraph3D.series[0].setData(null);
 
@@ -824,7 +837,6 @@ function closeCycle() {
   }
   else {
     $("#cycleInfo").val("Cycle does not close. Try to make one of the variables (pressure, volume, temperature, or entropy) return to its initial value.");
-    alert("pressure = " + pressure);
     return false;
   } 
 }

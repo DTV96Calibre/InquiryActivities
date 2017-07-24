@@ -25,6 +25,7 @@ var Vpoints;
 var Tpoints;
 var Spoints;
 
+// True when the last (i.e. most recent) point on the graphs hasn't been saved
 var dotPreviewed;
 
 /*
@@ -70,13 +71,10 @@ function graph() {
  * that the "preview" point may need to be overwritten.
  */
 function graphPreviewDot() {
-  if (dotPreviewed) {
-    Vpoints[Vpoints.length - 1] = volume;
-    Ppoints[Ppoints.length - 1] = pressure;
-    Tpoints[Tpoints.length - 1] = temp;
-    Spoints[Spoints.length - 1] = entropy;
-  }
-  else {
+  /* If the user has pressed 'Save Step' since the last time the graph updated,
+   * push the new data points so they become permanent fixtures of this cycle. 
+   */
+  if (!dotPreviewed) {
     Vpoints.push(volume);
     Ppoints.push(pressure);
     Tpoints.push(temp);
@@ -126,14 +124,11 @@ function generateGraphPoints() {
       
       P = oldP * Math.pow((oldV / V), (Cp / Cv));
       
-      //Ppoints.push(P);
-      //Vpoints.push(V);
       points["P"].push(P);
       points["V"].push(V);
+      points["T"].push(temp);
+      points["S"].push(entropy);
     }
-    
-    points["T"].push(temp);
-    points["S"].push(entropy);
   }
   
   // If the step is not adiabatic, then there is no need to simulate a curve for the PV graph,
@@ -156,18 +151,15 @@ function generateGraphPoints() {
       
       T = oldT * Math.exp((S - oldS)/Cp);
       
-      //Tpoints.push(T);
-      //Spoints.push(S);
       points["T"].push(T);
       points["S"].push(S);
-    }
-    
-    points["P"].push(pressure);
-    points["V"].push(volume);
+      points["P"].push(pressure);
+      points["V"].push(volume);
+    }    
   }
   else if (stepType == "Isochoric") {
-    Tpoints.pop();
-    Spoints.pop();
+    // Tpoints.pop();
+    // Spoints.pop();
     
     var T = oldTemp;
     var S = oldEntropy;
@@ -184,14 +176,11 @@ function generateGraphPoints() {
       
       T = oldT * Math.exp((S - oldS)/Cv);
       
-      //Tpoints.push(T);
-      //Spoints.push(S);
       points["T"].push(T);
       points["S"].push(S);
-    }
-    
-    points["P"].push(pressure);
-    points["V"].push(volume);
+      points["P"].push(pressure);
+      points["V"].push(volume);
+    }    
   }
   
   // If the step is isothermal, there is no need to interpolate because both graphs will be straight lines
@@ -269,7 +258,6 @@ function init3DGraph() {
     },
 
     zAxis: {
-      min: 0,
       title: {
           text: 'Temperature'
       }
@@ -335,12 +323,7 @@ function set3DGraphData() {
   var length = Math.min(Ppoints.length, Tpoints.length, Vpoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
-    data.push([Ppoints[i], Tpoints[i], Vpoints[i]]);
-  }
-
-  // If cycle is closed, the endpoint must be equal to the initial point
-  if (numSavedSteps >= 3) {
-    data[data.length - 1] = data[0];
+    data.push([Vpoints[i], Ppoints[i], Tpoints[i]]);
   }
 
   // Update the data of the chart
