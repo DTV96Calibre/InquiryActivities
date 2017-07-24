@@ -6,14 +6,6 @@
  * (c) Margot Vigeant 2017
 */
 
-/*
- * This file makes use of the following libraries:
- * JQuery libraries (http://jquery.com/)
- * JQuery UI plugin (http://jqueryui.com/), used here to support "draggable" objects in ordinary browsers
- * Drag Drop Library from gotProject (http://www.gotproject.com/blog/post2.html), used to support "draggable" objects on the iPad
- * Libraries from Raphael (http://raphaeljs.com) and gRaphael (http://g.raphaeljs.com), used for graphing functionality
-*/
-
 $(document).ready(init);
 
 /* Constants */
@@ -730,6 +722,8 @@ function graph() {
   PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
   TSgraphBase.clear();
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
+
+  set3DGraphData();
 }
 
 /*
@@ -758,9 +752,9 @@ function graphPreviewDot() {
   TSgraphBase.clear();
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints.concat(points["S"]), Tpoints.concat(points["T"]), {"axis":"0 0 0 0"});
 
+
+
   dotPreviewed = true;
-  //alert("Tpoints = " + Tpoints);
-  //alert("Spoints = " + Spoints);
 }
 
 /*
@@ -776,7 +770,7 @@ function generateGraphPoints() {
   points["S"] = new Array();
   
   // if the step is adiabatic, must simulate a curve (rather than a straight line) for the PV graph
-  if (stepType=="Adiabatic") {
+  if (stepType == "Adiabatic") {
     // The coordinate arrays for pressure and volume already contain the endpoint because it was previewed for
     // the user. Remove the endpoint so we can easily push intermediate coordinates on the array
     //Ppoints.pop();
@@ -807,8 +801,8 @@ function generateGraphPoints() {
     points["S"].push(entropy);
     
     // refresh the PV graph with the new points
-    //PVgraphBase.clear();
-    //PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
+    // PVgraphBase.clear();
+    // PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
   }
   
   // If the step is not adiabatic, then there is no need to simulate a curve for the PV graph,
@@ -828,7 +822,7 @@ function generateGraphPoints() {
     var Sstep = (entropy - oldEntropy) / 50;
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for (var i=1; i<=50; i++) {
+    for (var i = 1; i <= 50; i++) {
       oldS = S;
       oldT = T;
       S += Sstep;
@@ -844,10 +838,10 @@ function generateGraphPoints() {
     points["P"].push(pressure);
     points["V"].push(volume);
     // refresh the TS graph with the new points
-    //TSgraphBase.clear();
-    //TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
+    // TSgraphBase.clear();
+    // TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
   }
-  else if (stepType=="Isochoric") {
+  else if (stepType == "Isochoric") {
     Tpoints.pop();
     Spoints.pop();
     
@@ -859,7 +853,7 @@ function generateGraphPoints() {
     var Sstep = (entropy - oldEntropy) / 50;
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
-    for(var i=1; i<=50; i++) {
+    for (var i = 1; i <= 50; i++) {
       oldS = S;
       oldT = T;
       S += Sstep;
@@ -876,8 +870,8 @@ function generateGraphPoints() {
     points["V"].push(volume);
     
     // refresh the TS graph with the new points
-    //TSgraphBase.clear();
-    //TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
+    // TSgraphBase.clear();
+    // TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
   }
   
   // If the step is isothermal, there is no need to interpolate because both graphs will be straight lines
@@ -897,10 +891,6 @@ function generateGraphPoints() {
 *************************************************************************************************************************
 */
 
-/*
- * Attempts to close the cycle by checking whether one of the variables (pressure, volume, temperature, or entropy)
- * 'closes' by returning to its original value.
- */
 function closeCycle() {
   var percent;
   var pressCloses;
@@ -944,13 +934,14 @@ function closeCycle() {
     
     var success = saveStep();
     
-    if (success) {
+    if(success) {
       return true;
     }
     else {
       $("#cycleInfo").val("Attempting to close cycle with an isobaric step...\n\n" + $("#cycleInfo").val());
       return false;
     }
+
   }
   else if (volCloses) {
     stepType = "Isochoric";
@@ -964,13 +955,14 @@ function closeCycle() {
     
     var success = saveStep();
     
-    if (success) {
+    if(success) {
       return true;
     }
     else {
       $("#cycleInfo").val("Attempting to close cycle with an isochoric step...\n\n" + $("#cycleInfo").val());
       return false;
     }
+
   }
   else if (tempCloses) {
     stepType = "Isothermal";
@@ -1023,9 +1015,6 @@ function closeCycle() {
   } 
 }
 
-/*
- * Computes and saves various mathematical properties of this cycle, including net work done, heat in, and heat out.
- */
 function calculateCycleStats() {
   var efficiencyString;
   var engineType;
@@ -1040,27 +1029,27 @@ function calculateCycleStats() {
   var maxTemp = NaN;
   var minTemp = NaN;
   
-  for (var i=0; i < savedSteps.length; i++) {
+  for (var i = 0; i < savedSteps.length; i++) {
     netWork += savedSteps[i]["W"];
     
-    if (savedSteps[i]["Q"] > 0) {
+    if(savedSteps[i]["Q"] > 0) {
       heatIn += savedSteps[i]["Q"];
     }
     else {
       heatOut += savedSteps[i]["Q"];
     }
       
-    if (isNaN(maxTemp)) {
+    if(isNaN(maxTemp)) {
       maxTemp = savedSteps[i]["T"];
     }
-    else if (maxTemp < savedSteps[i]["T"]) {
+    else if(maxTemp < savedSteps[i]["T"]) {
       maxTemp = savedSteps[i]["T"];
     }
     
-    if (isNaN(minTemp)) {
+    if(isNaN(minTemp)) {
       minTemp = savedSteps[i]["T"];
     }
-    else if (minTemp > savedSteps[i]["T"]) {
+    else if(minTemp > savedSteps[i]["T"]) {
       minTemp = savedSteps[i]["T"];
     }
   }
@@ -1108,11 +1097,11 @@ function calculateCycleStats() {
   $("#netWorkLabel").html(toKiloJoules(netWork).toFixed(1) + " kJ/mol");
   $("#heatSourceLabel").html(heatSourceTemp.toFixed(1) + " K");
   $("#heatSinkLabel").html(heatSinkTemp.toFixed(1) + " K");
-  if(cycleType=="other") {
+  if (cycleType=="other") {
     $("#cycleInfo").val($("#cycleInfo").val() + "You've created a new " + engineType + "!\nNet work = " + toKiloJoules(netWork).toFixed(1) + " kJ\n" + efficiencyString);
   }
   else {
-    if (engineType == "heat pump") {
+    if(engineType=="heat pump") {
       engineType = "a heat pump";
     }
     else {
@@ -1123,9 +1112,6 @@ function calculateCycleStats() {
   }
 }
 
-/*
- * If the cycle has closed and consists of alternating adiabatic and isothermal processes, returns the heat pump type as a Carnot engine.
- */
 function determineHeatPumpType() {
   if (savedSteps.length == 4) {
     if (savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isothermal" && savedSteps[2]["stepType"] == "Adiabatic" &&
@@ -1141,11 +1127,9 @@ function determineHeatPumpType() {
   return "other";
 }
 
-/*
- * Returns a string denoting the type of the engine (Carnot, Otto, Rankine, Diesel, or Stirling) depending on the processes of the steps.
- */
 function determineEngineType() {
-  if (savedSteps.length == 4) {
+  //alert("determineEngineType");
+  if(savedSteps.length == 4) {
     
     // Check for Carnot cycle
     if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isothermal" && savedSteps[2]["stepType"] == "Adiabatic" &&
@@ -1156,7 +1140,7 @@ function determineEngineType() {
           savedSteps[3]["stepType"] == "Adiabatic") {
       return "Carnot";
     }
-
+    
     // Check for Otto cyle
     else if(savedSteps[0]["stepType"] == "Adiabatic" && savedSteps[1]["stepType"] == "Isochoric" && savedSteps[2]["stepType"] == "Adiabatic" &&
           savedSteps[3]["stepType"] == "Isochoric") {
@@ -1274,19 +1258,21 @@ function pistonPosToPixels(pos) {
 }
 
 function pixelsToPistonPos(pixels) {
+  
   // Ensure Javascript sees pixels as a string; otherwise the code to remove "px" will break
   pixels = pixels + "";
   
   // Remove "px" from the end of the "pixels" value in case "pixels" contains a raw CSS value, to ensure it contains just a number
   var ind = pixels.indexOf('p');
-  if (ind > -1)
+  if(ind > -1)
     pixels = pixels.substring(0, ind);
     
   return (200 - pixels) / 2;
 }
 
 /*
- * Converts energy values, like work and heat, from our units of (cm^3 * bar) to kJ
+ * Function: toKiloJoules
+ * Purpose: Converts energy values, like work and heat, from our units of (cm^3 * bar) to kJ
  * The conversion is the following:
  *
  * (1cm)^3 * (1 bar) = ( (1/100) m)^3 * (100,000 Pa)
@@ -1297,130 +1283,4 @@ function pixelsToPistonPos(pixels) {
  */
 function toKiloJoules(energy) {
   return 10*energy/1000;
-}
-
-/*
-*************************************************************************************************************************
-*                                              3D Graph Functionality                                                   *
-*************************************************************************************************************************
-*/
-
-// Give the points a 3D feel by adding a radial gradient
-Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
-    return {
-        radialGradient: {
-            cx: 0.4,
-            cy: 0.3,
-            r: 0.5
-        },
-        stops: [
-            [0, color],
-            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
-        ]
-    };
-});
-
-function init3DGraph() {
-  PVTGraph3D = new Highcharts.Chart({
-    chart: {
-      renderTo: 'PVTGraphDiv',
-      margin: 50,
-      type: 'scatter',
-      options3d: {
-        enabled: true,
-        alpha: 20,
-        beta: 30,
-        depth: 200,
-        frame: {
-          bottom: {
-            size: 1,
-            color: '#C0C0C0'
-          }
-        }
-      }
-    },
-
-    title: {
-      text: ''
-    },
-
-    yAxis: {
-      min: 0,
-      title: {
-          text: 'Temperature'
-      }
-    },
-
-    xAxis: {
-      min: 0,
-      gridLineWidth: 1,
-      title: {
-          text: 'Pressure'
-      }
-    },
-
-    zAxis: {
-      min: 0,
-      title: {
-          text: 'Volume'
-      }
-    },
-
-    plotOptions: {
-      series: {
-        lineWidth: 1
-      }
-    },
-
-    legend: {
-      enabled: false
-    },
-
-    series: [{
-      data: [
-        // [X, Y, Z]
-        [1, 1, 1],
-        [1, 1, 2],
-        [1, 1, 5],
-        [2, 3, 2],
-        [2, 6, 4],
-        [4, 5, 7],
-        [4, 2, 8],
-        [7, 1, 3],
-        [7, 1, 5],
-        [8, 1, 5]
-      ]
-    }]
-  });
-
-  // Add mouse events for rotation
-  $(PVTGraph3D.container).on('mousedown.hc touchstart.hc', function (eStart) {
-      eStart = PVTGraph3D.pointer.normalize(eStart);
-
-      var posX = eStart.chartX,
-          posY = eStart.chartY,
-          alpha = PVTGraph3D.options.chart.options3d.alpha,
-          beta = PVTGraph3D.options.chart.options3d.beta,
-          newAlpha,
-          newBeta,
-          sensitivity = 5; // lower is more sensitive
-
-      $(document).on({
-          'mousemove.hc touchmove.hc': function (e) {
-              // Run beta
-              e = PVTGraph3D.pointer.normalize(e);
-              newBeta = beta + (posX - e.chartX) / sensitivity;
-              PVTGraph3D.options.chart.options3d.beta = newBeta;
-
-              // Run alpha
-              newAlpha = alpha + (e.chartY - posY) / sensitivity;
-              PVTGraph3D.options.chart.options3d.alpha = newAlpha;
-
-              PVTGraph3D.redraw(false);
-          },
-          'mouseup touchend': function () {
-              $(document).off('.hc');
-          }
-      });
-  });
 }
