@@ -222,8 +222,8 @@ function init3DGraph() {
   PVTGraph3D = new Highcharts.Chart({
     chart: {
       renderTo: 'PVTGraphDiv',
-      margin: 50,
-      type: 'scatter',
+      margin: 75,
+      type: 'polygon',
       options3d: {
         enabled: true,
         alpha: 20,
