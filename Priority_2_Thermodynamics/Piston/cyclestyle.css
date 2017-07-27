@@ -274,6 +274,7 @@ textarea {
 	position: absolute;
 	left: 965px;
 	top: 370px;
+	width: 300px;
 }
 
 #gasPressureLabel {
