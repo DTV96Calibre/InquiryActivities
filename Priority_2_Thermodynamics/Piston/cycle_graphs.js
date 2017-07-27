@@ -268,7 +268,8 @@ function init3DGraph() {
         lineWidth: 1,
         marker: {
           enabled: false
-        }
+        },
+        shadow: true
       }
     },
 
@@ -328,4 +329,36 @@ function set3DGraphData() {
 
   // Update the data of the chart
   PVTGraph3D.series[0].setData(data);
+}
+
+/*
+ * Reads the type of the plot and sets it to the opposite (e.g. turns a 
+ * surface plot into a line plot and vice versa).
+ */
+function transform3DGraph() {
+  var type = PVTGraph3D.series[0].type;
+  if (type == "polygon") {
+    open3DGraph();
+  }
+  else if (type == "scatter") {
+    close3DGraph();
+  }
+}
+
+/*
+ * Turns the 3D graph into an opaque surface plot (as opposed to a line plot).
+ */
+function close3DGraph() {
+  PVTGraph3D.series[0].update({
+    type: "polygon"
+  });
+}
+
+/*
+ * Turns the 3D graph into a simple line plot (as opposed to a surface plot).
+ */
+function open3DGraph() {
+  PVTGraph3D.series[0].update({
+    type: "scatter"
+  });
 }

@@ -265,6 +265,17 @@ textarea {
 	width:400px;
 }
 
+#surfacePlotText {
+	font-size:0.8em;
+	font-family:sans-serif;
+}
+
+#surfacePlotCheckbox {
+	position: absolute;
+	left: 965px;
+	top: 370px;
+}
+
 #gasPressureLabel {
 	position:absolute;
 	left:130px;

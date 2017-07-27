@@ -69,6 +69,7 @@ function init() {
   $("#finishCycleButton").on('click', closeCyclePressed);
   $("#about").on('click', displayAboutInfo);
   $("#instructions").on('click', displayInstructions);
+  $("#enableSurfacePlot").on('click', transform3DGraph);
 }
 
 /*
@@ -169,6 +170,10 @@ function resetAll() {
 
   // Reset the 3D graph
   PVTGraph3D.series[0].setData(null);
+
+  // Surface plot is enabled by default
+  $("#enableSurfacePlot").prop('checked', true);
+  close3DGraph();
 
   dotPreviewed = false;
   
