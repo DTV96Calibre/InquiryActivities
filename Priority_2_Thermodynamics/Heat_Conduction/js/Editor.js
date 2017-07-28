@@ -4,6 +4,9 @@ var arm;
 var POT_H_OFFSET = 300;
 var diameterSlider;
 
+var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
+
+
 // A box in which joints can be placed
 // x1 must be less than x2, y1 must be less than y2
 var validZone = {x1:100, x2:200, y1:100, y2:200};
@@ -14,6 +17,7 @@ function Editor(){
     this.crosshair_pos = [0, 0];
     // Keep track of whether or not user can place joints or select joints
     this.mode = 'placing'; // modes: placing, selecting
+    this.selectedJoint = null;
 
     this.enter = function() {
       print("Entered editor");
@@ -34,7 +38,10 @@ function Editor(){
       pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
       arm = new Arm({x:100, y:100});
 
+      // The first joint must be manually added as the insertJoint function assumes one already exists
       joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
+      // This flag must be set for the root joint for temp calculations to work correctly
+      joints[0].isRoot = true;
 
       // Tell sceneManager setup is finished before resizing canvas
       this.sceneManager.scene.setupExecuted = true;
@@ -107,8 +114,8 @@ function Editor(){
     }
 
     this.selectNearestJoint = function() {
-      var joint = getNearestJoint({x:mouseX, y:mouseY});
-      var jointPos = joint.getGlobalPos();
+      this.selectedJoint = getNearestJoint({x:mouseX, y:mouseY});
+      var jointPos = this.selectedJoint.getGlobalPos();
       arm.destPos.x = jointPos.x;
       arm.destPos.y = jointPos.y - 100;
       print("arm is currently at " + arm.pos);
@@ -119,9 +126,10 @@ function Editor(){
      * Runs clean up functions before switching scenes
      */
     this.grabPot = function() {
-      var randB = random([true, false]);
+      var temp = this.selectedJoint.getTemp();
+      // var randB = random([true, false]);
       this.tearDown();
-      if (randB) {
+      if (temp < STEEL_BURN_SKIN_TEMP) {
         this.sceneManager.showScene(Win);
       }
       else {

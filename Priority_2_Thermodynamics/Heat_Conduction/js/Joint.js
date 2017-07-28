@@ -1,9 +1,14 @@
+var ROOT_TEMP = 100; // 100C, temp of boiling water
+var KW_CMK = 0.00043; // kW/cm-K
+var ENERGY_IN_KJS = 0.001; // TODO: Clarify this
+
 class Joint{
   constructor(radius, prev, pos){
     this.radius = radius;
     this.prev = prev;
     this.pos = pos; //NOTE: This is relative to the the global pot.anchorPoint object of form {x:_, y:_}
     this.next = null;
+    this.isRoot = false;
   }
   draw(){
     ellipse(this.pos.x + pot.anchorPoint.x, this.pos.y + pot.anchorPoint.y, this.radius);
@@ -53,5 +58,23 @@ class Joint{
     p3.x += pos2xAbsolute;
     p3.y += pos2yAbsolute;
     quad(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
+  }
+
+  findDistanceFromPrev(){
+    if (this.isRoot){
+      return 0;
+    }
+    return sqrt(sq(this.pos.x - this.prev.pos.x) + sq(this.pos.y - this.prev.pos.y));
+  }
+
+  /* Returns the temperature at this joints
+   */
+  getTemp(){
+    if (this.isRoot){
+      return ROOT_TEMP;
+    } else {
+      var currentArea = PI * sq(this.radius);
+      return this.prev.getTemp() - (ENERGY_IN_KJS*this.findDistanceFromPrev()*currentArea/KW_CMK);
+    }
   }
 }
