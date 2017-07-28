@@ -51,8 +51,14 @@ function Win()
       ellipse(17,-5, 15, 15);
       fill(23, 23, 52);
       // Ears
-      //triangle(9,6,31,-9,2,-23);
-      //triangle(281,255,243,266,259,291);
+      triangle(-40,-15,-45,-45,-10,-33);
+      triangle(40,-15,45,-45,10,-33);
+      // Nose
+      // stroke(161,198,198);
+      fill(219,112,147);
+      // strokeWeight(2);
+      // noFill();
+      triangle(0,15,-5,8,5,8);
       translate(-headCenter[0],-headCenter[1]);
 
     }
