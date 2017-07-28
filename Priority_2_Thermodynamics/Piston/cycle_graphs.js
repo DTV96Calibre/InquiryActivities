@@ -63,7 +63,7 @@ function graph() {
   TSgraphBase.clear();
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
 
-  set3DGraphData();
+  set3DGraphData(Ppoints, Tpoints, Vpoints);
 }
 
 /*
@@ -91,6 +91,10 @@ function graphPreviewDot() {
   TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints.concat(points["S"]), 
     Tpoints.concat(points["T"]), {"axis":"0 0 0 0"});
 
+  // Update the 3D graph in real-time with the previewed points
+  set3DGraphData(Ppoints.concat(points["P"]), Tpoints.concat(points["T"]),
+    Vpoints.concat(points["V"]));
+
   dotPreviewed = true;
 }
 
@@ -113,6 +117,12 @@ function generateGraphPoints() {
     var V = oldVolume;
     var oldP = oldPressure;
     var oldV = oldVolume;
+
+    // Remove residual lines from the 2D PV plot
+    if (!dotPreviewed) {
+      Ppoints.pop();
+      Vpoints.pop();
+    }
     
     var Vstep = (volume - oldVolume) / 50;
     
@@ -319,9 +329,12 @@ function init3DGraph() {
 /*
  * Pulls triples from the pressure/temperature/volume arrays of values and stores them
  * sequentially as data in the 3D scatterplot.
+ * @param Ppoints - An array of pressure values
+ * @param TPoints - An array of temperature values
+ * @param Vpoints - An array of volume values
  */
-function set3DGraphData() {
-  var length = Math.min(Ppoints.length, Tpoints.length, Vpoints.length);
+function set3DGraphData(Ppoints, Tpoints, Vpoints) {
+  var length = Math.min(Ppoints.length, Vpoints.length, Tpoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
     data.push([Vpoints[i], Ppoints[i], Tpoints[i]]);

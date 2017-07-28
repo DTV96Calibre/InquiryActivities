@@ -703,21 +703,6 @@ function saveStep() {
 }
 
 /*
- * 'Permanently' (i.e. until the user hits reset) saves the current values for pressure,
- * volume, temperature, and entropy because the user has decided to save the most recent
- * step. These points will not be erased from the graph as the user continues to adjust
- * the independent variables of the simulation.
- */
-function storePoints() {
-  if (numSavedSteps < 1) return;
-
-  Ppoints[numSavedSteps - 1] = pressure;
-  Vpoints[numSavedSteps - 1] = volume;
-  Tpoints[numSavedSteps - 1] = temp;
-  Spoints[numSavedSteps - 1] = entropy;
-}
-
-/*
 *************************************************************************************************************************
 *                                                    Closing Cycle                                                      *
 *************************************************************************************************************************
