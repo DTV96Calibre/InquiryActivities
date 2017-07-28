@@ -179,10 +179,6 @@ function initFlammableItems() {
     machine = new Woodchipper();
   }
 
-  // Set graphical properties
-  flammableLeft.resize();
-  flammableRight.resize();
-
   // Init info boxes
   flammableLeft.updateTableData();
   flammableRight.updateTableData();
@@ -190,6 +186,10 @@ function initFlammableItems() {
   hideImages();
   machine.init();
   resetSlider();
+
+  // Set graphical properties
+  flammableLeft.resize();
+  flammableRight.resize();
 }
 
 /* ==================================================================
