@@ -1,3 +1,8 @@
+/*
+ * This file is a collection of functions to supplement the LiquidFun library 
+ * and used in testbed.js.
+ */
+
 var inv255 = .003921569;
 
 function Renderer() {
