@@ -65,7 +65,7 @@ function testSwitch(testName) {
 function Testbed(obj) {
   var that = this;
   window.addEventListener( 'resize', onWindowResize, false );
-  testSwitch("TestSurfaceTension");
+  testSwitch("TestLiquidTimer");
   render();
 }
 

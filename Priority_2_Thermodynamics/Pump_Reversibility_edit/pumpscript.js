@@ -163,6 +163,8 @@ function resetPump() {
 	finishDrain();
 	
 	// return animation components to their initial state
+	$("#tank1Water").hide();
+	$("#tank2Water").hide();
 	$("#tank1Water").css("top", "338px");
 	$("#tank2Water").css("top", "97px");
 	$("#startWater").show();
@@ -248,6 +250,8 @@ function pumpWater() {
 	$("#drainWorkArrow").show();
 	
 	// animate the water level rising in the upper tank and lowering in the lower tank
+	$("#tank1Water").show();
+	$("#tank2Water").show();
 	$("#tank1Water").animate({top:"433px"}, pumpTime, "linear");
 	$("#tank2Water").animate({top:"4px"}, pumpTime, "linear", pause); // register the pause function to be called when this section of the animation finishes
 }

@@ -152,6 +152,8 @@ h1 {
 
 #structure {
 	position:absolute;
+	left: 70px;
+	top: 40px;
 }
 
 #measurement {
@@ -164,6 +166,7 @@ h1 {
 	top:338px;
 	left:103px;
 	z-index:-1;
+	visibility: hidden;
 }
 
 #volumeLabel {
@@ -178,36 +181,38 @@ h1 {
 	top:98px;
 	left:380px;
 	z-index:-1;
+	visibility: hidden;
 }
 
 #openValve {
 	position:absolute;
-	top:393px;
-	left:335px;
+	top:430px;
+	left:303px;
 }
 
 #closedValve {
 	position:absolute;
-	top:404px;
-	left:335px;
+	top:435px;
+	left:303px;
 }
 
 #openSideValve {
 	position:absolute;
-	top:466px;
-	left:467px;
+	top:508px;
+	left:437px;
 }
 
 #closedSideValve {
 	position:absolute;
-	top:466px;
-	left:472px;
+	top:508px;
+	left:442px;
 }
 
 #startWater {
 	position:absolute;
 	left:197px;
 	top:424px;
+	visibility: hidden;
 }
 
 #pumpWater {
