@@ -5,88 +5,96 @@
   File: pump-reversibility.html
   Purpose: 
   Author: Emily Ehrenberger (April 2012)
- 		  Under the supervision of Margot Vigeant, Bucknell University
+      Under the supervision of Margot Vigeant, Bucknell University
   (c) Margot Vigeant 2012
 -->
 
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Water Pump Reversibility</title>
 
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<title>Water Pump Reversibility</title>
+    <!-- jQuery dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../jquery-ui-1.9.2.custom.min.js"></script>
 
-		<!-- jQuery dependencies -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+    <!-- Bootstrap: Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-        <!-- Bootstrap: Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Bootstrap: Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-        <!-- Bootstrap: Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Bootstrap: Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-        <!-- Bootstrap: Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="pumpstyle.css" type="text/css" rel="stylesheet" />
 
-		<link href="pumpstyle.css" type="text/css" rel="stylesheet" />
-		<script type="text/javascript" src="pumpscript.js"></script>
-	</head>
-	
-	<body>
-    	<noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
-		
-		<h1 align="center">Pump Reversibility Activity</h1>
-		
-		<div class="container">
-		
-		<img id="structure" name="structure" alt="" src="images/structure.png" />
-		<img id="measurement" name="measurement" alt="" src="images/measurement.png" />
-		<img id="tank1Water" name="tank1water" src="images/tankWater.png" />
-		<label id="volumeLabel" name="volumeLabel"></label>
-		<img id="tank2Water" name="tank2water" src="images/tankWater.png" />
-		<img id="openValve" name="openValve" alt="" src="images/valve1.png" />
-		<img id="closedValve" name="closedValve" alt="" src="images/valve2.png" />
-		<img id="openSideValve" name="openSideValve" alt="" src="images/side_valve1.png" />
-		<img id="closedSideValve" name="closedSideValve" alt="" src="images/side_valve2.png" />
-		<img id="startWater" name="startWater" alt="" src="images/startWater.png" />
-		<img id="pumpWater" name="upWater" alt="" src="images/upWater.png" />
-		<img id="suspendedWater" name="suspendedWater" alt="" src="images/suspendedWater.png" />
-		<img id="drainWater" name="downWater" alt="" src="images/downWater.png" />
-		<img id="pumpWorkArrow" name="pumpWorkArrow" alt="" src="images/pumpWorkArrow.png" />
-		<img id="drainWorkArrow" name="drainWorkArrow" alt="" src="images/drainWorkArrow.png" />
-		<img id="splash" name="splash" alt="" src="images/splash.png" />
-		
-		<input id="pumpRate" name="pumpRate" type="text" maxLength="5" />
-		<label id="pumpRateLabel" name="pumpRateLabel">Pump Rate:</label>
-		<label id="pumpRateUnits" name="pumpRateUnits">L/s  (0.062 to 13.9)</label>
-		
-		<h2 id="resultsLabel" name="resultsLabel">Results</h2>
-		<div id="resultsDiv" name="resultsDiv">
-			<label id="pumpEffLabel" name="pumpEffLabel">Pump efficiency:</label>
-			<label id="pumpEff" name="pumpEff"></label>
-			<label id="pumpWorkLabel" name="pumpWorkLabel">Power to move water up:</label>
-			<label id="pumpWork" name="pumpWork"></label>
-			<label id="drainWorkLabel" name="drainWorkLabel">Power generated by draining:</label>
-			<label id="drainWork" name="drainWork"></label>
-			<label id="powerRecoveryLabel" name="powerRecoveryLabel">Power Recovery:</label>
-			<label id="powerRecovery" name="powerRecovery"></label>
-		</div>
-		
-		<!-- Bootstrap buttons -->
+    <!-- LiquidFun + testbed code -->
+    <script src="js/liquidfun/liquidfun.js"></script>
+    <script src="js/liquidfun/testbed/renderer.js"></script>
+    <script src="js/liquidfun/testbed/three.js"></script>
+    <script src="js/liquidfun/testbed/testbed.js"></script>
+    <script src="js/liquidfun/testbed/utils.js"></script>
+    <script src="js/liquidfun/testbed/pumpReverse.js"></script>
+
+    <script type="text/javascript" src="js/pumpscript.js"></script>
+  </head>
+  
+  <body>
+      <noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
+    
+    <h1 align="center">Pump Reversibility Activity</h1>
+    
+    <div class="container">
+    
+    <img id="structure" name="structure" alt="" src="images/structure.png" />
+    <img id="measurement" name="measurement" alt="" src="images/measurement.png" />
+    <img id="tank1Water" name="tank1water" src="images/tankWater.png" />
+    <label id="volumeLabel" name="volumeLabel"></label>
+    <img id="tank2Water" name="tank2water" src="images/tankWater.png" />
+    <img id="openValve" name="openValve" alt="" src="images/valve1.png" />
+    <img id="closedValve" name="closedValve" alt="" src="images/valve2.png" />
+    <img id="openSideValve" name="openSideValve" alt="" src="images/side_valve1.png" />
+    <img id="closedSideValve" name="closedSideValve" alt="" src="images/side_valve2.png" />
+    <img id="startWater" name="startWater" alt="" src="images/startWater.png" />
+    <img id="pumpWater" name="upWater" alt="" src="images/upWater.png" />
+    <img id="suspendedWater" name="suspendedWater" alt="" src="images/suspendedWater.png" />
+    <img id="drainWater" name="downWater" alt="" src="images/downWater.png" />
+    <img id="pumpWorkArrow" name="pumpWorkArrow" alt="" src="images/pumpWorkArrow.png" />
+    <img id="drainWorkArrow" name="drainWorkArrow" alt="" src="images/drainWorkArrow.png" />
+    <img id="splash" name="splash" alt="" src="images/splash.png" />
+    
+    <input id="pumpRate" name="pumpRate" type="text" maxLength="5" />
+    <label id="pumpRateLabel" name="pumpRateLabel">Pump Rate:</label>
+    <label id="pumpRateUnits" name="pumpRateUnits">L/s  (0.062 to 13.9)</label>
+    
+    <h2 id="resultsLabel" name="resultsLabel">Results</h2>
+    <div id="resultsDiv" name="resultsDiv">
+      <label id="pumpEffLabel" name="pumpEffLabel">Pump efficiency:</label>
+      <label id="pumpEff" name="pumpEff"></label>
+      <label id="pumpWorkLabel" name="pumpWorkLabel">Power to move water up:</label>
+      <label id="pumpWork" name="pumpWork"></label>
+      <label id="drainWorkLabel" name="drainWorkLabel">Power generated by draining:</label>
+      <label id="drainWork" name="drainWork"></label>
+      <label id="powerRecoveryLabel" name="powerRecoveryLabel">Power Recovery:</label>
+      <label id="powerRecovery" name="powerRecovery"></label>
+    </div>
+    
+    <!-- Bootstrap buttons -->
         <a href="javascript:" id="runButton" name="runButton" class="btn btn-success btn-sm"">Run Pump</a>
         <a href="javascript:" id="skipButton" name="skipButton" class="btn btn-default btn-sm"">Skip Animation</a>
         <a href="javascript:" id="resetButton" name="resetButton" class="btn btn-danger btn-sm"">Reset</a>
 
         <a href="javascript:" id="about" name="about" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
         <a href="javascript:" id="helpButton" name="helpButton" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
-		
-		<p align="center" id="programInfo">
-			Simulated pump based on data from Goulds Pumps Industrial Products <a href=
-			"http://www.gouldspumps.com/ittgp/medialibrary/goulds/website/Products/LF-3196-i-FRAME/LF_3196_i_Frame_web.pdf?ext=.pdf" 
-			style="color: #CC0000">calibration curve</a></span> and pump model <a href="https://web.archive.org/web/20170227084015/http://www.gouldspumps.com/Products/LF-3196-i-FRAME/" style="color: #CC0000">LF 3196 i-FRAME</a>. 
-			<br /><br />
-		</p>
-		
-		</div>
-		
-	</body>
+    
+    <p align="center" id="programInfo">
+      Simulated pump based on data from Goulds Pumps Industrial Products <a href=
+      "http://www.gouldspumps.com/ittgp/medialibrary/goulds/website/Products/LF-3196-i-FRAME/LF_3196_i_Frame_web.pdf?ext=.pdf" 
+      style="color: #CC0000">calibration curve</a></span> and pump model <a href="https://web.archive.org/web/20170227084015/http://www.gouldspumps.com/Products/LF-3196-i-FRAME/" style="color: #CC0000">LF 3196 i-FRAME</a>. 
+      <br /><br />
+    </p>
+    
+    </div>
+    
+  </body>
 </html>

@@ -101,6 +101,9 @@ function init() {
   	$("#skipButton").on('click', skip);
 	$("#about").on('click', displayAboutInfo);
 	$("#helpButton").on('click', displayHelp);
+
+	// Generate the LiquidFun assets (particles and rigid bodies)
+	// initTestbed();
 }
 
 /*
