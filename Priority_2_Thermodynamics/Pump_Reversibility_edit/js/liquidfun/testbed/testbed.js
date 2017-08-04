@@ -24,8 +24,15 @@ var projector = new THREE.Projector();
 var planeZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
 var g_groundBody = null;
 
-var windowWidth = window.innerWidth;
-var windowHeight = window.innerHeight;
+var stirrer;
+var joint;
+var oscillationOffset = 0;
+
+var windowWidth = 700;
+var windowHeight = 600;
+
+// The ID of the div for this renderer in the html page
+var divID = "liquidFunContainer";
 
 //var GenerateOffsets = Module.cwrap("GenerateOffsets", 'null');
 
@@ -34,7 +41,7 @@ function initTestbed() {
     , windowWidth / windowHeight
     , 1, 1000);
   threeRenderer = new THREE.WebGLRenderer();
-  threeRenderer.setClearColor(0xEEEEEE);
+  threeRenderer.setClearColor(0xffffff);
   threeRenderer.setSize(windowWidth, windowHeight);
 
   camera.position.x = 0;
@@ -43,7 +50,7 @@ function initTestbed() {
   scene = new THREE.Scene();
   camera.lookAt(scene.position);
 
-  document.body.appendChild(this.threeRenderer.domElement);
+  document.getElementById(divID).appendChild(this.threeRenderer.domElement);
 
   this.mouseJoint = null;
 
@@ -64,7 +71,6 @@ function testSwitch(testName) {
 
 function Testbed(obj) {
   var that = this;
-  window.addEventListener( 'resize', onWindowResize, false );
   testSwitch("TestLiquidTimer");
   render();
 }
@@ -83,7 +89,7 @@ var render = function() {
   requestAnimationFrame(render);
 };
 
-var ResetWorld = function() {
+function ResetWorld() {
   if (world !== null) {
     while (world.joints.length > 0) {
       world.DestroyJoint(world.joints[0]);
@@ -100,11 +106,13 @@ var ResetWorld = function() {
   camera.position.x = 0;
   camera.position.y = 0;
   camera.position.z = 100;
-};
+}
 
-var Step = function() {
+function Step() {
   world.Step(timeStep, velocityIterations, positionIterations);
-};
+  // world.particleSystems[0].particleGroups[0].ApplyForce(new b2Vec2(10, 10));
+  // moveStirrer();
+}
 
 /**@constructor*/
 function QueryCallback(point) {
@@ -125,22 +133,41 @@ QueryCallback.prototype.ReportFixture = function(fixture) {
   return false;
 };
 
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  threeRenderer.setSize( window.innerWidth, window.innerHeight );
+/*
+ * Creates a dynamic body that can be used to push liquid particles.
+ */
+function CreateStirrer() {
+  // Shape of the stirrer
+  var shape = new b2PolygonShape;
+  shape.vertices.push(new b2Vec2(-1.3, 1.3));
+  shape.vertices.push(new b2Vec2(-1.3, 1.1));
+  shape.vertices.push(new b2Vec2(-1.1, 1.3));
+  shape.vertices.push(new b2Vec2(-1.1, 1.1));
+
+  // Create the stirrer
+  var bd = new b2BodyDef;
+  bd.type = b2_dynamicBody;
+  stirrer = world.CreateBody(bd);
+  stirrer.CreateFixtureFromShape(shape, 1.0);
+
+  CreateJoint();
 }
 
-function getMouseCoords(event) {
-  var mouse = new THREE.Vector3();
-  mouse.x = (event.clientX / windowWidth) * 2 - 1;
-  mouse.y = -(event.clientY / windowHeight) * 2 + 1;
-  mouse.z = 0.5;
+function CreateJoint() {
+  var prismaticJointDef = new b2PrismaticJointDef();
+  prismaticJointDef.bodyA = g_groundBody;
+  prismaticJointDef.bodyB = stirrer;
+  prismaticJointDef.collideConnected = true;
+  prismaticJointDef.localAxisA.Set(1,0);
+  prismaticJointDef.localAnchorA = stirrer.GetPosition();
+  joint = world.CreateJoint(prismaticJointDef);
+}
 
-  projector.unprojectVector(mouse, camera);
-  var dir = mouse.sub(camera.position).normalize();
-  var distance = -camera.position.z / dir.z;
-  var pos = camera.position.clone().add(dir.multiplyScalar(distance));
-  var p = new b2Vec2(pos.x, pos.y);
-  return p;
+function ToggleJoint() {
+  if (joint) {
+    world.DestroyJoint(joint);
+    joint = null;
+  } else {
+    CreateJoint();
+  }
 }

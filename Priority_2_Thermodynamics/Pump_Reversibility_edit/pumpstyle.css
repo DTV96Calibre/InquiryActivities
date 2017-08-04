@@ -154,6 +154,8 @@ h1 {
 	position:absolute;
 	left: 70px;
 	top: 40px;
+	width: 475px;
+	/*opacity: 0.1;*/
 }
 
 #measurement {
@@ -186,25 +188,25 @@ h1 {
 
 #openValve {
 	position:absolute;
-	top:430px;
+	top:434px;
 	left:303px;
 }
 
 #closedValve {
 	position:absolute;
-	top:435px;
+	top:437px;
 	left:303px;
 }
 
 #openSideValve {
 	position:absolute;
-	top:508px;
+	top:511px;
 	left:437px;
 }
 
 #closedSideValve {
 	position:absolute;
-	top:508px;
+	top:511px;
 	left:442px;
 }
 
@@ -256,6 +258,10 @@ h1 {
 	height:200px;
 }
 
+#liquidFunContainer {
+	position: absolute;
+	z-index: -2;
+}
 
 /**********Program info displayed at bottom of page************/
 
