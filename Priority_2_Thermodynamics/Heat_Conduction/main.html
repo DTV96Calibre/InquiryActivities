@@ -12,14 +12,20 @@
   <head>
     <style> body{padding:0; margin:0;} </style>
   	<title>Heat Conduction Simulation</title>
+
+    <!-- p5 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
 
-  <!-- Local dependencies -->
-  	<!-- <link href="snowMelt.css" type="text/css" rel="stylesheet" /> -->
+    <!-- jQuery dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../jquery-ui-1.9.2.custom.min.js"></script>
+
+    <!-- Local dependencies -->
     <script src="js/main.js"></script>
     <script src="js/utility.js"></script>
     <script src="js/Joint.js"></script>
+    <script src="js/Steam.js"></script>
     <script src="js/Pot.js"></script>
     <script src="js/Arm.js"></script>
     <script src="js/Intro.js"></script>
@@ -27,11 +33,17 @@
     <script src="js/Win.js"></script>
     <script src="js/Lose.js"></script>
     <script src="../scenemanager.js"></script>
+    <link href="style.css" type="text/css" rel="stylesheet" />
 
     <style> body{padding:0; margin:0;} </style>
   </head>
 
   <body>
+
+    <div class="steam" id="steam-one"></div>
+    <div class="steam" id="steam-two"></div>
+    <div class="steam" id="steam-three"></div>
+    <div class="steam" id="steam-four"></div>
 
   </body>
 

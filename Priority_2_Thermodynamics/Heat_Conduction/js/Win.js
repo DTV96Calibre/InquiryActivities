@@ -4,6 +4,13 @@ function Win()
     this.s;
     this.setup = function() {
       this.s = "You saved this cat's bacon";
+      
+      // Hide steam bubbles
+      $("#steam-one").hide();
+      $("#steam-two").hide();
+      $("#steam-three").hide();
+      $("#steam-four").hide();
+
       this.sceneManager.scene.setupExecuted = true;
       this.windowResized();
     }

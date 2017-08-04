@@ -36,7 +36,14 @@ function Editor(){
       fill(51);
       noStroke();
       pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
+      pot.steam.updateOrigin();
       arm = new Arm({x:100, y:100});
+
+      // Show steam bubbles
+      $("#steam-one").show();
+      $("#steam-two").show();
+      $("#steam-three").show();
+      $("#steam-four").show();
 
       // The first joint must be manually added as the insertJoint function assumes one already exists
       joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
@@ -87,6 +94,9 @@ function Editor(){
       finishButton.position(pot.pos.x, pot.pos.y);
       resetButton.position(pot.pos.x, pot.pos.y + 50);
       //pot.pos.x = windowWidth-POT_H_OFFSET;
+      pot.potHeight = 0.34 * windowHeight;
+      pot.potWidth = pot.potHeight;
+      pot.anchorPointDiameter = 75;//pot.potHeight / 3.5;
       pot.locateAnchorPoint();
 
       // define the valid zone

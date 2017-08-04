@@ -8,12 +8,13 @@ class Pot{
     this.metalColor = METAL_COLOR;
     this.insideColor = INSIDE_COLOR;
     this.waterColor = WATER_COLOR;
-    this.potHeight = 246;
-    this.potWidth = 238;
+    this.potHeight = 0.34 * windowHeight;
+    this.potWidth = this.potHeight;
     this.potThickness = 20;
-    this.anchorPointDiameter = 75;
+    this.anchorPointDiameter = 75;//this.potHeight / 3.5;
+    this.steam = new Steam();
 
-    this.waterLevelFromTop = 100;
+    this.waterLevelFromTop = 0.12 * windowHeight;
     // Calculate position of anchorpoint relative to pot pos
     this.anchorPoint = {x:0, y:0};
     this.locateAnchorPoint();
@@ -29,6 +30,8 @@ class Pot{
     rect(this.pos.x+this.potThickness, this.pos.y, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness); // Inside of pot
     fill(this.waterColor);
     rect(this.pos.x+this.potThickness, this.pos.y+this.waterLevelFromTop, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness-this.waterLevelFromTop); // Water in pot
+    // this.steam.updateOrigin();
+    // this.steam.update();
   }
 
   getHandleAnchorPoint(){

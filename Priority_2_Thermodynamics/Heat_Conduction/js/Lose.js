@@ -4,6 +4,13 @@ function Lose()
     this.s;
     this.setup = function() {
       this.s = "The cat died a gruesome death";
+      
+      // Hide steam bubbles
+      $("#steam-one").hide();
+      $("#steam-two").hide();
+      $("#steam-three").hide();
+      $("#steam-four").hide();
+
       this.sceneManager.scene.setupExecuted = true;
       this.windowResized();
     }

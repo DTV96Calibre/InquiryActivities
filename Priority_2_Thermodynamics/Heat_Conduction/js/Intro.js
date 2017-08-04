@@ -3,6 +3,12 @@ function Intro()
 {
     this.s;
     this.setup = function() {
+      // Hide steam bubbles
+      $("#steam-one").hide();
+      $("#steam-two").hide();
+      $("#steam-three").hide();
+      $("#steam-four").hide();
+
       this.s = "The cook on the SS Salty Kitty has lived a dangerous life cooking for the most eccentric pirates on these seven seas. After his most recent accident involving a poorly designed pot, he's hired you to design a handle that won't burn him to death. He's entrusted his last 3 lives to you...";
       this.sceneManager.scene.setupExecuted = true;
       this.windowResized();
