@@ -2,7 +2,7 @@ var CAT_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Pri
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
-  loadImages();
+  initImages();
   mgr = new SceneManager();
       // Wire links supported p5 functions to sceneManager
       mgr.wire();

@@ -41,6 +41,8 @@ function Win()
     }
 
     this.drawCat = function() {
+      image(images['cat'], windowWidth * 0.4, windowHeight * 0.25, windowWidth * 0.2, windowWidth * 0.17);
+      /*
       var scaleFactor = 2;
       var headCenter = [width/(2*scaleFactor),height/(2*scaleFactor)];
       noFill();
@@ -67,7 +69,7 @@ function Win()
       // noFill();
       triangle(0,15,-5,8,5,8);
       translate(-headCenter[0],-headCenter[1]);
-
+      */
     }
 
 }
