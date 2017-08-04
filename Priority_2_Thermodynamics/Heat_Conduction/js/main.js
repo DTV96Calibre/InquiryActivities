@@ -25,6 +25,6 @@ function initImages() {
 
   // Hide the images so they don't appear beneath the canvas when loaded
   for (x in images) {
-    // images[x].hide();
+    images[x].hide();
   }
 }
