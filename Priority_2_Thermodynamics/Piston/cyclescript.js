@@ -143,7 +143,7 @@ function resetAll() {
   var cycleText = "Initial State: " + pressure + " bar, " + temp + " K, " + pistonPosition + " cm extension";
   appendStepText(colors[0], cycleText);
 
-  $("#cycleInfo").val("");
+  $("#cycleInfo").html("");
   
   // Reset the PV (pressure vs. volume) graph
   Ppoints = new Array();
@@ -441,7 +441,6 @@ function displayStepType() {
  * Appends text to the "Cycle Steps" textbox in the given color.
  */
 function appendStepText(hexColorString, text) {
-  $("#cycleSteps").append("<br>");
   $("#cycleSteps").append("<span style='color:" + hexColorString + ";'>" + text + "</span>");
 }
 
@@ -489,7 +488,7 @@ function processNewPosition() {
   displayPistonPos();
 
   // Clear the "cycle info" text area
-  $("#cycleInfo").val("");
+  $("#cycleInfo").html("");
   graphPreviewDot();
   changeInsulationType();
 }
@@ -551,7 +550,7 @@ function processNewTemp() {
   }
   
   // Clear the "cycle info" text area
-  $("#cycleInfo").val("");
+  $("#cycleInfo").html("");
   graphPreviewDot();
   changeInsulationType();
 }
@@ -601,7 +600,7 @@ function processNewStepType() {
   }
   
   // Clear the "cycle info" text area
-  $("#cycleInfo").val("");
+  $("#cycleInfo").html("");
   graphPreviewDot();
   changeInsulationType();
 }
@@ -667,7 +666,7 @@ function saveStep() {
       }
       break;
     default:
-      $("#cycleInfo").val("Please choose a thermodynamic process type.");
+      $("#cycleInfo").html("Please choose a thermodynamic process type.");
       return;
     }
   
@@ -676,7 +675,7 @@ function saveStep() {
     var stuff = deltaS - Q / temp;
     
     if (stepType == "Isobaric" && (deltaS - Q / temp) < 0) {
-      $("#cycleInfo").val("Step is invalid. Steps must obey the thermodynamic law that deltaS - Q/T >= 0.\n\ndeltaS = " + deltaS.toFixed(4) + 
+      $("#cycleInfo").html("Step is invalid. Steps must obey the thermodynamic law that deltaS - Q/T >= 0.\n\ndeltaS = " + deltaS.toFixed(4) + 
                 "\nQ = " + Q.toFixed(4) + " cm^3 * bar\nT = " + temp.toFixed(4) + " K\n\ndeltaS - Q/T = " + (deltaS - Q/temp).toFixed(4));
       alert("Step not saved.");
       return false;
@@ -700,10 +699,10 @@ function saveStep() {
   numSavedSteps++;
 
   // Display details about this step to the textbox
-  var cycleText = $("#cycleSteps").val() + "\n" + stepType + " " + changeType + " to " + 
+  var cycleText = $("#cycleSteps").val() + "<br>" + stepType + " " + changeType + " to " + 
     pressure.toFixed(3) + " bar at " + temp.toFixed(0) + " K, " + pistonPosition.toFixed(1) + 
-    " cm\n" + " Entropy is: " + entropy.toFixed(3) + "\nWork is: " + W.toFixed(1) + 
-    " cm^3 * bar   =   " + toKiloJoules(W).toFixed(1) + " kJ\nQ is: " + Q.toFixed(1) + 
+    " cm<br>" + " Entropy is: " + entropy.toFixed(3) + "<br>Work is: " + W.toFixed(1) + 
+    " cm^3 * bar   =   " + toKiloJoules(W).toFixed(1) + " kJ<br>Q is: " + Q.toFixed(1) + 
     " cm^3 * bar   =   " + toKiloJoules(Q).toFixed(3) + " kJ";
   appendStepText(colors[numSavedSteps % colors.length], cycleText);
   
@@ -763,7 +762,7 @@ function closeCycle() {
     displayTemp();
     displayPistonPos();
     displayStepType();
-    $("#cycleInfo").val("Closing the cycle with an isobaric step...\n");
+    $("#cycleInfo").html("Closing the cycle with an isobaric step...\n");
     
     var success = saveStep();
     
@@ -771,7 +770,7 @@ function closeCycle() {
       return true;
     }
     else {
-      $("#cycleInfo").val("Attempting to close cycle with an isobaric step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Attempting to close cycle with an isobaric step...\n\n" + $("#cycleInfo").val());
       return false;
     }
 
@@ -784,7 +783,7 @@ function closeCycle() {
     displayTemp();
     displayPressure();
     displayStepType();
-    $("#cycleInfo").val("Closing the cycle with an isochoric step...\n");
+    $("#cycleInfo").html("Closing the cycle with an isochoric step...\n");
     
     var success = saveStep();
     
@@ -792,7 +791,7 @@ function closeCycle() {
       return true;
     }
     else {
-      $("#cycleInfo").val("Attempting to close cycle with an isochoric step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Attempting to close cycle with an isochoric step...\n\n" + $("#cycleInfo").val());
       return false;
     }
 
@@ -806,7 +805,7 @@ function closeCycle() {
     displayPressure();
     displayPistonPos();
     displayStepType();
-    $("#cycleInfo").val("Closing the cycle with an isothermal step...\n");
+    $("#cycleInfo").html("Closing the cycle with an isothermal step...\n");
     
     var success = saveStep();
     
@@ -814,7 +813,7 @@ function closeCycle() {
       return true;
     }
     else {
-      $("#cycleInfo").val("Attempting to close cycle with an isothermal step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Attempting to close cycle with an isothermal step...\n\n" + $("#cycleInfo").val());
       return false;
     }
 
@@ -829,7 +828,7 @@ function closeCycle() {
     displayTemp();
     displayPistonPos();
     displayStepType();
-    $("#cycleInfo").val("Closing the cycle with an adiabatic step...\n");
+    $("#cycleInfo").html("Closing the cycle with an adiabatic step...\n");
     
     var success = saveStep();
     
@@ -837,12 +836,12 @@ function closeCycle() {
       return true;
     }
     else {
-      $("#cycleInfo").val("Attempting to close cycle with an adiabatic step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Attempting to close cycle with an adiabatic step...\n\n" + $("#cycleInfo").val());
       return false;
     }
   }
   else {
-    $("#cycleInfo").val("Cycle does not close. Try to make one of the variables (pressure, volume, temperature, or entropy) return to its initial value.");
+    $("#cycleInfo").html("Cycle does not close. Try to make one of the variables (pressure, volume, temperature, or entropy) return to its initial value.");
     return false;
   } 
 }
@@ -920,7 +919,7 @@ function calculateCycleStats() {
     cycleType = determineEngineType();
   }
   else {
-    $("#cycleInfo").val($("#cycleInfo").val() + "You've created an engine with a net work of 0! Your engine does nothing.\n");
+    $("#cycleInfo").html($("#cycleInfo").val() + "You've created an engine with a net work of 0! Your engine does nothing.\n");
     return;
   }
   
@@ -930,7 +929,7 @@ function calculateCycleStats() {
   $("#heatSourceLabel").html(heatSourceTemp.toFixed(1) + " K");
   $("#heatSinkLabel").html(heatSinkTemp.toFixed(1) + " K");
   if (cycleType=="other") {
-    $("#cycleInfo").val($("#cycleInfo").val() + "You've created a new " + engineType + "!\nNet work = " + toKiloJoules(netWork).toFixed(1) + " kJ\n" + efficiencyString);
+    $("#cycleInfo").html($("#cycleInfo").val() + "You've created a new " + engineType + "!\nNet work = " + toKiloJoules(netWork).toFixed(1) + " kJ\n" + efficiencyString);
   }
   else {
     if(engineType=="heat pump") {
@@ -940,7 +939,7 @@ function calculateCycleStats() {
       engineType = "an engine";
     }
       
-    $("#cycleInfo").val($("#cycleInfo").val() + "You've created " + engineType + " running on the " + cycleType + " cycle!\n" + efficiencyString);
+    $("#cycleInfo").html($("#cycleInfo").val() + "You've created " + engineType + " running on the " + cycleType + " cycle!\n" + efficiencyString);
   }
 }
 

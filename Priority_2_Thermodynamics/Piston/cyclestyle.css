@@ -319,6 +319,14 @@ textarea {
 	font-weight: normal;
 }
 
+/* Give these divs the appearance of a textarea */
+#cycleSteps, #cycleInfo {
+	-moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    overflow: auto;
+    padding: 2px;
+}
 
 
 #cycleStepsLabel {
@@ -375,7 +383,7 @@ textarea {
 	left:455px;
 	width:325px;
 	height:140px;
-	color:red;
+	font-size:0.75em;
 }
 
 #programInfo {
