@@ -442,6 +442,10 @@ function displayStepType() {
  */
 function appendStepText(hexColorString, text) {
   $("#cycleSteps").append("<span style='color:" + hexColorString + ";'>" + text + "</span>");
+
+  // Scroll to the bottom of the div
+  var cycleStepsDiv = document.getElementById("cycleSteps");
+  cycleStepsDiv.scrollTop = cycleStepsDiv.scrollHeight;
 }
 
 /*
