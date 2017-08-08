@@ -43,6 +43,9 @@ var savedSteps;
 var isiPad = false;
 var slidingPistoniPad;
 
+// The colors that the cycle steps will appear in
+var colors = ['#E73232', '#A34FDC', '#209A0F', '#4FDCD2', '#F9A030', '#4030F9'];
+
 /*
 *************************************************************************************************************************
 *                                                  Initialization                                                       *
@@ -136,7 +139,10 @@ function resetAll() {
   $("#red").hide();
   
   // Reset the text areas containing cycle data and other info
-  $("#cycleSteps").val("Initial State: " + pressure + " bar, " + temp + " K, " + pistonPosition + " cm extension");
+  $("#cycleSteps").html("");
+  var cycleText = "Initial State: " + pressure + " bar, " + temp + " K, " + pistonPosition + " cm extension";
+  appendStepText(colors[0], cycleText);
+
   $("#cycleInfo").val("");
   
   // Reset the PV (pressure vs. volume) graph
@@ -432,6 +438,14 @@ function displayStepType() {
 }
 
 /*
+ * Appends text to the "Cycle Steps" textbox in the given color.
+ */
+function appendStepText(hexColorString, text) {
+  $("#cycleSteps").append("<br>");
+  $("#cycleSteps").append("<span style='color:" + hexColorString + ";'>" + text + "</span>");
+}
+
+/*
 *************************************************************************************************************************
 *                                                    Processing Input                                                   *
 *************************************************************************************************************************
@@ -669,12 +683,6 @@ function saveStep() {
     }
   }
   
-  $("#cycleSteps").val($("#cycleSteps").val() + "\n" + stepType + " " + changeType + " to " + 
-    pressure.toFixed(3) + " bar at " + temp.toFixed(0) + " K, " + pistonPosition.toFixed(1) + 
-    " cm\n" + " Entropy is: " + entropy.toFixed(3) + "\nWork is: " + W.toFixed(1) + 
-    " cm^3 * bar   =   " + toKiloJoules(W).toFixed(1) + " kJ\nQ is: " + Q.toFixed(1) + 
-    " cm^3 * bar   =   " + toKiloJoules(Q).toFixed(3) + " kJ");
-  
   // graph the step
   graph();
   
@@ -690,6 +698,14 @@ function saveStep() {
   // save the step object by adding it to an array of all the steps
   savedSteps.push(step);
   numSavedSteps++;
+
+  // Display details about this step to the textbox
+  var cycleText = $("#cycleSteps").val() + "\n" + stepType + " " + changeType + " to " + 
+    pressure.toFixed(3) + " bar at " + temp.toFixed(0) + " K, " + pistonPosition.toFixed(1) + 
+    " cm\n" + " Entropy is: " + entropy.toFixed(3) + "\nWork is: " + W.toFixed(1) + 
+    " cm^3 * bar   =   " + toKiloJoules(W).toFixed(1) + " kJ\nQ is: " + Q.toFixed(1) + 
+    " cm^3 * bar   =   " + toKiloJoules(Q).toFixed(3) + " kJ";
+  appendStepText(colors[numSavedSteps % colors.length], cycleText);
   
   // save the current state so it may be used for calculations/comparisons as the user creates the next step
   oldTemp = temp;
