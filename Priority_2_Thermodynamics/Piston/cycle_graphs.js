@@ -44,6 +44,7 @@ function initializeGraphs() {
   PVgraphBase = Raphael('PVgraphDiv');
   TSgraphBase = Raphael('TSgraphDiv');
   init3DGraph();
+  init2DGraphs();
 }
 
 /*
@@ -209,6 +210,56 @@ function generateGraphPoints() {
 *                          3D Graph Functionality                              *
 ********************************************************************************
 */
+
+/*
+ * Initializes the Highcharts 2D lineplots.
+ */
+function init2DGraphs() {
+  var colors = ['red','orange','green','blue','orange','violet'];
+    
+    
+    function color(i) {
+        if (i < colors.length) return colors[i];
+        else {
+            var idx = i % colors.length;
+            return colors[idx];
+        }
+    }
+
+    function genData(n) {
+        var d = [],
+            i = 0;
+        while (i < n) {
+            var v = Math.round(i / 16);
+            d.push({
+                y: Math.random() * 100,
+                segmentColor: color(v),
+            });
+            i++;
+        }
+        return d;
+    }
+
+    PVgraph = new Highcharts.Chart({
+        chart: {
+            renderTo: 'PVgraphDiv',
+            type: 'coloredline',
+            zoomType: 'xy'
+        },
+        title: {
+            useHTML: true,
+            x: -11,
+            y: 8,
+            text: ''
+        },
+        series: [{
+            data: genData(256)
+        }],
+        legend: {
+          enabled: false
+        },
+    });
+}
 
 // Give the points a 3D feel by adding a radial gradient
 Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {

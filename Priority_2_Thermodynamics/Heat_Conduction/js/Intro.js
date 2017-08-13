@@ -45,7 +45,7 @@ function Intro()
     }
 
     this.drawCat = function() {
-      image(images['cat'], windowWidth * 0.4, windowHeight * 0.25, windowWidth * 0.2, windowWidth * 0.17);
+      image(images['cat'], windowWidth * 0.42, windowHeight * 0.25, windowWidth * 0.16, windowWidth * 0.17);
       /*
       var scaleFactor = 2;
       var headCenter = [width/(2*scaleFactor),height/(2*scaleFactor)];
