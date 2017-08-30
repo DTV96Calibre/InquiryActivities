@@ -147,35 +147,19 @@ function resetAll() {
   
   // Reset the PV (pressure vs. volume) graph
   Ppoints = new Array();
-  Ppoints[0] = INITIAL_PRESSURE;
+  Ppoints[0] = new DataPoint(INITIAL_PRESSURE, colors[0]);
   Vpoints = new Array();
-  Vpoints[0] = pistonPosToVolume(INITIAL_PISTON);
-  PVgraphBase.clear();
-  PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
+  Vpoints[0] = new DataPoint(pistonPosToVolume(INITIAL_PISTON), colors[0]);
 
   // Reset the TS (temperature vs. entropy) graph
   Tpoints = new Array();
-  Tpoints[0] = INITIAL_TEMP;
+  Tpoints[0] = new DataPoint(INITIAL_TEMP, colors[0]);
   Spoints = new Array();
-  Spoints[0] = INITIAL_ENTROPY;
-  TSgraphBase.clear();
-  TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
+  Spoints[0] = new DataPoint(INITIAL_ENTROPY, colors[0]);
 
-  permPointsP = new Array();
-  permPointsV = new Array();
-  permPointsT = new Array();
-  permPointsS = new Array();
-  tempPointsP = new Array();
-  tempPointsV = new Array();
-  tempPointsT = new Array();
-  tempPointsS = new Array();
-  permPointsP[0] = INITIAL_PRESSURE;
-  permPointsV[0] = pistonPosToVolume(INITIAL_PISTON);
-  permPointsT[0] = INITIAL_TEMP;
-  permPointsS[0] = INITIAL_ENTROPY;
-
-  // Reset the 3D graph
+  // Reset the graphs
   PVTGraph3D.series[0].setData(null);
+  PVgraph.series[0].setData(null);
 
   // Surface plot is enabled by default
   $("#enableSurfacePlot").prop('checked', true);

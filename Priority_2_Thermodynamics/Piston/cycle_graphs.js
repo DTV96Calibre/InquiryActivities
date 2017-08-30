@@ -10,14 +10,10 @@
  * of this simulation. (2D pressure/volume & entropy/temperature graphs, and a
  * 3D pressure/temperature/volume graph.) */
 
-// Components for the 2D graphs (rendered using a library called Raphael)
-var PVgraphBase;
-var TSgraphBase;
+// The Highcharts objects used to render the graphs
+var PVTGraph3D;
 var TSgraph;
 var PVgraph;
-
-// The Highcharts object used to render the 3D graph
-var PVTGraph3D;
 
 // Arrays of points for pressure, volume, temperature, and entropy
 var Ppoints;
@@ -41,8 +37,6 @@ var dotPreviewed;
  * Highcharts library.
  */
 function initializeGraphs() {
-  PVgraphBase = Raphael('PVgraphDiv');
-  TSgraphBase = Raphael('TSgraphDiv');
   init3DGraph();
   init2DGraphs();
 }
@@ -58,43 +52,34 @@ function graph() {
   Tpoints = Tpoints.concat(points["T"]);
   Spoints = Spoints.concat(points["S"]);
   
-  // Graph the 2D plots
-  PVgraphBase.clear();
-  PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints, Ppoints, {"axis":"0 0 0 0"});
-  TSgraphBase.clear();
-  TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints, Tpoints, {"axis":"0 0 0 0"});
-
+  // Graph the data using the Highcharts library
   set3DGraphData(Ppoints, Tpoints, Vpoints);
+  setPVGraphData(Ppoints, Vpoints);
+  setTSGraphData(Tpoints, Spoints);
 }
 
 /*
- * Graph the points on both the PV and TS graphs while taking into consideration
- * that the "preview" point may need to be overwritten.
+ * Graph the points on the graphs while taking into consideration that the 
+ * "preview" point may need to be overwritten.
  */
 function graphPreviewDot() {
+  var color = colors[(numSavedSteps + 1) % colors.length];
+
+  var points = generateGraphPoints();
+
   /* If the user has pressed 'Save Step' since the last time the graph updated,
    * push the new data points so they become permanent fixtures of this cycle. 
    */
   if (!dotPreviewed) {
-    Vpoints.push(volume);
-    Ppoints.push(pressure);
-    Tpoints.push(temp);
-    Spoints.push(entropy);
+    points["V"].push(new DataPoint(volume, color));
+    points["P"].push(new DataPoint(pressure, color));
+    points["T"].push(new DataPoint(temp, color));
+    points["S"].push(new DataPoint(entropy, color));
   }
-  
-  var points = generateGraphPoints();
-
-  PVgraphBase.clear();
-  PVgraph = PVgraphBase.g.linechart(10,10,190,160, Vpoints.concat(points["V"]), 
-    Ppoints.concat(points["P"]), {"axis":"0 0 0 0"});
-  
-  TSgraphBase.clear();
-  TSgraph = TSgraphBase.g.linechart(10,10,190,160, Spoints.concat(points["S"]), 
-    Tpoints.concat(points["T"]), {"axis":"0 0 0 0"});
 
   // Update the 3D graph in real-time with the previewed points
-  set3DGraphData(Ppoints.concat(points["P"]), Tpoints.concat(points["T"]),
-    Vpoints.concat(points["V"]));
+  set3DGraphData(points["P"], points["T"], points["V"]);
+  // setPVGraphData(Ppoints.concat(points["P"]))
 
   dotPreviewed = true;
 }
@@ -104,6 +89,8 @@ function graphPreviewDot() {
  * which may be a curved line.
  */
 function generateGraphPoints() {
+  var color = colors[(numSavedSteps + 1) % colors.length];
+
   /* Create an empty object to act as an associative array containing the sets 
    * of point values for P, V, T, and S */
   var points = {};
@@ -135,10 +122,10 @@ function generateGraphPoints() {
       
       P = oldP * Math.pow((oldV / V), (Cp / Cv));
       
-      points["P"].push(P);
-      points["V"].push(V);
-      points["T"].push(temp);
-      points["S"].push(entropy);
+      points["P"].push(new DataPoint(P, color));
+      points["V"].push(new DataPoint(V, color));
+      points["T"].push(new DataPoint(temp, color));
+      points["S"].push(new DataPoint(entropy, color));
     }
   }
   
@@ -162,11 +149,11 @@ function generateGraphPoints() {
       
       T = oldT * Math.exp((S - oldS)/Cp);
       
-      points["T"].push(T);
-      points["S"].push(S);
-      points["P"].push(pressure);
-      points["V"].push(volume);
-    }    
+      points["T"].push(new DataPoint(T, color));
+      points["S"].push(new DataPoint(S, color));
+      points["P"].push(new DataPoint(pressure, color));
+      points["V"].push(new DataPoint(volume, color));
+    }
   }
   else if (stepType == "Isochoric") {
     // Tpoints.pop();
@@ -187,19 +174,19 @@ function generateGraphPoints() {
       
       T = oldT * Math.exp((S - oldS)/Cv);
       
-      points["T"].push(T);
-      points["S"].push(S);
-      points["P"].push(pressure);
-      points["V"].push(volume);
-    }    
+      points["T"].push(new DataPoint(T, color));
+      points["S"].push(new DataPoint(S, color));
+      points["P"].push(new DataPoint(pressure, color));
+      points["V"].push(new DataPoint(volume, color));
+    }
   }
   
   // If the step is isothermal, there is no need to interpolate because both graphs will be straight lines
   else {
-    points["P"].push(pressure);
-    points["V"].push(volume);
-    points["T"].push(temp);
-    points["S"].push(entropy);
+    points["P"].push(new DataPoint(pressure, color));
+    points["V"].push(new DataPoint(volume, color));
+    points["T"].push(new DataPoint(temp, color));
+    points["S"].push(new DataPoint(entropy, color));
   }
   
   return points;
@@ -215,65 +202,98 @@ function generateGraphPoints() {
  * Initializes the Highcharts 2D lineplots.
  */
 function init2DGraphs() {
-  var colors = ['red','orange','green','blue','orange','violet'];
-    
-    
-    function color(i) {
-        if (i < colors.length) return colors[i];
-        else {
-            var idx = i % colors.length;
-            return colors[idx];
-        }
-    }
+  // Create pressure/volume graph
+  PVgraph = new Highcharts.Chart({
+    chart: {
+      renderTo: 'PVgraphDiv',
+      type: 'coloredline',
+      zoomType: 'xy'
+    },
+    title: {
+      useHTML: true,
+      x: -11,
+      y: 8,
+      text: ''
+    },
+    series: [{
+      data: [
+        // [Volume, Pressure]
+      ]
+    }],
 
-    function genData(n) {
-        var d = [],
-            i = 0;
-        while (i < n) {
-            var v = Math.round(i / 16);
-            d.push({
-                y: Math.random() * 100,
-                segmentColor: color(v),
-            });
-            i++;
-        }
-        return d;
+    // Disable everything but the graph's data
+    xAxis: {
+      visible: false
+    },
+    yAxis: {
+      visible: false
+    },
+    legend: {
+      enabled: false
+    },
+    exporting: { 
+      enabled: false
+    },
+    tooltip: {
+      style: {
+        display: "none",
+      }
     }
+  });
 
-    PVgraph = new Highcharts.Chart({
-        chart: {
-            renderTo: 'PVgraphDiv',
-            type: 'coloredline',
-            zoomType: 'xy'
-        },
-        title: {
-            useHTML: true,
-            x: -11,
-            y: 8,
-            text: ''
-        },
-        series: [{
-            data: genData(256)
-        }],
-        legend: {
-          enabled: false
-        },
-    });
+  // Create temperature/entropy graph
+  TSgraph = new Highcharts.Chart({
+    chart: {
+      renderTo: 'TSgraphDiv',
+      type: 'coloredline',
+      zoomType: 'xy'
+    },
+    title: {
+      useHTML: true,
+      x: -11,
+      y: 8,
+      text: ''
+    },
+    series: [{
+      data: [
+        // [Temperature, Entropy]
+      ]
+    }],
+
+    // Disable everything but the graph's data
+    xAxis: {
+      visible: false
+    },
+    yAxis: {
+      visible: false
+    },
+    legend: {
+      enabled: false
+    },
+    exporting: { 
+      enabled: false
+    },
+    tooltip: {
+      style: {
+        display: "none",
+      }
+    }
+  });
 }
 
 // Give the points a 3D feel by adding a radial gradient
 Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
-    return {
-        radialGradient: {
-            cx: 0.4,
-            cy: 0.3,
-            r: 0.5
-        },
-        stops: [
-            [0, color],
-            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
-        ]
-    };
+  return {
+    radialGradient: {
+      cx: 0.4,
+      cy: 0.3,
+      r: 0.5
+    },
+    stops: [
+      [0, color],
+      [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
+    ]
+  };
 });
 
 /*
@@ -378,6 +398,42 @@ function init3DGraph() {
 }
 
 /*
+ * Pulls tuples from the pressure/volume arrays of values and stores them
+ * sequentially as data in the 2D scatterplot.
+ * @param Ppoints - An array of pressure values
+ * @param Vpoints - An array of volume values
+ */
+function setPVGraphData(Ppoints, Vpoints) {
+  var length = Math.min(Ppoints.length, Vpoints.length);
+  var data = [];
+  for (var i = 0; i < length; i++) {
+    data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: Vpoints[i].color});
+  }
+
+  var chart = $("#PVgraphDiv").highcharts();
+  // Update the data of the chart
+  chart.series[0].setData(data);
+}
+6.
+/*
+ * Pulls tuples from the temperature/entropy arrays of values and stores them
+ * sequentially as data in the 2D scatterplot.
+ * @param Tpoints - An array of temperature values
+ * @param Spoints - An array of entropy values
+ */
+function setTSGraphData(Tpoints, Spoints) {
+  var length = Math.min(Tpoints.length, Spoints.length);
+  var data = [];
+  for (var i = 0; i < length; i++) {
+    data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: Tpoints[i].color});
+  }
+
+  var chart = $("#TSgraphDiv").highcharts();
+  // Update the data of the chart
+  chart.series[0].setData(data);
+}
+
+/*
  * Pulls triples from the pressure/temperature/volume arrays of values and stores them
  * sequentially as data in the 3D scatterplot.
  * @param Ppoints - An array of pressure values
@@ -388,7 +444,7 @@ function set3DGraphData(Ppoints, Tpoints, Vpoints) {
   var length = Math.min(Ppoints.length, Vpoints.length, Tpoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
-    data.push([Vpoints[i], Ppoints[i], Tpoints[i]]);
+    data.push([Vpoints[i].value, Ppoints[i].value, Tpoints[i].value]);
   }
 
   // Update the data of the chart
@@ -425,4 +481,15 @@ function open3DGraph() {
   PVTGraph3D.series[0].update({
     type: "scatter"
   });
+}
+
+/*
+ * A small class used for storing data values as well as their colors to be
+ * rendered on the graph.
+ */
+class DataPoint {
+  constructor(value, color) {
+    this.value = value;
+    this.color = color;
+  }
 }
