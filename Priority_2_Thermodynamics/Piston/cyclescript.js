@@ -36,12 +36,6 @@ var oldPressure;
 var oldVolume;
 var oldEntropy;
 
-// Temporary values used for updating the graphs before the user saves the step
-var tempPressure;
-var tempVolume;
-var tempTemperature;
-var tempEntropy;
-
 // The number of points that the user has saved on this cycle
 var numSavedSteps;
 var savedSteps;
@@ -124,11 +118,6 @@ function resetAll() {
   oldPressure = pressure;
   oldVolume = volume;
   oldEntropy = entropy;
-
-  tempPressure = [];
-  tempVolume = [];
-  tempTemperature = [];
-  tempEntropy = [];
 
   savedSteps = new Array();
   numSavedSteps = 0;
@@ -683,9 +672,6 @@ function saveStep() {
     }
   }
   
-  // graph the step
-  graph();
-  
   // create an empty object to act as an associative array containing the properties of this step
   var step = {};
 
@@ -894,7 +880,7 @@ function calculateCycleStats() {
     var COP = heatIn / netWork;
     var CarnotCOP = 1 /( (maxTemp/minTemp) - 1);
     
-    efficiencyString = "Cycle COP: " + COP.toFixed(4) + "\nCarnot COP: " + CarnotCOP.toFixed(4);
+    efficiencyString = "Cycle COP: " + COP.toFixed(4) + "<br>Carnot COP: " + CarnotCOP.toFixed(4);
     /*scaleHeatOutArrow(66);
     scaleHeatInArrow(Math.abs(efficiency) * 66);
     scaleWorkArrow(1 - Math.abs(efficiency)*66);*/
@@ -908,7 +894,7 @@ function calculateCycleStats() {
   else if (netWork < -0.001) {
     engineType = "engine";
     var CarnotEfficiency = 1 - minTemp/maxTemp;
-    efficiencyString = "Cycle Efficiency: " + efficiency.toFixed(4) + "\nCarnot Efficiency: " + CarnotEfficiency.toFixed(4);
+    efficiencyString = "Cycle Efficiency: " + efficiency.toFixed(4) + "<br>Carnot Efficiency: " + CarnotEfficiency.toFixed(4);
     /*scaleHeatOutArrow(1 - Math.abs(efficiency)*66);
     scaleHeatInArrow(66);
     scaleWorkArrow(Math.abs(efficiency) * 66);*/
@@ -930,7 +916,7 @@ function calculateCycleStats() {
   $("#heatSourceLabel").html(heatSourceTemp.toFixed(1) + " K");
   $("#heatSinkLabel").html(heatSinkTemp.toFixed(1) + " K");
   if (cycleType=="other") {
-    $("#cycleInfo").html($("#cycleInfo").val() + "You've created a new " + engineType + "!\nNet work = " + toKiloJoules(netWork).toFixed(1) + " kJ\n" + efficiencyString);
+    $("#cycleInfo").html($("#cycleInfo").val() + "You've created a new " + engineType + "!<br>Net work = " + toKiloJoules(netWork).toFixed(1) + " kJ<br>" + efficiencyString);
   }
   else {
     if(engineType=="heat pump") {
@@ -940,7 +926,7 @@ function calculateCycleStats() {
       engineType = "an engine";
     }
       
-    $("#cycleInfo").html($("#cycleInfo").val() + "You've created " + engineType + " running on the " + cycleType + " cycle!\n" + efficiencyString);
+    $("#cycleInfo").html($("#cycleInfo").val() + "You've created " + engineType + " running on the " + cycleType + " cycle!<br>" + efficiencyString);
   }
 }
 

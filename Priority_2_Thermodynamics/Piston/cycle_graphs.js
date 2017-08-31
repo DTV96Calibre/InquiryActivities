@@ -65,7 +65,7 @@ function graph() {
 function graphPreviewDot() {
   var color = colors[(numSavedSteps + 1) % colors.length];
 
-  points = generateGraphPoints();
+  var points = generateGraphPoints();
 
   /* If the user has pressed 'Save Step' since the last time the graph updated,
    * push the new data points so they become permanent fixtures of this cycle. 
