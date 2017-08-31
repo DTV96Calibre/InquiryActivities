@@ -172,6 +172,7 @@ function resetAll() {
   // Reset the graphs
   PVTGraph3D.series[0].setData(null);
   PVgraph.series[0].setData(null);
+  TSgraph.series[0].setData(null);
 
   // Surface plot is enabled by default
   $("#enableSurfacePlot").prop('checked', true);
