@@ -36,6 +36,12 @@ var oldPressure;
 var oldVolume;
 var oldEntropy;
 
+// Temporary values used for updating the graphs before the user saves the step
+var tempPressure;
+var tempVolume;
+var tempTemperature;
+var tempEntropy;
+
 // The number of points that the user has saved on this cycle
 var numSavedSteps;
 var savedSteps;
@@ -118,6 +124,12 @@ function resetAll() {
   oldPressure = pressure;
   oldVolume = volume;
   oldEntropy = entropy;
+
+  tempPressure = [];
+  tempVolume = [];
+  tempTemperature = [];
+  tempEntropy = [];
+
   savedSteps = new Array();
   numSavedSteps = 0;
   cycleClosed = false;

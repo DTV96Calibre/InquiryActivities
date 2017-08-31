@@ -65,7 +65,7 @@ function graph() {
 function graphPreviewDot() {
   var color = colors[(numSavedSteps + 1) % colors.length];
 
-  var points = generateGraphPoints();
+  points = generateGraphPoints();
 
   /* If the user has pressed 'Save Step' since the last time the graph updated,
    * push the new data points so they become permanent fixtures of this cycle. 
@@ -76,10 +76,8 @@ function graphPreviewDot() {
     points["T"].push(new DataPoint(temp, color));
     points["S"].push(new DataPoint(entropy, color));
   }
-
-  // Update the 3D graph in real-time with the previewed points
-  set3DGraphData(points["P"], points["T"], points["V"]);
-  // setPVGraphData(Ppoints.concat(points["P"]))
+  
+  graph();
 
   dotPreviewed = true;
 }
