@@ -71,10 +71,10 @@ function graphPreviewDot() {
    * push the new data points so they become permanent fixtures of this cycle. 
    */
   if (!dotPreviewed) {
-    points["V"].push(new DataPoint(volume, color));
-    points["P"].push(new DataPoint(pressure, color));
-    points["T"].push(new DataPoint(temp, color));
-    points["S"].push(new DataPoint(entropy, color));
+    Vpoints.push(new DataPoint(volume, color));
+    Ppoints.push(new DataPoint(pressure, color));
+    Tpoints.push(new DataPoint(temp, color));
+    Spoints.push(new DataPoint(entropy, color));
   }
   
   graph();
@@ -216,7 +216,12 @@ function init2DGraphs() {
     series: [{
       data: [
         // [Volume, Pressure]
-      ]
+      ],
+      states: {
+          hover: {
+            enabled: false
+          }
+        }
     }],
 
     // Disable everything but the graph's data
@@ -232,11 +237,7 @@ function init2DGraphs() {
     exporting: { 
       enabled: false
     },
-    tooltip: {
-      style: {
-        display: "none",
-      }
-    }
+    tooltip: { enabled: false }
   });
 
   // Create temperature/entropy graph
@@ -255,7 +256,12 @@ function init2DGraphs() {
     series: [{
       data: [
         // [Temperature, Entropy]
-      ]
+      ],
+      states: {
+          hover: {
+            enabled: false
+          }
+        }
     }],
 
     // Disable everything but the graph's data
@@ -271,11 +277,7 @@ function init2DGraphs() {
     exporting: { 
       enabled: false
     },
-    tooltip: {
-      style: {
-        display: "none",
-      }
-    }
+    tooltip: { enabled: false }
   });
 }
 
@@ -348,13 +350,18 @@ function init3DGraph() {
         marker: {
           enabled: false
         },
-        shadow: true
+        shadow: true,
+        states: {
+          hover: {
+            enabled: false
+          }
+        }
       }
     },
 
-    legend: {
-      enabled: false
-    },
+    legend: { enabled: false },
+
+    tooltip: { enabled: false },
 
     series: [{
       data: [
