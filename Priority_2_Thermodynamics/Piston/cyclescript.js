@@ -40,6 +40,9 @@ var oldEntropy;
 var numSavedSteps;
 var savedSteps;
 
+// Prevents the user from spamming the 'Save Step' button
+var hasUpdated = false;
+
 var isiPad = false;
 var slidingPistoniPad;
 
@@ -100,6 +103,20 @@ function openSim() {
   resetAll();
   
   return false;
+}
+
+/*
+ * Called when the user either makes a change to the graph or saves a step.
+ */
+function toggleUpdate() {
+  // The graph has updated and now a step can be saved
+  if (hasUpdated) {
+    $("#saveStepButton").removeAttr('disabled');
+    // $("#saveStepButton").bind();
+  } else {
+    $('#saveStepButton').attr('disabled','disabled');
+    // $("#saveStepButton").unbind();
+  }
 }
 
 /*
@@ -168,6 +185,8 @@ function resetAll() {
   close3DGraph();
 
   dotPreviewed = false;
+  hasUpdated = false;
+  toggleUpdate();
   
   scaleHeatInArrow(66);
   scaleHeatOutArrow(66);
@@ -605,6 +624,9 @@ function processNewStepType() {
  * Called when the user presses the 'Save Step' button.
  */
 function saveStep() {
+  hasUpdated = false;
+  toggleUpdate();
+
   var W; // work done
   var Q; // heat transfer
   var deltaU; // change in internal energy of the gas (used to calculate Q and/or W)

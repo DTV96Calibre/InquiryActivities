@@ -56,6 +56,9 @@ function graph() {
   set3DGraphData(Ppoints, Tpoints, Vpoints);
   setPVGraphData(Ppoints, Vpoints);
   setTSGraphData(Tpoints, Spoints);
+
+  hasUpdated = true;
+  toggleUpdate();
 }
 
 /*
