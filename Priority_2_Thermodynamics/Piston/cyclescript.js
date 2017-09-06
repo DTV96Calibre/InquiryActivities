@@ -112,10 +112,8 @@ function toggleUpdate() {
   // The graph has updated and now a step can be saved
   if (hasUpdated) {
     $("#saveStepButton").removeAttr('disabled');
-    // $("#saveStepButton").bind();
   } else {
     $('#saveStepButton').attr('disabled','disabled');
-    // $("#saveStepButton").unbind();
   }
 }
 
@@ -624,6 +622,11 @@ function processNewStepType() {
  * Called when the user presses the 'Save Step' button.
  */
 function saveStep() {
+  // This button doesn't do anything while disabled
+  if ($('#saveStepButton')[0].hasAttribute("disabled")) {
+    return;
+  }
+
   hasUpdated = false;
   toggleUpdate();
 
