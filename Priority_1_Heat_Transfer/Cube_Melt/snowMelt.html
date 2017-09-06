@@ -12,13 +12,13 @@
   <head>
   	<title>Cube Melt Simulation</title>
 
-  	<script src="../hammer.min.js"></script>
-  	<script src="../jquery-1.8.3.min.js"></script>
+  	<script src="lib/hammer.min.js"></script>
+  	<script src="lib/jquery-1.8.3.min.js"></script>
   	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.10/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
-    <script src="../chartjs-plugin-zoom.min.js"></script>
+    <script src="lib/chartjs-plugin-zoom.min.js"></script>
 
   	<!-- Bootstrap: Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -47,7 +47,7 @@
 
     <div id="chartCanvas-holder" class="chartCanvas-holder">
     <canvas id="myChart" width="50%" height="40%"></canvas>
-      
+
     <!-- Begin control panel div underneath chart -->
 	  <div class="well well-sm simulation-info" align="center">
 
@@ -103,11 +103,11 @@
 	  </div>
 
       <div class="alert alert-info" id="help-box">
-		  	<strong>Help:</strong> 
+		  	<strong>Help:</strong>
 		  	<br>
-		  	Click or tap the ice cube on the right to break it into smaller ice chips. 
-		  	Both ice cubes have identical mass; the only difference is the ice cube on the left cannot be split 
-		  	into smaller pieces. Press the start button to begin dropping the ice into glasses of orange soda. 
+		  	Click or tap the ice cube on the right to break it into smaller ice chips.
+		  	Both ice cubes have identical mass; the only difference is the ice cube on the left cannot be split
+		  	into smaller pieces. Press the start button to begin dropping the ice into glasses of orange soda.
 		  	The chart on the right will then begin plotting the temperature of the orange soda as the ice melts.
 		  	<br>
 		  	<i>Note that both glasses are in a closed environment where no energy enters or leaves the system.</i>
@@ -126,4 +126,3 @@
   </body>
 
 </html>
-
