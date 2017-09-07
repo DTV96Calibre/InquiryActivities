@@ -1,3 +1,13 @@
+/*
+ * File: style.css
+ * Purpose: To provide the styling and page formatting for the Hot Pot 
+ *          simulation
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+*/
+
+/************************ Steam/bubbles animation *****************************/
+
 .steam {
   position: absolute;
   height: 80px;
