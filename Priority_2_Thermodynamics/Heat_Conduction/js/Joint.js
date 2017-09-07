@@ -1,3 +1,9 @@
+/*
+ * File: Joint.js
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 var ROOT_TEMP = 100; // 100C, temp of boiling water
 var KW_CMK = 0.00043; // kW/cm-K
 var ENERGY_IN_KJS = 0.001; // TODO: Clarify this

@@ -1,5 +1,5 @@
 /* File: Steam.js
- * Author: Brooke Bullek (June 2017)
+ * Author: Daniel Vasquez & Brooke Bullek (June 2017)
  *         Under the supervision of Margot Vigeant, Bucknell University
  */
 

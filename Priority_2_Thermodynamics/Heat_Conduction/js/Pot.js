@@ -1,3 +1,9 @@
+/*
+ * File: Pot.js
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 var METAL_COLOR = 52;
 var INSIDE_COLOR = 128;
 var WATER_COLOR = 'rgba(63, 191, 189, 0.62)';

@@ -1,3 +1,9 @@
+/*
+ * File: Lose.js
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 // Intro scene constructor function
 function Lose()
 {

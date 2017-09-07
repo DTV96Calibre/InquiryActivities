@@ -1,3 +1,9 @@
+/*
+ * File: Arm.js
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 class Arm{
   constructor(pos){
     this.pos = {x:0, y:0}; // array should be faster than object

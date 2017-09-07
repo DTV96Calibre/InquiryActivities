@@ -1,3 +1,9 @@
+/*
+ * File: Editor.js
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 var joints = [];
 var pot;
 var arm;

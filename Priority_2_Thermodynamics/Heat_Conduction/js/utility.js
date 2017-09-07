@@ -1,3 +1,9 @@
+/*
+ * File: utility.js
+ * Authors: Daniel Vasquez & Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ */
+
 function drawCrosshair(){
   fill(51, 51, 51, 127);
   stroke(255);
