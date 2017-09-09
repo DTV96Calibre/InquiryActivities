@@ -9,7 +9,7 @@ function drawCrosshair(){
   stroke(255);
   strokeWeight(1);
   this.crosshair_pos = [mouseX, mouseY];
-  ellipse(this.crosshair_pos[0], this.crosshair_pos[1], diameterSlider.value());
+  ellipse(this.crosshair_pos[0], this.crosshair_pos[1], jointSizeSlider.value());
   noStroke();
 }
 

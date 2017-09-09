@@ -4,44 +4,54 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
+var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
+var POT_H_OFFSET = 300;
+var HEIGHT_OF_SLIDER = 25;
+
 var joints = [];
 var pot;
 var arm;
-var POT_H_OFFSET = 300;
-var diameterSlider;
 
-var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
-
+// DOM elements
+var jointSizeSlider;
+var finishButton;
+var resetButton;
 
 // A box in which joints can be placed
-// x1 must be less than x2, y1 must be less than y2
-var validZone = {x1:100, x2:200, y1:100, y2:200};
+var validZone;
 
-// Intro scene constructor function
-function Editor(){
-    // Member variables
+/**
+ * Constructs the editor scene.
+ */
+function Editor() {
     this.crosshair_pos = [0, 0];
-    // Keep track of whether or not user can place joints or select joints
+
+    // Keep track of whether user can place joints or select joints
     this.mode = 'placing'; // modes: placing, selecting
     this.selectedJoint = null;
 
-    this.enter = function() {
-      print("Entered editor");
-    }
-
+    /**
+     * Initializes the editor scene by creating various onscreen elements.
+     * @return none
+     */
     this.setup = function() {
       // Setup DOM input elements
-      diameterSlider = createSlider(10, 100, 50);
+      jointSizeSlider = createSlider(10, 100, 50);
       finishButton = createButton('Finalize Handle');
-      // 'this' is not bound to finishHandle here so manually bind it
-      finishButton.mouseClicked(this.finishHandle.bind(this));
       resetButton = createButton('Reset Handle');
+
+      // 'this' is not yet bound to these buttons so manually bind them
+      finishButton.mouseClicked(this.finishHandle.bind(this));
       resetButton.mouseClicked(this.resetHandle);
+
+      validZone = {x1:100, x2:200, y1:100, y2:200};
 
       // Initialize scene elements
       fill(51);
       noStroke();
-      pot = new Pot({x:windowWidth-POT_H_OFFSET, y:windowHeight/2}, 51);
+      var potXPos = windowWidth-POT_H_OFFSET;
+      var potYPos = windowHeight / 2;
+      pot = new Pot({x : potXPos, y : potYPos});
       pot.steam.updateOrigin();
       arm = new Arm({x:100, y:100});
 
@@ -58,44 +68,55 @@ function Editor(){
 
       // Tell sceneManager setup is finished before resizing canvas
       this.sceneManager.scene.setupExecuted = true;
-      this.windowResized(); //NOTE: Requires setupExecuted override above to prevent infinite recursion
-      //demo1();
-      print("offset:", 700 - pot.pos.x);
+
+      // NOTE: Requires setupExecuted override above to prevent infinite recursion
+      this.windowResized();
     }
 
-    // Remove all DOM elements created in this scene
+    /**
+     * Removes all DOM elements created in this scene.
+     * @return none
+     */
     this.tearDown = function(){
-	diameterSlider.remove();
-	finishButton.remove();
-	/* resetButton is removed by another function so only remove
-	 * if resetButton still exists
-	 */
-	if(resetButton){resetButton.remove();}
+    	jointSizeSlider.remove();
+    	finishButton.remove();
+
+    	// The reset button is removed by another function, so only remove if it still exists
+    	if (resetButton) {
+        resetButton.remove();
+      }
     }
 
+    /**
+     * Draws the entire editor scene, including the pot, arm, and joints.
+     * @return {[type]} [description]
+     */
     this.draw = function() {
-      //background(86, 47, 14);
       clear();
 
-      // draw valid zone
+      // Draw valid zone
       fill(63, 191, 108, 127);
-      quad(validZone.x1, validZone.y1, validZone.x1, validZone.y2, validZone.x2, validZone.y2, validZone.x2, validZone.y1);
-      fill(51);
+      quad(validZone.x1, validZone.y1, validZone.x1, validZone.y2, validZone.x2,
+       validZone.y2, validZone.x2, validZone.y1);
 
+      // Draw joints and pot
+      fill(51);
       joints[0].draw();
       pot.draw();
-
-      if (inValidZone(mouseX, mouseY)){
-        drawCrosshair()
-      }
-
       arm.draw();
       highlightNearestJoint();
+
+      // Draws the shadow of a joint if the user's mouse is positioned correctly
+      if (inValidZone(mouseX, mouseY)) {
+        drawCrosshair();
+      }
     }
 
+    /**
+     * Called when the window is resized.
+     * @return none
+     */
     this.windowResized = function() {
-      var HEIGHT_OF_SLIDER = 25;
-      //diameterSlider.style('height', '25');
       pot.pos.x = windowWidth/2;
       finishButton.position(pot.pos.x, pot.pos.y);
       resetButton.position(pot.pos.x, pot.pos.y + 50);
@@ -118,7 +139,7 @@ function Editor(){
     this.mouseClicked = function() {
       if (inValidZone(mouseX, mouseY) && this.mode == 'placing') {
         print("placing");
-        var radius = diameterSlider.value();
+        var radius = jointSizeSlider.value();
         insertJoint(mouseX, mouseY, radius);
         print(joints);
       }
