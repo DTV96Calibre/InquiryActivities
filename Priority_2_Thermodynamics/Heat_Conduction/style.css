@@ -6,6 +6,171 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
+#jointSizeSlider {
+  position: absolute;
+  display: none;
+  width: 20%;
+  top: 20%;
+  left: 50%;
+}
+
+/******************************** Slider style ********************************/
+
+@import "compass/css3";
+
+[class*='-ms-']:before {
+  opacity: 0.15;
+}
+
+input[type='range'] {
+  box-sizing: border-box;
+  overflow: visible;
+  position: absolute;
+  -webkit-appearance: none;
+  padding: 0.5em;
+  width: 21em;
+  height: 3.25em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  /* Firefox & Chrome/ Opera need this, 
+   otherwise font-size is smaller */
+  font-size: 1em;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  border: solid 1px #d1d1d1;
+  width: 20em;
+  height: 0.75em;
+  border-radius: 0.375em;
+  box-shadow: inset 0 0.125em 0.125em #aaa;
+  background: #e9e9e9;
+}
+
+.js input[type='range']::-webkit-slider-runnable-track {
+  background: #e9e9e9 linear-gradient(#88b1d7, #88b1d7) no-repeat 0 50%;
+  background-size: 50% 100%;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -0.5em;
+  box-sizing: border-box;
+  border: none;
+  border: solid 0.3125em #fefefe;
+  border-right-width: 0.5em;
+  border-left-width: 0.5em;
+  width: 2em;
+  height: 1.5em;
+  border-radius: 0.25em;
+  box-shadow: 0 0.25em 0.125em #d2d2d2;
+  background: #fefefe linear-gradient(90deg, #cfcfcf 50%, transparent 50%) 1px 50% content-box;
+  background-size: 0.25em 100%;
+  background-size: 55% 55%;
+}
+
+input[type='range']::-moz-range-track {
+  z-index: -1;
+  box-sizing: border-box;
+  border: solid 1px #d1d1d1;
+  width: 20em;
+  height: 0.75em;
+  border-radius: 0.375em;
+  box-shadow: inset 0 0.125em 0.125em #aaa;
+  background: #e9e9e9;
+}
+
+.js input[type='range']::-moz-range-track {
+  background: #e9e9e9 linear-gradient(#88b1d7, #88b1d7) no-repeat 0 50%;
+  background-size: 50% 100%;
+}
+
+input[type='range']::-moz-range-thumb {
+  box-sizing: border-box;
+  border: none;
+  border: solid 0.3125em #fefefe;
+  border-right-width: 0.5em;
+  border-left-width: 0.5em;
+  width: 2em;
+  height: 1.5em;
+  border-radius: 0.25em;
+  box-shadow: 0 0.25em 0.125em #d2d2d2;
+  background: #fefefe linear-gradient(90deg, #cfcfcf 50%, transparent 50%) 1px 50% content-box;
+  background-size: 0.25em 100%;
+  cursor: ew-resize;
+}
+
+input[type='range']::-ms-track {
+  overflow: hidden;
+  box-sizing: border-box;
+  border: solid 1px #d1d1d1;
+  width: 20em;
+  height: 0.75em;
+  border-radius: 0.375em;
+  box-shadow: inset 0 0.125em 0.125em #aaa;
+  background: #e9e9e9;
+  color: transparent;
+}
+
+input[type='range']::-ms-thumb {
+  box-sizing: border-box;
+  border: none;
+  border: solid 0.3125em #fefefe;
+  border-right-width: 0.5em;
+  border-left-width: 0.5em;
+  width: 2em;
+  height: 1.5em;
+  border-radius: 0.25em;
+  box-shadow: 0 0.25em 0.125em #d2d2d2;
+  background: #fefefe linear-gradient(90deg, #cfcfcf 50%, transparent 50%) 1px 50% content-box;
+  background-size: 0.25em 100%;
+}
+
+input[type='range']::-ms-fill-lower {
+  border-radius: 0.375em;
+  background: #88b1d7;
+}
+
+input[type='range']::-ms-fill-upper {
+  background: transparent;
+}
+
+input[type='range']:focus {
+  outline: none;
+  background-color: rgba(192, 192, 192, .25);
+}
+
+.js input[type='range'] /deep/ #thumb {
+  position: relative;
+}
+
+.js input[type='range'] /deep/ #thumb:before, .js input[type='range'] /deep/ #thumb:after {
+  position: absolute;
+  left: 50%;
+  background: #767676;
+}
+
+.js input[type='range'] /deep/ #thumb:before {
+  margin: -3em -2em;
+  width: 4em;
+  border-radius: 0.25em;
+  color: #fff;
+  font-weight: 600;
+  line-height: 2;
+  text-align: center;
+  content: '50%';
+}
+
+.js input[type='range'] /deep/ #thumb:after {
+  margin: -1.5em -0.365em;
+  width: 0.75em;
+  height: 0.75em;
+  transform: rotate(-45deg);
+  content: '';
+}
+
 /************************ Steam/bubbles animation *****************************/
 
 .steam {

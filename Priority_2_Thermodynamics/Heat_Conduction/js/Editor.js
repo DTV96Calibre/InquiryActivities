@@ -36,13 +36,15 @@ function Editor() {
      */
     this.setup = function() {
       // Setup DOM input elements
-      jointSizeSlider = createSlider(10, 100, 50);
+      jointSizeSlider = $('#jointSizeSlider');
       finishButton = createButton('Finalize Handle');
       resetButton = createButton('Reset Handle');
 
       // 'this' is not yet bound to these buttons so manually bind them
       finishButton.mouseClicked(this.finishHandle.bind(this));
       resetButton.mouseClicked(this.resetHandle);
+
+      jointSizeSlider.show();
 
       validZone = {x1:100, x2:200, y1:100, y2:200};
 
@@ -78,7 +80,7 @@ function Editor() {
      * @return none
      */
     this.tearDown = function(){
-    	jointSizeSlider.remove();
+    	jointSizeSlider.hide();
     	finishButton.remove();
 
     	// The reset button is removed by another function, so only remove if it still exists
@@ -139,7 +141,7 @@ function Editor() {
     this.mouseClicked = function() {
       if (inValidZone(mouseX, mouseY) && this.mode == 'placing') {
         print("placing");
-        var radius = jointSizeSlider.value();
+        var radius = int(jointSizeSlider.val());
         insertJoint(mouseX, mouseY, radius);
         print(joints);
       }
