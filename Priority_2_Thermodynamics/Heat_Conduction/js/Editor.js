@@ -17,9 +17,12 @@ var controlPanel;
 var jointSizeSlider;
 var finishButton;
 var resetButton;
+var grabPotButton;
 
 // A box in which joints can be placed
 var validZone;
+
+var ref;
 
 /**
  * Constructs the editor scene.
@@ -31,6 +34,8 @@ function Editor() {
     this.mode = 'placing'; // modes: placing, selecting
     this.selectedJoint = null;
 
+    ref = this;
+
     /**
      * Initializes the editor scene by creating various onscreen elements.
      * @return none
@@ -39,15 +44,18 @@ function Editor() {
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
       controlPanel = $('#controlPanel');
-      finishButton = createButton('Finalize Handle');
-      resetButton = createButton('Reset Handle');
+      finishButton = $('#finishBtn');
+      resetButton = $('#resetBtn');
+      grabPotButton = $('#grabPotBtn');
 
-      // 'this' is not yet bound to these buttons so manually bind them
-      finishButton.mouseClicked(this.finishHandle.bind(this));
-      resetButton.mouseClicked(this.resetHandle);
+      // Set up event handlers
+      finishButton.on('click', finishHandle);
+      resetButton.on('click', resetHandle);
+      grabPotButton.on('click', grabPot);
 
-      jointSizeSlider.show();
       controlPanel.show();
+      jointSizeSlider.show();
+      grabPotButton.hide();      
 
       validZone = {x1:100, x2:200, y1:100, y2:200};
 
@@ -83,18 +91,12 @@ function Editor() {
      * @return none
      */
     this.tearDown = function(){
-    	jointSizeSlider.hide();
-    	finishButton.remove();
-
-    	// The reset button is removed by another function, so only remove if it still exists
-    	if (resetButton) {
-        resetButton.remove();
-      }
+    	controlPanel.hide();
     }
 
     /**
      * Draws the entire editor scene, including the pot, arm, and joints.
-     * @return {[type]} [description]
+     * @return none
      */
     this.draw = function() {
       clear();
@@ -143,14 +145,11 @@ function Editor() {
 
     this.mouseClicked = function() {
       if (inValidZone(mouseX, mouseY) && this.mode == 'placing') {
-        print("placing");
         var radius = int(jointSizeSlider.val());
         insertJoint(mouseX, mouseY, radius);
-        print(joints);
       }
       if (inValidZone(mouseX, mouseY) && this.mode == 'selecting') {
-        print("selecting");
-        print(getNearestJoint({x:mouseX, y:mouseY}));
+        getNearestJoint({x:mouseX, y:mouseY});
         this.selectNearestJoint();
       }
     }
@@ -163,37 +162,46 @@ function Editor() {
       print("arm is currently at " + arm.pos);
       print("arm destination now at " + arm.destPos);
     }
+}
 
-    /* Evaluates the handle and switches to appropriate end scene
-     * Runs clean up functions before switching scenes
-     */
-    this.grabPot = function() {
-      var temp = this.selectedJoint.getTemp();
-      // var randB = random([true, false]);
-      this.tearDown();
-      if (temp < STEEL_BURN_SKIN_TEMP) {
-        this.sceneManager.showScene(Win);
-      }
-      else {
-        this.sceneManager.showScene(Lose);
-      }
-      return;
-    }
-    /* Finalizes the handle by switching modes and changing buttons
-     * so that the user can no longer edit joints and must now
-     * select a joint for grabbing.
-     */
-    this.finishHandle = function() {
-      this.mode = 'selecting';
-      print("handle finished");
-      finishButton.mouseClicked(this.grabPot.bind(this));
-      finishButton.elt.outterText = "Grab Pot";
-      finishButton.elt.textContent = "Grab Pot";
-      resetButton.remove();
-    }
+/**
+ * Event-handling function; finalizes the handle by switching modes so that the
+ * user can no longer edit joints and must now select a joint for grabbing.
+ * @return none
+ */
+finishHandle = function() {
+  ref.mode = 'selecting';
+  resetButton.hide();
+  finishButton.hide();
+  grabPotButton.show();
+}
 
-    this.resetHandle = function(){
-      joints = [];
-      joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
-    }
+/**
+ * Event-handling function; evaluates the handle and switches to appropriate 
+ * end scene. Runs clean up functions before switching scenes.
+ * @return none
+ */
+grabPot = function() {
+  if (ref.selectedJoint == null) {
+    alert("Please click on a joint for the cat to touch");
+    return;
+  }
+
+  var temp = ref.selectedJoint.getTemp();
+  ref.tearDown();
+  if (temp < STEEL_BURN_SKIN_TEMP) {
+    ref.sceneManager.showScene(Win);
+  }
+  else {
+    ref.sceneManager.showScene(Lose);
+  }
+}
+
+/**
+ * Event-handling function; removes all joints from the pot handle.
+ * @return none
+ */
+resetHandle = function() {
+  joints = [];
+  joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
 }

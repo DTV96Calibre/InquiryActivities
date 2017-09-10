@@ -35,6 +35,10 @@ body {
   margin-left: 3%;
 }
 
+#grabPotBtn {
+  width: 95% !important;
+}
+
 /******************************** Slider style ********************************/
 
 @import "compass/css3";
