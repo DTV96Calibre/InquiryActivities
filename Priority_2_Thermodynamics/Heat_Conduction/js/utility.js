@@ -106,3 +106,12 @@ function inValidZone(x, y){
   }
   return false;
 }
+
+function changeBackgroundImage(imageID) {
+  if (imageID == "waves") {
+    $('body').css('background-image', 'url(https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Heat_Conduction/images/waves-bg.jpg?raw=true)');
+  }
+  else if (imageID == "countertop") {
+    $('body').css('background-image', 'url(https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Heat_Conduction/images/kitchen-bg.jpg?raw=true)');
+  }
+}

@@ -41,6 +41,7 @@ function Editor() {
      * @return none
      */
     this.setup = function() {
+      changeBackgroundImage("countertop");
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
       controlPanel = $('#controlPanel');
