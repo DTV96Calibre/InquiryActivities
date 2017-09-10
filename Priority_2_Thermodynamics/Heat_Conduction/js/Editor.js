@@ -5,7 +5,7 @@
  */
 
 var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
-var POT_H_OFFSET = 300;
+var POT_H_OFFSET = 100;
 var HEIGHT_OF_SLIDER = 25;
 
 var joints = [];
@@ -13,6 +13,7 @@ var pot;
 var arm;
 
 // DOM elements
+var controlPanel;
 var jointSizeSlider;
 var finishButton;
 var resetButton;
@@ -37,6 +38,7 @@ function Editor() {
     this.setup = function() {
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
+      controlPanel = $('#controlPanel');
       finishButton = createButton('Finalize Handle');
       resetButton = createButton('Reset Handle');
 
@@ -45,6 +47,7 @@ function Editor() {
       resetButton.mouseClicked(this.resetHandle);
 
       jointSizeSlider.show();
+      controlPanel.show();
 
       validZone = {x1:100, x2:200, y1:100, y2:200};
 

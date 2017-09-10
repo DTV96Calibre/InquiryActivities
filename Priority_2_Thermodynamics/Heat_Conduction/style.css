@@ -6,12 +6,33 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
-#jointSizeSlider {
+body {
+  background: rgb(244, 244, 244);
+}
+
+.well {
   position: absolute;
-  display: none;
+  top: 40%;
+  left: 10%;
+  height: 30%;
   width: 20%;
-  top: 20%;
+  background: rgb(219, 219, 219);
+  border: solid 1.5px #d1d1d1;
+  opacity: 0.8;
+  display: none;
+}
+
+#jointSizeSlider {
+  display: none;
+  width: 80%;
   left: 50%;
+  top: 80%;
+}
+
+.btn {
+  font-size: calc(5px + 0.4vw);
+  width: 45%;
+  margin-left: 3%;
 }
 
 /******************************** Slider style ********************************/
