@@ -4,7 +4,7 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
-var CAT_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Heat_Conduction/images/Cat.png?raw=true";
+var CAT_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/Cat.png?raw=true";
 
 function setup() {
   createCanvas(displayWidth, displayHeight);

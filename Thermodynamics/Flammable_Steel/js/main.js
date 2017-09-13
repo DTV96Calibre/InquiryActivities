@@ -11,24 +11,24 @@ var FRAME_RATE = 60;
 var BG_COLOR = "rgba(15, 5, 2, 1)"; // Background color of the canvas
 var PANEL_COLOR = "rgba(51, 51, 51,"
 
-var STEEL0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel0.png?raw=true";
-var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel1.png?raw=true";
-var STEEL2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel2.png?raw=true";
-var STEEL3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel3.png?raw=true";
-var STEEL4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steel4.png?raw=true";
-var WOOD0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood0.png?raw=true";
-var WOOD1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood1.png?raw=true";
-var WOOD2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood2.png?raw=true";
-var WOOD3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood3.png?raw=true";
-var WOOD4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/wood4.png?raw=true";
-var MATCH_UP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-up.png?raw=true";
-var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchstick-down.png?raw=true";
-var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
-var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
-var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
-var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
-var WOODCHIPPER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true";
-var EXTRUDER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Priority_2_Thermodynamics/Flammable_Steel/images/extruder.png?raw=true";
+var STEEL0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/steel0.png?raw=true";
+var STEEL1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/steel1.png?raw=true";
+var STEEL2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/steel2.png?raw=true";
+var STEEL3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/steel3.png?raw=true";
+var STEEL4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/steel4.png?raw=true";
+var WOOD0_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/wood0.png?raw=true";
+var WOOD1_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/wood1.png?raw=true";
+var WOOD2_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/wood2.png?raw=true";
+var WOOD3_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/wood3.png?raw=true";
+var WOOD4_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/wood4.png?raw=true";
+var MATCH_UP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/matchstick-up.png?raw=true";
+var MATCH_DOWN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/matchstick-down.png?raw=true";
+var MATCHBOX_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/matchbox.png?raw=true";
+var MATCHBOX_COVER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/matchbox-cover.png?raw=true";
+var STEEL_FIRE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/steelwool-fire.png?raw=true";
+var ASH_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/ash.png?raw=true";
+var WOODCHIPPER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/woodchipper.png?raw=true";
+var EXTRUDER_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Flammable_Steel/images/extruder.png?raw=true";
 
 /************************ Math constants ***********************************/
 var STEEL_DENSITY = 7.8; // Units: g / cm^3
