@@ -13,6 +13,16 @@ function drawCrosshair(){
   noStroke();
 }
 
+function drawCrosshairPreview(){
+  fill(METAL_COLOR);
+  stroke(255);
+  strokeWeight(1);
+  var xPos = 0.2 * windowWidth;
+  var yPos = 0.55 * windowHeight;
+  ellipse(xPos, yPos, int(jointSizeSlider.val()));
+  noStroke();
+}
+
 /* Given a tap location and radius of new joint, creates and links
  * a new joint to the pipe. Assumes pipe is already populated with
  * at least one joint!

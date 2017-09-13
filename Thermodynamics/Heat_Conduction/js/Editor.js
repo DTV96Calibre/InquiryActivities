@@ -102,6 +102,8 @@ function Editor() {
     this.draw = function() {
       clear();
 
+      drawCrosshairPreview();
+
       // Draw valid zone
       fill(63, 191, 108, 127);
       quad(validZone.x1, validZone.y1, validZone.x1, validZone.y2, validZone.x2,
