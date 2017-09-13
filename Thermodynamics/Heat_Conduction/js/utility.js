@@ -49,7 +49,6 @@ function insertJoint(x, y, radius) {
     }
     else {
       joints.pop();
-      print("popped");
       joints[joints.length-1].next = null;
     }
   }
@@ -122,6 +121,6 @@ function changeBackgroundImage(imageID) {
     $('body').css('background-image', '');
   }
   else if (imageID == "countertop") {
-    $('body').css('background-image', 'url(https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/kitchen-bg.jpg?raw=true)');
+    $('body').css('background-image', "url(" + KITCHEN_URL + ")");
   }
 }

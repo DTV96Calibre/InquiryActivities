@@ -4,52 +4,71 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
-// Intro scene constructor function
-function Lose()
-{
-    this.s;
-    this.setup = function() {
-      changeBackgroundImage("nothing");
-      
-      this.s = "The cat died a gruesome death";
-      
-      // Hide steam bubbles
-      $("#steam-one").hide();
-      $("#steam-two").hide();
-      $("#steam-three").hide();
-      $("#steam-four").hide();
+/**
+ * Constructs the 'losing' scene.
+ */
+function Lose() {
+    
+    // The message displayed while this scene is active
+  this.text;
 
-      this.sceneManager.scene.setupExecuted = true;
-      this.windowResized();
+  // The pirate cat that's drawn onscreen
+  this.cat;
+
+  /**
+   * Initializes the Lose scene by hiding unnecessary CSS elements and setting
+   * the final text.
+   * @return none
+   */
+  this.setup = function() {
+    changeBackgroundImage("nothing"); // Remove background img
+
+    this.text = "The cat died a gruesome death";
+    this.cat = new Cat(isAlive = false);
+    
+    // Hide steam bubbles
+    $("#steam-one").hide();
+    $("#steam-two").hide();
+    $("#steam-three").hide();
+    $("#steam-four").hide();
+
+    this.sceneManager.scene.setupExecuted = true;
+    this.windowResized();
+  }
+
+  /**
+   * Draws the Win scene.
+   * @return none
+   */
+  this.draw = function() {
+    if (!this.sceneManager){
+      print("SceneManager is gone");
+      stop();
     }
 
-    this.draw = function() {
-      clear();
-      this.drawText();
-      this.drawCat();
-       // Text wraps within text box
-    }
+    clear();
+    this.drawText();
+    this.cat.draw();
+  }
 
-    this.windowResized = function() {
-      resizeCanvas(windowWidth, windowHeight);
-      print("Resized canvas");
-    }
+  /**
+   * Called when the window is resized.
+   * @return none
+   */
+  this.windowResized = function() {
+    this.cat.resize();
+    resizeCanvas(windowWidth, windowHeight);
+  }
 
-    // this.mouseClicked = function() {
-    //     print("mouse clicked");
-    //     this.sceneManager.showNextScene();
-    // }
-
-    this.drawText = function() {
-      fill(50);
-      translate(width/2, height/2 + 100);
-      textAlign(CENTER);
-      text(this.s, -200, 0, 400, 600);
-      translate(-1*(width/2), -1*(height/2 + 100));
-    }
-
-    this.drawCat = function() {
-      image(images['cat'], windowWidth * 0.42, windowHeight * 0.25, windowWidth * 0.16, windowWidth * 0.17);
-    }
-
+  /**
+   * Draws the text onscreen.
+   * @return none
+   */
+  this.drawText = function() {
+    fill(50);
+    translate(width/2, height/2 + 100);
+    textAlign(CENTER);
+    text(this.s, -200, 0, 400, 600);
+    translate(-1*(width/2), -1*(height/2 + 100));
+  }
 }

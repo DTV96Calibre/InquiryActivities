@@ -127,43 +127,50 @@ function Editor() {
      * @return none
      */
     this.windowResized = function() {
-      pot.pos.x = windowWidth/2;
+      pot.pos.x = windowWidth / 2;
       finishButton.position(pot.pos.x, pot.pos.y);
       resetButton.position(pot.pos.x, pot.pos.y + 50);
-      //pot.pos.x = windowWidth-POT_H_OFFSET;
       pot.potHeight = 0.34 * windowHeight;
       pot.potWidth = pot.potHeight;
-      pot.anchorPointDiameter = 75;//pot.potHeight / 3.5;
+      pot.anchorPointDiameter = 75;
       pot.locateAnchorPoint();
 
-      // define the valid zone
+      // Define the valid zone
       validZone.x2 = pot.anchorPoint.x;
       validZone.x1 = validZone.x2 - pot.potWidth;
-      validZone.y2 = pot.anchorPoint.y + pot.anchorPointDiameter/2;
+      validZone.y2 = pot.anchorPoint.y + pot.anchorPointDiameter / 2;
       validZone.y1 = validZone.y2 - pot.anchorPointDiameter;
 
-      resizeCanvas(windowWidth, windowHeight-HEIGHT_OF_SLIDER);
-      print("Resized canvas");
+      resizeCanvas(windowWidth, windowHeight);
     }
 
+    /**
+     * Scene manager function that fires whenever the user clicks the mouse 
+     * while this scene is active.
+     * @return none
+     */
     this.mouseClicked = function() {
-      if (inValidZone(mouseX, mouseY) && this.mode == 'placing') {
+      if (!inValidZone(mouseX, mouseY)) return;
+
+      if (this.mode == 'placing') {
         var radius = int(jointSizeSlider.val());
         insertJoint(mouseX, mouseY, radius);
       }
-      if (inValidZone(mouseX, mouseY) && this.mode == 'selecting') {
+      if (this.mode == 'selecting') {
         getNearestJoint({x:mouseX, y:mouseY});
         this.selectNearestJoint();
       }
     }
 
+    /**
+     * Places the cat's paw over the closest joint.
+     * @return none
+     */
     this.selectNearestJoint = function() {
       this.selectedJoint = getNearestJoint({x:mouseX, y:mouseY});
       var jointPos = this.selectedJoint.getGlobalPos();
       arm.destPos.x = jointPos.x;
       arm.destPos.y = jointPos.y - 100;
-      print("arm is currently at " + arm.pos);
-      print("arm destination now at " + arm.destPos);
     }
 }
 
@@ -192,6 +199,7 @@ grabPot = function() {
 
   var temp = ref.selectedJoint.getTemp();
   ref.tearDown();
+
   if (temp < STEEL_BURN_SKIN_TEMP) {
     ref.sceneManager.showScene(Win);
   }
