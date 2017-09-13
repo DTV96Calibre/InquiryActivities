@@ -9,6 +9,8 @@ function Win()
 {
     this.s;
     this.setup = function() {
+      changeBackgroundImage("nothing");
+      
       this.s = "You saved this cat's bacon";
       
       // Hide steam bubbles

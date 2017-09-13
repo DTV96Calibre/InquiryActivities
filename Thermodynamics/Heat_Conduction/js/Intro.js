@@ -9,8 +9,6 @@ function Intro()
 {
     this.s;
     this.setup = function() {
-      changeBackgroundImage("waves");
-      
       // Hide steam bubbles
       $("#steam-one").hide();
       $("#steam-two").hide();

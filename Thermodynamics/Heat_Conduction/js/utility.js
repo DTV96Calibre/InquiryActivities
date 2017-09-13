@@ -108,8 +108,8 @@ function inValidZone(x, y){
 }
 
 function changeBackgroundImage(imageID) {
-  if (imageID == "waves") {
-    $('body').css('background-image', 'url(https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/waves-bg.jpg?raw=true)');
+  if (imageID == "nothing") {
+    $('body').css('background-image', '');
   }
   else if (imageID == "countertop") {
     $('body').css('background-image', 'url(https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/kitchen-bg.jpg?raw=true)');
