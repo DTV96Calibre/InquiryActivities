@@ -34,11 +34,6 @@
 	// handle unsorted data, throw error anyway
 	function error(code, stop) {
 		var msg = 'Highcharts error #' + code + ': www.highcharts.com/errors/' + code;
-		if (stop) {
-			throw msg;
-		} else if (window.console) {
-			console.log(msg); // eslint-disable-line
-		}
 	}
 	
 	/**

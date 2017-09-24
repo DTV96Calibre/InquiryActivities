@@ -15,7 +15,7 @@ var PVTGraph3D;
 var TSgraph;
 var PVgraph;
 
-// Arrays of points for pressure, volume, temperature, and entropy
+// Arrays of points for SAVED values of pressure, volume, temperature, and entropy
 var Ppoints;
 var Vpoints;
 var Tpoints;
@@ -30,7 +30,7 @@ var dotPreviewed;
 ********************************************************************************
 */
 
-/*
+/**
  * Initializes the Raphael (2D vector library for JS) objects by passing in the 
  * HTML divs meant to store the pressure/volume and temperature/entropy graphs.
  * Also calls the function responsible for instantiating the 3D graph from the
@@ -41,23 +41,26 @@ function initializeGraphs() {
   init2DGraphs();
 }
 
-/*
+/**
  * Graph the points on all three graphs.
  */
 function graph() {
   var points = generateGraphPoints();
 
-  Ppoints = Ppoints.concat(points["P"]);
-  Vpoints = Vpoints.concat(points["V"]);
-  Tpoints = Tpoints.concat(points["T"]);
-  Spoints = Spoints.concat(points["S"]);
-  
-  // Graph the data using the Highcharts library
-  set3DGraphData(Ppoints, Tpoints, Vpoints);
-  setPVGraphData(Ppoints, Vpoints);
-  setTSGraphData(Tpoints, Spoints);
+  /* Also need to append newest value if the user has updated something
+   * without hitting save */
+  if (dotPreviewed) {
+    set3DGraphData(Ppoints.concat(points["P"]), Tpoints.concat(points["T"]), Vpoints.concat(points["V"]));
+    setPVGraphData(Ppoints.concat(points["P"]), Vpoints.concat(points["V"]));
+    setTSGraphData(Tpoints.concat(points["T"]), Spoints.concat(points["S"]));
+  } else {
+    set3DGraphData(Ppoints, Tpoints, Vpoints);
+    setPVGraphData(Ppoints, Vpoints);
+    setTSGraphData(Tpoints, Spoints);
+  }
 
   hasUpdated = true;
+  dotPreviewed = true;
   toggleUpdate();
 }
 
@@ -67,8 +70,6 @@ function graph() {
  */
 function graphPreviewDot() {
   var color = colors[(numSavedSteps + 1) % colors.length];
-
-  var points = generateGraphPoints();
 
   /* If the user has pressed 'Save Step' since the last time the graph updated,
    * push the new data points so they become permanent fixtures of this cycle. 
@@ -81,8 +82,6 @@ function graphPreviewDot() {
   }
   
   graph();
-
-  dotPreviewed = true;
 }
 
 /*
@@ -157,9 +156,6 @@ function generateGraphPoints() {
     }
   }
   else if (stepType == "Isochoric") {
-    // Tpoints.pop();
-    // Spoints.pop();
-    
     var T = oldTemp;
     var S = oldEntropy;
     var oldT = oldTemp;
@@ -415,14 +411,18 @@ function setPVGraphData(Ppoints, Vpoints) {
   var length = Math.min(Ppoints.length, Vpoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
-    data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: Vpoints[i].color});
+    if (numSavedSteps == 0) {
+      data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: colors[1]});
+    } else {
+      data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: Vpoints[i].color});
+    }
   }
 
   var chart = $("#PVgraphDiv").highcharts();
   // Update the data of the chart
   chart.series[0].setData(data);
 }
-6.
+
 /*
  * Pulls tuples from the temperature/entropy arrays of values and stores them
  * sequentially as data in the 2D scatterplot.
@@ -433,7 +433,11 @@ function setTSGraphData(Tpoints, Spoints) {
   var length = Math.min(Tpoints.length, Spoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
-    data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: Tpoints[i].color});
+    if (numSavedSteps == 0) {
+      data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: colors[1]});
+    } else {
+      data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: Tpoints[i].color});
+    }
   }
 
   var chart = $("#TSgraphDiv").highcharts();
