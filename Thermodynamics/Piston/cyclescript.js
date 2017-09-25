@@ -717,13 +717,6 @@ function saveStep() {
     " cm^3 * bar   =   " + toKiloJoules(W).toFixed(1) + " kJ<br>Q is: " + Q.toFixed(1) + 
     " cm^3 * bar   =   " + toKiloJoules(Q).toFixed(3) + " kJ";
   appendStepText(colors[numSavedSteps % colors.length], cycleText);
-
-  // Append the data that was just saved to the rest of our saved points
-  var points = generateGraphPoints();
-  Ppoints = Ppoints.concat(points["P"]);
-  Vpoints = Vpoints.concat(points["V"]);
-  Tpoints = Tpoints.concat(points["T"]);
-  Spoints = Spoints.concat(points["S"]);
   
   // save the current state so it may be used for calculations/comparisons as the user creates the next step
   oldTemp = temp;

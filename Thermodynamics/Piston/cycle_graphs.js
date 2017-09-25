@@ -71,14 +71,17 @@ function graph() {
 function graphPreviewDot() {
   var color = colors[(numSavedSteps + 1) % colors.length];
 
+  var points = generateGraphPoints();
+
   /* If the user has pressed 'Save Step' since the last time the graph updated,
    * push the new data points so they become permanent fixtures of this cycle. 
    */
   if (!dotPreviewed) {
-    Vpoints.push(new DataPoint(volume, color));
-    Ppoints.push(new DataPoint(pressure, color));
-    Tpoints.push(new DataPoint(temp, color));
-    Spoints.push(new DataPoint(entropy, color));
+    Vpoints = Vpoints.concat(points["V"]);
+    Ppoints = Ppoints.concat(points["P"]);
+    Tpoints = Tpoints.concat(points["T"]);
+    Spoints = Spoints.concat(points["S"]);
+    dotPreviewed = true;
   }
   
   graph();
@@ -411,6 +414,7 @@ function setPVGraphData(Ppoints, Vpoints) {
   var length = Math.min(Ppoints.length, Vpoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
+    // If no saved steps, ensure only one color is used
     if (numSavedSteps == 0) {
       data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: colors[1]});
     } else {
@@ -433,6 +437,7 @@ function setTSGraphData(Tpoints, Spoints) {
   var length = Math.min(Tpoints.length, Spoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
+    // If no saved steps, ensure only one color is used
     if (numSavedSteps == 0) {
       data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: colors[1]});
     } else {
