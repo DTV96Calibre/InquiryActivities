@@ -57,9 +57,18 @@
 
     <div class="well" id="controlPanel">
         <input id="jointSizeSlider" type="range">
-        <a href="javascript:" id="finishBtn" class="btn btn-default btn-sm">Finalize Handle</a>
-        <a href="javascript:" id="resetBtn" class="btn btn-default btn-sm">Reset Handle</a>
-        <a href="javascript:" id="grabPotBtn" class="btn btn-danger btn-sm">Grab Pot</a>
+        <a href="javascript:" id="finishBtn" class="btn btn-default btn-sm control_btn">Finalize Handle</a>
+        <a href="javascript:" id="resetBtn" class="btn btn-default btn-sm control_btn">Reset Handle</a>
+        <a href="javascript:" id="grabPotBtn" class="btn btn-danger btn-sm control_btn">Grab Pot</a>
+    </div>
+
+    <!-- Help/info buttons -->
+    <div class="btn_array" align="center">
+
+        <!-- Glyphicons (pause/help/info buttons) -->
+        <a href="javascript:" id="helpBtn" class="btn btn-info btn-md"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <a href="javascript:" id="infoBtn" class="btn btn-default btn-md"><span class="glyphicon glyphicon-info-sign"></span></a>
+
     </div>
 
     <div class="alert alert-info" id="help-box">
