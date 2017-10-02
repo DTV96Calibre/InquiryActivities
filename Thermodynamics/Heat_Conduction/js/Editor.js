@@ -35,7 +35,7 @@ var helpBtn;
 var infoBoxPopUp;
 var infoBtn;
 var helpBtnActive = false;
-var infoBtnActive = true;
+var infoBtnActive = false;
 
 // A box in which joints can be placed
 var validZone;
@@ -63,7 +63,6 @@ function Editor() {
 
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
-      instructions = $('#help-box');
       controlPanel = $('#controlPanel');
       finishButton = $('#finishBtn');
       resetButton = $('#resetBtn');
@@ -253,7 +252,7 @@ toggleHelp = function() {
     infoBoxPopUp.removeClass("appear");
     infoBtnActive = false;
     helpBoxPopUp.addClass("appear");
-    helpBtnActive = !helpBtnActive;
+    helpBtnActive = true;
   } else {
     helpBoxPopUp.removeClass("appear");
     helpBtnActive = false;
@@ -298,9 +297,14 @@ showElements = function() {
   $("#steam-three").show();
   $("#steam-four").show();
 
+  // Show remaining DOM elements
   controlPanel.show();
-  instructions.show();
   jointSizeSlider.show();
+  helpBoxPopUp.show();
+  infoBoxPopUp.show();
   helpBtn.show();
   infoBtn.show();
+
+  // Display help text immediately
+  toggleHelp();
 }

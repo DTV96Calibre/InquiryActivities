@@ -84,7 +84,7 @@ body {
   -webkit-transform: translateX(-100%);
 }
 
-#help-box.appear, #info-box.appear{
+#help-box.appear, #info-box.appear {
   visibility: visible;
   opacity: 0.88;
           transform: translateX(0);
