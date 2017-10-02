@@ -5,8 +5,18 @@
  */
 
 var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
-var POT_H_OFFSET = 100;
-var HEIGHT_OF_SLIDER = 25;
+
+var POT_X_OFFSET_SCALE = 0.55; // times windowWidth
+var POT_Y_OFFSET_SCALE = 0.5;  // times windowHeight
+var POT_HEIGHT_SCALE = 0.34;   // times windowHeight
+
+var VALID_ZONE_X_START = 100;  // pixels
+var VALID_ZONE_X_FINAL = 200;  // pixels
+var VALID_ZONE_Y_START = 100;  // pixels
+var VALID_ZONE_Y_FINAL = 200;  // pixels
+
+var ARM_SIZE = 100;            // pixels
+var HEIGHT_OF_SLIDER = 25;     // pixels
 
 var joints = [];
 var pot;
@@ -42,6 +52,7 @@ function Editor() {
      */
     this.setup = function() {
       changeBackgroundImage("countertop");
+
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
       instructions = $('#help-box');
@@ -60,16 +71,18 @@ function Editor() {
       jointSizeSlider.show();
       grabPotButton.hide();      
 
-      validZone = {x1:100, x2:200, y1:100, y2:200};
+      validZone = {x1: VALID_ZONE_X_START, x2: VALID_ZONE_X_FINAL, 
+        y1: VALID_ZONE_Y_START, y2: VALID_ZONE_Y_FINAL};
 
       // Initialize scene elements
       fill(51);
       noStroke();
-      var potXPos = windowWidth-POT_H_OFFSET;
-      var potYPos = windowHeight / 2;
+      var potXPos = windowWidth * POT_X_OFFSET_SCALE;
+      var potYPos = windowHeight * POT_Y_OFFSET_SCALE;
       pot = new Pot({x : potXPos, y : potYPos});
       pot.steam.updateOrigin();
-      arm = new Arm({x:100, y:100});
+      
+      arm = new Arm({x: ARM_SIZE, y: ARM_SIZE});
 
       // Show steam bubbles
       $("#steam-one").show();
@@ -129,10 +142,9 @@ function Editor() {
      * @return none
      */
     this.windowResized = function() {
-      pot.pos.x = windowWidth / 2;
-      finishButton.position(pot.pos.x, pot.pos.y);
-      resetButton.position(pot.pos.x, pot.pos.y + 50);
-      pot.potHeight = 0.34 * windowHeight;
+      pot.pos.x = windowWidth * POT_X_OFFSET_SCALE;
+      pot.pos.y = windowHeight * POT_Y_OFFSET_SCALE;
+      pot.potHeight = windowHeight * POT_HEIGHT_SCALE;
       pot.potWidth = pot.potHeight;
       pot.anchorPointDiameter = 75;
       pot.locateAnchorPoint();
