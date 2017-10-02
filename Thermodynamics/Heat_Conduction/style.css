@@ -37,6 +37,7 @@ body {
 }
 
 #helpBtn, #infoBtn {
+  display: none;
   margin-right: 5px;
 }
 
@@ -55,14 +56,6 @@ body {
   opacity: 0.8;
 }
 
-#help-box {
-  opacity: 0.85;
-  top: 20%;
-  left: 35%;
-  width: 30%;
-  height: 20%;
-}
-
 #jointSizeSlider {
   display: none;
   width: 80%;
@@ -72,6 +65,34 @@ body {
 
 #grabPotBtn {
   width: 95% !important;
+}
+
+/* Transition animations when toggling the help and info boxes */
+
+#help-box {
+  opacity: 0.85;
+  top: 20%;
+  left: 35%;
+  width: 30%;
+  height: 20%;
+}
+
+#help-box, #info-box {
+  padding: 10px;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+          transition: 0.6s;
+  -webkit-transition: 0.6s;
+          transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+#help-box.appear, #info-box.appear{
+  visibility: visible;
+  opacity: 1;
+          transform: translateX(0);
+  -webkit-transform: translateX(0);
 }
 
 /******************************** Slider style ********************************/
@@ -240,7 +261,7 @@ input[type='range']:focus {
   border-radius: 50%;
   background-color: #fff;
   top: 74%;
-  left: 55%;
+  left: 60%;
   z-index: 1;
   opacity: 0;
 }
@@ -283,24 +304,4 @@ input[type='range']:focus {
 @keyframes steam-two {
   0% {transform: translateY(0) translateX(0) scale(0.25); opacity: 0.2;}
   100% {transform: translateY(-200px) translateX(20px) scale(1); opacity: 0;}
-}
-
-/* Transition animations when toggling the help and info boxes */
-
-#help-box, #info-box {
-  padding: 10px;
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-          transition: 0.6s;
-  -webkit-transition: 0.6s;
-          transform: translateX(-100%);
-  -webkit-transform: translateX(-100%);
-}
-
-#help-box.appear, #info-box.appear{
-  visibility: visible;
-  opacity: 1;
-          transform: translateX(0);
-  -webkit-transform: translateX(0);
 }
