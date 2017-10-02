@@ -44,6 +44,7 @@ function Editor() {
       changeBackgroundImage("countertop");
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
+      instructions = $('#help-box');
       controlPanel = $('#controlPanel');
       finishButton = $('#finishBtn');
       resetButton = $('#resetBtn');
@@ -55,6 +56,7 @@ function Editor() {
       grabPotButton.on('click', grabPot);
 
       controlPanel.show();
+      instructions.show();
       jointSizeSlider.show();
       grabPotButton.hide();      
 

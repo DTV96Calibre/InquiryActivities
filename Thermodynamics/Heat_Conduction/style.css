@@ -13,8 +13,12 @@ body {
   background-color: #B8E6EE;
 }
 
-.well {
+.well, .alert {
   position: absolute;
+  display: none;
+}
+
+#controlPanel {
   top: 40%;
   left: 10%;
   height: 30%;
@@ -22,7 +26,14 @@ body {
   background: rgb(219, 219, 219);
   border: solid 1.5px #d1d1d1;
   opacity: 0.8;
-  display: none;
+}
+
+#help-box {
+  opacity: 0.85;
+  top: 20%;
+  left: 35%;
+  width: 30%;
+  height: 20%;
 }
 
 #jointSizeSlider {
