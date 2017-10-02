@@ -5,8 +5,18 @@
  */
 
 var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
-var POT_H_OFFSET = 100;
-var HEIGHT_OF_SLIDER = 25;
+
+var POT_X_OFFSET_SCALE = 0.55; // times windowWidth
+var POT_Y_OFFSET_SCALE = 0.5;  // times windowHeight
+var POT_HEIGHT_SCALE = 0.34;   // times windowHeight
+
+var VALID_ZONE_X_START = 100;  // pixels
+var VALID_ZONE_X_FINAL = 200;  // pixels
+var VALID_ZONE_Y_START = 100;  // pixels
+var VALID_ZONE_Y_FINAL = 200;  // pixels
+
+var ARM_SIZE = 100;            // pixels
+var HEIGHT_OF_SLIDER = 25;     // pixels
 
 var joints = [];
 var pot;
@@ -18,6 +28,14 @@ var jointSizeSlider;
 var finishButton;
 var resetButton;
 var grabPotButton;
+
+// For enabling web transitions on pop-up help tooltip
+var helpBoxPopUp;
+var helpBtn;
+var infoBoxPopUp;
+var infoBtn;
+var helpBtnActive = false;
+var infoBtnActive = false;
 
 // A box in which joints can be placed
 var validZone;
@@ -42,6 +60,7 @@ function Editor() {
      */
     this.setup = function() {
       changeBackgroundImage("countertop");
+
       // Setup DOM input elements
       jointSizeSlider = $('#jointSizeSlider');
       controlPanel = $('#controlPanel');
@@ -49,31 +68,36 @@ function Editor() {
       resetButton = $('#resetBtn');
       grabPotButton = $('#grabPotBtn');
 
-      // Set up event handlers
+      // For enabling web transitions on pop-up help tooltip
+      helpBoxPopUp = $('#help-box');
+      helpBtn = $('#helpBtn');
+      helpBtn.on('click', toggleHelp);
+
+      // For enabling web transitions on pop-up info tooltip
+      infoBoxPopUp = $('#info-box');
+      infoBtn = $('#infoBtn');
+      infoBtn.on('click', toggleInfo);
+
+      // Set up other event handlers
       finishButton.on('click', finishHandle);
       resetButton.on('click', resetHandle);
       grabPotButton.on('click', grabPot);
 
-      controlPanel.show();
-      jointSizeSlider.show();
-      grabPotButton.hide();      
+      showElements(); // Show necessary elements
+      hideElements(); // Hide unnecessary elements
 
-      validZone = {x1:100, x2:200, y1:100, y2:200};
+      validZone = {x1: VALID_ZONE_X_START, x2: VALID_ZONE_X_FINAL, 
+        y1: VALID_ZONE_Y_START, y2: VALID_ZONE_Y_FINAL};
 
       // Initialize scene elements
       fill(51);
       noStroke();
-      var potXPos = windowWidth-POT_H_OFFSET;
-      var potYPos = windowHeight / 2;
+      var potXPos = windowWidth * POT_X_OFFSET_SCALE;
+      var potYPos = windowHeight * POT_Y_OFFSET_SCALE;
       pot = new Pot({x : potXPos, y : potYPos});
       pot.steam.updateOrigin();
-      arm = new Arm({x:100, y:100});
 
-      // Show steam bubbles
-      $("#steam-one").show();
-      $("#steam-two").show();
-      $("#steam-three").show();
-      $("#steam-four").show();
+      arm = new Arm({x: ARM_SIZE, y: ARM_SIZE});      
 
       // The first joint must be manually added as the insertJoint function assumes one already exists
       joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
@@ -127,10 +151,9 @@ function Editor() {
      * @return none
      */
     this.windowResized = function() {
-      pot.pos.x = windowWidth / 2;
-      finishButton.position(pot.pos.x, pot.pos.y);
-      resetButton.position(pot.pos.x, pot.pos.y + 50);
-      pot.potHeight = 0.34 * windowHeight;
+      pot.pos.x = windowWidth * POT_X_OFFSET_SCALE;
+      pot.pos.y = windowHeight * POT_Y_OFFSET_SCALE;
+      pot.potHeight = windowHeight * POT_HEIGHT_SCALE;
       pot.potWidth = pot.potHeight;
       pot.anchorPointDiameter = 75;
       pot.locateAnchorPoint();
@@ -174,6 +197,8 @@ function Editor() {
     }
 }
 
+/***************************** Event handlers *********************************/
+
 /**
  * Event-handling function; finalizes the handle by switching modes so that the
  * user can no longer edit joints and must now select a joint for grabbing.
@@ -215,4 +240,71 @@ grabPot = function() {
 resetHandle = function() {
   joints = [];
   joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
+}
+
+/**
+ * Event-handling function; toggles the help box.
+ * @return none
+ */
+toggleHelp = function() {
+  if (infoBtnActive || !helpBtnActive) {
+    // Make info box disappear to make room for help box
+    infoBoxPopUp.removeClass("appear");
+    infoBtnActive = false;
+    helpBoxPopUp.addClass("appear");
+    helpBtnActive = true;
+  } else {
+    helpBoxPopUp.removeClass("appear");
+    helpBtnActive = false;
+  }
+}
+
+/**
+ * Event-handling function; toggles the info box.
+ * @return none
+ */
+toggleInfo = function() {
+  if (helpBtnActive || !infoBtnActive) {
+    // Make help box disappear to make room for info box
+    helpBoxPopUp.removeClass("appear");
+    helpBtnActive = false;
+    infoBoxPopUp.addClass("appear");
+    infoBtnActive = true;
+  } else {
+    infoBoxPopUp.removeClass("appear");
+    infoBtnActive = false;
+  } 
+}
+
+/************************ Show/hide DOM elements ******************************/
+
+/**
+ * Hides onscreen elements that shouldn't be present for the Editor scene.
+ * @return none
+ */
+hideElements = function() {
+  grabPotButton.hide(); 
+}
+
+/**
+ * Shows onscreen elements that should be present for the Editor scene.
+ * @return none
+ */
+showElements = function() {
+  // Show steam bubbles
+  $("#steam-one").show();
+  $("#steam-two").show();
+  $("#steam-three").show();
+  $("#steam-four").show();
+
+  // Show remaining DOM elements
+  controlPanel.show();
+  jointSizeSlider.show();
+  helpBoxPopUp.show();
+  infoBoxPopUp.show();
+  helpBtn.show();
+  infoBtn.show();
+
+  // Display help text immediately
+  toggleHelp();
 }

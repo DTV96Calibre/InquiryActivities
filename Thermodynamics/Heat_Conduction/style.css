@@ -13,8 +13,40 @@ body {
   background-color: #B8E6EE;
 }
 
-.well {
+.well, .alert {
   position: absolute;
+  display: none;
+}
+
+/* Buttons */
+.control_btn {
+  font-size: calc(5px + 0.4vw);
+  width: 45%;
+  margin-left: 3%;
+}
+
+.btn_array {
+  position: absolute;
+  display: flex;
+  left: 55%;
+  top: 86%;
+  width: 17.5%;
+  /* Align buttons so they're centered underneath the pot */
+  align-items: center;
+  justify-content: center;
+}
+
+#helpBtn, #infoBtn {
+  display: none;
+  margin-right: 5px;
+}
+
+/* The Bootstrap question-mark help button */
+.glyphicon {
+  font-size: 1.5em !important;
+}
+
+#controlPanel {
   top: 40%;
   left: 10%;
   height: 30%;
@@ -22,7 +54,6 @@ body {
   background: rgb(219, 219, 219);
   border: solid 1.5px #d1d1d1;
   opacity: 0.8;
-  display: none;
 }
 
 #jointSizeSlider {
@@ -32,14 +63,33 @@ body {
   top: 80%;
 }
 
-.btn {
-  font-size: calc(5px + 0.4vw);
-  width: 45%;
-  margin-left: 3%;
-}
-
 #grabPotBtn {
   width: 95% !important;
+}
+
+/* Transition animations when toggling the help and info boxes */
+
+#help-box, #info-box {
+  padding: 10px;
+  position: absolute;
+  visibility: hidden;
+  top: 15%;
+  left: 40%;
+  width: 30%;
+  height: auto;
+  font-size: calc(5px + 0.4vw);
+  opacity: 0;
+          transition: 0.6s;
+  -webkit-transition: 0.6s;
+          transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+#help-box.appear, #info-box.appear {
+  visibility: visible;
+  opacity: 0.8;
+          transform: translateX(0);
+  -webkit-transform: translateX(0);
 }
 
 /******************************** Slider style ********************************/
@@ -208,7 +258,7 @@ input[type='range']:focus {
   border-radius: 50%;
   background-color: #fff;
   top: 74%;
-  left: 55%;
+  left: 60%;
   z-index: 1;
   opacity: 0;
 }

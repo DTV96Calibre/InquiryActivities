@@ -57,9 +57,40 @@
 
     <div class="well" id="controlPanel">
         <input id="jointSizeSlider" type="range">
-        <a href="javascript:" id="finishBtn" class="btn btn-default btn-sm">Finalize Handle</a>
-        <a href="javascript:" id="resetBtn" class="btn btn-default btn-sm">Reset Handle</a>
-        <a href="javascript:" id="grabPotBtn" class="btn btn-danger btn-sm">Grab Pot</a>
+        <a href="javascript:" id="finishBtn" class="btn btn-default btn-sm control_btn">Finalize Handle</a>
+        <a href="javascript:" id="resetBtn" class="btn btn-default btn-sm control_btn">Reset Handle</a>
+        <a href="javascript:" id="grabPotBtn" class="btn btn-danger btn-sm control_btn">Grab Pot</a>
+    </div>
+
+    <!-- Help/info buttons -->
+    <div class="btn_array" align="center">
+
+        <!-- Glyphicons (pause/help/info buttons) -->
+        <a href="javascript:" id="helpBtn" class="btn btn-info btn-md"><span class="glyphicon glyphicon-question-sign"></span></a>
+        <a href="javascript:" id="infoBtn" class="btn btn-default btn-md"><span class="glyphicon glyphicon-info-sign"></span></a>
+
+    </div>
+
+    <div class="alert alert-info" id="help-box">
+        <b>Help:</b>
+        <br><br>
+        * Design a pot handle that won't burn the chef when it's picked up. <br>
+        * Click within the green highlighted area to place or delete joints. <br>
+        * Adjust the slider in the box on the left to change the width of various joints of the handle. <br>
+        * When you're done, click 'Finalize Handle'. <br>
+        * Select a joint for the chef to pick up the handle from before grabbing the pot. <br><br>
+        The fate of our dear chef of the SS Salty Kitty rests in your capable hands!
+        <br><br>
+        <div align="center"><i>Click the blue help button below to close this pop-up</i></div>
+    </div>
+
+    <div class="alert alert-warning" id="info-box">
+        <b>Info:</b>
+        <br><br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        <br>
+        Produced and modified through the efforts of Brooke Bullek and Daniel Vasquez.<br>
+        Questions? Contact <a href="mailto:mvigeant@bucknell.edu">Dr. Margot Vigeant</a>, Bucknell University Department of Chemical Engineering
     </div>
 
   </body>

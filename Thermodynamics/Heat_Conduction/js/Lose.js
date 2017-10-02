@@ -66,9 +66,9 @@ function Lose() {
    */
   this.drawText = function() {
     fill(50);
-    translate(width/2, height/2 + 100);
+    translate(width / 2, height / 2 + 100);
     textAlign(CENTER);
-    text(this.s, -200, 0, 400, 600);
-    translate(-1*(width/2), -1*(height/2 + 100));
+    text(this.text, -200, 0, 400, 600);
+    translate(-1 * (width / 2), -1 * (height / 2 + 100));
   }
 }
