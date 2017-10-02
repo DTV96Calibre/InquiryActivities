@@ -248,7 +248,16 @@ resetHandle = function() {
  * @return none
  */
 toggleHelp = function() {
-  alert("help!");
+  if (infoBtnActive || !helpBtnActive) {
+    // Make info box disappear to make room for help box
+    infoBoxPopUp.removeClass("appear");
+    infoBtnActive = false;
+    helpBoxPopUp.addClass("appear");
+    helpBtnActive = !helpBtnActive;
+  } else {
+    helpBoxPopUp.removeClass("appear");
+    helpBtnActive = false;
+  }
 }
 
 /**
@@ -256,7 +265,16 @@ toggleHelp = function() {
  * @return none
  */
 toggleInfo = function() {
-  alert("info!");
+  if (helpBtnActive || !infoBtnActive) {
+    // Make help box disappear to make room for info box
+    helpBoxPopUp.removeClass("appear");
+    helpBtnActive = false;
+    infoBoxPopUp.addClass("appear");
+    infoBtnActive = true;
+  } else {
+    infoBoxPopUp.removeClass("appear");
+    infoBtnActive = false;
+  } 
 }
 
 /************************ Show/hide DOM elements ******************************/
