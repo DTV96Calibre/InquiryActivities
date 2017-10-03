@@ -4,6 +4,8 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
+var ARM_SIZE_SCALE = 0.065; // times windowWidth
+
 /**
  * This class represents the arm (and hand) of the cat chef, who will pick up
  * the pot after it's been designed by the user.
@@ -18,10 +20,10 @@ class Arm {
     this.pos = {x:0, y:0}; // array should be faster than object
     this.pos = pos;
     this.destPos = pos;
-    this.shoulderOffset = [-100, -100]; // shoulder is drawn to the upper left
-    this.handDiameter = 100;
+    this.handDiameter = windowWidth * ARM_SIZE_SCALE;
+    this.shoulderOffset = [-1 * this.handDiameter, -1 * this.handDiameter]; // shoulder is drawn to the upper left
     this.handColor = 63;
-    this.armThickness = 75;
+    this.armThickness = this.handDiameter * 0.75;
     this.armColor = 127;
   }
 
@@ -53,6 +55,17 @@ class Arm {
     /* Draw hand */
     fill(this.handColor);
     ellipse(this.pos.x, this.pos.y, this.handDiameter);
+  }
+
+  /**
+   * Resizes the arm; this function is called by the Editor scene whenever the
+   * window is resized.
+   * @return none
+   */
+  resize() {
+    this.handDiameter = windowWidth * ARM_SIZE_SCALE;
+    this.shoulderOffset = [-1 * this.handDiameter, -1 * this.handDiameter]; // shoulder is drawn to the upper left
+    this.armThickness = this.handDiameter * 0.75;
   }
 }
 

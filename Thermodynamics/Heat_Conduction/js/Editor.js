@@ -15,7 +15,6 @@ var VALID_ZONE_X_FINAL = 200;  // pixels
 var VALID_ZONE_Y_START = 100;  // pixels
 var VALID_ZONE_Y_FINAL = 200;  // pixels
 
-var ARM_SIZE = 100;            // pixels
 var HEIGHT_OF_SLIDER = 25;     // pixels
 
 var joints = [];
@@ -97,7 +96,8 @@ function Editor() {
       pot = new Pot({x : potXPos, y : potYPos});
       pot.steam.updateOrigin();
 
-      arm = new Arm({x: ARM_SIZE, y: ARM_SIZE});      
+      arm = new Arm({x: windowWidth * ARM_SIZE_SCALE, 
+        y: windowWidth * ARM_SIZE_SCALE});      
 
       // The first joint must be manually added as the insertJoint function assumes one already exists
       joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
@@ -158,6 +158,8 @@ function Editor() {
       pot.anchorPointDiameter = 75;
       pot.locateAnchorPoint();
 
+      arm.resize();
+
       // Define the valid zone
       validZone.x2 = pot.anchorPoint.x;
       validZone.x1 = validZone.x2 - pot.potWidth;
@@ -190,10 +192,18 @@ function Editor() {
      * @return none
      */
     this.selectNearestJoint = function() {
+      // Don't let the textbox float over the cat's paw
+      if (helpBtnActive) {
+        toggleHelp();
+      }
+      else if (infoBtnActive) {
+        toggleInfo();
+      }
+
       this.selectedJoint = getNearestJoint({x:mouseX, y:mouseY});
       var jointPos = this.selectedJoint.getGlobalPos();
       arm.destPos.x = jointPos.x;
-      arm.destPos.y = jointPos.y - 100;
+      arm.destPos.y = jointPos.y - windowWidth * ARM_SIZE_SCALE;
     }
 }
 
