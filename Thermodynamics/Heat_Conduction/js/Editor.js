@@ -117,6 +117,10 @@ function Editor() {
      */
     this.tearDown = function(){
     	controlPanel.hide();
+      helpBtn.hide();
+      infoBtn.hide();
+      helpBoxPopUp.hide();
+      infoBoxPopUp.hide();
     }
 
     /**
