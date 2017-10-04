@@ -24,7 +24,7 @@ b2ParticleSystem.prototype.createForceField = function createForceField(x1, x2, 
 	this.forceFields.push(forceField);
 }
 
-b2ParticleSystem.prototype.appleForceFields = function appleForceFields(){
+b2ParticleSystem.prototype.applyForceFields = function appleForceFields(){
 	vbuffer = this.GetVelocityBuffer();
 	pbuffer = this.GetPositionBuffer();
 	for (i = 0; i < this.forceFields.length; i++){

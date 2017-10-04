@@ -221,6 +221,23 @@ function constructTank2Box() {
   body.CreateFixtureFromShape(shape, 0.1);
 }
 
+function generateForceFields(){
+  world.particleSystems[0].initializeForceFieldArray();
+  // Create forcefield for short vertical pipe coming from tank 1
+  world.particleSystems[0].createForceField(tank1OpeningLeftPos, tank1OpeningRightPos, lowerPipeTopPos, tank1BottomPos, 0, -10);
+  // Create forcefield for horizontal pipe
+  world.particleSystems[0].createForceField(tank1OpeningLeftPos, upperPipeRightPos, lowerPipeBottomPos2, lowerPipeTopPos, 10, 0);
+  // Create forcefield for long vertical connecting to tank 2
+  world.particleSystems[0].createForceField(upperPipeLeftPos, upperPipeRightPos, lowerPipeBottomPos2, upperPipeTopPos, 0, 10);
+  };
+
+function inverseForceFields(forceFields){
+  for (ff of forceFields){
+    ff.fx = ff.fx*-1;
+    ff.fy = ff.fy*-1;
+  }
+}
+
 /*
  * Removes the barrier blocking the pipe leading from tank 1 in order to allow
  * the fluid to flow out.
