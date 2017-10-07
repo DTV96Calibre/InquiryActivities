@@ -231,7 +231,7 @@ input[type='range']::-ms-fill-upper {
 
 input[type='range']:focus {
   outline: none;
-  background-color: rgba(192, 192, 192, .25);
+  /*background-color: rgba(192, 192, 192, .25);*/
 }
 
 .js input[type='range'] /deep/ #thumb {
