@@ -23,6 +23,7 @@ var arm;
 
 // DOM elements
 var controlPanel;
+var sliderBox;
 var jointSizeSlider;
 var finishButton;
 var resetButton;
@@ -61,6 +62,7 @@ function Editor() {
       changeBackgroundImage("countertop");
 
       // Setup DOM input elements
+      sliderBox = $("#sliderBox");
       jointSizeSlider = $('#jointSizeSlider');
       controlPanel = $('#controlPanel');
       finishButton = $('#finishBtn');
@@ -313,7 +315,7 @@ showElements = function() {
 
   // Show remaining DOM elements
   controlPanel.show();
-  jointSizeSlider.show();
+  sliderBox.show();
   helpBoxPopUp.show();
   infoBoxPopUp.show();
   helpBtn.show();

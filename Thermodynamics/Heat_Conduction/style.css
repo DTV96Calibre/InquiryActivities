@@ -56,11 +56,25 @@ body {
   opacity: 0.8;
 }
 
-#jointSizeSlider {
+#sliderBox {
   display: none;
+  position: absolute;
   width: 80%;
+  margin-top: 9%;
+  margin-left: 5%;
+}
+
+#jointSizeSlider {
+  width: 90%;
   left: 50%;
-  top: 80%;
+  top: 40%;
+}
+
+#sliderLabel {
+  position: absolute;
+  width: 100%;
+  top: 5px;
+  text-align: center;
 }
 
 #grabPotBtn {
