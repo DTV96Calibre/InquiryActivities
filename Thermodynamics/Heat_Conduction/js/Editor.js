@@ -208,8 +208,7 @@ function Editor() {
 
       this.selectedJoint = getNearestJoint({x:mouseX, y:mouseY});
       var jointPos = this.selectedJoint.getGlobalPos();
-      arm.destPos.x = jointPos.x;
-      arm.destPos.y = jointPos.y - windowWidth * ARM_SIZE_SCALE;
+      arm.setPos({x: jointPos.x, y: jointPos.y - windowWidth * ARM_SIZE_SCALE});
     }
 }
 

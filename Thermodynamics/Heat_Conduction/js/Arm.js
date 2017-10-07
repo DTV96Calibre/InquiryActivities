@@ -28,11 +28,10 @@ class Arm {
   }
 
   /**
-   * Sets the pos attribute.
-   * @param none
+   * Sets the destination position of this Arm so that it will begin to move.
    */
-  setPos(pos) {
-    this.pos = pos;
+  setPos(newPos) {
+    this.destPos = newPos;
   }
 
   /**
@@ -41,8 +40,7 @@ class Arm {
    * @return none
    */
   draw() {
-    // Move arm toward destination
-    ease(this.pos, this.destPos);
+    this.ease(); // Move arm toward destination
 
     /* Draw arm */
     stroke(this.armColor);
@@ -67,21 +65,18 @@ class Arm {
     this.shoulderOffset = [-1 * this.handDiameter, -1 * this.handDiameter]; // shoulder is drawn to the upper left
     this.armThickness = this.handDiameter * 0.75;
   }
-}
 
-/**
- * Updates the position (this.pos) so that the arm approaches the destination
- * position as defined by an easing algorithm.
- * @param {array} pos: An initial horizontal and vertical position
- * @param {array} destPos: A final horizontal and vertical position
- * @return none
- */
-function ease(pos, destPos){
-  // TODO: Finish
-  /*var easingFactor = 100;
-  var diffX = destPos.x - pos.x;
-  var diffY = destPos.y - pos.y;
-  pos.x += diffX / easingFactor;
-  pos.y += diffY / easingFactor;
-  */
+  /**
+   * Updates the position (this.pos) so that the arm approaches the destination
+   * position as defined by an easing algorithm.
+   * @return none
+   */
+  ease() {
+    var easingFactor = 10;
+    var diffX = this.destPos.x - this.pos.x;
+    var diffY = this.destPos.y - this.pos.y;
+    print("pos x is ", this.pos.x, ". destpos x is " + this.destPos.x);
+    this.pos.x += diffX / easingFactor;
+    this.pos.y += diffY / easingFactor;
+  }
 }
