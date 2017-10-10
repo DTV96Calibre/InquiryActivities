@@ -75,7 +75,6 @@ class Arm {
     var easingFactor = 10;
     var diffX = this.destPos.x - this.pos.x;
     var diffY = this.destPos.y - this.pos.y;
-    print("pos x is ", this.pos.x, ". destpos x is " + this.destPos.x);
     this.pos.x += diffX / easingFactor;
     this.pos.y += diffY / easingFactor;
   }

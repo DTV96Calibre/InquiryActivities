@@ -40,6 +40,9 @@ var infoBtnActive = false;
 // A box in which joints can be placed
 var validZone;
 
+// True when the user has clicked 'Finalize Handle'
+var doneBuildingPot;
+
 var ref;
 
 /**
@@ -109,6 +112,8 @@ function Editor() {
       // Tell sceneManager setup is finished before resizing canvas
       this.sceneManager.scene.setupExecuted = true;
 
+      doneBuildingPot = false;
+
       // NOTE: Requires setupExecuted override above to prevent infinite recursion
       this.windowResized();
     }
@@ -132,7 +137,9 @@ function Editor() {
     this.draw = function() {
       clear();
 
-      drawCrosshairPreview();
+      if (!doneBuildingPot) {
+        drawCrosshairPreview();
+      }
 
       // Draw valid zone
       fill(63, 191, 108, 127);
@@ -221,8 +228,10 @@ function Editor() {
  */
 finishHandle = function() {
   ref.mode = 'selecting';
+  doneBuildingPot = true;
   resetButton.hide();
   finishButton.hide();
+  sliderBox.hide();
   grabPotButton.show();
 }
 
