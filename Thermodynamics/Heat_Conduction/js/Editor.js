@@ -62,7 +62,7 @@ function Editor() {
      * @return none
      */
     this.setup = function() {
-      changeBackgroundImage("stovetop");
+      changeBackgroundImage("countertop");
 
       // Setup DOM input elements
       sliderBox = $("#sliderBox");
@@ -233,6 +233,8 @@ finishHandle = function() {
   finishButton.hide();
   sliderBox.hide();
   grabPotButton.show();
+  pot.hasWater = true;
+  changeBackgroundImage("stovetop");
 }
 
 /**

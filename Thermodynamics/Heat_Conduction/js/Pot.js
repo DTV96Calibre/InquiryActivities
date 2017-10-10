@@ -19,8 +19,9 @@ class Pot{
     this.potThickness = 20;
     this.anchorPointDiameter = 75;//this.potHeight / 3.5;
     this.steam = new Steam();
+    this.hasWater = false;
 
-    this.waterLevelFromTop = 0.12 * windowHeight;
+    this.waterLevelFromTop = 0.05 * windowHeight;
     // Calculate position of anchorpoint relative to pot pos
     this.anchorPoint = {x:0, y:0};
     this.locateAnchorPoint();
@@ -34,10 +35,13 @@ class Pot{
   	ellipse(this.anchorPoint.x,this.anchorPoint.y, this.anchorPointDiameter); // Handle joints
     fill(this.insideColor);
     rect(this.pos.x+this.potThickness, this.pos.y, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness); // Inside of pot
-    fill(this.waterColor);
-    rect(this.pos.x+this.potThickness, this.pos.y+this.waterLevelFromTop, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness-this.waterLevelFromTop); // Water in pot
-    // this.steam.updateOrigin();
-    // this.steam.update();
+
+    // Draw water inside pot
+    if (this.hasWater) {
+      fill(this.waterColor);
+      rect(this.pos.x + this.potThickness, this.pos.y + this.waterLevelFromTop, this.potWidth - this.potThickness * 2,
+        this.potHeight - this.potThickness - this.waterLevelFromTop);
+    }
   }
 
   getHandleAnchorPoint(){
