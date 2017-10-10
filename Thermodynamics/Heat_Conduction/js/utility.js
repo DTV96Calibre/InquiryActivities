@@ -123,4 +123,7 @@ function changeBackgroundImage(imageID) {
   else if (imageID == "countertop") {
     $('body').css('background-image', "url(" + KITCHEN_URL + ")");
   }
+  else if (imageID == "stovetop") {
+    $('body').css('background-image', 'url(' + STOVETOP_URL + ")");
+  }
 }

@@ -62,7 +62,7 @@ function Editor() {
      * @return none
      */
     this.setup = function() {
-      changeBackgroundImage("countertop");
+      changeBackgroundImage("stovetop");
 
       // Setup DOM input elements
       sliderBox = $("#sliderBox");

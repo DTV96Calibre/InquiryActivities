@@ -7,6 +7,7 @@
 var CAT_ALIVE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/cat-alive.png?raw=true";
 var CAT_DEAD_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/cat-dead.png?raw=true";
 var KITCHEN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/kitchen-bg.jpg?raw=true";
+var STOVETOP_URL = "http://www.netway.com/~sanford/2011-05-15%20Kitchen%20Stove.JPG";
 
 // Global var that holds references to any images loaded into the project
 var images;
