@@ -234,6 +234,7 @@ finishHandle = function() {
   sliderBox.hide();
   grabPotButton.show();
   pot.hasWater = true;
+  showSteam();
   changeBackgroundImage("stovetop");
 }
 
@@ -318,12 +319,6 @@ hideElements = function() {
  * @return none
  */
 showElements = function() {
-  // Show steam bubbles
-  $("#steam-one").show();
-  $("#steam-two").show();
-  $("#steam-three").show();
-  $("#steam-four").show();
-
   // Show remaining DOM elements
   controlPanel.show();
   sliderBox.show();
@@ -334,4 +329,16 @@ showElements = function() {
 
   // Display help text immediately
   toggleHelp();
+}
+
+/**
+ * Shows the steam bubbles that appear once the pot of boiling water is
+ * placed on the stove.
+ * @return none
+ */
+showSteam = function() {
+  $("#steam-one").show();
+  $("#steam-two").show();
+  $("#steam-three").show();
+  $("#steam-four").show();
 }
