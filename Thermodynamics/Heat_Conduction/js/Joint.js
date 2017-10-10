@@ -6,7 +6,7 @@
 
 var ROOT_TEMP = 100; // 100C, temp of boiling water
 var KW_CMK = 0.00043; // kW/cm-K
-var ENERGY_IN_KJS = 0.001; // TODO: Clarify this
+var ENERGY_IN_KJS = 0.0002; // TODO: Clarify this
 
 /**
  * This class represents the joints that link segments of the pot handle.
@@ -67,9 +67,9 @@ class Joint {
     if (this.isRoot){
       return ROOT_TEMP;
     } else {
-      var currentArea = PI * sq(this.radius);
-      return this.prev.getTemp() - (ENERGY_IN_KJS * this.findDistanceFromPrev() 
-        * currentArea/KW_CMK);
+      var currentArea = PI * sq(this.radius / 100);
+      var heatLoss = ENERGY_IN_KJS * this.findDistanceFromPrev() * currentArea / KW_CMK;
+      return this.prev.getTemp() - heatLoss;
     }
   }
 

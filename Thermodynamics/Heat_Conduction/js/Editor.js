@@ -249,6 +249,7 @@ grabPot = function() {
   var temp = ref.selectedJoint.getTemp();
   ref.tearDown();
 
+  alert("temp is " + temp);
   if (temp < STEEL_BURN_SKIN_TEMP) {
     ref.sceneManager.showScene(Win);
   }
