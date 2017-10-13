@@ -778,11 +778,11 @@ function closeCycle() {
     
     var success = saveStep();
     
-    if(success) {
+    if (success) {
       return true;
     }
     else {
-      $("#cycleInfo").html("Attempting to close cycle with an isobaric step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Failed to close cycle with an isobaric step.\n\n" + $("#cycleInfo").val());
       return false;
     }
 
@@ -803,7 +803,7 @@ function closeCycle() {
       return true;
     }
     else {
-      $("#cycleInfo").html("Attempting to close cycle with an isochoric step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Failed to close cycle with an isochoric step.\n\n" + $("#cycleInfo").val());
       return false;
     }
 
@@ -821,11 +821,11 @@ function closeCycle() {
     
     var success = saveStep();
     
-    if(success) {
+    if (success) {
       return true;
     }
     else {
-      $("#cycleInfo").html("Attempting to close cycle with an isothermal step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Failed to close cycle with an isothermal step.\n\n" + $("#cycleInfo").val());
       return false;
     }
 
@@ -848,7 +848,7 @@ function closeCycle() {
       return true;
     }
     else {
-      $("#cycleInfo").html("Attempting to close cycle with an adiabatic step...\n\n" + $("#cycleInfo").val());
+      $("#cycleInfo").html("Failed to close cycle with an adiabatic step.\n\n" + $("#cycleInfo").val());
       return false;
     }
   }
