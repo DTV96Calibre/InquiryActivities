@@ -182,7 +182,7 @@ function resetAll() {
   $("#enableSurfacePlot").prop('checked', true);
   close3DGraph();
 
-  dotPreviewed = false;
+  dotPreviewed = true; // No steps are initially saved, we're only previewing
   hasUpdated = false;
   toggleUpdate();
   
