@@ -21,6 +21,12 @@ var Vpoints;
 var Tpoints;
 var Spoints;
 
+// Temporary "preview" points
+var PrevP;
+var PrevV;
+var PrevT;
+var PrevS;
+
 // True when the last (i.e. most recent) point on the graphs hasn't been saved
 var dotPreviewed;
 
@@ -42,25 +48,23 @@ function initializeGraphs() {
 }
 
 /**
- * Graph the points on all three graphs.
+ * Graph the points on all three graphs IF the user has made a change since
+ * last clicking 'Save Step'. Ensures a "live preview" of the graph will load
+ * whenever the user makes an adjustment to the cycle parameters.
  */
 function graph() {
   /* Also need to append newest value if the user has updated something
    * without hitting save */
   if (dotPreviewed) {
     var points = generateGraphPoints();
-    set3DGraphData(Ppoints.concat(points["P"]), Tpoints.concat(points["T"]), Vpoints.concat(points["V"]));
-    setPVGraphData(Ppoints.concat(points["P"]), Vpoints.concat(points["V"]));
-    setTSGraphData(Tpoints.concat(points["T"]), Spoints.concat(points["S"]));
-  } else {
-    // Push to Vpoints, Tpoints, Ppoints, Spoints
-    saveGraphData();
-    // The latest data has been saved, so now we're back to previewing
-    dotPreviewed = true;
+    PrevP = points["P"];
+    PrevV = points["V"];
+    PrevT = points["T"];
+    PrevS = points["S"];
 
-    set3DGraphData(Ppoints, Tpoints, Vpoints);
-    setPVGraphData(Ppoints, Vpoints);
-    setTSGraphData(Tpoints, Spoints);
+    set3DGraphData(Ppoints.concat(PrevP), Tpoints.concat(PrevT), Vpoints.concat(PrevV));
+    setPVGraphData(Ppoints.concat(PrevP), Vpoints.concat(PrevV));
+    setTSGraphData(Tpoints.concat(PrevT), Spoints.concat(PrevS));
   }
 
   hasUpdated = true;
@@ -71,11 +75,15 @@ function graph() {
  * Pushes the newest data points so they become permanent fixtures of this cycle. 
  */
 function saveGraphData() {
-  var points = generateGraphPoints();
-  Vpoints = Vpoints.concat(points["V"]);
-  Ppoints = Ppoints.concat(points["P"]);
-  Tpoints = Tpoints.concat(points["T"]);
-  Spoints = Spoints.concat(points["S"]);
+  Vpoints = Vpoints.concat(PrevV);
+  Ppoints = Ppoints.concat(PrevP);
+  Tpoints = Tpoints.concat(PrevT);
+  Spoints = Spoints.concat(PrevS);
+
+  // Set graph data to reflect new saved points
+  set3DGraphData(Ppoints, Tpoints, Vpoints);
+  setPVGraphData(Ppoints, Vpoints);
+  setTSGraphData(Tpoints, Spoints);
 }
 
 /*
