@@ -45,46 +45,37 @@ function initializeGraphs() {
  * Graph the points on all three graphs.
  */
 function graph() {
-  var points = generateGraphPoints();
-
   /* Also need to append newest value if the user has updated something
    * without hitting save */
   if (dotPreviewed) {
+    var points = generateGraphPoints();
     set3DGraphData(Ppoints.concat(points["P"]), Tpoints.concat(points["T"]), Vpoints.concat(points["V"]));
     setPVGraphData(Ppoints.concat(points["P"]), Vpoints.concat(points["V"]));
     setTSGraphData(Tpoints.concat(points["T"]), Spoints.concat(points["S"]));
   } else {
+    // Push to Vpoints, Tpoints, Ppoints, Spoints
+    saveGraphData();
+    // The latest data has been saved, so now we're back to previewing
+    dotPreviewed = true;
+
     set3DGraphData(Ppoints, Tpoints, Vpoints);
     setPVGraphData(Ppoints, Vpoints);
     setTSGraphData(Tpoints, Spoints);
   }
 
   hasUpdated = true;
-  dotPreviewed = true;
   toggleUpdate();
 }
 
 /*
- * Graph the points on the graphs while taking into consideration that the 
- * "preview" point may need to be overwritten.
+ * Pushes the newest data points so they become permanent fixtures of this cycle. 
  */
-function graphPreviewDot() {
-  var color = colors[(numSavedSteps + 1) % colors.length];
-
+function saveGraphData() {
   var points = generateGraphPoints();
-
-  /* If the user has pressed 'Save Step' since the last time the graph updated,
-   * push the new data points so they become permanent fixtures of this cycle. 
-   */
-  if (!dotPreviewed) {
-    Vpoints = Vpoints.concat(points["V"]);
-    Ppoints = Ppoints.concat(points["P"]);
-    Tpoints = Tpoints.concat(points["T"]);
-    Spoints = Spoints.concat(points["S"]);
-    dotPreviewed = true;
-  }
-  
-  graph();
+  Vpoints = Vpoints.concat(points["V"]);
+  Ppoints = Ppoints.concat(points["P"]);
+  Tpoints = Tpoints.concat(points["T"]);
+  Spoints = Spoints.concat(points["S"]);
 }
 
 /*

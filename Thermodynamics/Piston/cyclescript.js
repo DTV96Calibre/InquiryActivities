@@ -496,8 +496,11 @@ function processNewPosition() {
 
   // Clear the "cycle info" text area
   $("#cycleInfo").html("");
-  graphPreviewDot();
   changeInsulationType();
+
+  // Graph the preview of this new data
+  dotPreviewed = true;
+  graph();
 }
 
 /*
@@ -558,8 +561,11 @@ function processNewTemp() {
   
   // Clear the "cycle info" text area
   $("#cycleInfo").html("");
-  graphPreviewDot();
   changeInsulationType();
+
+  // Graph the preview of this new data
+  dotPreviewed = true;
+  graph();
 }
 
 /*
@@ -608,8 +614,11 @@ function processNewStepType() {
   
   // Clear the "cycle info" text area
   $("#cycleInfo").html("");
-  graphPreviewDot();
   changeInsulationType();
+
+  // Graph the preview of this new data
+  dotPreviewed = true;
+  graph();
 }
 
 /*
@@ -723,7 +732,10 @@ function saveStep() {
   oldPressure = pressure;
   oldVolume = volume;
   oldEntropy = entropy;
-  dotPreviewed = false;  
+
+  // Save graph data
+  saveGraphData();
+  dotPreviewed = true;
   
   // If nothing went wrong
   return true;
