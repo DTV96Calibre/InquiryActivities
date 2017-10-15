@@ -222,7 +222,10 @@ function init2DGraphs() {
           hover: {
             enabled: false
           }
-        }
+        },
+      marker: {
+         enabled: false
+      }
     }],
 
     // Disable everything but the graph's data
@@ -262,7 +265,10 @@ function init2DGraphs() {
           hover: {
             enabled: false
           }
-        }
+        },
+      marker: {
+         enabled: false
+      }
     }],
 
     // Disable everything but the graph's data
