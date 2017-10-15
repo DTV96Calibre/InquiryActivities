@@ -157,7 +157,7 @@ function resetAll() {
   // Reset the text areas containing cycle data and other info
   $("#cycleSteps").html("");
   var cycleText = "Initial State: " + pressure + " bar, " + temp + " K, " + pistonPosition + " cm extension";
-  appendStepText(colors[0], cycleText);
+  appendStepText("#000000", cycleText);
 
   $("#cycleInfo").html("");
   
@@ -725,7 +725,7 @@ function saveStep() {
     " cm<br>" + " Entropy is: " + entropy.toFixed(3) + "<br>Work is: " + W.toFixed(1) + 
     " cm^3 * bar   =   " + toKiloJoules(W).toFixed(1) + " kJ<br>Q is: " + Q.toFixed(1) + 
     " cm^3 * bar   =   " + toKiloJoules(Q).toFixed(3) + " kJ";
-  appendStepText(colors[numSavedSteps % colors.length], cycleText);
+  appendStepText(colors[(numSavedSteps - 1) % colors.length], cycleText);
   
   // save the current state so it may be used for calculations/comparisons as the user creates the next step
   oldTemp = temp;
