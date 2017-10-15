@@ -22,10 +22,10 @@ var Tpoints;
 var Spoints;
 
 // Temporary "preview" points
-var PrevP;
-var PrevV;
-var PrevT;
-var PrevS;
+var previewP;
+var previewV;
+var previewT;
+var previewS;
 
 // True when the last (i.e. most recent) point on the graphs hasn't been saved
 var dotPreviewed;
@@ -57,14 +57,14 @@ function graph() {
    * without hitting save */
   if (dotPreviewed) {
     var points = generateGraphPoints();
-    PrevP = points["P"];
-    PrevV = points["V"];
-    PrevT = points["T"];
-    PrevS = points["S"];
+    previewP = points["P"];
+    previewV = points["V"];
+    previewT = points["T"];
+    previewS = points["S"];
 
-    set3DGraphData(Ppoints.concat(PrevP), Tpoints.concat(PrevT), Vpoints.concat(PrevV));
-    setPVGraphData(Ppoints.concat(PrevP), Vpoints.concat(PrevV));
-    setTSGraphData(Tpoints.concat(PrevT), Spoints.concat(PrevS));
+    set3DGraphData(Ppoints.concat(previewP), Tpoints.concat(previewT), Vpoints.concat(previewV));
+    setPVGraphData(Ppoints.concat(previewP), Vpoints.concat(previewV));
+    setTSGraphData(Tpoints.concat(previewT), Spoints.concat(previewS));
   }
 
   hasUpdated = true;
@@ -75,10 +75,10 @@ function graph() {
  * Pushes the newest data points so they become permanent fixtures of this cycle. 
  */
 function saveGraphData() {
-  Vpoints = Vpoints.concat(PrevV);
-  Ppoints = Ppoints.concat(PrevP);
-  Tpoints = Tpoints.concat(PrevT);
-  Spoints = Spoints.concat(PrevS);
+  Vpoints = Vpoints.concat(previewV);
+  Ppoints = Ppoints.concat(previewP);
+  Tpoints = Tpoints.concat(previewT);
+  Spoints = Spoints.concat(previewS);
 
   // Set graph data to reflect new saved points
   set3DGraphData(Ppoints, Tpoints, Vpoints);
@@ -91,7 +91,9 @@ function saveGraphData() {
  * which may be a curved line.
  */
 function generateGraphPoints() {
-  var color = colors[(numSavedSteps + 1) % colors.length];
+  var thisColor = colors[numSavedSteps % colors.length];
+  var nextColor = colors[(numSavedSteps + 1) % colors.length];
+  var color;
 
   /* Create an empty object to act as an associative array containing the sets 
    * of point values for P, V, T, and S */
@@ -107,21 +109,16 @@ function generateGraphPoints() {
     var V = oldVolume;
     var oldP = oldPressure;
     var oldV = oldVolume;
-
-    // Remove residual lines from the 2D PV plot
-    if (!dotPreviewed) {
-      Ppoints.pop();
-      Vpoints.pop();
-    }
     
     var Vstep = (volume - oldVolume) / 50;
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
     for (var i = 1; i <= 50; i++) {
+      color = (i == 50) ? nextColor : thisColor;
+
       oldV = V;
       oldP = P;
       V += Vstep;
-      
       P = oldP * Math.pow((oldV / V), (Cp / Cv));
       
       points["P"].push(new DataPoint(P, color));
@@ -132,7 +129,7 @@ function generateGraphPoints() {
   }
   
   // If the step is not adiabatic, then there is no need to simulate a curve for the PV graph,
-  // because that graph should be a straight line, which graphael does automatically
+  // because that graph should be a straight line, which Highcharts does automatically
   
   // If the step is isobaric or isochoric, must simulate a curve for the TS graph
   else if (stepType == "Isobaric") {
@@ -145,10 +142,11 @@ function generateGraphPoints() {
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
     for (var i = 1; i <= 50; i++) {
+      color = (i == 50) ? nextColor : thisColor;
+
       oldS = S;
       oldT = T;
       S += Sstep;
-      
       T = oldT * Math.exp((S - oldS)/Cp);
       
       points["T"].push(new DataPoint(T, color));
@@ -167,10 +165,11 @@ function generateGraphPoints() {
     
     // simulate a curve with 100 intermediate points (technically 99 intermediate points plus the endpoint)
     for (var i = 1; i <= 50; i++) {
+      color = (i == 50) ? nextColor : thisColor;
+
       oldS = S;
       oldT = T;
       S += Sstep;
-      
       T = oldT * Math.exp((S - oldS)/Cv);
       
       points["T"].push(new DataPoint(T, color));
@@ -182,6 +181,7 @@ function generateGraphPoints() {
   
   // If the step is isothermal, there is no need to interpolate because both graphs will be straight lines
   else {
+    color = nextColor;
     points["P"].push(new DataPoint(pressure, color));
     points["V"].push(new DataPoint(volume, color));
     points["T"].push(new DataPoint(temp, color));
@@ -413,14 +413,8 @@ function setPVGraphData(Ppoints, Vpoints) {
   var length = Math.min(Ppoints.length, Vpoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
-    // If no saved steps, ensure only one color is used
-    if (numSavedSteps == 0) {
-      data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: colors[1]});
-    } else {
-      data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: Vpoints[i].color});
-    }
+    data.push({x: Vpoints[i].value, y: Ppoints[i].value, segmentColor: Ppoints[i].color});
   }
-
   var chart = $("#PVgraphDiv").highcharts();
   // Update the data of the chart
   chart.series[0].setData(data);
@@ -436,12 +430,7 @@ function setTSGraphData(Tpoints, Spoints) {
   var length = Math.min(Tpoints.length, Spoints.length);
   var data = [];
   for (var i = 0; i < length; i++) {
-    // If no saved steps, ensure only one color is used
-    if (numSavedSteps == 0) {
-      data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: colors[1]});
-    } else {
-      data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: Tpoints[i].color});
-    }
+    data.push({x: Tpoints[i].value, y: Spoints[i].value, segmentColor: Tpoints[i].color});
   }
 
   var chart = $("#TSgraphDiv").highcharts();

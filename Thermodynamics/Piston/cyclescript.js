@@ -40,7 +40,7 @@ var oldEntropy;
 var numSavedSteps;
 var savedSteps;
 
-// Prevents the user from spamming the 'Save Step' button
+// previewents the user from spamming the 'Save Step' button
 var hasUpdated = false;
 
 var isiPad = false;
@@ -739,6 +739,8 @@ function saveStep() {
   
   // If nothing went wrong
   return true;
+
+
 }
 
 /*
@@ -983,7 +985,6 @@ function determineHeatPumpType() {
 }
 
 function determineEngineType() {
-  //alert("determineEngineType");
   if(savedSteps.length == 4) {
     
     // Check for Carnot cycle
