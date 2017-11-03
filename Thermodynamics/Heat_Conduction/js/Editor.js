@@ -267,6 +267,8 @@ grabPot = function() {
 resetHandle = function() {
   joints = [];
   joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
+  // This flag must be set for the root joint for temp calculations to work correctly
+  joints[0].isRoot = true;
 }
 
 /**
