@@ -19,12 +19,9 @@ class Arm {
   constructor(pos) {
     this.pos = {x:0, y:0}; // array should be faster than object
     this.pos = pos;
+    this.img = images['arm'];
     this.destPos = pos;
-    this.handDiameter = windowWidth * ARM_SIZE_SCALE;
-    this.shoulderOffset = [-1 * this.handDiameter, -1 * this.handDiameter]; // shoulder is drawn to the upper left
-    this.handColor = 63;
-    this.armThickness = this.handDiameter * 0.75;
-    this.armColor = 127;
+    this.resize();
   }
 
   /**
@@ -42,17 +39,8 @@ class Arm {
   draw() {
     this.ease(); // Move arm toward destination
 
-    /* Draw arm */
-    stroke(this.armColor);
-    strokeWeight(this.armThickness);
-    line(this.pos.x, this.pos.y, this.pos.x + this.shoulderOffset[0], 
-      this.pos.y + this.shoulderOffset[1]);
-    strokeWeight(1);
-    noStroke();
-
-    /* Draw hand */
-    fill(this.handColor);
-    ellipse(this.pos.x, this.pos.y, this.handDiameter);
+    // Render image
+    image(this.img, this.pos.x, this.pos.y, this.width, this.height);
   }
 
   /**
@@ -61,9 +49,8 @@ class Arm {
    * @return none
    */
   resize() {
-    this.handDiameter = windowWidth * ARM_SIZE_SCALE;
-    this.shoulderOffset = [-1 * this.handDiameter, -1 * this.handDiameter]; // shoulder is drawn to the upper left
-    this.armThickness = this.handDiameter * 0.75;
+    this.width = windowWidth * ARM_SIZE_SCALE;
+    this.height = windowWidth * ARM_SIZE_SCALE * 2;
   }
 
   /**

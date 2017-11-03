@@ -8,6 +8,7 @@ var CAT_ALIVE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/mast
 var CAT_DEAD_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/cat-dead.png?raw=true";
 var KITCHEN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/kitchen-bg.jpg?raw=true";
 var STOVETOP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/stovetop-bg.jpg?raw=true";
+var ARM_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/arm.png?raw=true";
 
 // Global var that holds references to any images loaded into the project
 var images;
@@ -37,7 +38,8 @@ function setup() {
 function initImages() {
   images = {
     cat_alive: createImg(CAT_ALIVE_URL),
-    cat_dead: createImg(CAT_DEAD_URL)
+    cat_dead: createImg(CAT_DEAD_URL),
+    arm: createImg(ARM_URL)
   }
 
   // Hide the images so they don't appear beneath the canvas when loaded
