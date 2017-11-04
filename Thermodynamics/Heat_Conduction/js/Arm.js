@@ -4,7 +4,7 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
-var ARM_SIZE_SCALE = 0.09; // times windowWidth
+var ARM_SIZE_SCALE = 0.092; // times windowWidth
 
 /**
  * This class represents the arm (and hand) of the cat chef, who will pick up
@@ -50,7 +50,7 @@ class Arm {
    */
   resize() {
     this.width = windowWidth * ARM_SIZE_SCALE;
-    this.height = windowWidth * ARM_SIZE_SCALE * 1.5;
+    this.height = windowWidth * ARM_SIZE_SCALE * 1.45;
   }
 
   /**
