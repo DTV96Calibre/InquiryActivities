@@ -4,7 +4,7 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
-var ARM_SIZE_SCALE = 0.065; // times windowWidth
+var ARM_SIZE_SCALE = 0.09; // times windowWidth
 
 /**
  * This class represents the arm (and hand) of the cat chef, who will pick up
@@ -28,7 +28,7 @@ class Arm {
    * Sets the destination position of this Arm so that it will begin to move.
    */
   setPos(newPos) {
-    this.destPos = newPos;
+    this.destPos = {x: newPos.x - this.width, y: newPos.y - this.height / 2};
   }
 
   /**
@@ -50,7 +50,7 @@ class Arm {
    */
   resize() {
     this.width = windowWidth * ARM_SIZE_SCALE;
-    this.height = windowWidth * ARM_SIZE_SCALE * 2;
+    this.height = windowWidth * ARM_SIZE_SCALE * 1.5;
   }
 
   /**

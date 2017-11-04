@@ -101,8 +101,7 @@ function Editor() {
       pot = new Pot({x : potXPos, y : potYPos});
       pot.steam.updateOrigin();
 
-      arm = new Arm({x: windowWidth * ARM_SIZE_SCALE, 
-        y: windowWidth * ARM_SIZE_SCALE});      
+      arm = new Arm({x: 0, y: 0});      
 
       // The first joint must be manually added as the insertJoint function assumes one already exists
       joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
