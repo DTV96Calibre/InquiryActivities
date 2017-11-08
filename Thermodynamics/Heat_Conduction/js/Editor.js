@@ -17,6 +17,8 @@ var VALID_ZONE_Y_FINAL = 200;  // pixels
 
 var HEIGHT_OF_SLIDER = 25;     // pixels
 
+var TEXT_SIZE_SCALE = 32;      // font weight
+
 var joints = [];
 var pot;
 var arm;
@@ -37,12 +39,19 @@ var infoBtn;
 var helpBtnActive = false;
 var infoBtnActive = false;
 
+// Indicates whether DOM elements and callback functions have been set
+var DOMElementsSet = false;
+
 // A box in which joints can be placed
 var validZone;
 
 // True when the user has clicked 'Finalize Handle'
 var doneBuildingPot;
 
+// The number of 'lives' (or tries) the user has left before Game Over
+var numLivesRemaining = 3;
+
+// A reference to this scene as an object to be referenced by external buttons
 var ref;
 
 /**
@@ -52,8 +61,10 @@ function Editor() {
     this.crosshair_pos = [0, 0];
 
     // Keep track of whether user can place joints or select joints
-    this.mode = 'placing'; // modes: placing, selecting
-    this.selectedJoint = null;
+    this.mode;
+
+    // Holds a reference to the part of the handle the cat will pick up
+    this.selectedJoint;
 
     ref = this;
 
@@ -62,8 +73,64 @@ function Editor() {
      * @return none
      */
     this.setup = function() {
+      this.mode = 'placing'; // modes: placing, selecting
+      this.selectedJoint = null;
+
       changeBackgroundImage("countertop");
 
+      // DOM elements only need to be stored once
+      if (!DOMElementsSet) {
+        this.setDOMElements();
+        DOMElementsSet = true;
+      }      
+
+      showElements(); // Show necessary elements
+      hideElements(); // Hide unnecessary elements
+
+      validZone = {x1: VALID_ZONE_X_START, x2: VALID_ZONE_X_FINAL, 
+        y1: VALID_ZONE_Y_START, y2: VALID_ZONE_Y_FINAL};
+
+      // Initialize scene elements
+      fill(51);
+      noStroke();
+      var potXPos = windowWidth * POT_X_OFFSET_SCALE;
+      var potYPos = windowHeight * POT_Y_OFFSET_SCALE;
+      pot = new Pot({x : potXPos, y : potYPos});
+      pot.steam.updateOrigin();
+
+      arm = new Arm({x: 0, y: 0});      
+
+      resetHandle();
+
+      // Tell sceneManager setup is finished before resizing canvas
+      this.sceneManager.scene.setupExecuted = true;
+
+      doneBuildingPot = false;
+
+      // NOTE: Requires setupExecuted override above to prevent infinite recursion
+      this.windowResized();
+    }
+
+    /**
+     * Removes all DOM elements created in this scene.
+     * @return none
+     */
+    this.tearDown = function() {
+    	controlPanel.hide();
+      helpBtn.hide();
+      infoBtn.hide();
+      helpBoxPopUp.hide();
+      infoBoxPopUp.hide();
+
+      // Set to false so setup() will be run again next time we load this scene
+      this.sceneManager.scene.setupExecuted = false;
+    }
+
+    /**
+     * Grabs DOM elements from the HTML page to be referenced by JS, and
+     * assigns callback functions to buttons and the slider.
+     */
+    this.setDOMElements = function() {
       // Setup DOM input elements
       sliderBox = $("#sliderBox");
       jointSizeSlider = $('#jointSizeSlider');
@@ -86,47 +153,6 @@ function Editor() {
       finishButton.on('click', finishHandle);
       resetButton.on('click', resetHandle);
       grabPotButton.on('click', grabPot);
-
-      showElements(); // Show necessary elements
-      hideElements(); // Hide unnecessary elements
-
-      validZone = {x1: VALID_ZONE_X_START, x2: VALID_ZONE_X_FINAL, 
-        y1: VALID_ZONE_Y_START, y2: VALID_ZONE_Y_FINAL};
-
-      // Initialize scene elements
-      fill(51);
-      noStroke();
-      var potXPos = windowWidth * POT_X_OFFSET_SCALE;
-      var potYPos = windowHeight * POT_Y_OFFSET_SCALE;
-      pot = new Pot({x : potXPos, y : potYPos});
-      pot.steam.updateOrigin();
-
-      arm = new Arm({x: 0, y: 0});      
-
-      // The first joint must be manually added as the insertJoint function assumes one already exists
-      joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
-      // This flag must be set for the root joint for temp calculations to work correctly
-      joints[0].isRoot = true;
-
-      // Tell sceneManager setup is finished before resizing canvas
-      this.sceneManager.scene.setupExecuted = true;
-
-      doneBuildingPot = false;
-
-      // NOTE: Requires setupExecuted override above to prevent infinite recursion
-      this.windowResized();
-    }
-
-    /**
-     * Removes all DOM elements created in this scene.
-     * @return none
-     */
-    this.tearDown = function(){
-    	controlPanel.hide();
-      helpBtn.hide();
-      infoBtn.hide();
-      helpBoxPopUp.hide();
-      infoBoxPopUp.hide();
     }
 
     /**
@@ -151,6 +177,9 @@ function Editor() {
       pot.draw();
       arm.draw();
       highlightNearestJoint();
+
+      // Render the remaining number of lives
+      this.drawNumLives();
 
       // Draws the shadow of a joint if the user's mouse is positioned correctly
       if (inValidZone(mouseX, mouseY)) {
@@ -216,6 +245,17 @@ function Editor() {
       var jointPos = this.selectedJoint.getGlobalPos();
       arm.setPos({x: jointPos.x, y: jointPos.y - windowWidth * ARM_SIZE_SCALE});
     }
+
+    /**
+     * Renders the user's current number of lives as text in the upper-right 
+     * region of the screen.
+     */
+    this.drawNumLives = function() {
+      var fontSize = windowWidth / TEXT_SIZE_SCALE;
+      textSize(fontSize);
+      var t = "Lives: " + numLivesRemaining;
+      text(t, windowWidth - 4 * fontSize, 1.5 * fontSize);
+    }
 }
 
 /***************************** Event handlers *********************************/
@@ -255,7 +295,14 @@ grabPot = function() {
     ref.sceneManager.showScene(Win);
   }
   else {
-    ref.sceneManager.showScene(Lose);
+    numLivesRemaining--;
+
+    // If no lives left, the player loses. Else they get to try again
+    if (numLivesRemaining == 0) {
+      ref.sceneManager.showScene(Lose);
+    } else {
+      ref.sceneManager.showScene(TryAgain);
+    }
   }
 }
 
@@ -326,6 +373,8 @@ showElements = function() {
   infoBoxPopUp.show();
   helpBtn.show();
   infoBtn.show();
+  resetButton.show();
+  finishButton.show();
 
   // Display help text immediately
   toggleHelp();

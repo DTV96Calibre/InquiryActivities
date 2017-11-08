@@ -1,13 +1,14 @@
 /*
- * File: Lose.js
+ * File: TryAgain.js
  * Authors: Daniel Vasquez & Brooke Bullek (2017)
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
 /**
- * Constructs the 'losing' scene.
+ * Constructs the scene that prompts the user to try again after burning the
+ * cat or creating a poorly designed pot.
  */
-function Lose() {
+function TryAgain() {
     
     // The message displayed while this scene is active
   this.text;
@@ -16,14 +17,14 @@ function Lose() {
   this.cat;
 
   /**
-   * Initializes the Lose scene by hiding unnecessary CSS elements and setting
-   * the final text.
+   * Initializes the Try Again scene by hiding unnecessary CSS elements 
+   * and setting the final text.
    * @return none
    */
   this.setup = function() {
     changeBackgroundImage("nothing"); // Remove background img
 
-    this.text = "The cat died a gruesome death";
+    this.text = "try again";
     this.cat = new Cat(isAlive = false);
     
     // Hide steam bubbles
@@ -71,5 +72,18 @@ function Lose() {
     textAlign(CENTER);
     text(this.text, -200, 0, 400, 600);
     translate(-1 * (width / 2), -1 * (height / 2 + 100));
+  }
+
+  /**
+   * Scene manager function that fires whenever the user clicks the mouse 
+   * while this scene is active.
+   * @return none
+   */
+  this.mouseClicked = function() {
+    // Avoid advancing too quickly back to the Editor screen
+    if (this.sceneManager.scene.setupExecuted) {
+      this.sceneManager.scene.setupExecuted = false;
+      this.sceneManager.showScene(Editor);
+    }
   }
 }

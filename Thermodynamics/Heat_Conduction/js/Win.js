@@ -66,6 +66,7 @@ function Win() {
    */
   this.drawText = function() {
     fill(50);
+    textSize(12);
     translate(width / 2, height / 2 + 100);
     textAlign(CENTER);
     text(this.text, -200, 0, 400, 600);
