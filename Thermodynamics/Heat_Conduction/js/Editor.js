@@ -291,6 +291,8 @@ grabPot = function() {
   var temp = ref.selectedJoint.getTemp();
   ref.tearDown();
 
+  print("Grabbing pot. Temp was " + temp + ", threshold to burn cat is " + STEEL_BURN_SKIN_TEMP);
+
   if (temp < STEEL_BURN_SKIN_TEMP) {
     ref.sceneManager.showScene(Win);
   }
