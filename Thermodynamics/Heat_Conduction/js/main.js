@@ -6,6 +6,7 @@
 
 var CAT_ALIVE_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/cat-alive.png?raw=true";
 var CAT_DEAD_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/cat-dead.png?raw=true";
+var CAT_FAINTED_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/cat-fainted.png?raw=true";
 var KITCHEN_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/kitchen-bg.jpg?raw=true";
 var STOVETOP_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/stovetop-bg.jpg?raw=true";
 var ARM_URL = "https://github.com/DTV96Calibre/InquiryActivities/blob/master/Thermodynamics/Heat_Conduction/images/arm.png?raw=true";
@@ -39,6 +40,7 @@ function initImages() {
   images = {
     cat_alive: createImg(CAT_ALIVE_URL),
     cat_dead: createImg(CAT_DEAD_URL),
+    cat_fainted: createImg(CAT_FAINTED_URL),
     arm: createImg(ARM_URL)
   }
 

@@ -50,7 +50,7 @@ class Arm {
    */
   resize() {
     this.width = windowWidth * ARM_SIZE_SCALE;
-    this.height = windowWidth * ARM_SIZE_SCALE * 1.45;
+    this.height = windowWidth * ARM_SIZE_SCALE * 1.25;
   }
 
   /**

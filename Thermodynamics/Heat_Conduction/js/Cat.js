@@ -14,7 +14,7 @@ class Cat {
 
   /**
    * Constructs a Cat object.
-   * @param  {Boolean} isAlive: true if the cat should be drawn with eyes open
+   * @param {Boolean} isAlive: true if the cat should be drawn with eyes open
    * @return none
    */
   constructor(isAlive) {
