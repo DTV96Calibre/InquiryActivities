@@ -25,7 +25,9 @@ function TryAgain() {
     changeBackgroundImage("nothing"); // Remove background img
 
     this.text = "try again";
+    
     this.cat = new Cat(isAlive = false);
+    this.cat.img = images['cat_fainted'];
     
     // Hide steam bubbles
     $("#steam-one").hide();
