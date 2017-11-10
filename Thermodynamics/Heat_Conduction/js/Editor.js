@@ -66,6 +66,15 @@ function Editor() {
     // Holds a reference to the part of the handle the cat will pick up
     this.selectedJoint;
 
+    // Progression of the burned paw/dropped pot animation (float from 0 to 1)
+    this.animationProgress;
+
+    // True when the cat has burned its paw and we're about to transition to the next scene
+    this.catIsBurning;
+
+    // True when the cat has dropped the pot and we're about to transition to the next scene
+    this.catDroppedPot;
+
     ref = this;
 
     /**
@@ -82,13 +91,18 @@ function Editor() {
       if (!DOMElementsSet) {
         this.setDOMElements();
         DOMElementsSet = true;
-      }      
+      }
 
       showElements(); // Show necessary elements
       hideElements(); // Hide unnecessary elements
 
       validZone = {x1: VALID_ZONE_X_START, x2: VALID_ZONE_X_FINAL, 
         y1: VALID_ZONE_Y_START, y2: VALID_ZONE_Y_FINAL};
+
+      // Variables holding the state of the transition to the Lose state
+      this.catIsBurning = false;
+      this.catDroppedPot = false;
+      this.animationProgress = 0;
 
       // Initialize scene elements
       fill(51);
@@ -181,6 +195,9 @@ function Editor() {
       // Render the remaining number of lives
       this.drawNumLives();
 
+      // Draw the 'losing' animation (burned paw or dropped pot), if applicable
+      this.drawLosingAnimation();
+
       // Draws the shadow of a joint if the user's mouse is positioned correctly
       if (inValidZone(mouseX, mouseY)) {
         drawCrosshair();
@@ -256,6 +273,61 @@ function Editor() {
       var t = "Lives: " + numLivesRemaining;
       text(t, windowWidth - 4 * fontSize, 1.5 * fontSize);
     }
+
+    /**
+     * The cat loses a life, and the user is presented with either a losing 
+     * screen or a screen that says 'try again' depending on how many lives
+     * remain.
+     */
+    this.loseOneLife = function() {
+      numLivesRemaining--;
+      this.tearDown();
+      // If no lives left, the player loses. Else they get to try again
+      if (numLivesRemaining == 0) {
+        ref.sceneManager.showScene(Lose);
+      } else {
+        ref.sceneManager.showScene(TryAgain);
+      }
+    }
+
+    /**
+     * If the user has been unsuccessful in designing the pot (either by having
+     * the cat touch a joint that is too hot, or having the cat pick up a 
+     * joint that can't support its weight), steps through the appropriate
+     * animation.
+     * @return none
+     */
+    this.drawLosingAnimation = function() {
+      // Transition to the Lose scene if animation has finished
+      if (this.animationProgress >= 1) {
+        this.loseOneLife();
+      }
+
+      // Else animation isn't done. Draw the burning paw animation?
+      if (this.catIsBurning) {
+        this.drawBurnedPaw(1.0 - this.animationProgress);
+        this.animationProgress += 0.015;
+      }
+      // Or possibly draw the shaking paw animation
+      else if (this.catDroppedPot) {
+        //
+      }
+    }
+
+    /**
+     * Draws a 'burn' spot (a red ellipse that gradually fades to indicate that
+     * cat's paw has been scorched).
+     * @param {num} alpha: A value from 0 to 1.0
+     * @return none
+     */
+    this.drawBurnedPaw = function(alpha) {
+      c = color('hsba(17, 100%, 78%, ' + alpha + ')');
+      fill(c); // Use updated 'c' as fill color
+      var ellipseSize = (arm.width / 2) * (this.animationProgress);
+      var ellipseX = arm.pos.x + arm.width / 1.4;
+      var ellipseY = arm.pos.y + arm.height / 1.3;
+      ellipse(ellipseX, ellipseY, ellipseSize, ellipseSize);  // Draw ellipse
+    }
 }
 
 /***************************** Event handlers *********************************/
@@ -289,22 +361,15 @@ grabPot = function() {
   }
 
   var temp = ref.selectedJoint.getTemp();
-  ref.tearDown();
 
   print("Grabbing pot. Temp was " + temp + ", threshold to burn cat is " + STEEL_BURN_SKIN_TEMP);
 
   if (temp < STEEL_BURN_SKIN_TEMP) {
+    ref.tearDown();
     ref.sceneManager.showScene(Win);
   }
   else {
-    numLivesRemaining--;
-
-    // If no lives left, the player loses. Else they get to try again
-    if (numLivesRemaining == 0) {
-      ref.sceneManager.showScene(Lose);
-    } else {
-      ref.sceneManager.showScene(TryAgain);
-    }
+    ref.catIsBurning = true;
   }
 }
 
