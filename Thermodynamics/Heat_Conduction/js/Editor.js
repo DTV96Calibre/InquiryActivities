@@ -299,7 +299,7 @@ function Editor() {
      */
     this.drawLosingAnimation = function() {
       // Transition to the Lose scene if animation has finished
-      if (this.animationProgress >= 1) {
+      if (this.animationProgress >= 0.97) {
         this.loseOneLife();
       }
 
