@@ -4,7 +4,7 @@
  *          Under the supervision of Margot Vigeant, Bucknell University
  */
 
-function drawCrosshair(){
+function drawCrosshair() {
   fill(51, 51, 51, 127);
   stroke(255);
   strokeWeight(1);

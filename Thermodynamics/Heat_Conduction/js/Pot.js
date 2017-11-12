@@ -14,7 +14,7 @@ var WEIGHT_1_QUART_WATER_IN_POUNDS = 2;
 class Pot{
   constructor(pos) {
     Pot.weightOfWater = QUARTS_WATER_IN_POT * WEIGHT_1_QUART_WATER_IN_POUNDS;
-    
+
     this.pos = pos;
     this.metalColor = METAL_COLOR;
     this.insideColor = INSIDE_COLOR;
@@ -47,6 +47,7 @@ class Pot{
       fill(this.waterColor);
       rect(this.pos.x + this.potThickness, this.pos.y + this.waterLevelFromTop, this.potWidth - this.potThickness * 2,
         this.potHeight - this.potThickness - this.waterLevelFromTop);
+      fill(this.insideColor);
     }
   }
 
