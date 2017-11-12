@@ -19,7 +19,7 @@ class Joint {
    * @param  {next} next: The next Joint linked to this one
    * @return none
    */
-  constructor(radius, prev, pos){
+  constructor(radius, prev, pos) {
     this.radius = radius;
     this.prev = prev;
     this.pos = pos; // NOTE: This is relative to the the global pot.anchorPoint object of form {x:_, y:_}
@@ -45,7 +45,7 @@ class Joint {
    * @return {array} an x and y coordinate
    */
   getGlobalPos() {
-    return {x:this.pos.x + pot.anchorPoint.x, y:this.pos.y + pot.anchorPoint.y};
+    return {x: this.pos.x + pot.anchorPoint.x, y: this.pos.y + pot.anchorPoint.y};
   }
 
   /**
@@ -53,10 +53,34 @@ class Joint {
    * @return {int} the distance in pixels
    */
   findDistanceFromPrev() {
-    if (this.isRoot){
+    if (this.isRoot) {
       return 0;
     }
     return sqrt(sq(this.pos.x - this.prev.pos.x) + sq(this.pos.y - this.prev.pos.y));
+  }
+
+  /**
+   * Returns the sin of the angle formed by this joint and the base of the pot.
+   * @return {int} sin (angle)
+   */
+  findSineOfAngle() {
+    var adjacent = this.pos.x;
+    var opposite = this.pos.y;
+    var hypotenuse = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
+    // Find sine of angle formed by this triangle
+    return Math.abs(opposite / hypotenuse);
+  }
+
+  /**
+   * Returns the torque of applying a force to this joint as the cat attempts
+   * to pick up the pot.
+   * @return {int} the torque in Newton-meters
+   */
+  findTorque() {
+    var r = Math.abs(this.pos.x);
+    var F = Pot.weightOfWater * 9.81;
+    var sinTheta = this.findSineOfAngle();
+    return r * F * sinTheta;
   }
 
   /**

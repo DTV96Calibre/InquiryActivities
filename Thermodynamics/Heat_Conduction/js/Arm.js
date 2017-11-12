@@ -32,6 +32,30 @@ class Arm {
   }
 
   /**
+   * Returns the sin of the angle formed by the arm and the base of the pot.
+   * @return {int} sin (angle)
+   */
+  findSineOfAngle() {
+    var adjacent = this.pos.x;
+    var opposite = this.pos.y;
+    var hypotenuse = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
+    // Find sine of angle formed by this triangle
+    return Math.abs(opposite / hypotenuse);
+  }
+
+  /**
+   * Returns the torque of applying a force to this joint as the cat attempts
+   * to pick up the pot.
+   * @return {int} the torque in Newton-meters
+   */
+  findTorque() {
+    var r = Math.abs(this.pos.x);
+    var F = 8 * 9.81;
+    var sinTheta = this.findSineOfAngle();
+    return r * F * sinTheta;
+  }
+
+  /**
    * Draws the arm. This function is called once per frame while the arm is
    * onscreen.
    * @return none

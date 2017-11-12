@@ -310,7 +310,8 @@ function Editor() {
       }
       // Or possibly draw the shaking paw animation
       else if (this.catDroppedPot) {
-        //
+        this.drawSweatDrop(this.animationProgress);
+        this.animationProgress += 0.02;
       }
     }
 
@@ -326,7 +327,20 @@ function Editor() {
       var ellipseSize = (arm.width / 2) * (this.animationProgress);
       var ellipseX = arm.pos.x + arm.width / 1.4;
       var ellipseY = arm.pos.y + arm.height / 1.3;
-      ellipse(ellipseX, ellipseY, ellipseSize, ellipseSize);  // Draw ellipse
+      ellipse(ellipseX, ellipseY, ellipseSize, ellipseSize); // Draw ellipse
+    }
+
+    /**
+     * Draws a drop of sweat falling down the cat's arm as he struggles to
+     * pick up the pot.
+     * @param  {num} progress: A value from 0 to 1.0
+     * @return none
+     */
+    this.drawSweatDrop = function(progress) {
+      var imgWidth = arm.width / 7;
+      var imgXPos = arm.pos.x + arm.width / 4;
+      var imgYPos = arm.pos.y * 1.2 + arm.height / 3 * progress;
+      image(images['sweat'], imgXPos, imgYPos, imgWidth, imgWidth * 1.7);
     }
 }
 
@@ -361,15 +375,20 @@ grabPot = function() {
   }
 
   var temp = ref.selectedJoint.getTemp();
+  var canLiftPot = (ref.selectedJoint.findTorque() < arm.findTorque())
+    && (ref.selectedJoint != joints[joints.length - 1]);
 
   print("Grabbing pot. Temp was " + temp + ", threshold to burn cat is " + STEEL_BURN_SKIN_TEMP);
 
-  if (temp < STEEL_BURN_SKIN_TEMP) {
-    ref.tearDown();
-    ref.sceneManager.showScene(Win);
+  if (temp >= STEEL_BURN_SKIN_TEMP) {
+    ref.catIsBurning = true;
+  }
+  else if (!canLiftPot) {
+    ref.catDroppedPot = true;
   }
   else {
-    ref.catIsBurning = true;
+    ref.tearDown();
+    ref.sceneManager.showScene(Win);
   }
 }
 

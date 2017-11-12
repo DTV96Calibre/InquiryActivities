@@ -8,8 +8,13 @@ var METAL_COLOR = 52;
 var INSIDE_COLOR = 128;
 var WATER_COLOR = 'rgba(63, 191, 189, 0.62)';
 
+var QUARTS_WATER_IN_POT = 10;
+var WEIGHT_1_QUART_WATER_IN_POUNDS = 2;
+
 class Pot{
-  constructor(pos){
+  constructor(pos) {
+    Pot.weightOfWater = QUARTS_WATER_IN_POT * WEIGHT_1_QUART_WATER_IN_POUNDS;
+    
     this.pos = pos;
     this.metalColor = METAL_COLOR;
     this.insideColor = INSIDE_COLOR;
@@ -20,21 +25,22 @@ class Pot{
     this.anchorPointDiameter = 75;//this.potHeight / 3.5;
     this.steam = new Steam();
     this.hasWater = false;
-
+    
     this.waterLevelFromTop = 0.05 * windowHeight;
     // Calculate position of anchorpoint relative to pot pos
     this.anchorPoint = {x:0, y:0};
     this.locateAnchorPoint();
   }
 
-  draw(){
+  draw() {
   	noStroke();
   	strokeWeight(3);
     fill(this.metalColor);
   	rect(this.pos.x,this.pos.y,this.potWidth,this.potHeight); // Pot body
   	ellipse(this.anchorPoint.x,this.anchorPoint.y, this.anchorPointDiameter); // Handle joints
     fill(this.insideColor);
-    rect(this.pos.x+this.potThickness, this.pos.y, this.potWidth - this.potThickness*2, this.potHeight-this.potThickness); // Inside of pot
+    rect(this.pos.x + this.potThickness, this.pos.y, this.potWidth - 
+      this.potThickness * 2, this.potHeight - this.potThickness); // Inside of pot
 
     // Draw water inside pot
     if (this.hasWater) {
