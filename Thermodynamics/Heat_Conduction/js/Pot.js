@@ -14,6 +14,7 @@ var WEIGHT_1_QUART_WATER_IN_POUNDS = 2;
 class Pot{
   constructor(pos) {
     Pot.weightOfWater = QUARTS_WATER_IN_POT * WEIGHT_1_QUART_WATER_IN_POUNDS;
+    Pot.width = 300; // Width for mathematical calculations
 
     this.pos = pos;
     this.metalColor = METAL_COLOR;

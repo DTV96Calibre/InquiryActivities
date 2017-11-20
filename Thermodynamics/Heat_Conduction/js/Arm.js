@@ -36,7 +36,7 @@ class Arm {
    * @return {int} sin (angle)
    */
   findSineOfAngle() {
-    var adjacent = this.pos.x;
+    var adjacent = this.pos.x - Pot.width / 2;
     var opposite = this.pos.y;
     var hypotenuse = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
     // Find sine of angle formed by this triangle
