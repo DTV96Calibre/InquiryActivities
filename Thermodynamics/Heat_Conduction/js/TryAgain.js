@@ -24,7 +24,7 @@ function TryAgain() {
   this.setup = function() {
     changeBackgroundImage("nothing"); // Remove background img
 
-    this.text = "try again";
+    this.text = "Try again";
     
     this.cat = new Cat(isAlive = false);
     this.cat.img = images['cat_fainted'];
@@ -64,10 +64,25 @@ function TryAgain() {
   }
 
   /**
+   * Sets the contents of the onscreen text based on whether the cat was burned
+   * or wasn't strong enough to lift the pot.
+   * @return none
+   */
+  this.setText = function() {
+    if (ref.catIsBurning) {
+      this.text = "The pot was too hot! Try again!";
+    } else if (ref.catDroppedPot) {
+      this.text = "The cat isn't strong enough to lift the pot from there! " +
+      "Try again!";
+    }
+  }
+
+  /**
    * Draws the text onscreen.
    * @return none
    */
   this.drawText = function() {
+    this.setText(); // Set text based on cause of death
     fill(50);
     textSize(12);
     translate(width / 2, height / 2 + 100);
