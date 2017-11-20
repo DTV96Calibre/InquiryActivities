@@ -78,6 +78,9 @@ function Editor() {
     // The array of cats to render when showing the remaining number of lives
     this.catLifeIcons = [new Cat(true, true), new Cat(true, true), new Cat(true, true)];
 
+    // The text reading "Lives Remaining"
+    this.remainingLivesText = images["lives_text"];
+
     ref = this;
 
     /**
@@ -277,11 +280,9 @@ function Editor() {
      * region of the screen.
      */
     this.drawNumLives = function() {
-      var fontSize = windowWidth / TEXT_SIZE_SCALE;
-      textSize(fontSize);
-      fill(color(255, 255, 255));
-      var t = "LIVES REMAINING";
-      text(t, windowWidth * 0.875, this.catLifeIcons[0].width * 2);
+      // Draw "Lives Remaining" text
+      image(this.remainingLivesText, windowWidth * 0.825, 
+        this.catLifeIcons[0].width * 1.5, 200, 70);
 
       // Draw array of cat icons representing remaining number of lives
       for (var i = 0; i < this.catLifeIcons.length; i++) {
