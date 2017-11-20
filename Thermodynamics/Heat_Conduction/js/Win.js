@@ -24,7 +24,7 @@ function Win() {
     changeBackgroundImage("nothing"); // Remove background img
 
     this.text = "You saved this cat's bacon";
-    this.cat = new Cat(isAlive = true);
+    this.cat = new Cat(isAlive = true, isIcon = false);
     
     // Hide steam bubbles
     $("#steam-one").hide();

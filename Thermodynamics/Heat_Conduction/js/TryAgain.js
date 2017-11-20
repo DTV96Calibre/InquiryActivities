@@ -26,7 +26,7 @@ function TryAgain() {
 
     this.text = "Try again";
     
-    this.cat = new Cat(isAlive = false);
+    this.cat = new Cat(isAlive = false, isIcon = false);
     this.cat.img = images['cat_fainted'];
     
     // Hide steam bubbles

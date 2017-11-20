@@ -24,7 +24,7 @@ function Lose() {
     changeBackgroundImage("nothing"); // Remove background img
 
     this.text = "The cat died a gruesome death";
-    this.cat = new Cat(isAlive = false);
+    this.cat = new Cat(isAlive = false, isIcon = false);
     
     // Hide steam bubbles
     $("#steam-one").hide();

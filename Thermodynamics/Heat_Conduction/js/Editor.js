@@ -17,7 +17,7 @@ var VALID_ZONE_Y_FINAL = 200;  // pixels
 
 var HEIGHT_OF_SLIDER = 25;     // pixels
 
-var TEXT_SIZE_SCALE = 32;      // font weight
+var TEXT_SIZE_SCALE = 128;      // font weight
 
 var joints = [];
 var pot;
@@ -74,6 +74,9 @@ function Editor() {
 
     // True when the cat has dropped the pot and we're about to transition to the next scene
     this.catDroppedPot;
+
+    // The array of cats to render when showing the remaining number of lives
+    this.catLifeIcons = [new Cat(true, true), new Cat(true, true), new Cat(true, true)];
 
     ref = this;
 
@@ -218,6 +221,12 @@ function Editor() {
 
       arm.resize();
 
+      // Set horizontal spacing between "lives remaining" cat icons
+      var offset = windowWidth * 0.05;
+      for (var i = 0; i < this.catLifeIcons.length; i++) {
+        this.catLifeIcons[i].xOffset = windowWidth * 0.8 + offset * i;
+      }
+
       // Define the valid zone
       validZone.x2 = pot.anchorPoint.x;
       validZone.x1 = validZone.x2 - pot.potWidth;
@@ -270,8 +279,14 @@ function Editor() {
     this.drawNumLives = function() {
       var fontSize = windowWidth / TEXT_SIZE_SCALE;
       textSize(fontSize);
-      var t = "Lives: " + numLivesRemaining;
-      text(t, windowWidth - 4 * fontSize, 1.5 * fontSize);
+      fill(color(255, 255, 255));
+      var t = "LIVES REMAINING";
+      text(t, windowWidth * 0.875, this.catLifeIcons[0].width * 2);
+
+      // Draw array of cat icons representing remaining number of lives
+      for (var i = 0; i < this.catLifeIcons.length; i++) {
+        this.catLifeIcons[i].draw();
+      }
     }
 
     /**
@@ -281,7 +296,10 @@ function Editor() {
      */
     this.loseOneLife = function() {
       numLivesRemaining--;
+      this.catLifeIcons[numLivesRemaining].setAliveStatus(false);
+
       this.tearDown();
+
       // If no lives left, the player loses. Else they get to try again
       if (numLivesRemaining == 0) {
         ref.sceneManager.showScene(Lose);

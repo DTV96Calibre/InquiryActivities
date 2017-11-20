@@ -17,13 +17,16 @@ class Cat {
    * @param {Boolean} isAlive: true if the cat should be drawn with eyes open
    * @return none
    */
-  constructor(isAlive) {
+  constructor(isAlive, isIcon) {
     // Dictates whether the cat's eyes are open (alive) or closed (not alive)
     if (isAlive) {
       this.img = images['cat_alive'];
     } else {
       this.img = images['cat_dead'];
     }
+
+    // Dictates the relative sizing of the cat (full-sized or icon)
+    this.isIcon = isIcon;
 
     // Set initial dimensions
     this.resize();
@@ -34,10 +37,32 @@ class Cat {
    * @return none
    */
   resize() {
-    this.xOffset = windowWidth * CAT_X_OFFSET_SCALING;
-    this.yOffset = windowHeight * CAT_Y_OFFSET_SCALING;
-    this.width = windowWidth * CAT_WIDTH_SCALING;
-    this.height = windowWidth * CAT_HEIGHT_SCALING;
+    // The full-sized cat has different dimensions than the mini (icon) cat
+    if (!this.isIcon) {
+      this.xOffset = windowWidth * CAT_X_OFFSET_SCALING;
+      this.yOffset = windowHeight * CAT_Y_OFFSET_SCALING;
+      this.width = windowWidth * CAT_WIDTH_SCALING;
+      this.height = windowWidth * CAT_HEIGHT_SCALING;
+    } else {
+      // x-offset is set dynamically for arrays of cat icons
+      this.yOffset = windowHeight * 0.05;
+      this.width = windowWidth * CAT_WIDTH_SCALING / 3;
+      this.height = windowWidth * CAT_HEIGHT_SCALING / 3;
+    }
+  }
+
+  /**
+   * Changes the status of the cat as alive or dead.
+   * @param {Boolean} isAlive: True if the cat's eyes are open, false if not
+   * @return none
+   */
+  setAliveStatus(isAlive) {
+    this.isAlive = isAlive;
+    if (isAlive) {
+      this.img = images['cat_alive'];
+    } else {
+      this.img = images['cat_dead'];
+    }
   }
 
   /**
