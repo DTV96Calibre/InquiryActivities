@@ -227,6 +227,7 @@ function Editor() {
       // Set horizontal spacing between "lives remaining" cat icons
       var offset = windowWidth * 0.05;
       for (var i = 0; i < this.catLifeIcons.length; i++) {
+        this.catLifeIcons[i].resize();
         this.catLifeIcons[i].xOffset = windowWidth * 0.8 + offset * i;
       }
 
