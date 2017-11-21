@@ -9,6 +9,7 @@ var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
 var POT_X_OFFSET_SCALE = 0.55; // times windowWidth
 var POT_Y_OFFSET_SCALE = 0.5;  // times windowHeight
 var POT_HEIGHT_SCALE = 0.34;   // times windowHeight
+var TEXT_SIZE_SCALE = 0.1;    // times windowWidth
 
 var VALID_ZONE_X_START = 100;  // pixels
 var VALID_ZONE_X_FINAL = 200;  // pixels
@@ -16,8 +17,6 @@ var VALID_ZONE_Y_START = 100;  // pixels
 var VALID_ZONE_Y_FINAL = 200;  // pixels
 
 var HEIGHT_OF_SLIDER = 25;     // pixels
-
-var TEXT_SIZE_SCALE = 128;      // font weight
 
 var joints = [];
 var pot;
@@ -282,8 +281,10 @@ function Editor() {
      */
     this.drawNumLives = function() {
       // Draw "Lives Remaining" text
+      var textWidth = windowWidth * TEXT_SIZE_SCALE;
+      var textHeight = textWidth / 6;
       image(this.remainingLivesText, windowWidth * 0.825, 
-        this.catLifeIcons[0].width * 1.5, 200, 70);
+        this.catLifeIcons[0].height * 1.6, textWidth, textHeight);
 
       // Draw array of cat icons representing remaining number of lives
       for (var i = 0; i < this.catLifeIcons.length; i++) {
