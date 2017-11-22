@@ -18,8 +18,10 @@ class Cat {
    * @return none
    */
   constructor(isAlive, isIcon) {
+    this.isAlive = isAlive;
+
     // Dictates whether the cat's eyes are open (alive) or closed (not alive)
-    if (isAlive) {
+    if (this.isAlive) {
       this.img = images['cat_alive'];
     } else {
       this.img = images['cat_dead'];
@@ -27,6 +29,9 @@ class Cat {
 
     // Dictates the relative sizing of the cat (full-sized or icon)
     this.isIcon = isIcon;
+
+    // Set image transparency if this is an icon
+    this.setAliveStatus(this.isAlive);
 
     // Set initial dimensions
     this.resize();
@@ -58,10 +63,11 @@ class Cat {
    */
   setAliveStatus(isAlive) {
     this.isAlive = isAlive;
-    if (isAlive) {
-      this.img = images['cat_alive'];
-    } else {
-      this.img = images['cat_dead'];
+    if (isAlive && this.isIcon) {
+      this.img = images['cat_alive_transparent'];
+    } 
+    else if (!isAlive && this.isIcon) {
+      this.img = images['cat_dead_transparent'];
     }
   }
 

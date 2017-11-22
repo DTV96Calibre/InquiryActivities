@@ -286,6 +286,7 @@ function Editor() {
       image(this.remainingLivesText, windowWidth * 0.825, 
         this.catLifeIcons[0].height * 1.6, textWidth, textHeight);
 
+      tint(255, 127);
       // Draw array of cat icons representing remaining number of lives
       for (var i = 0; i < this.catLifeIcons.length; i++) {
         this.catLifeIcons[i].draw();
