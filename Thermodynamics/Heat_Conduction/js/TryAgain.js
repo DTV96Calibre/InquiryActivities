@@ -70,11 +70,13 @@ function TryAgain() {
    */
   this.setText = function() {
     if (ref.catIsBurning) {
-      this.text = "The pot was too hot! Try again!";
-    } else if (ref.catDroppedPot) {
-      this.text = "The cat isn't strong enough to lift the pot from there! " +
-      "Try again!";
+      this.text = "The pot was too hot!";
+    } 
+    else if (ref.catDroppedPot) {
+      this.text = "The cat isn't strong enough to lift the pot from there!";
     }
+
+    this.text += " Click anywhere to try again."
   }
 
   /**
