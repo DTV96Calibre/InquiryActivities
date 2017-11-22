@@ -13,8 +13,8 @@ function drawCrosshair() {
   noStroke();
 }
 
-function drawCrosshairPreview(){
-  fill(METAL_COLOR);
+function drawCrosshairPreview() {
+  fill(Pot.METAL_COLOR);
   stroke(255);
   strokeWeight(1);
   var xPos = 0.2 * windowWidth;

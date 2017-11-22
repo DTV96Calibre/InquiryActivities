@@ -6,10 +6,7 @@
 
 var STEEL_BURN_SKIN_TEMP = 50; // TODO: This is a placeholder value in C
 
-var POT_X_OFFSET_SCALE = 0.55; // times windowWidth
-var POT_Y_OFFSET_SCALE = 0.5;  // times windowHeight
-var POT_HEIGHT_SCALE = 0.34;   // times windowHeight
-var TEXT_SIZE_SCALE = 0.1;    // times windowWidth
+var TEXT_SIZE_SCALE = 0.1;     // times windowWidth
 
 var VALID_ZONE_X_START = 100;  // pixels
 var VALID_ZONE_X_FINAL = 200;  // pixels
@@ -112,8 +109,8 @@ function Editor() {
       // Initialize scene elements
       fill(51);
       noStroke();
-      var potXPos = windowWidth * POT_X_OFFSET_SCALE;
-      var potYPos = windowHeight * POT_Y_OFFSET_SCALE;
+      var potXPos = windowWidth * Pot.X_OFFSET_SCALE;
+      var potYPos = windowHeight * Pot.Y_OFFSET_SCALE;
       pot = new Pot({x : potXPos, y : potYPos});
       pot.steam.updateOrigin();
 
@@ -214,13 +211,7 @@ function Editor() {
      * @return none
      */
     this.windowResized = function() {
-      pot.pos.x = windowWidth * POT_X_OFFSET_SCALE;
-      pot.pos.y = windowHeight * POT_Y_OFFSET_SCALE;
-      pot.potHeight = windowHeight * POT_HEIGHT_SCALE;
-      pot.potWidth = pot.potHeight;
-      pot.anchorPointDiameter = 75;
-      pot.locateAnchorPoint();
-
+      pot.resize();
       arm.resize();
 
       // Set horizontal spacing between "lives remaining" cat icons
