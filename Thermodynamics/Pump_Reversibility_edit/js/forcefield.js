@@ -24,7 +24,7 @@ b2ParticleSystem.prototype.createForceField = function createForceField(x1, x2, 
 	this.forceFields.push(forceField);
 }
 
-b2ParticleSystem.prototype.applyForceFields = function appleForceFields(){
+b2ParticleSystem.prototype.applyForceFields = function applyForceFields(){
 	vbuffer = this.GetVelocityBuffer();
 	pbuffer = this.GetPositionBuffer();
 	for (i = 0; i < this.forceFields.length; i++){
@@ -41,3 +41,23 @@ b2ParticleSystem.prototype.applyForceFields = function appleForceFields(){
 		}
 	}
 }
+
+b2ParticleSystem.prototype.startForceFields = function startForceFields(ps){
+    /*task.run({
+        arguments: [ps],
+        transferables: [],
+        function: async function (ps) {
+            // do stuff to the buffer
+            ps.applyForceFields();
+            await sleep(17);
+        }
+    });
+    */
+    console.log(this);
+    setInterval(this.applyForceFields.bind(this),16);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
