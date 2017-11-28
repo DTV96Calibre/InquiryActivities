@@ -64,7 +64,9 @@ function TestLiquidTimer() {
   constructLowerPipe();
   constructUpperPipe();
   constructTank2Box();
-
+  
+  generateForceFields();
+  world.particleSystems[0].startForceFields();
   // Remove outer walls
   world.DestroyBody(world.bodies[1]);
 
