@@ -64,7 +64,7 @@ function TestLiquidTimer() {
   constructLowerPipe();
   constructUpperPipe();
   constructTank2Box();
-  
+
   generateForceFields();
   world.particleSystems[0].startForceFields();
   // Remove outer walls
@@ -226,11 +226,11 @@ function constructTank2Box() {
 function generateForceFields(){
   world.particleSystems[0].initializeForceFieldArray();
   // Create forcefield for short vertical pipe coming from tank 1
-  world.particleSystems[0].createForceField(tank1OpeningLeftPos, tank1OpeningRightPos, lowerPipeTopPos, tank1BottomPos, 0, -10);
+  world.particleSystems[0].createForceField(tank1OpeningLeftPos, tank1OpeningRightPos, lowerPipeTopPos, tank1BottomPos, 0, -0.1);
   // Create forcefield for horizontal pipe
-  world.particleSystems[0].createForceField(tank1OpeningLeftPos, upperPipeRightPos, lowerPipeBottomPos2, lowerPipeTopPos, 10, 0);
+  world.particleSystems[0].createForceField(tank1OpeningLeftPos, upperPipeRightPos, lowerPipeBottomPos2, lowerPipeTopPos, 0.1, 0);
   // Create forcefield for long vertical connecting to tank 2
-  world.particleSystems[0].createForceField(upperPipeLeftPos, upperPipeRightPos, lowerPipeBottomPos2, upperPipeTopPos, 0, 10);
+  world.particleSystems[0].createForceField(upperPipeLeftPos, upperPipeRightPos, lowerPipeBottomPos2, upperPipeTopPos, 0, 0.1);
   };
 
 function inverseForceFields(forceFields){
