@@ -3,7 +3,7 @@
 
 <!--
   File: pump-reversibility.html
-  Purpose: 
+  Purpose:
   Author: Emily Ehrenberger (April 2012)
       Under the supervision of Margot Vigeant, Bucknell University
   (c) Margot Vigeant 2012
@@ -39,14 +39,14 @@
 
     <script type="text/javascript" src="js/pumpscript.js"></script>
   </head>
-  
+
   <body>
       <noscript><p align="center"><br /><br />JavaScript must be enabled for this application to run correctly. Please enable JavaScript in your browser in order to fully enjoy this page.</p><br /><br /><br /><br /></noscript>
-    
+
     <h1 align="center">Pump Reversibility Activity</h1>
-    
+
     <div class="container">
-    
+
     <img id="structure" name="structure" alt="" src="images/structure.png" />
     <img id="measurement" name="measurement" alt="" src="images/measurement.png" />
     <img id="tank1Water" name="tank1water" src="images/tankWater.png" />
@@ -61,11 +61,11 @@
     <img id="pumpWorkArrow" name="pumpWorkArrow" alt="" src="images/pumpWorkArrow.png" />
     <img id="drainWorkArrow" name="drainWorkArrow" alt="" src="images/drainWorkArrow.png" />
     <img id="splash" name="splash" alt="" src="images/splash.png" />
-    
+
     <input id="pumpRate" name="pumpRate" type="text" maxLength="5" />
     <label id="pumpRateLabel" name="pumpRateLabel">Pump Rate:</label>
     <label id="pumpRateUnits" name="pumpRateUnits">L/s  (0.062 to 13.9)</label>
-    
+
     <h2 id="resultsLabel" name="resultsLabel">Results</h2>
     <div id="resultsDiv" name="resultsDiv">
       <label id="pumpEffLabel" name="pumpEffLabel">Pump efficiency:</label>
@@ -77,7 +77,7 @@
       <label id="powerRecoveryLabel" name="powerRecoveryLabel">Power Recovery:</label>
       <label id="powerRecovery" name="powerRecovery"></label>
     </div>
-    
+
     <!-- Bootstrap buttons -->
         <a href="javascript:" id="runButton" name="runButton" class="btn btn-success btn-sm"">Run Pump</a>
         <a href="javascript:" id="skipButton" name="skipButton" class="btn btn-default btn-sm"">Skip Animation</a>
@@ -85,17 +85,17 @@
 
         <a href="javascript:" id="about" name="about" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-info-sign"></span></a>
         <a href="javascript:" id="helpButton" name="helpButton" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-question-sign"></span></a>
-    
+
     <p align="center" id="programInfo">
       Simulated pump based on data from Goulds Pumps Industrial Products <a href=
-      "http://www.gouldspumps.com/ittgp/medialibrary/goulds/website/Products/LF-3196-i-FRAME/LF_3196_i_Frame_web.pdf?ext=.pdf" 
-      style="color: #CC0000">calibration curve</a></span> and pump model <a href="https://web.archive.org/web/20170227084015/http://www.gouldspumps.com/Products/LF-3196-i-FRAME/" style="color: #CC0000">LF 3196 i-FRAME</a>. 
+      "http://www.gouldspumps.com/ittgp/medialibrary/goulds/website/Products/LF-3196-i-FRAME/LF_3196_i_Frame_web.pdf?ext=.pdf"
+      style="color: #CC0000">calibration curve</a></span> and pump model <a href="https://web.archive.org/web/20170227084015/http://www.gouldspumps.com/Products/LF-3196-i-FRAME/" style="color: #CC0000">LF 3196 i-FRAME</a>.
       <br /><br />
     </p>
 
     <div id="liquidFunContainer"></div>
-    
+
     </div>
-    
+
   </body>
 </html>

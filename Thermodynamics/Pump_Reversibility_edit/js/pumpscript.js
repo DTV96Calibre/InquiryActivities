@@ -54,7 +54,7 @@ var pumpTime; // in milliseconds; used for animation purposes
 /*
  * Function: init
  * Sets up the page when it is loaded, hiding elements that aren't supposed to be visible right away, and
- * attaching event handlers. Also clears all input and output fields.
+ * attaching event handlers. Also clears or initializes input/output fields
 */
 function init() {
   $("#openValve").hide();
@@ -66,8 +66,8 @@ function init() {
   $("#splash").hide();
 
   // clear input fields and set input to NaN to mark that no input has been received yet
-  $("#pumpRate").val("");
-  pumpRate = NaN;
+  $("#pumpRate").val("2");
+  pumpRate = 2;
 
   // clear output fields
   $("#pumpEff").html("");
