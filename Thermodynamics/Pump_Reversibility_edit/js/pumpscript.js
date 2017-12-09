@@ -54,7 +54,7 @@ var pumpTime; // in milliseconds; used for animation purposes
 /*
  * Function: init
  * Sets up the page when it is loaded, hiding elements that aren't supposed to be visible right away, and
- * attaching event handlers. Also clears all input and output fields.
+ * attaching event handlers. Also clears or initializes input/output fields
 */
 function init() {
   $("#openValve").hide();
@@ -64,26 +64,26 @@ function init() {
   $("#pumpWorkArrow").hide();
   $("#drainWorkArrow").hide();
   $("#splash").hide();
-  
+
   // clear input fields and set input to NaN to mark that no input has been received yet
-  $("#pumpRate").val("");
-  pumpRate = NaN;
-  
+  $("#pumpRate").val("2");
+  pumpRate = 2;
+
   // clear output fields
   $("#pumpEff").html("");
   $("#pumpWork").html("");
   $("#drainWork").html("");
   $("#powerRecovery").html("");
-  
+
   // set the value of volumeLabel (set here rather than in the html just for ease of revision)
   $("#volumeLabel").html("" + volWater + " L");
-  
+
   // make sure all input elements are enabled (in case the user refreshes the page while some elements are disbled)
   $("#runButton").removeAttr("disabled");
   $("#resetButton").removeAttr("disabled");
     $("#skipButton").removeAttr("disabled");
   $("#pumpRate").removeAttr("disabled");
-  
+
   // register event handlers
   $("#pumpRate").on('change', getPumpRate);
   $("#runButton").on('click', runPump);
@@ -111,15 +111,15 @@ function init() {
 */
 function getPumpRate() {
   var input = $("#pumpRate").val();
-  
+
   // if the entered value is not a valid number, keep the current pump rate and display that number in the input field.
   // if no valid pump rate as been entered, clear the input field
   if(isNaN(input) || input == "") {
     if(!isNaN(pumpRate)) {
-      $("#pumpRate").val(pumpRate); 
+      $("#pumpRate").val(pumpRate);
     }
     else {
-      $("#pumpRate").val(""); 
+      $("#pumpRate").val("");
     }
   }
   // if the input is outside the valid range, set the pump rate to the highest/lowest valid value
@@ -134,9 +134,9 @@ function getPumpRate() {
   }
   // if input is valid, set pumpRate
   else {
-    pumpRate = input; 
+    pumpRate = input;
   }
-  
+
   $("#pumpEff").val("");
   $("#pumpWork").val("");
   $("#drainWork").val("");
@@ -151,7 +151,7 @@ function getPumpRate() {
 */
 function resetPump() {
   finishDrain();
-  
+
   // clear output fields
   $("#pumpEff").html("");
   $("#pumpWork").html("");
@@ -166,26 +166,31 @@ function resetPump() {
  * If a valid pumpRate has been entered, initiates the animation sequence
 */
 function runPump() {
-  
+
   if(isNaN(pumpRate) || simulationStarted)
     return;
 
   openTank1(); // Remove the barrier at the bottom of tank 1
   openLowerPipe();
+
+  for (i=0; i < world.particleSystems[0].forceFields.length; i++){
+    world.particleSystems[0].forceFields[i].fx*=pumpRate;
+    world.particleSystems[0].forceFields[i].fy*=pumpRate;
+  }
   // stirrerIsMoving = true;
   // world.SetGravity(new b2Vec2(1, -1));
-    
+
   pumpTime = volWater / pumpRate * 1000; // pump time in milliseconds
-  
+
   // ensure that animation components are in their initial state
   resetPump();
-  
+
   // disable pumpRate input field and "Run Pump" button while animation is running
   // (leave "Reset" button enabled so users have a way to cancel the animation)
   $("#runButton").attr("disabled", "disabled");
   $("#pumpRate").attr("disabled", "disabled");
   simulationStarted = true;
-  
+
   // begin the animation
   pumpWater();
 }
@@ -229,12 +234,12 @@ function displayHelp() {
  * Runs the portion of the animation for pumping the water into the upper tank
 */
 function pumpWater() {
-  
+
   // move the valves into their proper positions (open vs. closed) and show the image of water filling the pipe
   $("#closedValve").hide();
   $("#openValve").show();
   $("#drainWorkArrow").show();
-  
+
   // animate the water level rising in the upper tank and lowering in the lower tank
   $("#tank1Water").show();
   $("#tank2Water").show();
@@ -252,7 +257,7 @@ function pause() {
   $("#closedValve").show();
   $("#openValve").hide();
   $("#drainWorkArrow").hide();
-  
+
   // dummy animate function that "moves" tank1Water to the position it's already in for 1.5 seconds, just to produce a pause in the animation
   $("#tank1Water").animate({top:"433px"}, 1500, "linear", drainWater); // register the drainWater function to be called when this section of the animation finishes
 }
@@ -270,7 +275,7 @@ function drainWater() {
   // $("#drainWater").show();
   // $("#splash").show();
   $("#pumpWorkArrow").show();
-  
+
   $("#tank2Water").animate({top:"97px"}, drainTime, "linear", finishDrain); // register the finishDrain function to be called when this section of the animation finishes
 }
 
@@ -293,7 +298,7 @@ function finishDrain() {
 /*
  * Function: skip
  * Skips the current animation and removes the animation from the queue
-*/  
+*/
 function skip() {
   $("#tank1Water").stop(true,true);
   $("#tank2Water").stop(true,true);
@@ -311,24 +316,24 @@ function skip() {
  * stats, as well as the work done by the water on the pump when it drained
 */
 function displayStats() {
-  var pumpV = (pumpRate * .001) / (Math.PI * pipeRadius * pipeRadius); 
+  var pumpV = (pumpRate * .001) / (Math.PI * pipeRadius * pipeRadius);
   // In m/s. pumpV is AVERAGE velocity of the water being pumped, 1 L/s = .001 m^3/s
-  
+
   var mDot = volWater / (volWater / pumpRate);
 
   var pumpFrictionCoeff = calcFrictionCoeff(pumpV);
 
   // calculate pump efficiency
   pumpEff = findEfficiency(pumpRate);
-  
+
   pumpWork = (volWater * (g * height + pumpV * pumpV / 2 + pumpFrictionCoeff * pumpV * pumpV * height / pipeRadius)) / (pumpEff / 100); //        Work*pumpEfficiency = m*2*f*v^2*L/D+mv^2/2+mgh
-  
+
   //pumpPower = pumpWork / (volWater / pumpRate);
-  
+
   pumpPower = (pumpRate * (g * height + pumpV * pumpV / 2 + pumpFrictionCoeff * pumpV * pumpV * height / pipeRadius)) / (pumpEff / 100);
-  
+
   powerRecovery = Math.abs(drainPower / pumpPower * 100);
-  
+
   // display outputs
   $("#pumpWork").html(Math.round(pumpPower*100)/100 + " W");
   $("#drainWork").html(Math.round(drainPower*100)/100 + " W");
@@ -342,7 +347,7 @@ function displayStats() {
 */
 function findEfficiency(flowRate) {
   // in %, equation found in excel sheet that took data from ITT website
-  return (-0.0009*flowRate*flowRate*flowRate*flowRate + 0.0201*flowRate*flowRate*flowRate - 0.3106*flowRate*flowRate + 5.2603*flowRate); 
+  return (-0.0009*flowRate*flowRate*flowRate*flowRate + 0.0201*flowRate*flowRate*flowRate - 0.3106*flowRate*flowRate + 5.2603*flowRate);
 }
 
 
@@ -362,11 +367,10 @@ function toKiloJoules(energy) {
 */
 
 function calcFrictionCoeff(flowrate) {
-    
+
   var reynoldsNum = 4 * 1000000 * flowrate / (Math.PI * pipeRadius);
   var frictionCoeff = Math.pow((1/(1.8*Math.log(6.9/reynoldsNum))),2)/4; // Finds fanning coefficient using Haalands equation assuming smooth surface
 
   return frictionCoeff;
 
 }
-
