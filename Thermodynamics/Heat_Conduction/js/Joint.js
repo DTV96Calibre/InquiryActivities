@@ -6,7 +6,8 @@
 
 var ROOT_TEMP = 100; // 100C, temp of boiling water
 var KW_CMK = 0.00043; // kW/cm-K
-var ENERGY_IN_KJS = 0.0002; // TODO: Clarify this
+var ENERGY_IN_KJS = 0.0008; // TODO: Clarify this
+var ROOM_TEMP = 23; // In Celsius (~ 73 degrees Fahrenheit)
 
 /**
  * This class represents the joints that link segments of the pot handle.
@@ -64,7 +65,7 @@ class Joint {
    * @return {int} sin (angle)
    */
   findSineOfAngle() {
-    var adjacent = this.pos.x - Pot.width / 2;
+    var adjacent = this.pos.x - Pot.WIDTH / 2;
     var opposite = this.pos.y;
     var hypotenuse = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
     // Find sine of angle formed by this triangle
@@ -77,10 +78,12 @@ class Joint {
    * @return {int} the torque in Newton-meters
    */
   findTorque() {
-    var r = Math.abs(this.pos.x);
-    var F = Pot.weightOfWater * 9.81;
+    // SUBTRACT 1/2 of pot width because joints' positions are negative
+    var r = Math.abs(this.pos.x - Pot.WIDTH / 2) / 100;
+    var F = Pot.WEIGHT_OF_WATER * 9.81;
     var sinTheta = this.findSineOfAngle();
-    return r * F * sinTheta;
+    var torque = r * F * sinTheta;
+    return torque;
   }
 
   /**
@@ -88,12 +91,14 @@ class Joint {
    * @return {int} a temperature in Celsius
    */
   getTemp() {
-    if (this.isRoot){
+    if (this.isRoot) {
       return ROOT_TEMP;
     } else {
       var currentArea = PI * sq(this.radius / 100);
       var heatLoss = ENERGY_IN_KJS * this.findDistanceFromPrev() * currentArea / KW_CMK;
-      return this.prev.getTemp() - heatLoss;
+      var newTemp = this.prev.getTemp() - heatLoss;
+      // Prevent pot temperature from becoming colder than the environment
+      return max(newTemp, ROOM_TEMP);
     }
   }
 
