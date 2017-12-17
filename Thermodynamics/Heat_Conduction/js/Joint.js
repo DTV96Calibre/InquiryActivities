@@ -44,6 +44,12 @@ class Joint {
     }
   }
 
+  /*
+   * Resizes the joint's radius and position relative to the valid zone (green
+   * highlighted area where the pot handle can be built).
+   * @param {int} validZoneWidth: The width (in pixels) of the valid zone
+   * @param {int} validZoneHeight: The height (in pixels) of the valid zone
+   */
   resize(validZoneWidth, validZoneHeight) {
     this.radius = this.rawRadius * Pot.ANCHOR_POINT_SCALE * windowHeight * Pot.HEIGHT_SCALE / 100;
     this.pos.x = this.ratio.x * validZoneWidth;
