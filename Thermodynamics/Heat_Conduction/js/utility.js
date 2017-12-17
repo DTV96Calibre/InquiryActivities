@@ -19,7 +19,8 @@ function drawCrosshairPreview() {
   strokeWeight(1);
   var xPos = 0.2 * windowWidth;
   var yPos = 0.617 * windowHeight;
-  ellipse(xPos, yPos, int(jointSizeSlider.val()));
+  var size = int(jointSizeSlider.val()) * Pot.ANCHOR_POINT_SCALE * windowHeight * Pot.HEIGHT_SCALE / 100;
+  ellipse(xPos, yPos, size);
   noStroke();
 }
 
