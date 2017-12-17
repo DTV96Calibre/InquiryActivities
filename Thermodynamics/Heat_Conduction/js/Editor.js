@@ -476,7 +476,9 @@ showElements = function() {
   finishButton.show();
 
   // Display help text immediately
-  toggleHelp();
+  if (numLivesRemaining == 3) {
+    toggleHelp();
+  }
 }
 
 /**
