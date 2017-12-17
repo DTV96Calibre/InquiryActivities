@@ -151,7 +151,7 @@ function getPumpRate() {
 */
 function resetPump() {
   finishDrain();
-
+  testSwitch("TestLiquidTimer");
   // clear output fields
   $("#pumpEff").html("");
   $("#pumpWork").html("");
@@ -169,7 +169,8 @@ function runPump() {
 
   if(isNaN(pumpRate) || simulationStarted)
     return;
-
+  // ensure that animation components are in their initial state
+  resetPump();
   openTank1(); // Remove the barrier at the bottom of tank 1
   openLowerPipe();
 
@@ -182,8 +183,7 @@ function runPump() {
 
   pumpTime = volWater / pumpRate * 1000; // pump time in milliseconds
 
-  // ensure that animation components are in their initial state
-  resetPump();
+
 
   // disable pumpRate input field and "Run Pump" button while animation is running
   // (leave "Reset" button enabled so users have a way to cancel the animation)
@@ -275,7 +275,8 @@ function drainWater() {
   // $("#drainWater").show();
   // $("#splash").show();
   $("#pumpWorkArrow").show();
-
+  destroyForceFields();
+  openDrainValve();
   $("#tank2Water").animate({top:"97px"}, drainTime, "linear", finishDrain); // register the finishDrain function to be called when this section of the animation finishes
 }
 

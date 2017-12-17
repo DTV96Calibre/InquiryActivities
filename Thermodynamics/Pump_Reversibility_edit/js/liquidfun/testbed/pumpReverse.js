@@ -156,7 +156,7 @@ function constructLowerPipe() {
   shape.Set(new b2Vec2(lowerPipeRightPos + 0.25, lowerPipeTopPos), new b2Vec2(lowerPipeRightPos + 0.25, lowerPipeBottomPos2));
   body.CreateFixtureFromShape(shape, 0.1);
 
-  // Barrier blocking the bottom of the lower pipe
+  // Blocks release valve
   body = world.CreateBody(bd);
   // shape = new b2EdgeShape;
   shape.Set(new b2Vec2(lowerPipeRightPos, lowerPipeBottomPos2), new b2Vec2(lowerPipeRightPos + 0.15, lowerPipeBottomPos2));
@@ -233,7 +233,11 @@ function generateForceFields(){
   world.particleSystems[0].createForceField(upperPipeLeftPos, upperPipeRightPos, lowerPipeBottomPos2, upperPipeTopPos, 0, 0.1);
   };
 
-function inverseForceFields(forceFields){
+function destroyForceFields(){
+  world.particleSystems[0].initializeForceFieldArray();
+}
+
+function invertForceFields(forceFields){
   for (ff of forceFields){
     ff.fx = ff.fx*-1;
     ff.fy = ff.fy*-1;
@@ -254,6 +258,10 @@ function openTank1() {
  */
 function openLowerPipe() {
   world.DestroyBody(world.bodies[14]);
+}
+
+function openDrainValve(){
+  world.DestroyBody(world.bodies[16]); // TODO: Fix magic numbers and properly identify correct body for valve
 }
 
 function moveStirrer() {
