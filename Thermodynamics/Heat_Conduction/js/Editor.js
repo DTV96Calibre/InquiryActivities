@@ -221,6 +221,11 @@ function Editor() {
         this.catLifeIcons[i].xOffset = windowWidth * 0.8 + offset * i;
       }
 
+      // Resize joints
+      for (var i = 0; i < joints.length; i++) {
+        joints[i].resize();
+      }
+
       // Define the valid zone
       validZone.x2 = pot.anchorPoint.x;
       validZone.x1 = validZone.x2 - pot.potWidth;
@@ -411,7 +416,7 @@ grabPot = function() {
  */
 resetHandle = function() {
   joints = [];
-  joints.push(new Joint(pot.anchorPointDiameter, null, {x:0, y:0}));
+  joints.push(new Joint(100, null, {x:0, y:0}));
   // This flag must be set for the root joint for temp calculations to work correctly
   joints[0].isRoot = true;
 }

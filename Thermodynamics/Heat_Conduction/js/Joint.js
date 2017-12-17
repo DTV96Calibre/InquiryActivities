@@ -21,7 +21,8 @@ class Joint {
    * @return none
    */
   constructor(radius, prev, pos) {
-    this.radius = radius;
+    this.rawRadius = radius; // From 1 to 100
+    this.radius = this.rawRadius * Pot.ANCHOR_POINT_SCALE * windowHeight * Pot.HEIGHT_SCALE / 100;
     this.prev = prev;
     this.pos = pos; // NOTE: This is relative to the the global pot.anchorPoint object of form {x:_, y:_}
     this.next = null; // Stores the next joint object if it exists
@@ -39,6 +40,10 @@ class Joint {
       this.drawSegment();
       this.next.draw();
     }
+  }
+
+  resize() {
+    this.radius = this.rawRadius * Pot.ANCHOR_POINT_SCALE * windowHeight * Pot.HEIGHT_SCALE / 100;
   }
 
   /**
