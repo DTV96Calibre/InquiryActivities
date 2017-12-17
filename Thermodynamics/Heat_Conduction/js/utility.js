@@ -54,7 +54,12 @@ function insertJoint(x, y, radius) {
     }
   }
 
-  joints.push(new Joint(radius, joints[joints.length-1], {x:jointXOffset, y:jointYOffset}));
+  // Find ratios of relative joint positions by dividing by valid zone size
+  var ratioX = jointXOffset / ( validZone.x2 - validZone.x1);
+  var ratioY = jointYOffset / (validZone.y2 - validZone.y1);
+  var ratio = {x: ratioX, y: ratioY};
+
+  joints.push(new Joint(radius, joints[joints.length-1], {x:jointXOffset, y:jointYOffset}, ratio));
   joints[joints.length-2].next = joints[joints.length-1];
 }
 

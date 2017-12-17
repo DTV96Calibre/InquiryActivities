@@ -15,16 +15,18 @@ var ROOM_TEMP = 23; // In Celsius (~ 73 degrees Fahrenheit)
 class Joint {
   /**
    * Constructor for a Joint object
-   * @param  {int} radius: The radius in pixels of this Joint
-   * @param  {prev} prev: The previous Joint linked to this one
-   * @param  {next} next: The next Joint linked to this one
+   * @param {int} radius: The radius in pixels of this Joint
+   * @param {Joint} prev: The previous Joint linked to this one
+   * @param {(int, int)} pos: The x, y coordinates relative to pot.anchorPoint
+   * @param {(float, float)} ratio: The relative ratio of the placement within the valid zone
    * @return none
    */
-  constructor(radius, prev, pos) {
+  constructor(radius, prev, pos, ratio) {
     this.rawRadius = radius; // From 1 to 100
     this.radius = this.rawRadius * Pot.ANCHOR_POINT_SCALE * windowHeight * Pot.HEIGHT_SCALE / 100;
     this.prev = prev;
     this.pos = pos; // NOTE: This is relative to the the global pot.anchorPoint object of form {x:_, y:_}
+    this.ratio = ratio;
     this.next = null; // Stores the next joint object if it exists
     this.isRoot = false;
   }
@@ -42,8 +44,10 @@ class Joint {
     }
   }
 
-  resize() {
+  resize(validZoneWidth, validZoneHeight) {
     this.radius = this.rawRadius * Pot.ANCHOR_POINT_SCALE * windowHeight * Pot.HEIGHT_SCALE / 100;
+    this.pos.x = this.ratio.x * validZoneWidth;
+    this.pos.y = this.ratio.y * validZoneHeight;
   }
 
   /**

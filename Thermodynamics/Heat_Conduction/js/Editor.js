@@ -221,16 +221,18 @@ function Editor() {
         this.catLifeIcons[i].xOffset = windowWidth * 0.8 + offset * i;
       }
 
-      // Resize joints
-      for (var i = 0; i < joints.length; i++) {
-        joints[i].resize();
-      }
-
       // Define the valid zone
       validZone.x2 = pot.anchorPoint.x;
       validZone.x1 = validZone.x2 - pot.potWidth;
       validZone.y2 = pot.anchorPoint.y + pot.anchorPointDiameter / 2;
       validZone.y1 = validZone.y2 - pot.anchorPointDiameter;
+
+      // Resize joints
+      var validZoneWidth =  validZone.x2 - validZone.x1;
+      var validZoneHeight = validZone.y2 - validZone.y1;
+      for (var i = 0; i < joints.length; i++) {
+        joints[i].resize(validZoneWidth, validZoneHeight);
+      }
 
       resizeCanvas(windowWidth, windowHeight);
     }
@@ -416,7 +418,7 @@ grabPot = function() {
  */
 resetHandle = function() {
   joints = [];
-  joints.push(new Joint(100, null, {x:0, y:0}));
+  joints.push(new Joint(100, null, {x:0, y:0}, {x:0, y:0}));
   // This flag must be set for the root joint for temp calculations to work correctly
   joints[0].isRoot = true;
 }
