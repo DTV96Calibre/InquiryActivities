@@ -59,11 +59,10 @@ var pumpTime; // in milliseconds; used for animation purposes
 function init() {
   $("#openValve").hide();
   $("#openSideValve").hide();
-  $("#drainWater").hide();
-  $("#suspendedWater").hide();
-  $("#pumpWorkArrow").hide();
+  // $("#suspendedWater").hide();
+  $("#pumpWorkArrow").hide(); //TODO Replace these arrows with indicator of work at pump (power consumption vs generation)
   $("#drainWorkArrow").hide();
-  $("#splash").hide();
+  // $("#splash").hide();
 
   // clear input fields and set input to NaN to mark that no input has been received yet
   $("#pumpRate").val("2");
@@ -241,10 +240,10 @@ function pumpWater() {
   $("#drainWorkArrow").show();
 
   // animate the water level rising in the upper tank and lowering in the lower tank
-  $("#tank1Water").show();
-  $("#tank2Water").show();
-  $("#tank1Water").animate({top:"433px"}, pumpTime, "linear");
-  $("#tank2Water").animate({top:"4px"}, pumpTime, "linear", pause); // register the pause function to be called when this section of the animation finishes
+  // $("#tank1Water").show();
+  // $("#tank2Water").show();
+  // $("#tank1Water").animate({top:"433px"}, pumpTime, "linear");
+  // $("#tank2Water").animate({top:"4px"}, pumpTime, "linear", pause); // register the pause function to be called when this section of the animation finishes
 }
 
 /*
@@ -259,7 +258,7 @@ function pause() {
   $("#drainWorkArrow").hide();
 
   // dummy animate function that "moves" tank1Water to the position it's already in for 1.5 seconds, just to produce a pause in the animation
-  $("#tank1Water").animate({top:"433px"}, 1500, "linear", drainWater); // register the drainWater function to be called when this section of the animation finishes
+  // $("#tank1Water").animate({top:"433px"}, 1500, "linear", drainWater); // register the drainWater function to be called when this section of the animation finishes
 }
 
 /*
@@ -268,7 +267,7 @@ function pause() {
 */
 function drainWater() {
   // move the valves into their proper positions (open vs. closed) and show the images of water draining through the pipe
-  $("#suspendedWater").hide();
+  // $("#suspendedWater").hide();
   // $("#drainWater").show();
   $("#closedSideValve").hide();
   $("#openSideValve").show();
@@ -289,9 +288,9 @@ function finishDrain() {
   $("#resetButton").removeAttr("disabled");
   $("#pumpRate").removeAttr("disabled");
   $("#skipButton").removeAttr("disabled");
-  $("#drainWater").hide();
+  // $("#drainWater").hide();
   $("#drainWorkArrow").hide();
-  $("#splash").hide();
+  // $("#splash").hide();
   simulationStarted = false;
   displayStats();
 }
@@ -301,8 +300,8 @@ function finishDrain() {
  * Skips the current animation and removes the animation from the queue
 */
 function skip() {
-  $("#tank1Water").stop(true,true);
-  $("#tank2Water").stop(true,true);
+  // $("#tank1Water").stop(true,true);
+  // $("#tank2Water").stop(true,true);
 }
 
 /*
