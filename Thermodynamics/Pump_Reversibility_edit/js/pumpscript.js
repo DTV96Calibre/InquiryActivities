@@ -165,6 +165,8 @@ function runPump() {
 
   // Ensure that animation components are in their initial state
   resetPump();
+  openTank1(); // Remove the barrier at the bottom of tank 1
+  openLowerPipe();
 
   for (i=0; i < world.particleSystems[0].forceFields.length; i++){
     world.particleSystems[0].forceFields[i].fx *= pumpRate;
