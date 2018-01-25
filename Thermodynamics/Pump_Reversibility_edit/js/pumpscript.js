@@ -1,31 +1,27 @@
 /*
- * File: pumpscript.js
- * Purpose: To provide the animations and interactivity for the Pump Reversibility simulation (pump-reversibility.html)
- * Author: Emily Ehrenberger (April 2012)
- *       Under the supervision of Margot Vigeant, Bucknell University
- * (c) Margot Vigeant 2012
-*/
-
-
-/*
- * This file makes use of the JQuery libraries (http://jquery.com/)
-*/
+ * File:    pumpscript.js
+ * Purpose: To provide the animations and interactivity for the Pump Reversibility simulation 
+ *          (pump-reversibility.html)
+ * Authors: Emily Ehrenberger (April 2012),
+ *          Modified by Daniel Vasquez and Brooke Bullek (2017)
+ *          Under the supervision of Margot Vigeant, Bucknell University
+ * Note:    This file makes use of the jQuery libraries (http://jquery.com/)
+ */
 
 $(document).ready(init);
 
 var simulationStarted = false;
 
-// constants
+// Constants
 var minRate = 0.062;
-var maxRate = 13.9;   // Found from ITT website
-var g = 9.8;  // m/s^2
-var height = 50;  // m
+var maxRate = 13.9; // Found from ITT website
+var g = 9.8; // m/s^2
+var height = 50; // m
 
 var pipeRadius = .026251; // m (using a schedule 40 steel pipe with 2.067 inch diameter)
 var volWater = 100; // L
 
 // Physics of water draining (also constants)
-
 var drainV = height / Math.sqrt(2 * g * height); // m / s. Avg Velocity = D / t where D = .5 * g * t^2 and so drainV = D / Sqrt(2 * D * g)
 var drainFrictionCoeff = calcFrictionCoeff(drainV); // Finds friction coefficient for draining water
 var drainRate = Math.PI * pipeRadius * pipeRadius * drainV; // m^3 / s
@@ -37,18 +33,17 @@ var drainWork = volWater * ( (drainV * drainV * drainFrictionCoeff * height / pi
 var drainPower = drainRateLiters * ( (drainV * drainV * drainFrictionCoeff * height / pipeRadius) + (drainV * drainV / 2) - (g * height * (drainEfficiency / 100)) );
 var drainTime = volWater / drainRateLiters * 1000; // in milliseconds; used for animation purposes
 
-// variables to hold inputs and calculation results
+// Variables to hold inputs and calculation results
 var pumpRate; // L/s
 var pumpEff; // efficiency of pump
 var pumpWork; // work done by pump
 var powerRecovery; // proportion of work recovered via draining to work done by pump
 var pumpTime; // in milliseconds; used for animation purposes
 
-
 /*
-*************************************************************************************************************************
-*                         Initialization                            *
-*************************************************************************************************************************
+****************************************************************************************************
+*                                        Initialization                                            *
+****************************************************************************************************
 */
 
 /*
@@ -96,9 +91,9 @@ function init() {
 }
 
 /*
-*************************************************************************************************************************
-*                         Event Handlers                            *
-*************************************************************************************************************************
+****************************************************************************************************
+*                                        Event Handlers                                            *
+****************************************************************************************************
 */
 
 /*
@@ -182,8 +177,6 @@ function runPump() {
 
   pumpTime = volWater / pumpRate * 1000; // pump time in milliseconds
 
-
-
   // disable pumpRate input field and "Run Pump" button while animation is running
   // (leave "Reset" button enabled so users have a way to cancel the animation)
   $("#runButton").attr("disabled", "disabled");
@@ -223,9 +216,9 @@ function displayHelp() {
 }
 
 /*
-*************************************************************************************************************************
-*                         Animation Functions                         *
-*************************************************************************************************************************
+****************************************************************************************************
+*                                      Animation Functions                                         *
+****************************************************************************************************
 */
 
 /*
@@ -305,9 +298,9 @@ function skip() {
 }
 
 /*
-*************************************************************************************************************************
-*                         Calculations                            *
-*************************************************************************************************************************
+****************************************************************************************************
+*                                         Calculations                                             *
+****************************************************************************************************
 */
 
 /*
@@ -326,7 +319,7 @@ function displayStats() {
   // calculate pump efficiency
   pumpEff = findEfficiency(pumpRate);
 
-  pumpWork = (volWater * (g * height + pumpV * pumpV / 2 + pumpFrictionCoeff * pumpV * pumpV * height / pipeRadius)) / (pumpEff / 100); //        Work*pumpEfficiency = m*2*f*v^2*L/D+mv^2/2+mgh
+  pumpWork = (volWater * (g * height + pumpV * pumpV / 2 + pumpFrictionCoeff * pumpV * pumpV * height / pipeRadius)) / (pumpEff / 100); // Work * pumpEfficiency = m*2*f*v^2*L/D+mv^2/2+mgh
 
   //pumpPower = pumpWork / (volWater / pumpRate);
 
@@ -347,7 +340,7 @@ function displayStats() {
 */
 function findEfficiency(flowRate) {
   // in %, equation found in excel sheet that took data from ITT website
-  return (-0.0009*flowRate*flowRate*flowRate*flowRate + 0.0201*flowRate*flowRate*flowRate - 0.3106*flowRate*flowRate + 5.2603*flowRate);
+  return (-0.0009 * Math.pow(flowRate, 4) + 0.0201 * Math.pow(flowRate, 3) - 0.3106 * Math.pow(flowRate, 2) + 5.2603 * flowRate);
 }
 
 
@@ -356,21 +349,16 @@ function findEfficiency(flowRate) {
  * Purpose: Converts work values from J to kJ
  */
 function toKiloJoules(energy) {
-  return energy/1000;
+  return energy / 1000;
 }
-
-
 
 /*
  * Function: calcFrictionCoeff
  * Purpose: Finds the friction coefficient
-*/
-
+ */
 function calcFrictionCoeff(flowrate) {
-
   var reynoldsNum = 4 * 1000000 * flowrate / (Math.PI * pipeRadius);
-  var frictionCoeff = Math.pow((1/(1.8*Math.log(6.9/reynoldsNum))),2)/4; // Finds fanning coefficient using Haalands equation assuming smooth surface
-
+  // Finds fanning coefficient using Haalands equation assuming smooth surface
+  var frictionCoeff = Math.pow((1 / (1.8 * Math.log(6.9 / reynoldsNum))), 2) / 4;
   return frictionCoeff;
-
 }
