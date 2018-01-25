@@ -68,7 +68,7 @@ b2ParticleSystem.prototype.applyForceFields = function applyForceFields() {
  * @param {int} y: The maximum range (in pixels) the particle's vertical pos must not exceed
  * @param
  */
-b2ParticleSystem.prototype.checkPumpFinished = function startForceFields(acceptedPct, y) {
+b2ParticleSystem.prototype.checkPumpFinished = function checkPumpFinished(acceptedPct, y) {
 	pbuffer = this.GetPositionBuffer(); // Sequence of x, y values for each particle
 	numValidParticles = 0; // Record # of particles above accepted y value
 	// Iterate through particles
