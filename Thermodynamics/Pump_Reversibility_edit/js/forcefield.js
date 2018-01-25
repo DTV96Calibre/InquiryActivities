@@ -39,7 +39,7 @@ b2ParticleSystem.prototype.createForceField = function createForceField(x1, x2, 
  * Applies all active force fields to each particle within range as appropriate.
  * @return none
  */
-b2ParticleSystem.prototype.applyForceFields = function applyForceFields(){
+b2ParticleSystem.prototype.applyForceFields = function applyForceFields() {
 	vbuffer = this.GetVelocityBuffer();
 	pbuffer = this.GetPositionBuffer();
 	// Iterate through force fields
@@ -61,7 +61,29 @@ b2ParticleSystem.prototype.applyForceFields = function applyForceFields(){
 	}
 }
 
-b2ParticleSystem.prototype.startForceFields = function startForceFields(ps){
+/**
+ * Returns true if the given threshold of particles in this particle system is 
+ * above the given y-position.
+ * @param {float} acceptedPct: The minimum percent of particles that must be high enough
+ * @param {int} y: The maximum range (in pixels) the particle's vertical pos must not exceed
+ * @param
+ */
+b2ParticleSystem.prototype.checkPumpFinished = function startForceFields(acceptedPct, y) {
+	pbuffer = this.GetPositionBuffer(); // Sequence of x, y values for each particle
+	numValidParticles = 0; // Record # of particles above accepted y value
+	// Iterate through particles
+	for (pIndex = 0; pIndex < pbuffer.length; pIndex += 2) {
+		particleY = pbuffer[pIndex + 1];
+		if (particleY <= y) {
+			numValidParticles++;
+		}
+	}
+
+	pct = numValidParticles / (pbuffer.length / 2);
+	return pct >= acceptedPct;
+}
+
+b2ParticleSystem.prototype.startForceFields = function startForceFields(ps) {
     /*task.run({
         arguments: [ps],
         transferables: [],
