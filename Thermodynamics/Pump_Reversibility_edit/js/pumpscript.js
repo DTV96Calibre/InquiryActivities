@@ -374,3 +374,22 @@ function calcFrictionCoeff(flowrate) {
   return frictionCoeff;
 
 }
+
+
+function finishedPumping(minY, minFraction){
+  pbuffer = world.particleSystems[0].GetPositionBuffer();
+  count = 0;
+  for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
+    // For each particle, check if it's y value is greater than minY
+    if (minY<pbuffer[pIndex+1]){
+      // Apply force to particle
+      count+=1;
+    }
+  }
+  fraction = count/(pbuffer.length/2);
+  if (fraction >= minFraction){
+    return true;
+  } else {
+    return false;
+  }
+}
