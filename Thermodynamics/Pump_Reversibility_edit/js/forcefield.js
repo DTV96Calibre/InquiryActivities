@@ -8,12 +8,24 @@
  */
 class ForceField {
 	constructor(x1,x2,y1,y2,fx,fy) {
+		//TODO: Should use bool flag to indicate enabled
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
 		this.y2 = y2;
 		this.fx = fx;
 		this.fy = fy;
+		this.fm = 1; // Force multiplier (scales both fx and fy, not in direction of force vector)
+		this.lastfm = 1;
+	}
+	disable(){
+		if (this.fm != 0){
+			this.lastfm = this.fm;
+		}
+		this.fm = 0;
+	}
+	enable(){
+		this.fm = this.lastfm;
 	}
 }
 
@@ -38,6 +50,7 @@ b2ParticleSystem.prototype.createForceField = function createForceField(x1, x2, 
 /**
  * Applies all active force fields to each particle within range as appropriate.
  * @return none
+ * TODO: Should modify to check for enabled flag.
  */
 b2ParticleSystem.prototype.applyForceFields = function applyForceFields() {
 	vbuffer = this.GetVelocityBuffer();
@@ -54,15 +67,15 @@ b2ParticleSystem.prototype.applyForceFields = function applyForceFields() {
 			if (forceField.x1 <= particleX && forceField.x2 >= particleX &&
 			    forceField.y1 <= particleY && forceField.y2 >= particleY) {
 				// Apply force to particle
-				vbuffer[pIndex] += forceField.fx;
-				vbuffer[pIndex + 1] += forceField.fy;
+				vbuffer[pIndex] += forceField.fx*forceField.fm; //TODO Can be optimized
+				vbuffer[pIndex + 1] += forceField.fy*forceField.fm;
 			}
 		}
 	}
 }
 
 /**
- * Returns true if the given threshold of particles in this particle system is 
+ * Returns true if the given threshold of particles in this particle system is
  * above the given y-position.
  * @param {float} acceptedPct: The minimum percent of particles that must be high enough
  * @param {int} y: The maximum range (in pixels) the particle's vertical pos must not exceed
@@ -84,16 +97,6 @@ b2ParticleSystem.prototype.checkPumpFinished = function checkPumpFinished(accept
 }
 
 b2ParticleSystem.prototype.startForceFields = function startForceFields(ps) {
-    /*task.run({
-        arguments: [ps],
-        transferables: [],
-        function: async function (ps) {
-            // do stuff to the buffer
-            ps.applyForceFields();
-            await sleep(17);
-        }
-    });
-    */
     console.log(this);
     setInterval(this.applyForceFields.bind(this),16);
 }
