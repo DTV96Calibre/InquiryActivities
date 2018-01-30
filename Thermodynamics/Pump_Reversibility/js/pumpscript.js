@@ -250,6 +250,8 @@ function pause() {
  * Runs the portion of the animation for draining the water from the upper tank out of the system
 */
 function drainWater() {
+  //TODO: This pause temporarily fixes animation bugs with arrows
+  pause();
   // Move the valves into their proper positions (open vs. closed) and show the images of water draining through the pipe
   $("#closedSideValve").hide();
   $("#openSideValve").show();
@@ -269,6 +271,7 @@ function finishDrain() {
   $("#pumpRate").removeAttr("disabled");
   $("#skipButton").removeAttr("disabled");
   $("#drainWorkArrow").hide();
+  $("#pumpWorkArrow").hide();
 
   simulationStarted = false;
   displayStats();
