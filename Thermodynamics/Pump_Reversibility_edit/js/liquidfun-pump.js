@@ -19,7 +19,7 @@ var upperPipeTopPos = lowerPipeTopPos + 2.16;
 var upperPipeRightPos = 0.68;
 var tank2LeftPos = 0;
 var tank2RightPos = 1.19;
-var tank2TopPos = 3.6;
+var tank2TopPos = 3.65;
 
 var particles;
 var stirrerIsMoving = false;

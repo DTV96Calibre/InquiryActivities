@@ -356,29 +356,31 @@ function finishedPumping(minY, minN){ //TODO: Should check for number of particl
   count = 0;
   for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
     // For each particle, check if it's y value is greater than minY
-    if (minY<pbuffer[pIndex+1]){
+    if (minY<=pbuffer[pIndex+1]){
       count+=1;
     }
   }
+  console.log(count);
   if (count >= minN){
     return true;
   }
   else return false;
 }
 
-function checkFinishedPumping(n){
-  if (finishedPumping(1.825, n)){
+function checkFinishedPumping(){
+  if (finishedPumping(upperPipeTopPos, particlesFromTank1)){
+    clearInterval(finishedPumpingID);
     console.log("Draining water");
     drainWater();
   }
 }
 
 function startCheckingFinishedPumping(){
-  particlesFromTank1 = world.particleSystems[0].particleGroups[0].GetParticleCount(); //Global declaration of particles in tank1
-  // TODO: Check tank for number of particles
+  particlesFromTank1 = 2*world.particleSystems[0].particleGroups[0].GetParticleCount(); //Global declaration of particles in tank1
   var n = particlesFromTank1;
+  // TODO: Check tank for number of particles
   console.log("Checking for " + n +" particles");
-  var intervalID = setInterval(checkFinishedPumping(n),16);
+  var intervalID = setInterval(checkFinishedPumping,16);
   return intervalID;
 }
 
@@ -387,7 +389,7 @@ function finishedDraining(maxY, minN){ //TODO: Should check for number of partic
   count = 0;
   for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
     // For each particle, check if it's y value is greater than minY
-    if (maxY>pbuffer[pIndex+1]){
+    if (maxY>=pbuffer[pIndex+1]){
       count+=1;
     }
   }
@@ -398,15 +400,16 @@ function finishedDraining(maxY, minN){ //TODO: Should check for number of partic
 }
 
 function checkFinishedDraining(n){
-  if (finishedDraining(1.825, n)){
+  if (finishedDraining(lowerPipeBottomPos2, particlesFromTank1)){
+    clearInterval(finishedDrainingID);
     console.log("Finished draining water");
     finishDrain();
   }
 }
 
 function startCheckingFinishedDraining(){
-  var n = particlesFromTank1;
+  n = particlesFromTank1;
   console.log("Checking for " + n +" particles");
-  var intervalID = setInterval(checkFinishedDraining(n),16);
+  var intervalID = setInterval(checkFinishedDraining,16);
   return intervalID;
 }
