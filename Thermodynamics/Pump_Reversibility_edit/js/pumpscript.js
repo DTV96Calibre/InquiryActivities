@@ -1,6 +1,6 @@
 /*
  * File:    pumpscript.js
- * Purpose: To provide the animations and interactivity for the Pump Reversibility simulation 
+ * Purpose: To provide the animations and interactivity for the Pump Reversibility simulation
  *          (pump-reversibility.html)
  * Authors: Emily Ehrenberger (April 2012),
  *          Modified by Daniel Vasquez and Brooke Bullek (2017)
@@ -86,6 +86,7 @@ function init() {
 
   // Generate the LiquidFun assets (particles and rigid bodies)
   initTestbed(); // Found in liquidfun/testbed.js
+  disableForceFields(world.particleSystems[0].forceFields);
 }
 
 /*
@@ -145,6 +146,7 @@ function getPumpRate() {
 */
 function resetPump() {
   finishDrain();
+  disableForceFields(world.particleSystems[0].forceFields);
   testSwitch("TestLiquidTimer");
 
   // Clear output fields
@@ -169,9 +171,10 @@ function runPump() {
   openLowerPipe();
 
   for (i=0; i < world.particleSystems[0].forceFields.length; i++){
-    world.particleSystems[0].forceFields[i].fx *= pumpRate;
-    world.particleSystems[0].forceFields[i].fy *= pumpRate;
+    world.particleSystems[0].forceFields[i].fm = pumpRate;
+    world.particleSystems[0].forceFields[i].fm = pumpRate;
   }
+
 
   pumpTime = volWater / pumpRate * 1000; // pump time in milliseconds
 
@@ -183,6 +186,7 @@ function runPump() {
 
   // begin the animation
   pumpWater();
+  finishedPumpingID = startCheckingFinishedPumping(); //Declared globally
 }
 
 /*
@@ -253,7 +257,7 @@ function drainWater() {
   $("#pumpWorkArrow").show();
   destroyForceFields();
   openDrainValve();
-  // TODO: Register the finishDrain function to be called when this section of the animation finishes
+  finishedDrainingID = startCheckingFinishedDraining();
 }
 
 /*
@@ -347,20 +351,62 @@ function calcFrictionCoeff(flowrate) {
 }
 
 
-function finishedPumping(minY, minFraction){
+function finishedPumping(minY, minN){ //TODO: Should check for number of particles in second tank
   pbuffer = world.particleSystems[0].GetPositionBuffer();
   count = 0;
   for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
     // For each particle, check if it's y value is greater than minY
     if (minY<pbuffer[pIndex+1]){
-      // Apply force to particle
       count+=1;
     }
   }
-  fraction = count/(pbuffer.length/2);
-  if (fraction >= minFraction){
+  if (count >= minN){
     return true;
-  } else {
-    return false;
   }
+  else return false;
+}
+
+function checkFinishedPumping(n){
+  if (finishedPumping(1.825, n)){
+    console.log("Draining water");
+    drainWater();
+  }
+}
+
+function startCheckingFinishedPumping(){
+  particlesFromTank1 = world.particleSystems[0].particleGroups[0].GetParticleCount(); //Global declaration of particles in tank1
+  // TODO: Check tank for number of particles
+  var n = particlesFromTank1;
+  console.log("Checking for " + n +" particles");
+  var intervalID = setInterval(checkFinishedPumping(n),16);
+  return intervalID;
+}
+
+function finishedDraining(maxY, minN){ //TODO: Should check for number of particles in second tank
+  pbuffer = world.particleSystems[0].GetPositionBuffer();
+  count = 0;
+  for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
+    // For each particle, check if it's y value is greater than minY
+    if (maxY>pbuffer[pIndex+1]){
+      count+=1;
+    }
+  }
+  if (count >= minN){
+    return true;
+  }
+  else return false;
+}
+
+function checkFinishedDraining(n){
+  if (finishedDraining(1.825, n)){
+    console.log("Finished draining water");
+    finishDrain();
+  }
+}
+
+function startCheckingFinishedDraining(){
+  var n = particlesFromTank1;
+  console.log("Checking for " + n +" particles");
+  var intervalID = setInterval(checkFinishedDraining(n),16);
+  return intervalID;
 }
