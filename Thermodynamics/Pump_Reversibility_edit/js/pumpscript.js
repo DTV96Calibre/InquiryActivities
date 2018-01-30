@@ -13,7 +13,7 @@ $(document).ready(init);
 var simulationStarted = false;
 
 // Constants
-var minRate = 0.062;
+var minRate = 1.8;//0.062; // Min rates don't work as intended atm
 var maxRate = 13.9; // Found from ITT website
 var g = 9.8; // m/s^2
 var height = 50; // m
@@ -74,6 +74,7 @@ function init() {
   $("#runButton").removeAttr("disabled");
   $("#resetButton").removeAttr("disabled");
   $("#skipButton").removeAttr("disabled");
+  $("#skipButton").hide(); //TODO: Remove entirely or implement skip
   $("#pumpRate").removeAttr("disabled");
 
   // Register event handlers
@@ -194,13 +195,12 @@ function runPump() {
  * Displays a dialog box containing information about the program when the user clicks the "i" glyphicon button.
 */
 function displayAboutInfo() {
-  alert("This program was created by Emily Ehrenberger under the direction of Dr. " +
-      "Margot Vigeant, Bucknell University Department of Chemical Engineering in 2012.\n\n" +
+  alert("This program was created by Emily Ehrenberger and Daniel Vasquez under the direction of Dr. " +
+      "Margot Vigeant, Bucknell University Department of Chemical Engineering in 2012 and 2017-18 respectively.\n\n" +
       "The development of this program was funded by the National Science " +
       "Foundation Grant DUE-0717536 (2011).\n\n" +
       "The simulated pump was based on data from Gould Pumps Industrial Products.\n\n" +
-      "Address any questions or comments to mvigeant@bucknell.edu.\n\n" +
-      "\u00A9 Margot Vigeant 2012");
+      "Address any questions or comments to mvigeant@bucknell.edu.");
   return false;
 }
 
@@ -211,10 +211,9 @@ function displayAboutInfo() {
  */
 function displayHelp() {
   alert("Enter a pump rate within the specified range and hit \"Run Pump\" to begin pumping the water " +
-    "through the chamber.\n\nOnce the topmost tank has been filled, it will begin draining. You may skip the " +
-    "animation during either of these processes by clicking the white button.\n\nOnce the simulation has " +
-    "finished, results will be displayed in the box in the upper left. Click the \"Reset\" button to " +
-    "restart the simulation.");
+    "through the chamber.\n\nOnce the topmost tank has been filled, it will begin draining. " +
+    "\n\nOnce the simulation has finished, results will be displayed in the box in the upper left."+
+    " Click the \"Reset\" button to restart the simulation." + "Please report any bugs.");
 }
 
 /*
@@ -351,7 +350,7 @@ function calcFrictionCoeff(flowrate) {
 }
 
 
-function finishedPumping(minY, minN){ //TODO: Should check for number of particles in second tank
+function finishedPumping(minY, minN){
   pbuffer = world.particleSystems[0].GetPositionBuffer();
   count = 0;
   for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
@@ -360,7 +359,7 @@ function finishedPumping(minY, minN){ //TODO: Should check for number of particl
       count+=1;
     }
   }
-  console.log(count);
+  //console.log(count);
   if (count >= minN){
     return true;
   }
@@ -378,13 +377,12 @@ function checkFinishedPumping(){
 function startCheckingFinishedPumping(){
   particlesFromTank1 = 2*world.particleSystems[0].particleGroups[0].GetParticleCount(); //Global declaration of particles in tank1
   var n = particlesFromTank1;
-  // TODO: Check tank for number of particles
   console.log("Checking for " + n +" particles");
   var intervalID = setInterval(checkFinishedPumping,16);
   return intervalID;
 }
 
-function finishedDraining(maxY, minN){ //TODO: Should check for number of particles in second tank
+function finishedDraining(maxY, minN){
   pbuffer = world.particleSystems[0].GetPositionBuffer();
   count = 0;
   for (pIndex = 0; pIndex < pbuffer.length; pIndex+=2){
