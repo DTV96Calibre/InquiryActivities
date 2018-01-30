@@ -48,7 +48,7 @@ function TestLiquidTimer() {
   shape.SetAsBoxXYCenterAngle(0.55, 0.22, new b2Vec2(particleStartPosX, 1.25), 0);
   var pd = new b2ParticleGroupDef;
   pd.color.Set(0, 0, 255, 255); // Blue
-  pd.flags = b2_tensileParticle | b2_viscousParticle;
+  pd.flags = b2_staticPressureParticle | b2_viscousParticle | b2_tensileParticle;
   pd.shape = shape;
   particleSystem.CreateParticleGroup(pd);
 
@@ -56,10 +56,12 @@ function TestLiquidTimer() {
   shape.SetAsBoxXYCenterAngle(0.55, 0.22, new b2Vec2(particleStartPosX, 1.25), 0);
   var pd = new b2ParticleGroupDef;
   pd.color.Set(0, 0, 255, 255); // Blue
-  pd.flags = b2_tensileParticle | b2_viscousParticle;
+  pd.flags = b2_staticPressureParticle | b2_viscousParticle | b2_tensileParticle;
   pd.shape = shape;
   particleSystem.CreateParticleGroup(pd);
 
+  createPipeFluids(particleSystem);
+  //particleSystem.pause();
   constructTank1Box();
   constructLowerPipe();
   constructUpperPipe();
@@ -233,6 +235,51 @@ function generateForceFields(){
   world.particleSystems[0].createForceField(upperPipeLeftPos, upperPipeRightPos, lowerPipeBottomPos2, upperPipeTopPos, 0, 0.1);
   };
 
+function createPipeFluids(particleSystem){
+  // Create particles
+  // Create forcefield for short vertical pipe coming from tank 1
+  //tank1OpeningLeftPos, tank1OpeningRightPos, lowerPipeTopPos, tank1BottomPos, 0, -0.1
+
+  // Fluid in vertical pipe between tank1 and horizontal pipe
+  var shape = new b2PolygonShape;
+  var particleCenterPosX = (tank1OpeningRightPos + tank1OpeningLeftPos) / 2; // The center of the pipe X pos
+  var particleCenterPosY = (tank1BottomPos + lowerPipeTopPos) / 2; // The center of the pipe Y pos
+  var dx = (tank1OpeningRightPos - tank1OpeningLeftPos)/2; // pipe width
+  var dy = (tank1BottomPos - lowerPipeTopPos)/2; // pipe length (vertical)
+  shape.SetAsBoxXYCenterAngle(dx, dy, new b2Vec2(particleCenterPosX, particleCenterPosY), 0);
+  var pd = new b2ParticleGroupDef;
+  pd.color.Set(0, 204, 255, 255); // Purple
+  pd.flags = b2_staticPressureParticle | b2_viscousParticle | b2_tensileParticle;
+  pd.shape = shape;
+  particleSystem.CreateParticleGroup(pd);
+
+  // Fluid in horizontal pipe
+  shape = new b2PolygonShape;
+  particleCenterPosX = (upperPipeRightPos + tank1OpeningLeftPos) / 2; // The center of the pipe X pos
+  particleCenterPosY = (lowerPipeTopPos + lowerPipeBottomPos2) / 2; // The center of the pipe Y pos
+  dx = (upperPipeRightPos - tank1OpeningLeftPos)/2; // pipe width
+  dy = (lowerPipeTopPos - lowerPipeBottomPos2)/2; // pipe length (vertical)
+  shape.SetAsBoxXYCenterAngle(dx, dy, new b2Vec2(particleCenterPosX, particleCenterPosY), 0);
+  pd = new b2ParticleGroupDef;
+  pd.color.Set(255, 0, 255, 255); // Purple
+  pd.flags = b2_staticPressureParticle | b2_viscousParticle | b2_tensileParticle;
+  pd.shape = shape;
+  particleSystem.CreateParticleGroup(pd);
+
+  // Fluid in vertical pipe connecting horizontal pipe and tank2
+  shape = new b2PolygonShape;
+  particleCenterPosX = (upperPipeRightPos + upperPipeLeftPos) / 2;
+  particleCenterPosY = (upperPipeTopPos + lowerPipeBottomPos2) / 2;
+  dx = (upperPipeRightPos - upperPipeLeftPos) / 2;
+  dy = (upperPipeTopPos - lowerPipeBottomPos) / 2;
+  shape.SetAsBoxXYCenterAngle(dx, dy, new b2Vec2(particleCenterPosX, particleCenterPosY), 0);
+  pd = new b2ParticleGroupDef;
+  pd.color.Set(120, 0, 120, 255); // Dark Purple
+  pd.flags = b2_staticPressureParticle | b2_viscousParticle | b2_tensileParticle;
+  pd.shape = shape;
+  particleSystem.CreateParticleGroup(pd);
+}
+
 function destroyForceFields(){
   world.particleSystems[0].initializeForceFieldArray();
 }
@@ -241,6 +288,17 @@ function invertForceFields(forceFields){
   for (ff of forceFields){
     ff.fx = ff.fx*-1;
     ff.fy = ff.fy*-1;
+  }
+}
+
+function disableForceFields(forceFields){
+  for (ff of forceFields){
+    ff.disable();
+  }
+}
+function enableForceFields(forceFields){
+  for (ff of forceFields){
+    ff.enable();
   }
 }
 
@@ -261,7 +319,7 @@ function openLowerPipe() {
 }
 
 function openDrainValve(){
-  world.DestroyBody(world.bodies[16]); // TODO: Fix magic numbers and properly identify correct body for valve
+  world.DestroyBody(world.bodies[15]); // TODO: Fix magic numbers and properly identify correct body for valve
 }
 
 function moveStirrer() {
