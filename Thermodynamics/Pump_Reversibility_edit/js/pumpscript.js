@@ -13,7 +13,7 @@ $(document).ready(init);
 var simulationStarted = false;
 
 // Constants
-var minRate = 1.8;//0.062; // Min rates don't work as intended atm
+var minRate = 2.0;//0.062; // Min rates don't work as intended atm
 var maxRate = 13.9; // Found from ITT website
 var g = 9.8; // m/s^2
 var height = 50; // m
