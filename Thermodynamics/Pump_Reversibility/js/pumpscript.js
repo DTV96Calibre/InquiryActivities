@@ -175,6 +175,7 @@ function runPump() {
     world.particleSystems[0].forceFields[i].fm = pumpRate;
     world.particleSystems[0].forceFields[i].fm = pumpRate;
   }
+  displayStats();
 
 
   pumpTime = volWater / pumpRate * 1000; // pump time in milliseconds
@@ -274,7 +275,7 @@ function finishDrain() {
   $("#pumpWorkArrow").hide();
 
   simulationStarted = false;
-  displayStats();
+  // displayStats(); // Moved to runPump
 }
 
 /*
