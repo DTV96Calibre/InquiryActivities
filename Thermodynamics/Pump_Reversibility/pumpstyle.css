@@ -44,12 +44,12 @@ h1 {
 }
 #resultsDiv {
 	position:absolute;
-	left:-10;
+	left:-10px;
 	top:35px;
 	height:135px;
 	width:305px;
 	padding:10px;
-	z-index:-1;
+	z-index:1;
 	border-style:solid;
 	border-width:thin;
 }
